@@ -42,5 +42,5 @@ handle_path /sr-cyr/* {
 }
 
 # Enable caching and compression
-header Cache-Control "public, max-age=3600"
+# header Cache-Control "public, max-age=3600"
 encode gzip zstd
