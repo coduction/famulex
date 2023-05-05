@@ -47,6 +47,10 @@
           "zone.js"
         ],
         "tsConfig": "apps/famulex-ui-web/tsconfig.app.json",
+        "allowedCommonJsDependencies": [
+          "base64-js",
+          "js-sha256"
+        ],
         "assets": [
           "apps/famulex-ui-web/src/favicon.ico",
           "apps/famulex-ui-web/src/assets"
@@ -159,7 +163,9 @@
         "^build"
       ],
       "options": {
-        "commands": ["docker build apps/famulex-ui-web/deployment -t ghcr.io/coduction/famulex/ui-web:latest"]
+        "commands": [
+          "docker build apps/famulex-ui-web/deployment -t ghcr.io/coduction/famulex/ui-web:latest"
+        ]
       },
       "configurations": {
         "ci": {

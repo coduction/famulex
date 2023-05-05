@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@famulex/shared/keycloak": ["libs/shared/keycloak/src/index.ts"],
       "@famulex/shared/layout": ["libs/shared/layout/src/index.ts"]
     }
   },
