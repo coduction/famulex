@@ -13,6 +13,7 @@ env:
   FONTAWESOME_NPM_TOKEN: ${{ secrets.FONTAWESOME_NPM_TOKEN }}
   CODUCTION_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   KEYCLOAK_E2E_SECRET: ${{ secrets.KEYCLOAK_E2E_SECRET }}
+  API_KEY: ${{ secrets.FAMULEX_E2E_API_KEY }}
 
 jobs:
   build-test-publish:

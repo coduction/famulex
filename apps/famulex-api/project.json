@@ -28,7 +28,12 @@
     "test": {
       "executor": "@nxrocks/nx-spring-boot:test",
       "options": {
-        "root": "apps/famulex-api"
+        "root": "apps/famulex-api",
+        "args": [
+          "-B",
+          "-e",
+          "--no-transfer-progress"
+        ]
       },
       "outputs": [
         "{workspaceRoot}/apps/famulex-api/target"
