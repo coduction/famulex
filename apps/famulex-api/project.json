@@ -14,12 +14,27 @@
       ],
       "outputs": [
         "{workspaceRoot}/apps/famulex-api/target"
-      ]
+      ],
+      "configurations": {
+        "ci": {
+          "args": [
+            "-B",
+            "-e",
+            "--no-transfer-progress",
+            "-DskipTests=true"
+          ]
+        }
+      }
     },
     "install": {
       "executor": "@nxrocks/nx-spring-boot:install",
       "options": {
-        "root": "apps/famulex-api"
+        "root": "apps/famulex-api",
+        "args": [
+          "-B",
+          "-e",
+          "--no-transfer-progress"
+        ]
       },
       "outputs": [
         "{workspaceRoot}/apps/famulex-api/target"
