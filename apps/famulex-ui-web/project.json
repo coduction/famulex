@@ -170,7 +170,8 @@
             "docker push ghcr.io/coduction/famulex/ui-web:main",
             "docker push ghcr.io/coduction/famulex/ui-web:latest",
             "docker push ghcr.io/coduction/famulex/ui-web:$IMAGE_SHA"
-          ]
+          ],
+          "parallel": false
         }
       }
     }
