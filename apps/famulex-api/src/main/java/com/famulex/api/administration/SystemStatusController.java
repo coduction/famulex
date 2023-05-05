@@ -30,7 +30,7 @@ public class SystemStatusController {
     @GetMapping(value = "/hello-world", produces = MediaType.TEXT_PLAIN_VALUE)
     public String helloWorld(@RequestParam(defaultValue = "World")
                              @Size(min = 3, max = 20) String name) {
-        return "Hello " + name + "!";
+        return "Hello " + name + "! Seems to be up and running.";
     }
 
 }
