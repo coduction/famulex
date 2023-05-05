@@ -98,8 +98,8 @@
         },
         "ci": {
           "args": [
-            "-B",
             "-e",
+            "-B",
             "--no-transfer-progress",
             "-DskipTests=true",
             "-Dimage.tags=\\${image.name}:main,\\${image.name}:latest,\\${image.name}:$IMAGE_SHA",
