@@ -34,7 +34,7 @@ env:
   DEPLOY: ${{ github.event.inputs.deploy }}
 
 jobs:
-  build-test:
+  build-publish:
     name: Build Images and Release
     runs-on: ubuntu-latest
     steps:
@@ -45,37 +45,34 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: "18"
+          cache: "npm"
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: "17"
           distribution: "temurin"
           cache: "maven"
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        id: pnpm-install
+      - uses: actions/cache@v3
+        name: Setup NPM cache
         with:
-          version: 8
-          run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-      - name: Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-pnpm-store-
-      - name: Setup Nx cache
-        uses: actions/cache@v3
+          path: "node_modules"
+          key: ${{ runner.os }}-npm-store-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-store
+      - uses: actions/cache@v3
+        name: Setup Nx cache
         with:
           path: node_modules/.cache/nx
           key: ${{ runner.os }}-nx-cache
           restore-keys: ${{ runner.os }}-nx-cache
+      - uses: actions/cache@v3
+        name: Setup Cypress cache
+        with:
+          path: /home/runner/.cache/Cypress
+          key: ${{ runner.os }}-cypress-cache
+          restore-keys: ${{ runner.os }}-cypress-cache
       - name: Install dependencies
-        run: pnpm install
+        run: npm install --force
       - uses: nrwl/nx-set-shas@v3
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
