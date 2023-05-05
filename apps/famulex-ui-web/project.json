@@ -164,12 +164,9 @@
       "configurations": {
         "ci": {
           "commands": [
-            "docker buildx build -f apps/famulex-ui-web/deployment/Dockerfile -t ghcr.io/coduction/famulex/ui-web:latest --platform linux/amd64,linux/arm64 --load .",
-            "docker tag ghcr.io/coduction/famulex/ui-web:latest ghcr.io/coduction/famulex/ui-web:main",
-            "docker tag ghcr.io/coduction/famulex/ui-web:latest ghcr.io/coduction/famulex/ui-web:$IMAGE_SHA",
-            "docker push ghcr.io/coduction/famulex/ui-web:main",
-            "docker push ghcr.io/coduction/famulex/ui-web:latest",
-            "docker push ghcr.io/coduction/famulex/ui-web:$IMAGE_SHA"
+            "docker buildx build -f apps/famulex-ui-web/deployment/Dockerfile -t ghcr.io/coduction/famulex/ui-web:latest --platform linux/amd64,linux/arm64 --push .",
+            "docker buildx build -f apps/famulex-ui-web/deployment/Dockerfile -t ghcr.io/coduction/famulex/ui-web:main --platform linux/amd64,linux/arm64 --push .",
+            "docker buildx build -f apps/famulex-ui-web/deployment/Dockerfile -t ghcr.io/coduction/famulex/ui-web:$IMAGE_SHA --platform linux/amd64,linux/arm64 --push ."
           ],
           "parallel": false
         }
