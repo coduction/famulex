@@ -1,0 +1,33 @@
+{
+  "name": "famulex-ui-web-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/famulex-ui-web-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/famulex-ui-web-e2e/cypress.config.ts",
+        "devServerTarget": "famulex-ui-web:serve:development",
+        "testingType": "e2e"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "famulex-ui-web:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "famulex-ui-web:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/famulex-ui-web-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["famulex-ui-web"]
+}
