@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+
+    <changeSet id="00070 - Course library" author="Alexander Boeckle">
+        <createTable tableName="fx_course_library">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00070 - Course library content" author="Alexander Boeckle">
+        <createTable tableName="fx_course_to_library">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="timestamp with time zone"/>
+            <column name="valid_from" type="timestamp with time zone"/>
+            <column name="valid_until" type="timestamp with time zone"/>
+            <column name="fk_course_library" type="bigint">
+                <constraints foreignKeyName="fk_course_library" references="fx_course_library(id)" nullable="false"/>
+            </column>
+            <column name="fk_course" type="bigint">
+                <constraints foreignKeyName="fk_course" references="fx_course(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00070 - Course library membership" author="Alexander Boeckle">
+        <createTable tableName="fx_course_library_membership">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="timestamp with time zone"/>
+            <column name="valid_from" type="timestamp with time zone"/>
+            <column name="valid_until" type="timestamp with time zone"/>
+            <column name="type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fk_course_library" type="bigint">
+                <constraints foreignKeyName="fk_course_library" references="fx_course_library(id)" nullable="false"/>
+            </column>
+            <column name="fk_user" type="bigint">
+                <constraints foreignKeyName="fk_user" references="fx_user(id)"/>
+            </column>
+            <column name="fk_group" type="bigint">
+                <constraints foreignKeyName="fk_group" references="fx_group(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00070 - Tag DB" author="Alexander Boeckle">
+        <tagDatabase tag="00070"/>
+    </changeSet>
+</databaseChangeLog>

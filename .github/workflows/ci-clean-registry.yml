@@ -1,0 +1,31 @@
+name: Cleanup Container Images
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 1 * *"  # every day at midnight
+
+jobs:
+  clean-ghcr:
+    name: Cleanup Container Registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Keep all images not related to a tag, release or branch
+        uses: snok/container-retention-policy@v2
+        with:
+          image-names: "famulex/*"
+          cut-off: 1 hour ago CET
+          account-type: org
+          org-name: coduction
+          skip-tags: "latest, main, *.*.*, *.*, *., 0, 1, 2, alpha, beta"
+          token: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}
+
+      - name: Remove all untagged images
+        uses: snok/container-retention-policy@v2
+        with:
+          image-names: "famulex/*"
+          cut-off: 1 hour ago CET
+          account-type: org
+          org-name: coduction
+          untagged-only: true
+          token: ${{ secrets.REGISTRY_CLEANUP_TOKEN }}

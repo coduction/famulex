@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <changeSet id="0.5 - Course draft" author="Alexander Boeckle">
+        <createTable tableName="fx_course_draft">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="published_at" type="timestamp with time zone"/>
+            <column name="deleted_at" type="timestamp with time zone"/>
+            <column name="archived_at" type="timestamp with time zone"/>
+            <column name="status" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="author" type="text"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00040 - Course draft translation" author="Alexander Boeckle">
+        <createTable tableName="fx_course_draft_i18n">
+            <column name="fk_course_draft" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_course_draft_i18n" nullable="false"
+                             foreignKeyName="fk_course_draft"
+                             references="fx_course_draft(id)"/>
+            </column>
+            <column name="language" type="text">
+                <constraints primaryKey="true" primaryKeyName="pk_course_draft_i18n" nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00040 - Course draft node" author="Alexander Boeckle">
+        <createTable tableName="fx_course_draft_node">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="text"/>
+            <column name="description" type="text"/>
+            <column name="estimated_time" type="int"/>
+            <column name="fk_course_draft" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_course_draft" references="fx_course_draft(id)"/>
+            </column>
+            <column name="fk_parent" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_parent" references="fx_course_draft_node(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00040 - Course draft node translation" author="Alexander Boeckle">
+        <createTable tableName="fx_course_draft_node_i18n">
+            <column name="fk_course_draft_node" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_course_draft_node_i18n" nullable="false"
+                             foreignKeyName="fk_course_draft_node"
+                             references="fx_course_draft_node(id)"/>
+            </column>
+            <column name="language" type="text">
+                <constraints primaryKey="true" primaryKeyName="pk_course_draft_node_i18n" nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="text"/>
+            <column name="description" type="text"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00040 - Course draft node item" author="Alexander Boeckle">
+        <createTable tableName="fx_course_draft_item">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fk_course_draft_node" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_course_draft_node"
+                             references="fx_course_draft_node(id)"/>
+            </column>
+            <column name="type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="text">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00040 - Course node item draft translation" author="Alexander Boeckle">
+        <createTable tableName="fx_course_draft_item_i18n">
+            <column name="fk_course_draft_item" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_course_draft_item_i18n" nullable="false"
+                             foreignKeyName="fk_course_item"
+                             references="fx_course_draft_item(id)"/>
+            </column>
+            <column name="language" type="text">
+                <constraints primaryKey="true" primaryKeyName="pk_course_draft_item_i18n" nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="text"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="Alexander Boeckle" id="00040 - Tag DB">
+        <tagDatabase tag="00050"/>
+    </changeSet>
+</databaseChangeLog>

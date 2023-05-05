@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: fx_dev_db
+    restart: unless-stopped
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "10000:5432"
+
+  adminer:
+    image: adminer
+    container_name: fx_dev_adminer
+    restart: unless-stopped
+    ports:
+      - "10001:8080"
+
+networks:
+  default:
+    name: net_fx_dev
+    driver: bridge

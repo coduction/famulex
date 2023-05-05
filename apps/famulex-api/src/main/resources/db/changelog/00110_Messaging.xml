@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <changeSet id="00110 - Chat" author="Alexander Boeckle">
+        <createTable tableName="fx_chat">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="timestamp with time zone">
+                <constraints nullable="true"/>
+            </column>
+            <!--            <column name="fk_sender" type="bigint">-->
+            <!--                <constraints foreignKeyName="fk_sender" references="fx_user(id)"/>-->
+            <!--            </column>-->
+            <!--            <column name="fk_recipient" type="bigint">-->
+            <!--                <constraints foreignKeyName="fk_recipient" references="fx_user(id)"/>-->
+            <!--            </column>-->
+            <!--            <column name="fk_group" type="bigint">-->
+            <!--                <constraints foreignKeyName="fk_group" references="fx_group(id)"/>-->
+            <!--            </column>-->
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00110 - Chat to user" author="Alexander Boeckle">
+        <createTable tableName="fx_chat_to_user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="timestamp with time zone">
+                <constraints nullable="true"/>
+            </column>
+            <column name="valid_until" type="timestamp with time zone">
+                <constraints nullable="true"/>
+            </column>
+            <column name="fk_chat" type="bigint">
+                <constraints foreignKeyName="fk_chat" references="fx_chat(id)"/>
+            </column>
+            <column name="fk_user" type="bigint">
+                <constraints foreignKeyName="fk_user" references="fx_user(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00110 - Chat to group" author="Alexander Boeckle">
+        <createTable tableName="fx_chat_to_group">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="timestamp with time zone">
+                <constraints nullable="true"/>
+            </column>
+            <column name="valid_until" type="timestamp with time zone">
+                <constraints nullable="true"/>
+            </column>
+            <column name="fk_chat" type="bigint">
+                <constraints foreignKeyName="fk_chat" references="fx_chat(id)"/>
+            </column>
+            <column name="fk_group" type="bigint">
+                <constraints foreignKeyName="fk_group" references="fx_group(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00110 - Message" author="Alexander Boeckle">
+        <createTable tableName="fx_message">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="timestamp with time zone"/>
+            <column name="content" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fk_parent" type="bigint">
+                <constraints foreignKeyName="fk_parent" references="fx_message(id)"/>
+            </column>
+            <column name="fk_sender" type="bigint">
+                <constraints foreignKeyName="fk_sender" references="fx_user(id)" nullable="false"/>
+            </column>
+            <column name="fk_chat" type="bigint">
+                <constraints foreignKeyName="fk_chat" references="fx_chat(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00110 - Message info" author="Alexander Boeckle">
+        <createTable tableName="fx_message_info">
+            <column name="fk_message" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_message_info" foreignKeyName="fk_message"
+                             references="fx_message(id)"
+                             nullable="false"/>
+            </column>
+            <column name="fk_recipient" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_message_info" foreignKeyName="fk_recipient"
+                             references="fx_user(id)" nullable="false"/>
+            </column>
+            <column name="read_at" type="timestamp with time zone"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00110 - Tag DB" author="Alexander Boeckle">
+        <tagDatabase tag="00110"/>
+    </changeSet>
+</databaseChangeLog> 

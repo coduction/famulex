@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="00090 - Test" author="Alexander Boeckle">
+        <createTable tableName="fx_test">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="fk_test_draft" type="bigint">
+                <constraints foreignKeyName="fk_test_draft" references="fx_test_draft(id)"/>
+            </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="title" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="author" type="text"/>
+
+            <!-- The following are default parameters used by test configuration -->
+            <column name="points_to_pass" type="double"/>
+            <column name="percentage_to_pass" type="double"/>
+            <column name="execution_mode" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration" type="int"/>
+            <column name="shown_questions" type="int"/>
+            <column name="shuffle_questions" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00090 - Test translation" author="Alexander Boeckle">
+        <createTable tableName="fx_test_i18n">
+            <column name="fk_test" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_test_i18n" nullable="false"
+                             foreignKeyName="fk_test" references="fx_test(id)"/>
+            </column>
+            <column name="language" type="text">
+                <constraints primaryKey="true" primaryKeyName="pk_test_i18n" nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="author" type="text"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00090 - Question" author="Alexander Boeckle">
+        <createTable tableName="fx_question">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="fk_question_draft" type="bigint">
+                <constraints foreignKeyName="fk_question_draft" references="fx_question_draft(id)"/>
+            </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="fk_test" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_test" references="fx_test(id)"/>
+            </column>
+
+            <column name="position" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="required" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="allow_empty" type="boolean"/>
+            <column name="title" type="text"/>
+            <column name="description" type="text"/>
+            <column name="question" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shown_answers" type="int"/>
+            <column name="review_manually" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="points" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deduction_wrong_answer" type="double"/>
+            <column name="shuffle_answers" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00090 - Question translation" author="Alexander Boeckle">
+        <createTable tableName="fx_question_i18n">
+            <column name="fk_question" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_question_i18n" nullable="false"
+                             foreignKeyName="fk_question" references="fx_question(id)"/>
+            </column>
+            <column name="language" type="text">
+                <constraints primaryKey="true" primaryKeyName="pk_question_i18n" nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="text"/>
+            <column name="description" type="text"/>
+            <column name="question" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00090 - Answer" author="Alexander Boeckle">
+        <createTable tableName="fx_answer">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="fk_answer_draft" type="bigint">
+                <constraints foreignKeyName="fk_answer_draft" references="fx_answer_draft(id)"/>
+            </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="fk_question" type="bigint">
+                <constraints foreignKeyName="fk_question" references="fx_question(id)" nullable="false"/>
+            </column>
+
+            <column name="position" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="required" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="correct" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="title" type="text"/>
+            <column name="description" type="text"/>
+            <column name="content" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00090 - Answer translation" author="Alexander Boeckle">
+        <createTable tableName="fx_answer_i18n">
+            <column name="fk_answer" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_answer_i18n" nullable="false"
+                             foreignKeyName="fk_answer" references="fx_answer(id)"/>
+            </column>
+            <column name="language" type="text">
+                <constraints primaryKey="true" primaryKeyName="pk_answer_i18n" nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="text"/>
+            <column name="description" type="text"/>
+            <column name="content" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00090 - Tag DB" author="Alexander Boeckle">
+        <tagDatabase tag="00090"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,104 @@
+name: Build Image - Pre-Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      major:
+        description: 'Major'
+        required: true
+        default: '0'
+      minor:
+        description: 'Minor'
+        required: true
+        default: '0'
+      patch:
+        description: 'Patch'
+        required: true
+        default: '0'
+      deploy:
+        description: 'Deploy'
+        type: boolean
+
+env:
+  FONTAWESOME_NPM_TOKEN: ${{ secrets.FONTAWESOME_NPM_TOKEN }}
+  CODUCTION_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  MAJOR: ${{ github.event.inputs.major }}
+  MINOR: ${{ github.event.inputs.minor }}
+  PATCH: ${{ github.event.inputs.patch }}
+  CHANNEL: ${{ github.event.inputs.channel }}
+
+jobs:
+  build-test:
+    name: Build Images and Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: "maven"
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-store-
+      - name: Setup Nx cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules/.cache/nx
+          key: ${{ runner.os }}-nx-cache
+          restore-keys: ${{ runner.os }}-nx-cache
+      - name: Install dependencies
+        run: pnpm install
+      - uses: nrwl/nx-set-shas@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set Image SHA
+        run: echo "IMAGE_SHA=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_ENV
+      - run: pnpx nx run-many -t build --configuration=ci
+      - run: pnpx nx run-many -t build-image --configuration=release
+        env:
+          # For Nx-Container actions
+          INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_PUSH: true
+          # For Maven actions
+          REGISTRY_USER: ${{ github.actor }}
+          REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update Production Instances
+        uses: appleboy/ssh-action@v0.1.10
+        if: ${{ env.DEPLOY == 'true' }}
+        with:
+          host: ${{ vars.CODUCTION_TESTING_HOST }}
+          username: ${{ vars.CODUCTION_TESTING_USER }}
+          key: ${{ secrets.CODUCTION_TESTING_SSH_KEY }}
+          passphrase: ${{ secrets.CODUCTION_TESTING_SSH_KEY_PASS }}
+          script: /home/${{ vars.CODUCTION_TESTING_USER }}/scripts/deploy/famulex-prod.sh

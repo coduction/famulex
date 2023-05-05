@@ -1,0 +1,46 @@
+# Use the http port. This also disables automatic HTTPS.
+:80
+
+# Enable file server for static files
+file_server
+
+redir / /en/ 302
+rewrite /en /en/
+handle_path /en/* {
+        root * /var/www/html/en-US
+        try_files {path} /index.html
+}
+
+rewrite /de /de/
+handle_path /de/* {
+        root * /var/www/html/de
+        try_files {path} /index.html
+}
+
+rewrite /fr /fr/
+handle_path /fr/* {
+        root * /var/www/html/fr
+        try_files {path} /index.html
+}
+
+rewrite /es /es/
+handle_path /es/* {
+        root * /var/www/html/es
+        try_files {path} /index.html
+}
+
+rewrite /sr /sr/
+handle_path /sr/* {
+        root * /var/www/html/sr-Latn
+        try_files {path} /index.html
+}
+
+rewrite /sr-cyr /sr-cyr/
+handle_path /sr-cyr/* {
+        root * /var/www/html/sr
+        try_files {path} /index.html
+}
+
+# Enable caching and compression
+header Cache-Control "public, max-age=3600"
+encode gzip zstd

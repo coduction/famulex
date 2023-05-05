@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <changeSet id="00060 - Role" author="Alexander Boeckle">
+        <createTable tableName="fx_role">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="rights" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00060 - Role assignment" author="Alexander Boeckle">
+        <createTable tableName="fx_role_assignment">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valid_from" type="timestamp with time zone"/>
+            <column name="valid_until" type="timestamp with time zone"/>
+            <column name="type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fk_role" type="bigint">
+                <constraints foreignKeyName="fk_role" references="fx_role(id)" nullable="false"/>
+            </column>
+            <column name="fk_user" type="bigint">
+                <constraints foreignKeyName="fk_user" references="fx_user(id)"/>
+            </column>
+            <column name="fk_group" type="bigint">
+                <constraints foreignKeyName="fk_group" references="fx_group(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Alexander Boeckle" id="00060 - Tag DB">
+        <tagDatabase tag="00060"/>
+    </changeSet>
+</databaseChangeLog>

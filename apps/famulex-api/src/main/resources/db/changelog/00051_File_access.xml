@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="00051 - File access" author="Alexander Boeckle">
+        <createTable tableName="fx_file_permission">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="uuid">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="timestamp with time zone"/>
+            <column name="valid_from" type="timestamp with time zone"/>
+            <column name="valid_until" type="timestamp with time zone"/>
+            <column name="type" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="int"/>
+            <column name="fk_file" type="bigint">
+                <constraints foreignKeyName="fk_file" references="fx_file(id)" nullable="false"/>
+            </column>
+            <column name="fk_user" type="bigint">
+                <constraints foreignKeyName="fk_user" references="fx_user(id)"/>
+            </column>
+            <column name="fk_group" type="bigint">
+                <constraints foreignKeyName="fk_group" references="fx_group(id)"/>
+            </column>
+            <column name="fk_course" type="bigint">
+                <constraints foreignKeyName="fk_course" references="fx_course(id)"/>
+            </column>
+            <column name="fk_course_item" type="bigint">
+                <constraints foreignKeyName="fk_course_item" references="fx_course_item(id)"/>
+            </column>
+            <column name="fk_course_draft" type="bigint">
+                <constraints foreignKeyName="fk_course_draft" references="fx_course_draft(id)"/>
+            </column>
+            <column name="fk_course_draft_item" type="bigint">
+                <constraints foreignKeyName="fk_course_draft_item" references="fx_course_draft_item(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="00051 - Tag DB" author="Alexander Boeckle">
+        <tagDatabase tag="00052"/>
+    </changeSet>
+</databaseChangeLog>

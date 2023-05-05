@@ -1,0 +1,125 @@
+{
+  "name": "famulex-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/famulex-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nxrocks/nx-spring-boot:build",
+      "options": {
+        "root": "apps/famulex-api"
+      },
+      "dependsOn": [
+        "^install"
+      ],
+      "outputs": [
+        "{workspaceRoot}/apps/famulex-api/target"
+      ]
+    },
+    "install": {
+      "executor": "@nxrocks/nx-spring-boot:install",
+      "options": {
+        "root": "apps/famulex-api"
+      },
+      "outputs": [
+        "{workspaceRoot}/apps/famulex-api/target"
+      ]
+    },
+    "test": {
+      "executor": "@nxrocks/nx-spring-boot:test",
+      "options": {
+        "root": "apps/famulex-api"
+      },
+      "outputs": [
+        "{workspaceRoot}/apps/famulex-api/target"
+      ]
+    },
+    "clean": {
+      "executor": "@nxrocks/nx-spring-boot:clean",
+      "options": {
+        "root": "apps/famulex-api"
+      }
+    },
+    "run": {
+      "executor": "@nxrocks/nx-spring-boot:run",
+      "options": {
+        "root": "apps/famulex-api"
+      }
+    },
+    "serve": {
+      "executor": "@nxrocks/nx-spring-boot:serve",
+      "options": {
+        "root": "apps/famulex-api",
+        "args": ["-Dspring-boot.run.profiles=dev"]
+      }
+    },
+    "build-image": {
+      "executor": "@nxrocks/nx-spring-boot:build-image",
+      "options": {
+        "root": "apps/famulex-api",
+        "args": [
+          "-B",
+          "-e",
+          "--no-transfer-progress",
+          "-DskipTests=true"
+        ]
+      },
+      "outputs": [
+        "{workspaceRoot}/apps/famulex-api/target"
+      ],
+      "configurations": {
+        "local": {
+          "args": [
+            "-B",
+            "-e",
+            "--no-transfer-progress",
+            "-DskipTests=true"
+          ]
+        },
+        "ci": {
+          "args": [
+            "-B",
+            "-e",
+            "--no-transfer-progress",
+            "-DskipTests=true",
+            "-Dimage.tags=\\${image.name}:main,\\${image.name}:latest,\\${image.name}:$IMAGE_SHA",
+            "-Dregistry.user=$REGISTRY_USER",
+            "-Dregistry.password=$REGISTRY_PASSWORD",
+            "-Dregistry.publish=true"
+          ]
+        },
+        "pre-release": {
+          "args": [
+            "-B",
+            "-e",
+            "--no-transfer-progress",
+            "-DskipTests=true",
+            "-Dimage.tags=\\${image.name}:$MAJOR.$MINOR.$PATCH-$CHANNEL,\\${image.name}:$MAJOR.$MINOR-$CHANNEL,\\${image.name}:$MAJOR-$CHANNEL,\\${image.name}:$CHANNEL,\\${image.name}:$IMAGE_SHA",
+            "-Dregistry.user=$REGISTRY_USER",
+            "-Dregistry.password=$REGISTRY_PASSWORD",
+            "-Dregistry.publish=true"
+          ]
+        },
+        "release": {
+          "args": [
+            "-B",
+            "-e",
+            "--no-transfer-progress",
+            "-DskipTests=true",
+            "-Dimage.tags=\\${image.name}:$MAJOR.$MINOR.$PATCH,\\${image.name}:$MAJOR.$MINOR,\\${image.name}:$MAJOR,\\${image.name}:$IMAGE_SHA",
+            "-Dregistry.user=$REGISTRY_USER",
+            "-Dregistry.password=$REGISTRY_PASSWORD",
+            "-Dregistry.publish=true"
+          ]
+        }
+      }
+    },
+    "build-info": {
+      "executor": "@nxrocks/nx-spring-boot:build-info",
+      "options": {
+        "root": "apps/famulex-api"
+      }
+    }
+  },
+  "tags": []
+}

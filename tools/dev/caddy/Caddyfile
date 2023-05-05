@@ -1,0 +1,67 @@
+famulex.local {
+  # Enable file server for static files
+  file_server
+
+  redir / /en/ 302
+  rewrite /en /en/
+  handle_path /en/* {
+          root * dist/apps/famulex-ui-web/en-US
+          try_files {path} /index.html
+  }
+
+  rewrite /de /de/
+  handle_path /de/* {
+          root * dist/apps/famulex-ui-web/de
+          try_files {path} /index.html
+  }
+
+  rewrite /fr /fr/
+  handle_path /fr/* {
+          root * dist/apps/famulex-ui-web/fr
+          try_files {path} /index.html
+  }
+
+  rewrite /es /es/
+  handle_path /es/* {
+          root * dist/apps/famulex-ui-web/es
+          try_files {path} /index.html
+  }
+
+  rewrite /sr /sr/
+  handle_path /sr/* {
+          root * dist/apps/famulex-ui-web/sr-Latn
+          try_files {path} /index.html
+  }
+
+  rewrite /sr-cyr /sr-cyr/
+  handle_path /sr-cyr/* {
+          root * dist/apps/famulex-ui-web/sr
+          try_files {path} /index.html
+  }
+
+  # Enable caching and compression
+  header Cache-Control "public, max-age=3600"
+  encode gzip zstd
+}
+
+famulex.localhost {
+
+  rewrite /api /api/
+  handle /api/* {
+    reverse_proxy localhost:8080
+  }
+
+  redir /auth /auth/
+  handle /auth/* {
+    reverse_proxy localhost:8100
+  }
+
+  rewrite /db /db/
+  handle_path /db/* {
+    reverse_proxy localhost:10001
+  }
+
+  handle * {
+    reverse_proxy localhost:4200
+  }
+}
