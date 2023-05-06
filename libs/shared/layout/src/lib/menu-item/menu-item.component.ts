@@ -1,11 +1,23 @@
-import { animate, AnimationEvent, state, style, transition, trigger }                                 from "@angular/animations";
-import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { NavigationEnd, Router }                                                                      from "@angular/router";
-import { DomHandler }                                                                                 from "@coduction/primeng/dom";
-import { Subscription }                                                                               from "rxjs";
-import { filter }                                                                                     from "rxjs/operators";
-import { LayoutService }                                                                              from "../layout/layout.service";
-import { MenuService }                                                                                from "../menu/menu.service";
+import { animate, AnimationEvent, state, style, transition, trigger } from "@angular/animations";
+import {
+  ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewChild
+}                                                                     from "@angular/core";
+import {
+  NavigationEnd, Router
+}                                                                     from "@angular/router";
+import {
+  DomHandler
+}                                                                     from "@coduction/primeng/dom";
+import { Subscription }                                               from "rxjs";
+import {
+  filter
+}                                                                     from "rxjs/operators";
+import {
+  LayoutService
+}                                                                     from "../layout/layout.service";
+import {
+  MenuService
+}                                                                     from "../menu/menu.service";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -98,7 +110,7 @@ export class MenuItemComponent implements OnInit, OnDestroy {
   }
 
   updateActiveStateFromRoute() {
-    let activeRoute = this.router.isActive(this.item.routerLink[0], { paths: "exact", queryParams: "ignored", matrixParams: "ignored", fragment: "ignored" });
+    const activeRoute = this.router.isActive(this.item.routerLink[0], { paths: "exact", queryParams: "ignored", matrixParams: "ignored", fragment: "ignored" });
 
     if (activeRoute) {
       this.menuService.onMenuStateChange({ key: this.key, routeEvent: true });

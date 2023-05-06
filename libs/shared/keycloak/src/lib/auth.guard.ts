@@ -40,7 +40,7 @@ export class AuthGuard extends KeycloakAuthGuard {
 
       if (!granted) {
         console.warn("Access denied!");
-        this.router.navigate(["/"]);
+        void this.router.navigate(["/"]);
       } else {
         console.log("Access granted!");
       }

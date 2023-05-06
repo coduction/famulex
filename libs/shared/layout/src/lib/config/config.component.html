@@ -6,7 +6,7 @@
       <button type="button"
               class="cursor-pointer p-link w-2rem h-2rem border-circle flex-shrink-0 flex align-items-center justify-content-center"
               (click)="changeTheme(theme.name)"
-              [ngStyle]="{'background-color': theme.color}"><i *ngIf="theme.name == this.layoutService.config.theme "
+              [ngStyle]="{'background-color': theme.color}"><i *ngIf="theme.name === this.layoutService.config.theme "
                                                                class="pi pi-check text-white"></i></button>
     </div>
   </div>
