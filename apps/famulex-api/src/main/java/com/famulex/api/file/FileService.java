@@ -99,6 +99,7 @@ public class FileService {
 
     FileHelper.InitFileHelper(serverUrl);
 
+    log.info("Files will be stored at " + filesDirectoryPath);
     log.info("Files will be handled at " + serverUrl);
   }
 
