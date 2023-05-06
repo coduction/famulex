@@ -20,6 +20,6 @@ export const environment = {
   keycloakOptions: keycloakConfig,
   keycloakUrl: keycloakUrl,
 
-  apiBasePath: "https://famulex.localhost/api",
-  websocketPath: "wss://famulex.localhost/api/ws"
+  apiBasePath: "https://latest.famulex.com/api",
+  websocketPath: "wss://latest.famulex.com/api/ws"
 };
