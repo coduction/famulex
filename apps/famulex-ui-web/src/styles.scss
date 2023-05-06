@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+@import "@fortawesome/fontawesome-pro/scss/fontawesome";
+@import "@fortawesome/fontawesome-pro/scss/duotone";
+@import "@fortawesome/fontawesome-pro/scss/duotone-icons";
+
+// Fontawesome Default Styling
+:root {
+  --fa-style-family: var(--fa-style-family-duotone);
+  // Classic	--fa-style-family-classic
+  // Sharp	--fa-style-family-sharp
+  // DuoTone  --fa-style-family-duotone
+
+  --fa-style: 900;
+  // Solid	900
+  // Regular	400
+  // Light	300
+  // Thin	    100
+  // Duotone	900
+}
+
+.fa {
+  @extend .fa-duotone;
+}

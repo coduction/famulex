@@ -1,0 +1,19 @@
+<div class="layout-container" [ngClass]="containerClass">
+  <layout-sidebar-left></layout-sidebar-left>
+  <div class="layout-content-wrapper">
+    <div class="header-wrapper"
+         [class.collapsed]="(scrollEvents$ | async) === 'DOWN'"
+    >
+      <layout-topbar></layout-topbar>
+      <layout-breadcrumb class="content-breadcrumb"></layout-breadcrumb>
+    </div>
+    <div class="layout-content"
+         [class.header-collapsed]="(scrollEvents$ | async) === 'DOWN'"
+    >
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <layout-sidebar-right></layout-sidebar-right>
+  <layout-theme-config></layout-theme-config>
+  <div class="layout-mask"></div>
+</div>

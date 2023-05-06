@@ -492,7 +492,7 @@ import { SystemStatusService }          from "@famulex/shared/famulex-api-client
         <div id="welcome">
           <h1>
             <span> Hello there, </span>
-            Welcome famulex-ui-web 👋
+            Welcome famulex-ui-web 👋 <i class="fa fa-user"></i>
           </h1>
         </div>
         <!--  HERO  -->

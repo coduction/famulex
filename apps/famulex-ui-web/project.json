@@ -56,7 +56,138 @@
           "apps/famulex-ui-web/src/assets"
         ],
         "styles": [
-          "apps/famulex-ui-web/src/styles.scss"
+          "apps/famulex-ui-web/src/styles.scss",
+          "libs/shared/layout/src/styles/apollo/apollo.scss",
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-light/blue/theme.scss",
+            "bundleName": "theme-light-blue",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-light/cyan/theme.scss",
+            "bundleName": "theme-light-cyan",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-light/green/theme.scss",
+            "bundleName": "theme-light-green",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-light/indigo/theme.scss",
+            "bundleName": "theme-light-indigo",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-light/orange/theme.scss",
+            "bundleName": "theme-light-orange",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-light/pink/theme.scss",
+            "bundleName": "theme-light-pink",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-light/purple/theme.scss",
+            "bundleName": "theme-light-purple",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-light/teal/theme.scss",
+            "bundleName": "theme-light-teal",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-light/red/theme.scss",
+            "bundleName": "theme-light-red",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dark/blue/theme.scss",
+            "bundleName": "theme-dark-blue",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dark/cyan/theme.scss",
+            "bundleName": "theme-dark-cyan",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dark/green/theme.scss",
+            "bundleName": "theme-dark-green",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dark/indigo/theme.scss",
+            "bundleName": "theme-dark-indigo",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dark/orange/theme.scss",
+            "bundleName": "theme-dark-orange",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dark/red/theme.scss",
+            "bundleName": "theme-dark-red",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dark/purple/theme.scss",
+            "bundleName": "theme-dark-purple",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dark/teal/theme.scss",
+            "bundleName": "theme-dark-teal",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dim/blue/theme.scss",
+            "bundleName": "theme-dim-blue",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dim/cyan/theme.scss",
+            "bundleName": "theme-dim-cyan",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dim/green/theme.scss",
+            "bundleName": "theme-dim-green",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dim/indigo/theme.scss",
+            "bundleName": "theme-dim-indigo",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dim/orange/theme.scss",
+            "bundleName": "theme-dim-orange",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dim/red/theme.scss",
+            "bundleName": "theme-dim-red",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dim/purple/theme.scss",
+            "bundleName": "theme-dim-purple",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/theme/theme-dim/teal/theme.scss",
+            "bundleName": "theme-dim-teal",
+            "inject": false
+          },
+          {
+            "input": "libs/shared/layout/src/styles/apollo/layout/preloading.scss",
+            "bundleName": "preloading",
+            "inject": false
+          }
         ],
         "scripts": []
       },
