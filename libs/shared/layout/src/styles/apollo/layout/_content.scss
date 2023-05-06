@@ -1,31 +1,31 @@
 .layout-content-wrapper {
-    position: relative;
+  position: relative;
 }
 
 .header-wrapper {
-    position: sticky;
-    top: 0;
+  position: sticky;
+  top: 0;
 
-    padding: 2rem;
-    overflow: hidden;
-    z-index: 100;
+  padding: 2rem;
+  overflow: hidden;
+  z-index: 100;
 
-    backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 
-    transition-property: max-height, padding, opacity, background-color;
-    transition-timing-function: ease-in-out;
-    transition-duration: 300ms;
+  transition-property: max-height, padding, opacity, background-color;
+  transition-timing-function: ease-in-out;
+  transition-duration: 300ms;
 
-    background-color: #ffffff00;
-    max-height: 10rem;
-    opacity: 1;
+  background-color: #ffffff00;
+  max-height: 10rem;
+  opacity: 1;
 
-    &.collapsed {
-        background-color: #ffffffb3;
-    }
+  &.collapsed {
+    // background-color: #ffffffb3; TODO Fix on scroll change and correct color
+  }
 }
 
 .layout-content {
-    transition: padding 300ms ease-in-out;
-    padding: 1rem 2rem 2rem 2rem;
+  transition: padding 300ms ease-in-out;
+  padding: 1rem 2rem 2rem 2rem;
 }
