@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "6.5.0",
+    "generators": {
+      "famulex_api_interface": {
+        "generatorName": "typescript-angular",
+        "output": "./src",
+        "inputSpec": "https://famulex.localhost/api/docs",
+        "typeMappings": "Date=Date,DateTime=Date",
+        "additionalProperties": {
+          "fileNaming": "kebab-case",
+          "stringEnums": false
+        }
+      }
+    }
+  }
+}

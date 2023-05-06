@@ -1,0 +1,23 @@
+{
+  "name": "shared-famulex-api-client",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/famulex-api-client/src",
+  "prefix": "famulex",
+  "tags": [
+    "data-access"
+  ],
+  "projectType": "library",
+  "targets": {
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/shared/famulex-api-client",
+        "commands": [
+          "rm -rf src",
+          "openapi-generator-cli generate"
+        ],
+        "parallel": false
+      }
+    }
+  }
+}
