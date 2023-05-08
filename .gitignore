@@ -44,4 +44,3 @@ Thumbs.db
 db_data
 .env
 env.*.json
-env.json
