@@ -1,4 +1,4 @@
-import { APP_BASE_HREF, PlatformLocation }                                              from "@angular/common";
+import { APP_BASE_HREF, LocationStrategy, PlatformLocation }                            from "@angular/common";
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi }                 from "@angular/common/http";
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom }                      from "@angular/core";
 import { provideAnimations }                                                            from "@angular/platform-browser/animations";
@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       useFactory: initializeFamulex,
       multi: true,
-      deps: [EnvService, KeycloakService]
+      deps: [LocationStrategy, EnvService, KeycloakService]
     },
     {
       provide: APP_BASE_HREF,
@@ -36,7 +36,7 @@ export const appConfig: ApplicationConfig = {
   ]
 };
 
-export function initializeFamulex(env: EnvService, keycloak: KeycloakService): () => Promise<void> {
+export function initializeFamulex(locationStrategy: LocationStrategy, env: EnvService, keycloak: KeycloakService): () => Promise<void> {
   return () => new Promise<void>((resolve, reject) => {
     env.loadEnvConfig()
       .then(() => keycloak.init({
@@ -48,7 +48,7 @@ export function initializeFamulex(env: EnvService, keycloak: KeycloakService): (
         initOptions: {
           onLoad: "check-sso",
           silentCheckSsoRedirectUri:
-            window.location.origin + "/assets/keycloak/silent-check-sso.html"
+            window.location.origin + locationStrategy.prepareExternalUrl("/assets/keycloak/silent-check-sso.html")
         }
       }))
       .then(() => resolve())
