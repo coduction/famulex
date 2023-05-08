@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { NgrxTestFacade }            from "@famulex/ngrx-test";
-import { provideMockStore }          from "@ngrx/store/testing";
-import { NgrxTestComponent }         from "./ngrx-test.component";
+import { ComponentFixture, TestBed }         from "@angular/core/testing";
+import { NgrxTestComponent, NgrxTestFacade } from "@famulex/ngrx-test";
+import { provideMockStore }                  from "@ngrx/store/testing";
 
 describe("NgrxTestComponent", () => {
   let component: NgrxTestComponent;
