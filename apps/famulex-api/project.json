@@ -104,9 +104,6 @@
             "-B",
             "--no-transfer-progress",
             "-DskipTests=true",
-            "-Dimage.tags=\\${image.base}:main,\\${image.base}:latest",
-            "-Dregistry.user=$REGISTRY_USER",
-            "-Dregistry.password=$REGISTRY_PASSWORD",
             "-Dregistry.publish=true"
           ]
         },
@@ -117,8 +114,6 @@
             "--no-transfer-progress",
             "-DskipTests=true",
             "-Dimage.tags=\\${image.base}:$MAJOR.$MINOR.$PATCH-$CHANNEL,\\${image.base}:$MAJOR.$MINOR-$CHANNEL,\\${image.base}:$MAJOR-$CHANNEL,\\${image.base}:$CHANNEL",
-            "-Dregistry.user=$REGISTRY_USER",
-            "-Dregistry.password=$REGISTRY_PASSWORD",
             "-Dregistry.publish=true"
           ]
         },
@@ -129,8 +124,6 @@
             "--no-transfer-progress",
             "-DskipTests=true",
             "-Dimage.tags=\\${image.base}:$MAJOR.$MINOR.$PATCH,\\${image.base}:$MAJOR.$MINOR,\\${image.base}:$MAJOR",
-            "-Dregistry.user=$REGISTRY_USER",
-            "-Dregistry.password=$REGISTRY_PASSWORD",
             "-Dregistry.publish=true"
           ]
         }

@@ -27,7 +27,8 @@
     <registry.publish>false</registry.publish>
 
     <image.base>ghcr.io/coduction/famulex/api</image.base>
-    <image.name>${image.base}:$IMAGE_SHA</image.name>
+    <image.sha>$IMAGE_SHA</image.sha>
+    <image.name>${image.base}:${image.sha}</image.name>
     <image.tags>${image.base}:main,${image.base}:latest</image.tags>
   </properties>
 
