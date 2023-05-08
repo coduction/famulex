@@ -168,7 +168,7 @@
           </excludes>
 
           <image>
-            <name>${image.name}:${project.version}</name>
+            <name>${image.name}</name>
             <tags>${image.tags}</tags>
           </image>
           <pullPolicy>IF_NOT_PRESENT</pullPolicy>
