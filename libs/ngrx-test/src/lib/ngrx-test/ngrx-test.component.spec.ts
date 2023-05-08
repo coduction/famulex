@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { NgrxTestComponent } from "./ngrx-test.component";
+import { NgrxTestFacade }            from "@famulex/ngrx-test";
+import { provideMockStore }          from "@ngrx/store/testing";
+import { NgrxTestComponent }         from "./ngrx-test.component";
 
 describe("NgrxTestComponent", () => {
   let component: NgrxTestComponent;
@@ -8,6 +10,10 @@ describe("NgrxTestComponent", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgrxTestComponent],
+      providers: [
+        provideMockStore(),
+        NgrxTestFacade
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgrxTestComponent);
