@@ -12,7 +12,6 @@ export const appRoutes: Route[] = [
   },
   {
     path: "",
-    pathMatch: "full",
     component: MainLayoutComponent,
     children: [
       {
@@ -27,6 +26,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: "**",
+    pathMatch: "full",
     redirectTo: ""
   }
 ];
