@@ -26,8 +26,9 @@
     <registry.password>$REGISTRY_PASSWORD</registry.password>
     <registry.publish>false</registry.publish>
 
-    <image.name>ghcr.io/coduction/famulex/api</image.name>
-    <image.tags>ghcr.io/coduction/famulex/api:main,ghcr.io/coduction/famulex/api:latest</image.tags>
+    <image.base>ghcr.io/coduction/famulex/api</image.base>
+    <image.name>${image.base}:$IMAGE_SHA</image.name>
+    <image.tags>${image.base}:main,${image.base}:latest</image.tags>
   </properties>
 
   <dependencies>

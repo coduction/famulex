@@ -104,7 +104,7 @@
             "-B",
             "--no-transfer-progress",
             "-DskipTests=true",
-            "-Dimage.tags=\\${image.name}:main,\\${image.name}:latest,\\${image.name}:$IMAGE_SHA",
+            "-Dimage.tags=\\${image.base}:main,\\${image.base}:latest",
             "-Dregistry.user=$REGISTRY_USER",
             "-Dregistry.password=$REGISTRY_PASSWORD",
             "-Dregistry.publish=true"
@@ -116,8 +116,7 @@
             "-e",
             "--no-transfer-progress",
             "-DskipTests=true",
-            "-Dimage.name=\\${image.name}:$MAJOR.$MINOR.$PATCH-$CHANNEL",
-            "-Dimage.tags=\\${image.name}:$MAJOR.$MINOR-$CHANNEL,\\${image.name}:$MAJOR-$CHANNEL,\\${image.name}:$CHANNEL",
+            "-Dimage.tags=\\${image.base}:$MAJOR.$MINOR.$PATCH-$CHANNEL,\\${image.base}:$MAJOR.$MINOR-$CHANNEL,\\${image.base}:$MAJOR-$CHANNEL,\\${image.base}:$CHANNEL",
             "-Dregistry.user=$REGISTRY_USER",
             "-Dregistry.password=$REGISTRY_PASSWORD",
             "-Dregistry.publish=true"
@@ -129,8 +128,7 @@
             "-e",
             "--no-transfer-progress",
             "-DskipTests=true",
-            "-Dimage.name=\\${image.name}:$MAJOR.$MINOR.$PATCH",
-            "-Dimage.tags=\\${image.name}:$MAJOR.$MINOR,\\${image.name}:$MAJOR",
+            "-Dimage.tags=\\${image.base}:$MAJOR.$MINOR.$PATCH,\\${image.base}:$MAJOR.$MINOR,\\${image.base}:$MAJOR",
             "-Dregistry.user=$REGISTRY_USER",
             "-Dregistry.password=$REGISTRY_PASSWORD",
             "-Dregistry.publish=true"
