@@ -22,12 +22,12 @@
     <testcontainers.version>1.18.0</testcontainers.version>
 
     <registry.url>https://ghcr.io</registry.url>
-    <registry.user>$REGISTRY_USER</registry.user>
-    <registry.password>$REGISTRY_PASSWORD</registry.password>
+    <registry.user>${env.REGISTRY_USER}</registry.user>
+    <registry.password>${env.REGISTRY_PASSWORD}</registry.password>
     <registry.publish>false</registry.publish>
 
     <image.base>ghcr.io/coduction/famulex/api</image.base>
-    <image.sha>$IMAGE_SHA</image.sha>
+    <image.sha>${env.IMAGE_SHA}</image.sha>
     <image.name>${image.base}:${image.sha}</image.name>
     <image.tags>${image.base}:main,${image.base}:latest</image.tags>
   </properties>
