@@ -309,6 +309,30 @@
             "docker push ghcr.io/coduction/famulex/ui-web:latest"
           ],
           "parallel": false
+        },
+        "pre-release": {
+          "commands": [
+            "docker buildx build -f apps/famulex-ui-web/deployment/Dockerfile -t ghcr.io/coduction/famulex/ui-web:$CHANNEL --platform linux/amd64 --load .",
+            "docker tag ghcr.io/coduction/famulex/ui-web:$CHANNEL ghcr.io/coduction/famulex/ui-web:$MAJOR.$MINOR.$PATCH",
+            "docker tag ghcr.io/coduction/famulex/ui-web:$CHANNEL ghcr.io/coduction/famulex/ui-web:$MAJOR.$MINOR",
+            "docker tag ghcr.io/coduction/famulex/ui-web:$CHANNEL ghcr.io/coduction/famulex/ui-web:$MAJOR",
+            "docker push ghcr.io/coduction/famulex/ui-web:$MAJOR.$MINOR.$PATCH",
+            "docker push ghcr.io/coduction/famulex/ui-web:$MAJOR.$MINOR",
+            "docker push ghcr.io/coduction/famulex/ui-web:$MAJOR",
+            "docker push ghcr.io/coduction/famulex/ui-web:$CHANNEL"
+          ],
+          "parallel": false
+        },
+        "release": {
+          "commands": [
+            "docker buildx build -f apps/famulex-ui-web/deployment/Dockerfile -t ghcr.io/coduction/famulex/ui-web:$MAJOR --platform linux/amd64 --load .",
+            "docker tag ghcr.io/coduction/famulex/ui-web:$MAJOR ghcr.io/coduction/famulex/ui-web:$MAJOR.$MINOR.$PATCH",
+            "docker tag ghcr.io/coduction/famulex/ui-web:$MAJOR ghcr.io/coduction/famulex/ui-web:$MAJOR.$MINOR",
+            "docker push ghcr.io/coduction/famulex/ui-web:$MAJOR.$MINOR.$PATCH",
+            "docker push ghcr.io/coduction/famulex/ui-web:$MAJOR.$MINOR",
+            "docker push ghcr.io/coduction/famulex/ui-web:$MAJOR"
+          ],
+          "parallel": false
         }
       }
     }
