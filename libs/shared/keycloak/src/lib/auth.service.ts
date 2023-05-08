@@ -1,5 +1,5 @@
-import { APP_BASE_HREF }                                     from "@angular/common";
-import { Inject, Injectable }                                from "@angular/core";
+import { LocationStrategy }                                  from "@angular/common";
+import { Injectable }                                        from "@angular/core";
 import { KeycloakEvent, KeycloakEventType, KeycloakService } from "keycloak-angular";
 import { KeycloakProfile }                                   from "keycloak-js";
 import { Subject }                                           from "rxjs";
@@ -12,7 +12,9 @@ export class AuthService {
   private _keycloakEvents: Subject<KeycloakEvent> = this.keycloakService.keycloakEvents$;
 
   constructor(private keycloakService: KeycloakService,
-              @Inject(APP_BASE_HREF) private baseHref: string) {
+              private locationStrategy: LocationStrategy) {
+    this.loadUserProfile();
+
     this._keycloakEvents.subscribe({
       next: (e: KeycloakEvent) => {
         if (e.type == KeycloakEventType.OnAuthSuccess) {
@@ -36,16 +38,15 @@ export class AuthService {
 
 
   public login(redirectUrlSegment?: string): Promise<void> {
-    const redirectUrl = window.location.origin + this.baseHref + (redirectUrlSegment !== undefined ? redirectUrlSegment : "");
+    const redirectUrl = window.location.origin + this.locationStrategy.prepareExternalUrl(redirectUrlSegment !== undefined ? redirectUrlSegment : "");
 
     console.log("Starting Keycloak login. Redirect Uri: " + redirectUrl);
-    return this.keycloakService.login({ redirectUri: redirectUrl }).then(() => {
-      this.loadUserProfile();
-    });
+    return this.keycloakService.login({ redirectUri: redirectUrl })
+      .then(() => this.loadUserProfile());
   }
 
   public logout() {
-    const redirectUrl = window.location.origin + this.baseHref + "/";
+    const redirectUrl = window.location.origin + this.locationStrategy.prepareExternalUrl("/");
 
     this.keycloakService.logout(redirectUrl)
       .then(() => {
@@ -58,6 +59,8 @@ export class AuthService {
   }
 
   private loadUserProfile() {
+    console.log("Load profile");
+
     this.keycloakService.isLoggedIn()
       .then(() => this.keycloakService.loadUserProfile())
       .then(profile => {

@@ -33,7 +33,7 @@ import { CourseProgressRequest } from '../model/course-progress-request';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { FamulexApiConfiguration }                                     from '../configuration';
 
 
 
@@ -44,10 +44,10 @@ export class CourseService {
 
     protected basePath = 'https://famulex.localhost/api';
     public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
+    public configuration = new FamulexApiConfiguration();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: FamulexApiConfiguration) {
         if (configuration) {
             this.configuration = configuration;
         }

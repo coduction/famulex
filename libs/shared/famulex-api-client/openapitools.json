@@ -10,6 +10,8 @@
         "inputSpec": "https://famulex.localhost/api/docs",
         "typeMappings": "Date=Date,DateTime=Date",
         "additionalProperties": {
+          "apiModulePrefix": "Famulex",
+          "configurationPrefix": "FamulexApi",
           "fileNaming": "kebab-case",
           "stringEnums": false
         }

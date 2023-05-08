@@ -1,4 +1,5 @@
 import { Component }     from "@angular/core";
+import { AuthService }   from "@famulex/shared/keycloak";
 import { LayoutService } from "../layout/layout.service";
 
 @Component({
@@ -7,7 +8,8 @@ import { LayoutService } from "../layout/layout.service";
 })
 export class SidebarRightComponent {
 
-  constructor(public layoutService: LayoutService) {
+  constructor(public layoutService: LayoutService,
+              public authService: AuthService) {
   }
 
   get visible(): boolean {
