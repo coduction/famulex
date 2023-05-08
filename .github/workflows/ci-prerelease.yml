@@ -86,8 +86,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Set Image SHA
         run: echo "IMAGE_SHA=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_ENV
-      - run: pnpx nx run-many -t build --configuration=ci
-      - run: pnpx nx run-many -t build-image --configuration=pre-release
+      - run: npx nx run-many -t build --configuration=ci
+      - run: npx nx run-many -t build-image --configuration=pre-release
         env:
           # For Nx-Container actions
           INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
