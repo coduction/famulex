@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@famulex/ngrx-test": ["libs/ngrx-test/src/index.ts"],
       "@famulex/shared/famulex-api-client": [
         "libs/shared/famulex-api-client/src/index.ts"
       ],

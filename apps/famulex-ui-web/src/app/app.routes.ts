@@ -5,7 +5,14 @@ import { NxWelcomeComponent }  from "./nx-welcome.component";
 
 export const appRoutes: Route[] = [
   {
+    path: "ngrx-test",
+    component: MainLayoutComponent,
+    loadChildren: () =>
+      import("@famulex/ngrx-test").then((m) => m.ngrxTestRoutes)
+  },
+  {
     path: "",
+    pathMatch: "full",
     component: MainLayoutComponent,
     children: [
       {
@@ -17,5 +24,9 @@ export const appRoutes: Route[] = [
         canActivate: [AuthGuard]
       }
     ]
+  },
+  {
+    path: "**",
+    redirectTo: ""
   }
 ];

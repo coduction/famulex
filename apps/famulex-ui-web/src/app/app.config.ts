@@ -1,9 +1,13 @@
 import { APP_BASE_HREF, LocationStrategy, PlatformLocation }                            from "@angular/common";
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi }                 from "@angular/common/http";
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom }                      from "@angular/core";
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, isDevMode }           from "@angular/core";
 import { provideAnimations }                                                            from "@angular/platform-browser/animations";
 import { provideRouter }                                                                from "@angular/router";
 import { FamulexApiConfiguration, FamulexApiConfigurationParameters, FamulexApiModule } from "@famulex/shared/famulex-api-client";
+import { provideEffects }                                                               from "@ngrx/effects";
+import { provideRouterStore, routerReducer }                                            from "@ngrx/router-store";
+import { provideStore }                                                                 from "@ngrx/store";
+import { provideStoreDevtools }                                                         from "@ngrx/store-devtools";
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService }            from "keycloak-angular";
 import { appRoutes }                                                                    from "./app.routes";
 import { envConfig, EnvService }                                                        from "./environment/environment.service";
@@ -12,9 +16,14 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes),
     provideAnimations(),
-    provideHttpClient(
-      withInterceptorsFromDi()
-    ),
+    provideHttpClient(withInterceptorsFromDi()),
+    provideStore({ router: routerReducer }),
+    provideRouterStore(),
+    provideEffects(),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode()
+    }),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeFamulex,
@@ -32,32 +41,45 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [KeycloakService]
     },
-    importProvidersFrom(KeycloakAngularModule, FamulexApiModule.forRoot(initializeFamulexApi))
+    importProvidersFrom(
+      KeycloakAngularModule,
+      FamulexApiModule.forRoot(initializeFamulexApi)
+    )
   ]
 };
 
-export function initializeFamulex(locationStrategy: LocationStrategy, env: EnvService, keycloak: KeycloakService): () => Promise<void> {
-  return () => new Promise<void>((resolve, reject) => {
-    env.loadEnvConfig()
-      .then(() => keycloak.init({
-        config: {
-          url: envConfig.keycloakUrl,
-          realm: envConfig.keycloakRealm,
-          clientId: envConfig.keycloakClientId
-        },
-        initOptions: {
-          onLoad: "check-sso",
-          silentCheckSsoRedirectUri:
-            window.location.origin + locationStrategy.prepareExternalUrl("/assets/keycloak/silent-check-sso.html")
-        }
-      }))
-      .then(() => resolve())
-      .catch((error) => reject(error));
-  });
+export function initializeFamulex(
+  locationStrategy: LocationStrategy,
+  env: EnvService,
+  keycloak: KeycloakService
+): () => Promise<void> {
+  return () =>
+    new Promise<void>((resolve, reject) => {
+      env
+        .loadEnvConfig()
+        .then(() =>
+          keycloak.init({
+            config: {
+              url: envConfig.keycloakUrl,
+              realm: envConfig.keycloakRealm,
+              clientId: envConfig.keycloakClientId
+            },
+            initOptions: {
+              onLoad: "check-sso",
+              silentCheckSsoRedirectUri:
+                window.location.origin +
+                locationStrategy.prepareExternalUrl(
+                  "/assets/keycloak/silent-check-sso.html"
+                )
+            }
+          })
+        )
+        .then(() => resolve())
+        .catch((error) => reject(error));
+    });
 }
 
 export function initializeFamulexApi(): FamulexApiConfiguration {
-
   const params: FamulexApiConfigurationParameters = {
     basePath: envConfig.famulexApiUrl
   };
