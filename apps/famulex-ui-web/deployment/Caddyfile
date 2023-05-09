@@ -3,6 +3,7 @@
 
 # Enable file server for static files
 file_server
+encode gzip zstd
 
 redir / /en/ 302
 rewrite /en /en/
@@ -41,6 +42,9 @@ handle_path /sr-cyr/* {
         try_files {path} /index.html
 }
 
-# Enable caching and compression
-# header Cache-Control "public, max-age=3600"
-encode gzip zstd
+# Cache policy
+@cacheable {
+  header_regexp Cache-Control max-age=[1-9][0-9]*
+  path_regexp .+\.(css|js|jpg|jpeg|png|svg|woff|woff2|ttf|eot)$
+}
+header @cacheable Cache-Control "public, max-age=604800, must-revalidate"
