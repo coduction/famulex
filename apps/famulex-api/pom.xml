@@ -22,11 +22,14 @@
     <testcontainers.version>1.18.0</testcontainers.version>
 
     <registry.url>https://ghcr.io</registry.url>
+    <!--suppress UnresolvedMavenProperty -->
     <registry.user>${env.REGISTRY_USER}</registry.user>
+    <!--suppress UnresolvedMavenProperty -->
     <registry.password>${env.REGISTRY_PASSWORD}</registry.password>
     <registry.publish>false</registry.publish>
 
     <image.base>ghcr.io/coduction/famulex/api</image.base>
+    <!--suppress UnresolvedMavenProperty -->
     <image.sha>${env.IMAGE_SHA}</image.sha>
     <image.name>${image.base}:${image.sha}</image.name>
     <image.tags>${image.base}:main,${image.base}:latest</image.tags>

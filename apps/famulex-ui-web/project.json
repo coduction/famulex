@@ -56,7 +56,7 @@
           "apps/famulex-ui-web/src/assets"
         ],
         "styles": [
-          "apps/famulex-ui-web/src/styles.scss",
+          "apps/famulex-ui-web/src/styles/styles.scss",
           "libs/shared/layout/src/styles/apollo/apollo.scss",
           {
             "input": "libs/shared/layout/src/styles/apollo/theme/theme-light/blue/theme.scss",
@@ -186,6 +186,11 @@
           {
             "input": "libs/shared/layout/src/styles/apollo/layout/preloading.scss",
             "bundleName": "preloading",
+            "inject": false
+          },
+          {
+            "input": "apps/famulex-ui-web/src/styles/fontawesome.scss",
+            "bundleName": "fontawesome",
             "inject": false
           }
         ],
