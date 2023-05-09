@@ -44,7 +44,7 @@ handle_path /sr-cyr/* {
 
 # Cache policy
 @cacheable {
-  header_regexp Cache-Control max-age=[1-9][0-9]*
-  path_regexp .+\.(css|js|jpg|jpeg|png|svg|woff|woff2|ttf|eot)$
+        header_regexp Cache-Control max-age=[1-9][0-9]*
+        path_regexp .+\.(css|js|jpg|jpeg|png|svg|woff|woff2|ttf|eot)$
 }
 header @cacheable Cache-Control "public, max-age=604800, must-revalidate"
