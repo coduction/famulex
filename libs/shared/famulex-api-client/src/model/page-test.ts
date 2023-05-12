@@ -18,11 +18,11 @@ export interface PageTest {
     totalPages?: number;
     totalElements?: number;
     sort?: SortObject;
-    first?: boolean;
-    last?: boolean;
     number?: number;
     size?: number;
     content?: Array<Test>;
+    first?: boolean;
+    last?: boolean;
     numberOfElements?: number;
     pageable?: PageableObject;
     empty?: boolean;

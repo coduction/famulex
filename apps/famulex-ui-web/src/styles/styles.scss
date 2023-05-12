@@ -1,0 +1,4 @@
+// Hide close button in dialogs
+.hide-close-button .p-dialog-header-close {
+  display: none !important;
+}

@@ -1,15 +1,10 @@
 import { Route }               from "@angular/router";
-import { AuthGuard }           from "@famulex/shared/keycloak";
-import { MainLayoutComponent } from "@famulex/shared/layout";
+import { NotFoundComponent }   from "@famulex/shared/security/ui";
+import { AuthGuard }           from "@famulex/shared/security/util";
+import { MainLayoutComponent } from "@famulex/web/shared/layout";
 import { NxWelcomeComponent }  from "./nx-welcome.component";
 
 export const appRoutes: Route[] = [
-  {
-    path: "ngrx-test",
-    component: MainLayoutComponent,
-    loadChildren: () =>
-      import("@famulex/ngrx-test").then((m) => m.ngrxTestRoutes)
-  },
   {
     path: "",
     component: MainLayoutComponent,
@@ -25,8 +20,13 @@ export const appRoutes: Route[] = [
     ]
   },
   {
+    path: "administration",
+    component: MainLayoutComponent,
+    loadChildren: () => import("@famulex/web/administration/feature/shell").then(m => m.administrationRoutes)
+  },
+  {
     path: "**",
     pathMatch: "full",
-    redirectTo: ""
+    component: NotFoundComponent
   }
 ];

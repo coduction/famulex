@@ -10,18 +10,66 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@famulex/ngrx-test": ["libs/ngrx-test/src/index.ts"],
       "@famulex/shared/famulex-api-client": [
         "libs/shared/famulex-api-client/src/index.ts"
       ],
-      "@famulex/shared/keycloak": ["libs/shared/keycloak/src/index.ts"],
-      "@famulex/shared/layout": ["libs/shared/layout/src/index.ts"]
+      "@famulex/shared/security/ui": [
+        "libs/shared/security/ui/src/index.ts"
+      ],
+      "@famulex/shared/security/util": [
+        "libs/shared/security/util/src/index.ts"
+      ],
+      "@famulex/shared/util": [
+        "libs/shared/util/src/index.ts"
+      ],
+      "@famulex/web/administration/data-access/group-state": [
+        "libs/web/administration/data-access/group-state/src/index.ts"
+      ],
+      "@famulex/web/administration/data-access/user-state": [
+        "libs/web/administration/data-access/user-state/src/index.ts"
+      ],
+      "@famulex/web/administration/feature/group-create": [
+        "libs/web/administration/feature/group-create/src/index.ts"
+      ],
+      "@famulex/web/administration/feature/group-list": [
+        "libs/web/administration/feature/group-list/src/index.ts"
+      ],
+      "@famulex/web/administration/feature/groups-list": [
+        "libs/web/administration/feature/groups-list/src/index.ts"
+      ],
+      "@famulex/web/administration/feature/role-create": [
+        "libs/web/administration/feature/role-create/src/index.ts"
+      ],
+      "@famulex/web/administration/feature/role-list": [
+        "libs/web/administration/feature/role-list/src/index.ts"
+      ],
+      "@famulex/web/administration/feature/shell": [
+        "libs/web/administration/feature/shell/src/index.ts"
+      ],
+      "@famulex/web/administration/feature/user-create": [
+        "libs/web/administration/feature/user-create/src/index.ts"
+      ],
+      "@famulex/web/administration/feature/user-list": [
+        "libs/web/administration/feature/user-list/src/index.ts"
+      ],
+      "@famulex/web/administration/feature/users-list": [
+        "libs/web/administration/feature/users-list/src/index.ts"
+      ],
+      "@famulex/web/shared/layout": [
+        "libs/web/shared/layout/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

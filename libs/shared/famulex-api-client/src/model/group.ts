@@ -13,9 +13,9 @@ import { GroupType } from './group-type';
 
 
 export interface Group { 
-    key?: string;
-    type?: GroupType;
-    name?: string;
+    key: string;
+    type: GroupType;
+    name: string;
     description?: string;
 }
 export namespace Group {

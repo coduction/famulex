@@ -3,7 +3,10 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi }         
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, isDevMode }           from "@angular/core";
 import { provideAnimations }                                                            from "@angular/platform-browser/animations";
 import { provideRouter }                                                                from "@angular/router";
+import { ConfirmationService, MessageService }                                          from "@coduction/primeng/api";
+import { DialogService }                                                                from "@coduction/primeng/dynamicdialog";
 import { FamulexApiConfiguration, FamulexApiConfigurationParameters, FamulexApiModule } from "@famulex/shared/famulex-api-client";
+import { HttpErrorInterceptor }                                                         from "@famulex/shared/util";
 import { provideEffects }                                                               from "@ngrx/effects";
 import { provideRouterStore, routerReducer }                                            from "@ngrx/router-store";
 import { provideStore }                                                                 from "@ngrx/store";
@@ -30,10 +33,18 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [LocationStrategy, EnvService, KeycloakService]
     },
+    DialogService,
+    MessageService,
+    ConfirmationService,
     {
       provide: APP_BASE_HREF,
       useFactory: (s: PlatformLocation) => s.getBaseHrefFromDOM(),
       deps: [PlatformLocation]
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,
@@ -42,8 +53,8 @@ export const appConfig: ApplicationConfig = {
       deps: [KeycloakService]
     },
     importProvidersFrom(
-      KeycloakAngularModule,
-      FamulexApiModule.forRoot(initializeFamulexApi)
+      FamulexApiModule.forRoot(initializeFamulexApi),
+      KeycloakAngularModule
     )
   ]
 };
