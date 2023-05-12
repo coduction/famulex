@@ -1,8 +1,8 @@
 package com.famulex.api.group.api;
 
 import com.famulex.api.group.model.GroupType;
-import io.smallrye.common.constraint.NotNull;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
