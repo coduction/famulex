@@ -1,10 +1,11 @@
-import { Component, OnDestroy, Renderer2, ViewChild } from "@angular/core";
-import { NavigationEnd, Router }                      from "@angular/router";
-import { BehaviorSubject, filter, Subscription }      from "rxjs";
-import { MenuService }                                from "../../menu/menu.service";
-import { SidebarLeftComponent }                       from "../../sidebar-left/sidebar-left.component";
-import { TopbarComponent }                            from "../../topbar/topbar.component";
-import { LayoutService }                              from "../layout.service";
+import { Component, OnDestroy, Renderer2, ViewChild }   from "@angular/core";
+import { NavigationEnd, Router }                        from "@angular/router";
+import { BehaviorSubject, filter, Subscription }        from "rxjs";
+import { MenuService }                                  from "../../menu/menu.service";
+import { SidebarLeftComponent }                         from "../../sidebar-left/sidebar-left.component";
+import { TopbarComponent }                              from "../../topbar/topbar.component";
+import { CONFIRM_DIALOG, CONFIRM_DIALOG_NON_CLOSEABLE } from "../layout.options";
+import { LayoutService }                                from "../layout.service";
 
 @Component({
   selector: "layout-main-layout",
@@ -24,6 +25,9 @@ export class MainLayoutComponent implements OnDestroy {
   prevScrollPosition = window.scrollY;
   prevScrollDirection?: ScrollDirection;
   scrollGuard?: ReturnType<typeof setTimeout>;
+
+  protected readonly CONFIRM_DIALOG_NON_CLOSEABLE = CONFIRM_DIALOG_NON_CLOSEABLE;
+  protected readonly CONFIRM_DIALOG = CONFIRM_DIALOG;
 
   constructor(private menuService: MenuService, public layoutService: LayoutService, public renderer: Renderer2, public router: Router) {
     this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
@@ -163,8 +167,6 @@ export class MainLayoutComponent implements OnDestroy {
   get scrollEvents$() {
     return MainLayoutComponent.ScrollEvents$.asObservable();
   }
-
-
 }
 
 export type ScrollDirection = "UP" | "DOWN";

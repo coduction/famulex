@@ -17,3 +17,22 @@
   <layout-theme-config></layout-theme-config>
   <div class="layout-mask"></div>
 </div>
+
+
+<p-confirmDialog [key]="CONFIRM_DIALOG"
+                 rejectButtonStyleClass="p-button-outlined"
+                 [style]="{width: '50vw'}"
+                 [baseZIndex]="10000"
+></p-confirmDialog>
+
+<p-confirmDialog [key]="CONFIRM_DIALOG_NON_CLOSEABLE"
+                 class="hide-close-button"
+                 rejectButtonStyleClass="p-button-outlined"
+                 [style]="{width: '50vw'}"
+                 [baseZIndex]="10000"
+                 [rejectVisible]="false"
+                 [dismissableMask]="false"
+                 [closeOnEscape]="false"
+></p-confirmDialog>
+
+<p-toast></p-toast>

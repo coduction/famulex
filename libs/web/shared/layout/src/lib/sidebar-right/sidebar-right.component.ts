@@ -1,16 +1,16 @@
-import { Component }     from "@angular/core";
-import { AuthService }   from "@famulex/shared/keycloak";
+import { Component } from "@angular/core";
+import { AuthService } from "@famulex/shared/security/util";
 import { LayoutService } from "../layout/layout.service";
 
 @Component({
   selector: "layout-sidebar-right",
-  templateUrl: "./sidebar-right.component.html"
+  templateUrl: "./sidebar-right.component.html",
 })
 export class SidebarRightComponent {
-
-  constructor(public layoutService: LayoutService,
-              public authService: AuthService) {
-  }
+  constructor(
+    public layoutService: LayoutService,
+    public authService: AuthService
+  ) {}
 
   get visible(): boolean {
     return this.layoutService.state.profileSidebarVisible;

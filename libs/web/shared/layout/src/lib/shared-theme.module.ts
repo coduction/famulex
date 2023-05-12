@@ -4,11 +4,13 @@ import { FormsModule }                    from "@angular/forms";
 import { RouterModule }                   from "@angular/router";
 import { BadgeModule }                    from "@coduction/primeng/badge";
 import { ButtonModule }                   from "@coduction/primeng/button";
+import { ConfirmDialogModule }            from "@coduction/primeng/confirmdialog";
 import { InputSwitchModule }              from "@coduction/primeng/inputswitch";
 import { InputTextModule }                from "@coduction/primeng/inputtext";
 import { RadioButtonModule }              from "@coduction/primeng/radiobutton";
 import { RippleModule }                   from "@coduction/primeng/ripple";
 import { SidebarModule }                  from "@coduction/primeng/sidebar";
+import { ToastModule }                    from "@coduction/primeng/toast";
 import { TooltipModule }                  from "@coduction/primeng/tooltip";
 import { BreadcrumbComponent }            from "./breadcrumb/breadcrumb.component";
 import { ConfigComponent }                from "./config/config.component";
@@ -32,7 +34,9 @@ import { TopbarComponent }                from "./topbar/topbar.component";
     RippleModule,
     RouterModule,
     SidebarModule,
-    TooltipModule
+    TooltipModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
   declarations: [
     BreadcrumbComponent,
