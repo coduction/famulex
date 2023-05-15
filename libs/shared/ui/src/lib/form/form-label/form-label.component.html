@@ -1,0 +1,9 @@
+<label [for]="ngControl.name">
+    <ng-content></ng-content>
+    <span *ngIf="isOptional()"
+          class="ml-2 font-medium text-base text-gray-500"
+          i18n
+    >
+        Optional
+    </span>
+</label>

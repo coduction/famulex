@@ -9,6 +9,7 @@ export const usersFeatureKey = "users";
 export interface State extends EntityState<User> {
   // additional entities state properties
   loading: boolean;
+  actionInProgress: boolean;
 
   pageNumber: number;
   pageSize: number;
@@ -25,6 +26,7 @@ export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
   loading: false,
+  actionInProgress: false,
 
   pageNumber: 0,
   pageSize: 10,
@@ -53,14 +55,38 @@ export const reducer = createReducer(
     draft.loading = false;
   })),
 
-  // on(UserActions.addUser, state => produce(state, draft => {
-  //   draft.loading = true;
-  // })),
-  // on(UserActions.addUserSuccess, (state, { user }) => adapter.addOne(user, state)
-  // ),
-  // on(UserActions.addUserFailure, state => produce(state, draft => {
-  //   draft.loading = false;
-  // })),
+  on(UserActions.createUser, state => produce(state, draft => {
+    draft.actionInProgress = true;
+  })),
+  on(UserActions.createUserSuccess, (state, { user }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return adapter.addOne(user, state);
+  }),
+  on(UserActions.createUserFailure, state => produce(state, draft => {
+    draft.actionInProgress = false;
+  })),
+  on(UserActions.createUserCancel, state => produce(state, draft => {
+    draft.actionInProgress = false;
+  })),
+
+  on(UserActions.deleteUser, state => produce(state, draft => {
+    draft.actionInProgress = true;
+  })),
+  on(UserActions.deleteUserSuccess, (state, { user }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return adapter.removeOne(user.key, state);
+  }),
+  on(UserActions.deleteUserFailure, state => produce(state, draft => {
+    draft.actionInProgress = false;
+  })),
+
+
   //
   //
   // on(UserActions.upsertUser,

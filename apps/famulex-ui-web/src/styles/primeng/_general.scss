@@ -1,8 +1,3 @@
-// Hide close button in dialogs
-.hide-close-button .p-dialog-header-close {
-  display: none !important;
-}
-
 // Tables
 .fx-overlaypanel-no-padding {
   .p-overlaypanel-content {
@@ -99,4 +94,53 @@ form {
       }
     }
   }
+}
+
+// Upload delete button
+.p-fluid .p-fileupload .p-fileupload-filename ~ div .p-button {
+  width: 3rem !important;
+}
+
+// Fix dropdown overlay in dialogs
+.overlay-prevent .p-dialog-content {
+  overflow-y: unset;
+}
+
+// Overlay Component - Loading indicator TODO Apply only to tables
+.p-component-overlay {
+  // background-color: rgb(255, 255, 255, 0.6);
+}
+
+// Center empty table message
+.p-dataview-emptymessage {
+  text-align: center;
+}
+
+// Tree
+.p-treenode-label {
+  flex-grow: 1;
+}
+
+.p-treenode-content {
+  transition-property: all !important; // TODO Check whether this is good / performant
+}
+
+.p-treenode-content:focus {
+  box-shadow: none !important;
+}
+
+.p-treenode-content .p-button:focus,
+.p-treenode-content:hover .p-button {
+  opacity: 1 !important;
+}
+
+// PDF Viewer
+.pdf-viewer-wrapper {
+  background-color: #404040;
+  padding-bottom: .75rem;
+}
+
+// Hide close button in dialogs
+.hide-close-button .p-dialog-header-close {
+  display: none !important;
 }

@@ -870,6 +870,7 @@ $imagePreviewActionIconBorderRadius: 50% !default;
   --surface-hover: #f6f9fc;
   --focus-ring: #{$focusShadow};
   --maskbg: #{$maskBg};
+  --error-color: #{$errorColor};
   color-scheme: light;
   --transition-duration: #{$transitionDuration};
 }

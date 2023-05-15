@@ -9,13 +9,13 @@
 
   <!-- General table actions -->
   <div class="flex gap-3 mb-3">
-    <ng-container *ngIf="selectionActions.length && selectedEntries.length">
+    <ng-container *ngIf="selectionActions.length && selectedEntries.size">
       <button *ngFor="let selectionAction of selectionActions"
               pButton pRipple
               [icon]="selectionAction.icon ?? ''"
               [label]="selectionAction.label"
               [class.p-button-outlined]="!selectionAction.primary"
-              (click)="selectionAction.onClick(selectedEntries)"
+              (click)="selectionAction.onClick(selectedEntriesArray)"
       ></button>
     </ng-container>
 

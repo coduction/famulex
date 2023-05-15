@@ -1,19 +1,15 @@
-import { LocationStrategy } from "@angular/common";
-import { Injectable } from "@angular/core";
-import {
-  KeycloakEvent,
-  KeycloakEventType,
-  KeycloakService,
-} from "keycloak-angular";
-import { KeycloakProfile } from "keycloak-js";
-import { Subject } from "rxjs";
+import { LocationStrategy }                                  from "@angular/common";
+import { Injectable }                                        from "@angular/core";
+import { Right }                                             from "@famulex/shared/famulex-api-client";
+import { KeycloakEvent, KeycloakEventType, KeycloakService } from "keycloak-angular";
+import { KeycloakProfile }                                   from "keycloak-js";
+import { Subject }                                           from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
   private _authenticated = false;
   private _profile: KeycloakProfile | undefined;
-  private _keycloakEvents: Subject<KeycloakEvent> =
-    this.keycloakService.keycloakEvents$;
+  private _keycloakEvents: Subject<KeycloakEvent> = this.keycloakService.keycloakEvents$;
 
   constructor(
     private keycloakService: KeycloakService,
@@ -38,7 +34,7 @@ export class AuthService {
         if (e.type == KeycloakEventType.OnAuthRefreshSuccess) {
           console.log("Keycloak event: AuthRefreshSuccess");
         }
-      },
+      }
     });
   }
 
@@ -96,10 +92,18 @@ export class AuthService {
     return this.textWithDefault(this._profile?.username);
   }
 
-  get displayName(): string {
+  get userKey(): string {
+    return this.textWithDefault(this._profile?.id);
+  }
+
+  get fullName(): string {
     const firstname = this.textWithDefault(this._profile?.firstName);
     const lastname = this.textWithDefault(this._profile?.lastName);
 
     return (firstname ? firstname + " " : "") + lastname;
+  }
+
+  get rights(): Right[] {
+    return this.keycloakService.getUserRoles() as Right[];
   }
 }

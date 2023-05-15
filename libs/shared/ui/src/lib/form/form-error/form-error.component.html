@@ -1,0 +1,29 @@
+<ng-container *ngIf="ngControl.dirty && ngControl.touched && ngControl.errors">
+  <small *ngIf="ngControl.hasError('required')" i18n>
+    This field is mandatory
+  </small>
+
+  <small *ngIf="ngControl.hasError('minlength')" i18n>
+    Must contain at least {{ ngControl.getError('minlength').requiredLength }} characters
+  </small>
+
+  <small *ngIf="ngControl.hasError('maxlength')" i18n>
+    May contain a maximum of {{ ngControl.getError('maxlength').requiredLength }} characters
+  </small>
+
+  <small *ngIf="ngControl.hasError('email')" i18n>
+    Must contain a valid email address
+  </small>
+
+  <small *ngIf="ngControl.hasError('passwordMatch')" i18n>
+    Both password entries must match
+  </small>
+
+  <small *ngIf="ngControl.hasError('min')" i18n>
+    Must contain a value greater than or equal to {{ ngControl.getError('min').min }}
+  </small>
+
+  <small *ngIf="ngControl.hasError('max')" i18n>
+    Must contain a value less than or equal to {{ ngControl.getError('max').max }}
+  </small>
+</ng-container>

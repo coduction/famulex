@@ -9,18 +9,20 @@
 
   <div class="topbar-end">
     <ul class="topbar-menu">
-      <li class="topbar-search">
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input type="text" pInputText placeholder="Search" class="w-12rem sm:w-full">
-                </span>
+      <!--      <li class="topbar-search">-->
+      <!--        <span class="p-input-icon-left">-->
+      <!--            <i class="pi pi-search"></i>-->
+      <!--            <input type="text" pInputText placeholder="Search" class="w-12rem sm:w-full">-->
+      <!--        </span>-->
+      <!--      </li>-->
+      <li>
+        <button pButton type="button" icon="fa fa-cog"
+                class="p-button-outlined p-button-rounded"
+                (click)="onConfigButtonClick()"
+        ></button>
       </li>
-      <li class="ml-3">
-        <button pButton type="button" icon="pi pi-cog"
-                class="p-button-text p-button-secondary p-button-rounded flex-shrink-0"
-                (click)="onConfigButtonClick()"></button>
-      </li>
-      <li class="topbar-profile">
+
+      <li>
         <button *ngIf="profilePicture"
                 type="button"
                 class="p-link"
@@ -32,10 +34,17 @@
         <button *ngIf="!profilePicture"
                 pButton
                 type="button"
-                class="p-link"
+                class="p-button-outlined p-button-rounded"
+                icon="fa fa-user"
                 (click)="onProfileButtonClick()"
-        >
-        </button>
+        ></button>
+      </li>
+      
+      <li>
+        <button pButton type="button" icon="fa fa-power-off"
+                class="p-button-outlined p-button-rounded"
+                (click)="onLogout($event)"
+        ></button>
       </li>
     </ul>
   </div>

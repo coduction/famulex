@@ -1,7 +1,9 @@
 package com.famulex.api.user;
 
 import com.famulex.api.core.exception.BadRequestException;
+import com.famulex.api.core.exception.ConflictException;
 import com.famulex.api.core.exception.EntityNotFoundException;
+import com.famulex.api.core.model.KeycloakActions;
 import com.famulex.api.core.model.UserType;
 import com.famulex.api.core.util.SecurityHelper;
 import com.famulex.api.user.api.UserMapper;
@@ -109,7 +111,7 @@ public class UserService {
   @Transactional
   public User createUser(UserRequest userRequest) {
     if (userRepository.existsByEmail(userRequest.getEmail()) || userRepository.existsByUsername(userRequest.getUsername())) {
-      throw new IllegalArgumentException("User already exists");
+      throw new ConflictException("User already exists", userRequest.getEmail(), userRequest.getUsername());
     }
 
     UserRepresentation userRepresentation = new UserRepresentation();
@@ -119,6 +121,9 @@ public class UserService {
     userRepresentation.setLastName(userRequest.getLastName());
     userRepresentation.setEnabled(true);
 
+    List<String> requiredActions = new ArrayList<>();
+    requiredActions.add(KeycloakActions.VERIFY_EMAIL.name());
+
     if (!StringHelper.isBlank(userRequest.getPassword())) {
       CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
       credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
@@ -126,7 +131,11 @@ public class UserService {
       credentialRepresentation.setTemporary(Boolean.TRUE.equals(userRequest.getPasswordTemporary()));
 
       userRepresentation.setCredentials(List.of(credentialRepresentation));
+    } else {
+      requiredActions.add(KeycloakActions.UPDATE_PASSWORD.name());
     }
+
+    userRepresentation.setRequiredActions(requiredActions);
 
     try {
       Response response = keycloak.users().create(userRepresentation);
@@ -135,9 +144,9 @@ public class UserService {
       User user = userMapper.toUser(userRepresentation);
       user.setKey(UUID.fromString(createdUserKey));
       user.setType(UserType.SYNCED);
-
       user = userRepository.save(user);
 
+      keycloak.users().get(createdUserKey).executeActionsEmail(requiredActions);
       return user;
     } catch (Exception e) {
       log.error("Error while creating user", e);

@@ -12,9 +12,7 @@
 
     [totalEntries]="totalUsers$ | async"
     [pageSize]="pageSize$ | async"
-    
+
     (pagination)="onPagination($event)"
-    (selection)="console.log($event)"
-    (selectionKeys)="console.log($event)"
   ></web-table>
 </p-card>

@@ -55,7 +55,7 @@ export class TableComponent<D, K> implements OnInit {
   @ViewChild("selectActionsPanel") selectActionsPanel!: OverlayPanel;
 
   selectionState: boolean | null = null;
-  selectedEntries: D[] = [];
+  selectedEntries = new Map<K, D>();
 
   private _data: D[] = [];
   private _actionEntry?: D;
@@ -227,38 +227,50 @@ export class TableComponent<D, K> implements OnInit {
    * Selection
    **************************************************************************/
   onSelection(selectedEntry: D) {
-    if (this.selectedEntries.includes(selectedEntry)) {
-      this.selectedEntries = this.selectedEntries.filter(entry => entry !== selectedEntry);
-    } else {
-      this.selectedEntries.push(selectedEntry);
-    }
+    this.checkEntrySelection(selectedEntry);
 
     this.checkSelectionState();
-
-    this.selection.emit(this.selectedEntries);
-    this.selectionKeys.emit(this.selectedEntryKeys);
+    this.emitSelection();
   }
 
   onSelectPage(first: number, rows: number) {
-    this.selectedEntries = this.getData().slice(first, first + rows);
-    this.selectedEntryKeys = this.selectedEntries.map(entry => this.getKey(entry));
+    this.getData()
+      .slice(first, first + rows)
+      .forEach(entry => this.checkEntrySelection(entry));
+
+    this.selectedEntryKeys = Array.from(this.selectedEntries.keys());
 
     this.checkSelectionState();
-
-    this.selection.emit(this.selectedEntries);
-    this.selectionKeys.emit(this.selectedEntryKeys);
+    this.emitSelection();
 
     this.selectActionsPanel.hide();
   }
 
+  checkEntrySelection(selectedEntry: D) {
+    if (this.selectedEntries.has(this.getKey(selectedEntry))) {
+      this.selectedEntries.delete(this.getKey(selectedEntry));
+    } else {
+      this.selectedEntries.set(this.getKey(selectedEntry), selectedEntry);
+    }
+  }
+
   checkSelectionState() {
-    if (this.selectedEntries.length === 0) {
+    if (this.selectedEntries.size === 0) {
       this.selectionState = null;
-    } else if (this.selectedEntries.length < this.getTotalEntries()) {
+    } else if (this.selectedEntries.size < this.getTotalEntries()) {
       this.selectionState = false;
-    } else if (this.selectedEntries.length === this.getTotalEntries()) {
+    } else if (this.selectedEntries.size === this.getTotalEntries()) {
       this.selectionState = true;
     }
+  }
+
+  emitSelection() {
+    this.selection.emit(this.selectedEntriesArray);
+    this.selectionKeys.emit(this.selectedEntryKeys);
+  }
+
+  get selectedEntriesArray() {
+    return Array.from(this.selectedEntries.values());
   }
 
   /**************************************************************************

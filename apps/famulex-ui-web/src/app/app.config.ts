@@ -13,7 +13,7 @@ import { provideStore }                                                         
 import { provideStoreDevtools }                                                         from "@ngrx/store-devtools";
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService }            from "keycloak-angular";
 import { appRoutes }                                                                    from "./app.routes";
-import { envConfig, EnvService }                                                        from "./environment/environment.service";
+import { envConfig, EnvService }                                                        from "./environment/env.service";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -67,8 +67,7 @@ export function initializeFamulex(
 ): () => Promise<void> {
   return () =>
     new Promise<void>((resolve, reject) => {
-      env
-        .loadEnvConfig()
+      env.loadEnvConfig()
         .then(() =>
           keycloak.init({
             config: {
@@ -87,7 +86,7 @@ export function initializeFamulex(
           })
         )
         .then(() => resolve())
-        .catch((error) => reject(error));
+        .catch(error => reject(error));
     });
 }
 

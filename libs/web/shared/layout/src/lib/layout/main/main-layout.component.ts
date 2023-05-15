@@ -1,5 +1,6 @@
 import { Component, OnDestroy, Renderer2, ViewChild }   from "@angular/core";
 import { NavigationEnd, Router }                        from "@angular/router";
+import { ConfirmationService }                          from "@coduction/primeng/api";
 import { BehaviorSubject, filter, Subscription }        from "rxjs";
 import { MenuService }                                  from "../../menu/menu.service";
 import { SidebarLeftComponent }                         from "../../sidebar-left/sidebar-left.component";
@@ -29,7 +30,11 @@ export class MainLayoutComponent implements OnDestroy {
   protected readonly CONFIRM_DIALOG_NON_CLOSEABLE = CONFIRM_DIALOG_NON_CLOSEABLE;
   protected readonly CONFIRM_DIALOG = CONFIRM_DIALOG;
 
-  constructor(private menuService: MenuService, public layoutService: LayoutService, public renderer: Renderer2, public router: Router) {
+  constructor(private menuService: MenuService,
+              private confirmationService: ConfirmationService,
+              public layoutService: LayoutService,
+              public renderer: Renderer2,
+              public router: Router) {
     this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
       if (!this.menuOutsideClickListener) {
         this.menuOutsideClickListener = this.renderer.listen("document", "click", event => {

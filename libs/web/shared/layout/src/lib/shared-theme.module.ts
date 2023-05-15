@@ -5,6 +5,7 @@ import { RouterModule }                   from "@angular/router";
 import { BadgeModule }                    from "@coduction/primeng/badge";
 import { ButtonModule }                   from "@coduction/primeng/button";
 import { ConfirmDialogModule }            from "@coduction/primeng/confirmdialog";
+import { ConfirmPopupModule }             from "@coduction/primeng/confirmpopup";
 import { InputSwitchModule }              from "@coduction/primeng/inputswitch";
 import { InputTextModule }                from "@coduction/primeng/inputtext";
 import { RadioButtonModule }              from "@coduction/primeng/radiobutton";
@@ -36,7 +37,8 @@ import { TopbarComponent }                from "./topbar/topbar.component";
     SidebarModule,
     TooltipModule,
     ConfirmDialogModule,
-    ToastModule
+    ToastModule,
+    ConfirmPopupModule
   ],
   declarations: [
     BreadcrumbComponent,

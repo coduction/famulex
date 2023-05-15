@@ -26,3 +26,19 @@
 .fa-invert {
   @extend .fa-swap-opacity;
 }
+
+// Change loading styles
+//.pi-spinner {
+//  @extend .fa-duotone;
+//  color: var(--primary-color);
+//
+//  &:after {
+//    font-size: 3rem;
+//    content: "\f3f4" !important;
+//  }
+//
+//  &:before {
+//    font-size: 3rem;
+//    content: "\f3f4\f3f4" !important;
+//  }
+//}

@@ -11,18 +11,18 @@ import java.util.UUID;
  * @author Alexander Boeckle, boeckle@coduction.com
  * @date 01.11.22
  */
-@ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class EntityNotFoundException extends RuntimeException {
-
-    public EntityNotFoundException(String message, String key) {
-        super(message + ": " + key);
+@ResponseStatus(code = HttpStatus.CONFLICT)
+public class ConflictException extends RuntimeException {
+    
+    public ConflictException(String message, String... keys) {
+        super(message + ": " + String.join(", ", keys));
     }
 
-    public EntityNotFoundException(String message, UUID key) {
+    public ConflictException(String message, UUID key) {
         this(message, key.toString());
     }
 
-    public EntityNotFoundException(Class clazz, UUID key) {
+    public ConflictException(Class clazz, UUID key) {
         this(clazz.getSimpleName(), key);
     }
 
