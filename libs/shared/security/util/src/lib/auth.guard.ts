@@ -55,8 +55,8 @@ export class AuthGuard extends KeycloakAuthGuard implements CanMatch {
         return this.authService.login(url).then(() => resolve(false));
       }
 
-      console.debug("Expected rights: ", requiredRights);
-      console.debug("User rights :", this.roles);
+      // console.debug("Expected rights: ", requiredRights);
+      // console.debug("User rights :", this.roles);
 
       let granted = false;
 

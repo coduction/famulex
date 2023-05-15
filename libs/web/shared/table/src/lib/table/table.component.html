@@ -114,6 +114,16 @@
       </td>
     </tr>
   </ng-template>
+
+  <ng-template pTemplate="paginatorleft">
+    <div i18n class="paginator-info">
+      <span *ngIf="selectedEntries.size">{{ selectedEntries.size }} Entries Selected</span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="paginatorright">
+    <div i18n class="paginator-info text-right">{{ getTotalEntries() }} Entries Total</div>
+  </ng-template>
 </p-table>
 
 <p-overlayPanel #entryActionsPanel
