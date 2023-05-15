@@ -4,7 +4,7 @@ import { $localize }                                                            
 import { MessageService }                                                          from "@coduction/primeng/api";
 import { DialogService }                                                           from "@coduction/primeng/dynamicdialog";
 import { UnauthenticatedComponent, UnauthorizedComponent }                         from "@famulex/shared/security/ui";
-import { catchError, Observable, throwError }                                      from "rxjs";
+import { catchError, EMPTY, Observable, throwError }                               from "rxjs";
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -29,47 +29,53 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               // Client side error
             } else if (error instanceof HttpErrorResponse) {
               // Server side error
+              if (!error.status) {
+                this.showErrorMessage($localize`Connection Error`, $localize`Please try again later and reload the page.`);
+                return EMPTY;
+              }
+
               switch (error.status) {
                 case 400:
-                  if (HttpErrorInterceptor.CUSTOM_ERROR_HANDLING) {
-                    break;
+                  if (!HttpErrorInterceptor.CUSTOM_ERROR_HANDLING) {
+                    this.showErrorMessage($localize`Bad Request`, $localize`Something went wrong, please try again later.`);
+                    return EMPTY;
                   }
 
-                  this.showErrorMessage($localize`Bad Request`, $localize`Something went wrong, please try again later.`);
                   break;
                 case 401:
                   this.dialogService.open(UnauthorizedComponent, {
                     width: "60rem",
                     closable: false
                   });
-                  break;
+
+                  return EMPTY;
                 case 403:
                   this.dialogService.open(UnauthenticatedComponent, {
                     width: "60rem",
                     closable: false
                   });
-                  break;
-                case 404:
-                  break;
-                case 422:
-                  break;
-                case 500:
-                  if (HttpErrorInterceptor.CUSTOM_ERROR_HANDLING) {
-                    break;
-                  }
 
-                  this.showErrorMessage($localize`Internal Server Error`, $localize`Something went wrong, please try again later.`);
-                  break;
+                  return EMPTY;
+                case 404:
+                  this.messageService.add({
+                    severity: "error",
+                    summary: $localize`Not Found`,
+                    detail: $localize`The requested resource could not be found. This indicates a problem with the application. Please contact your administrator.`
+                  });
+
+                  return EMPTY;
                 default:
-                  this.showErrorMessage($localize`Connection Error`, $localize`Please try again later and reload the page.`);
-                  break;
+                  if (!HttpErrorInterceptor.CUSTOM_ERROR_HANDLING) {
+                    this.showErrorMessage($localize`Internal Server Error`, $localize`Something went wrong, please try again later.`);
+                    return EMPTY;
+                  }
               }
             }
           }
 
           // Disable custom error handling after request was intercepted
           HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = false;
-          
+
           return throwError(error);
         })
       );
