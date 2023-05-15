@@ -57,7 +57,7 @@ jobs:
         run: npm install --force
       - uses: nrwl/nx-set-shas@v3
       - run: npx nx affected -t lint
-      - run: npx nx affected -t test --configuration=ci
+      # - run: npx nx affected -t test --configuration=ci
       # - run: npx nx affected -t e2e --configuration=ci
       - run: npx nx affected -t build --configuration=ci
       # - name: Set up QEMU

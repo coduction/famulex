@@ -29,7 +29,7 @@ env:
   CHANNEL: ${{ github.event.inputs.channel }}
 
 jobs:
-  build-test:
+  build-release:
     name: Build Images and Release
     runs-on: ubuntu-latest
     steps:
