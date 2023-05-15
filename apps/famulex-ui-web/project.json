@@ -56,8 +56,8 @@
           "apps/famulex-ui-web/src/assets"
         ],
         "styles": [
-          "apps/famulex-ui-web/src/styles/styles.scss",
           "libs/web/shared/layout/src/styles/apollo/apollo.scss",
+          "apps/famulex-ui-web/src/styles/styles.scss",
           {
             "input": "libs/web/shared/layout/src/styles/apollo/theme/theme-light/blue/theme.scss",
             "bundleName": "theme-light-blue",

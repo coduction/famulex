@@ -1,0 +1,102 @@
+// Hide close button in dialogs
+.hide-close-button .p-dialog-header-close {
+  display: none !important;
+}
+
+// Tables
+.fx-overlaypanel-no-padding {
+  .p-overlaypanel-content {
+    padding: 0;
+
+    .p-listbox {
+      border: none;
+
+      .p-listbox-list {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.fx-overlaypanel-no-arrow {
+  margin-top: 6px !important;
+
+  &:after, &:before {
+    display: none;
+  }
+}
+
+.fx-table-selection-header {
+  width: 1rem;
+}
+
+.fx-table-actions-header {
+  width: 3rem;
+
+  span {
+    display: flex;
+    justify-content: center;
+    width: 3rem;
+  }
+}
+
+.p-table-actions > button.p-button {
+  width: 3rem;
+  padding: 0;
+}
+
+// Disable focus border
+.p-datatable .p-sortable-column:focus,
+.p-listbox .p-listbox-list .p-listbox-item:focus {
+  box-shadow: unset !important;
+}
+
+// Stacked Buttons
+.button-group-stacked {
+
+  button:first-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  button:not(:first-child):not(:last-child) {
+    border-radius: 0;
+  }
+
+  button .p-button-label {
+    flex: unset;
+  }
+
+  button:last-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+// Forms
+form {
+  div {
+    label {
+      display: block;
+      margin-bottom: 0.75rem;
+      font-size: 1.125rem;
+      font-family: inherit;
+      font-weight: 550;
+      line-height: 1.2;
+      color: var(--surface-900);
+    }
+
+    small {
+      display: block;
+      margin-top: 0.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .ng-invalid.ng-dirty {
+      small {
+        color: var(--error-color);
+      }
+    }
+  }
+}

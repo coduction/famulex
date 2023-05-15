@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { $localize }         from "@angular/localize/init";
 
 @Component({
   selector: "layout-menu",
@@ -11,105 +12,28 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.model = [
       {
-        label: "Dashboards",
-        icon: "pi pi-home",
+        label: $localize`Settings`,
+        icon: "fa fa-fw fa-cog",
         items: [
           {
-            label: "E-Commerce",
-            icon: "pi pi-fw pi-home",
-            routerLink: ["/home"]
-          },
-          {
-            label: "Banking",
-            icon: "pi pi-fw pi-image",
-            routerLink: ["/dashboard-banking"],
+            label: $localize`Administration`,
+            icon: "fa fa-fw fa-cog",
+            routerLink: ["/administration"],
             items: [
               {
-                label: "Dashboards",
-                icon: "pi pi-home",
-                items: [
-                  {
-                    label: "E-Commerce",
-                    icon: "pi pi-fw pi-home",
-                    routerLink: ["/"]
-                  },
-                  {
-                    label: "Banking",
-                    icon: "pi pi-fw pi-image",
-                    routerLink: ["/dashboard-banking"]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        separator: true
-      },
-      {
-        label: "Dashboards",
-        icon: "pi pi-home",
-        items: [
-          {
-            label: "E-Commerce",
-            icon: "pi pi-fw pi-home",
-            routerLink: ["/"]
-          },
-          {
-            label: "Banking",
-            icon: "pi pi-fw pi-image",
-            routerLink: ["/dashboard-banking"],
-            items: [
+                label: $localize`Users`,
+                icon: "fa fa-fw fa-user",
+                routerLink: ["/administration/users"]
+              },
               {
-                label: "Dashboards",
-                icon: "pi pi-home",
-                items: [
-                  {
-                    label: "E-Commerce",
-                    icon: "pi pi-fw pi-home",
-                    routerLink: ["/"]
-                  },
-                  {
-                    label: "Banking",
-                    icon: "pi pi-fw pi-image",
-                    routerLink: ["/dashboard-banking"]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        label: "Dashboards",
-        icon: "pi pi-home",
-        items: [
-          {
-            label: "E-Commerce",
-            icon: "pi pi-fw pi-home",
-            routerLink: ["/"]
-          },
-          {
-            label: "Banking",
-            icon: "pi pi-fw pi-image",
-            routerLink: ["/dashboard-banking"],
-            items: [
+                label: $localize`Groups`,
+                icon: "fa fa-fw fa-users",
+                routerLink: ["/administration/groups"]
+              },
               {
-                label: "Dashboards",
-                icon: "pi pi-home",
-                items: [
-                  {
-                    label: "E-Commerce",
-                    icon: "pi pi-fw pi-home",
-                    routerLink: ["/"]
-                  },
-                  {
-                    label: "Banking",
-                    icon: "pi pi-fw pi-image",
-                    routerLink: ["/dashboard-banking"]
-                  }
-                ]
+                label: $localize`Roles`,
+                icon: "fa fa-fw fa-shield-quartered",
+                routerLink: ["/administration/roles"]
               }
             ]
           }

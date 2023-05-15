@@ -1,4 +1,2 @@
-// Hide close button in dialogs
-.hide-close-button .p-dialog-header-close {
-  display: none !important;
-}
+// PrimeNG specific overrides
+@import "primeng/overrides";

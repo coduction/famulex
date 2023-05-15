@@ -1,0 +1,17 @@
+.indeterminate {
+  --fa-secondary-opacity: 1;
+
+  .p-checkbox-box.p-highlight {
+    background-color: var(--surface-a);
+
+    .p-checkbox-icon {
+      color: var(--primary-500);
+    }
+  }
+
+  .p-checkbox-box.p-highlight:hover {
+    .p-checkbox-icon {
+      color: var(--primary-color-text) !important;
+    }
+  }
+}

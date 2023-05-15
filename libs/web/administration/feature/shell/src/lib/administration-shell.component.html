@@ -1,1 +1,26 @@
-<router-outlet></router-outlet>
+<div class="flex flex-row gap-3 align-items-stretch"
+>
+  <p-card class="administration-card flex-grow-1 text-center cursor-pointer"
+          styleClass="hover:shadow-6"
+          routerLink="users"
+  >
+    <i class="fa fa-user"></i>
+    <h3 i18n>Users</h3>
+  </p-card>
+
+  <p-card class="administration-card flex-grow-1 text-center cursor-pointer"
+          styleClass="hover:shadow-6"
+          routerLink="groups"
+  >
+    <i class="fa fa-users"></i>
+    <h3 i18n>Groups</h3>
+  </p-card>
+
+  <p-card class="administration-card flex-grow-1 text-center cursor-pointer"
+          styleClass="hover:shadow-6"
+          routerLink="roles"
+  >
+    <i class="fa fa-shield-quartered"></i>
+    <h3 i18n>Roles</h3>
+  </p-card>
+</div>

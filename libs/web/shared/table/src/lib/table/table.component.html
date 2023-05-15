@@ -1,0 +1,184 @@
+<div class="flex flex-wrap gap-3 justify-content-end align-items-center">
+  <h2 *ngIf="title" class="flex-grow-1">{{ title }}</h2>
+  <h4 *ngIf="description" class="flex-grow-1">{{ description }}</h4>
+
+  <!-- Actions on selected items -->
+  <div class="flex gap-3 mb-3">
+
+  </div>
+
+  <!-- General table actions -->
+  <div class="flex gap-3 mb-3">
+    <ng-container *ngIf="selectionActions.length && selectedEntries.length">
+      <button *ngFor="let selectionAction of selectionActions"
+              pButton pRipple
+              [icon]="selectionAction.icon ?? ''"
+              [label]="selectionAction.label"
+              [class.p-button-outlined]="!selectionAction.primary"
+              (click)="selectionAction.onClick(selectedEntries)"
+      ></button>
+    </ng-container>
+
+    <button *ngFor="let tableAction of tableActions"
+            pButton pRipple
+            [icon]="tableAction.icon ?? ''"
+            [label]="tableAction.label"
+            [class.p-button-outlined]="!tableAction.primary"
+            (click)="tableAction.onClick()"
+    ></button>
+
+    <button pButton pRipple
+            class="p-button-outlined"
+            icon="fa fa-cog"
+            i18n-title
+            title="Columns"
+            (click)="columnsSelector.toggle($event)"
+    ></button>
+  </div>
+</div>
+
+<p-table #table
+         [columns]="columns"
+         [value]="getData()"
+         [paginator]="true"
+         [totalRecords]="getTotalEntries()"
+         [rows]="getPgeSize()"
+         [rowsPerPageOptions]="[1,2,5,10,25,50]"
+         [resetPageOnSort]="false"
+         [lazy]="true"
+         [lazyLoadOnInit]="false"
+         [sortField]="sortField"
+         [sortOrder]="sortOrder"
+         [loading]="isLoading()"
+         [scrollable]="true"
+         loadingIcon="fa fa-spin fa-spinner-third"
+         (onLazyLoad)="onPagination($event)"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngIf="selectionActions.length"
+          class="fx-table-selection-header"
+          pFrozenColumn
+      >
+        <p-triStateCheckbox [readonly]="true"
+                            [ngModel]="selectionState"
+                            (click)="selectActionsPanel.toggle($event)"
+                            [class.indeterminate]="selectionState === false"
+                            [styleClass]="selectionState === false ? 'indeterminate' : ''"
+                            checkboxFalseIcon="fa fa-fw fa-square"
+        ></p-triStateCheckbox>
+      </th>
+
+      <ng-container *ngFor="let column of columns">
+        <th pSortableColumn="{{column.key}}" *ngIf="column.visible">
+          {{column.name}}
+          <p-sortIcon field="{{column.key}}"></p-sortIcon>
+        </th>
+      </ng-container>
+
+      <th *ngIf="entryActions.length"
+          class="fx-table-actions-header"
+          pFrozenColumn alignFrozen="right"
+      >
+        <span>
+            <i class="pi pi-ellipsis-v"></i>
+        </span>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-entry>
+    <tr>
+      <td *ngIf="selectionActions.length"
+          pFrozenColumn
+      >
+        <p-checkbox [value]="getKey(entry)"
+                    [(ngModel)]="selectedEntryKeys"
+                    (click)="onSelection(entry)">
+        </p-checkbox>
+      </td>
+
+      <ng-container *ngFor="let column of columns">
+        <td *ngIf="column.visible">{{ column.field(entry) }}</td>
+      </ng-container>
+
+      <td *ngIf="entryActions.length"
+          pFrozenColumn alignFrozen="right"
+          class="p-table-actions"
+      >
+        <button pButton
+                class="p-button-text"
+                icon="pi pi-ellipsis-v"
+                (click)="showEntryActions($event, entry)">
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-overlayPanel #entryActionsPanel
+                styleClass="fx-overlaypanel-no-padding"
+                (onHide)="resetEntryActions()">
+  <ng-template pTemplate="content">
+    <div class="flex flex-column button-group-stacked">
+      <button *ngFor="let entryAction of entryActions"
+              pButton pRipple
+              class="p-button-text"
+              [label]="entryAction.label"
+              [icon]="entryAction.icon ?? ''"
+              (click)="dispatchEntryAction(entryAction)">
+      </button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #selectActionsPanel
+                styleClass="fx-overlaypanel-no-padding fx-overlaypanel-no-arrow"
+>
+  <ng-template pTemplate="content">
+    <div class="flex flex-column button-group-stacked">
+      <button pButton i18n-label
+              class="p-button-text"
+              label="Select all"
+              icon="fa fa-fw fa-square-check"
+              (click)="showMessage('This feature is not implemented yet')"
+      >
+      </button>
+      <button pButton i18n-label
+              class="p-button-text"
+              label="Select page"
+              icon="fa fa-fw fa-ballot-check"
+              (click)="onSelectPage(table.first, table.rows)"
+      >
+      </button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #columnsSelector styleClass="fx-overlaypanel-no-padding">
+  <ng-template pTemplate="content">
+    <p-listbox [(ngModel)]="selectedColumns"
+               [options]="columns"
+               [multiple]="true"
+               [checkbox]="true"
+               [showToggleAll]="false"
+               optionLabel="name"
+    >
+      <ng-template pTemplate="footer">
+        <div class="flex gap-3 p-3">
+          <button pButton pRipple
+                  i18n-label
+                  label="Select All"
+                  (click)="selectAllColumns()">
+          </button>
+          <button pButton pRipple
+                  class="p-button-outlined"
+                  i18n-label
+                  label="Reset"
+                  (click)="resetColumns()">
+          </button>
+        </div>
+      </ng-template>
+    </p-listbox>
+  </ng-template>
+</p-overlayPanel>

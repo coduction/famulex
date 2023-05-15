@@ -1,11 +1,12 @@
-import { CommonModule } from "@angular/common";
-import { Component }    from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { CommonModule }             from "@angular/common";
+import { Component }                from "@angular/core";
+import { RouterLink, RouterOutlet } from "@angular/router";
+import { CardModule }               from "@coduction/primeng/card";
 
 @Component({
   selector: "administration-shell",
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, CardModule, RouterLink],
   templateUrl: "./administration-shell.component.html",
   styleUrls: ["./administration-shell.component.scss"]
 })

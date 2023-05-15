@@ -7,12 +7,15 @@ import { AdministrationShellComponent } from "./administration-shell.component";
 export const administrationRoutes: Route[] = [
   {
     path: "",
-    component: AdministrationShellComponent,
     providers: [
       provideState(UserState),
       provideEffects(UserEffects)
     ],
     children: [
+      {
+        path: "",
+        component: AdministrationShellComponent
+      },
       {
         path: "users",
         loadComponent: () => import("@famulex/web/administration/feature/user-list").then(c => c.UserListComponent)
@@ -25,6 +28,7 @@ export const administrationRoutes: Route[] = [
         path: "roles",
         loadComponent: () => import("@famulex/web/administration/feature/role-list").then(c => c.RoleListComponent)
       }
+
     ]
   }
 ];

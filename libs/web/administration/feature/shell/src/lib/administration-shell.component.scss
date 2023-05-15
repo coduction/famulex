@@ -1,0 +1,13 @@
+.administration-card {
+  h3, i {
+    transition-property: color, box-shadow;
+    transition-duration: var(--transition-duration);
+    transition-timing-function: ease;
+  }
+
+  &:hover {
+    h3, i {
+      color: var(--primary-500);
+    }
+  }
+}

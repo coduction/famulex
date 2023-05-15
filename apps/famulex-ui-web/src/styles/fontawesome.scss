@@ -15,8 +15,14 @@
   // Light	300
   // Thin	    100
   // Duotone	900
+
+  --fa-secondary-opacity: 0.5;
 }
 
 .fa {
   @extend .fa-duotone;
+}
+
+.fa-invert {
+  @extend .fa-swap-opacity;
 }

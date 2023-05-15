@@ -17,6 +17,7 @@ import { envConfig, EnvService }                                                
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    // provideRouter(appRoutes, withPreloading(PreloadAllModules)), TODO Alex: Currently preloading is not respecting the canMatch / canLoad guards. Check later and implement own preloading strategy if needed
     provideRouter(appRoutes),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
