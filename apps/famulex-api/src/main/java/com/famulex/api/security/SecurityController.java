@@ -23,22 +23,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/security")
 public class SecurityController {
 
-    private final SecurityService securityService;
+  private final SecurityService securityService;
 
-    @PostMapping("/sync")
-    @Operation(summary = "Sync roles and rights with Keycloak")
-    @Secured(Rights.SYNC_KEYCLOAK)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void syncRights() {
-        log.info("Received update from Keycloak - Sync roles and rights");
+  @PostMapping("/sync")
+  @Operation(summary = "Sync roles and rights with Keycloak")
+  @Secured(Rights.SYNC_KEYCLOAK)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void syncRights() {
+    log.info("Received update from Keycloak - Sync roles and rights");
 
-        securityService.syncRolesAndRights();
-    }
+    securityService.syncRolesAndRights();
+  }
 
-    @GetMapping("/config")
-    @Operation(summary = "Get an overview of the current security options")
-    @Secured({Rights.SYNC_KEYCLOAK, Rights.MANAGE_USERS})
-    public Right[] loadRights() {
-        return Right.values();
-    }
+  @GetMapping("/config")
+  @Operation(summary = "Get an overview of the current security options")
+  public Right[] loadRights() {
+    return Right.values();
+  }
 }

@@ -44,7 +44,8 @@
         "index": "apps/famulex-ui-web/src/index.html",
         "main": "apps/famulex-ui-web/src/main.ts",
         "polyfills": [
-          "zone.js"
+          "zone.js",
+          "@angular/localize/init"
         ],
         "tsConfig": "apps/famulex-ui-web/tsconfig.app.json",
         "allowedCommonJsDependencies": [
