@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable }                                                              from "@angular/core";
-import { $localize }                                                               from "@angular/localize/init";
 import { MessageService }                                                          from "@coduction/primeng/api";
 import { DialogService }                                                           from "@coduction/primeng/dynamicdialog";
 import { UnauthenticatedComponent, UnauthorizedComponent }                         from "@famulex/shared/security/ui";

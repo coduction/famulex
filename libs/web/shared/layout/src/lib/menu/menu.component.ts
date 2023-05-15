@@ -14,6 +14,6 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.model = this.menuService.loadMenu();
+    this.model = this.menuService.createMenu();
   }
 }

@@ -1,3 +1,310 @@
 <xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-US" trgLang="fr">
-  <file original="ng.template" id="ngi18n"/>
+  <file original="ng.template" id="ngi18n">
+    <unit id="8344589029680948932">
+      <segment state="initial">
+        <source> Oops! </source>
+        <target> Oops! </target>
+      </segment>
+    </unit>
+    <unit id="8315276999155079299">
+      <segment state="initial">
+        <source> There is nothing here. You will be redirected in <ph id="0" equiv="INTERPOLATION" disp="{{ countDown }}"/>s. </source>
+        <target> There is nothing here. You will be redirected in <ph id="0" equiv="INTERPOLATION" disp="{{ countDown }}"/>s. </target>
+      </segment>
+    </unit>
+    <unit id="178520337056147266">
+      <segment state="initial">
+        <source>Go to Dashboard</source>
+        <target>Go to Dashboard</target>
+      </segment>
+    </unit>
+    <unit id="518369635112290060">
+      <segment state="initial">
+        <source> This field is mandatory </source>
+        <target> This field is mandatory </target>
+      </segment>
+    </unit>
+    <unit id="3529545672923323217">
+      <segment state="initial">
+        <source> Must contain at least <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;minlength&apos;).requiredLength }}"/> characters </source>
+        <target> Must contain at least <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;minlength&apos;).requiredLength }}"/> characters </target>
+      </segment>
+    </unit>
+    <unit id="8684531125220504337">
+      <segment state="initial">
+        <source> May contain a maximum of <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;maxlength&apos;).requiredLength }}"/> characters </source>
+        <target> May contain a maximum of <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;maxlength&apos;).requiredLength }}"/> characters </target>
+      </segment>
+    </unit>
+    <unit id="1145038455098179712">
+      <segment state="initial">
+        <source> Must contain a valid email address </source>
+        <target> Must contain a valid email address </target>
+      </segment>
+    </unit>
+    <unit id="5614702851324559565">
+      <segment state="initial">
+        <source> Both password entries must match </source>
+        <target> Both password entries must match </target>
+      </segment>
+    </unit>
+    <unit id="4951767904589262118">
+      <segment state="initial">
+        <source> Must contain a value greater than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;min&apos;).min }}"/> </source>
+        <target> Must contain a value greater than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;min&apos;).min }}"/> </target>
+      </segment>
+    </unit>
+    <unit id="4715800217518389151">
+      <segment state="initial">
+        <source> Must contain a value less than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;max&apos;).max }}"/> </source>
+        <target> Must contain a value less than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;max&apos;).max }}"/> </target>
+      </segment>
+    </unit>
+    <unit id="4774743033649921775">
+      <segment state="initial">
+        <source> Optional </source>
+        <target> Optional </target>
+      </segment>
+    </unit>
+    <unit id="3458621579362975361">
+      <segment state="initial">
+        <source>Error while Loading Users</source>
+        <target>Error while Loading Users</target>
+      </segment>
+    </unit>
+    <unit id="7352254752214518334">
+      <segment state="initial">
+        <source>Please try again later and reload the page.</source>
+        <target>Please try again later and reload the page.</target>
+      </segment>
+    </unit>
+    <unit id="8237453520946506968">
+      <segment state="initial">
+        <source>User already exists</source>
+        <target>User already exists</target>
+      </segment>
+    </unit>
+    <unit id="1035300390243244763">
+      <segment state="initial">
+        <source>Provide a different username or email.</source>
+        <target>Provide a different username or email.</target>
+      </segment>
+    </unit>
+    <unit id="8215577216205357784">
+      <segment state="initial">
+        <source>Error while creating user</source>
+        <target>Error while creating user</target>
+      </segment>
+    </unit>
+    <unit id="8947585964755853889">
+      <segment state="initial">
+        <source>Please try again later.</source>
+        <target>Please try again later.</target>
+      </segment>
+    </unit>
+    <unit id="5133936328458615117">
+      <segment state="initial">
+        <source>New user created successfully</source>
+        <target>New user created successfully</target>
+      </segment>
+    </unit>
+    <unit id="6592827447522206519">
+      <segment state="initial">
+        <source>User deleted successfully</source>
+        <target>User deleted successfully</target>
+      </segment>
+    </unit>
+    <unit id="9077834966587537939">
+      <segment state="initial">
+        <source>Error while deleting user</source>
+        <target>Error while deleting user</target>
+      </segment>
+    </unit>
+    <unit id="3391485649472751458">
+      <segment state="initial">
+        <source>You cannot delete yourself.</source>
+        <target>You cannot delete yourself.</target>
+      </segment>
+    </unit>
+    <unit id="4555457172864212828">
+      <segment state="initial">
+        <source>Users</source>
+        <target>Users</target>
+      </segment>
+    </unit>
+    <unit id="5944812089887969249">
+      <segment state="initial">
+        <source>Groups</source>
+        <target>Groups</target>
+      </segment>
+    </unit>
+    <unit id="795890916060309463">
+      <segment state="initial">
+        <source>Roles</source>
+        <target>Roles</target>
+      </segment>
+    </unit>
+    <unit id="6028371114637047813">
+      <segment state="initial">
+        <source>First Name</source>
+        <target>First Name</target>
+      </segment>
+    </unit>
+    <unit id="4407559560004943843">
+      <segment state="initial">
+        <source>Last Name</source>
+        <target>Last Name</target>
+      </segment>
+    </unit>
+    <unit id="5248717555542428023">
+      <segment state="initial">
+        <source>Username</source>
+        <target>Username</target>
+      </segment>
+    </unit>
+    <unit id="4768749765465246664">
+      <segment state="initial">
+        <source>Email</source>
+        <target>Email</target>
+      </segment>
+    </unit>
+    <unit id="6500919799852395758">
+      <segment state="initial">
+        <source>Set Password</source>
+        <target>Set Password</target>
+      </segment>
+    </unit>
+    <unit id="3049058671186266274">
+      <segment state="initial">
+        <source>Temporary Password</source>
+        <target>Temporary Password</target>
+      </segment>
+    </unit>
+    <unit id="1431416938026210429">
+      <segment state="initial">
+        <source>Password</source>
+        <target>Password</target>
+      </segment>
+    </unit>
+    <unit id="8547747030242972664">
+      <segment state="initial">
+        <source>Password Confirmation</source>
+        <target>Password Confirmation</target>
+      </segment>
+    </unit>
+    <unit id="5891941941917080206">
+      <segment state="initial">
+        <source>Create User</source>
+        <target>Create User</target>
+      </segment>
+    </unit>
+    <unit id="2159130950882492111">
+      <segment state="initial">
+        <source>Cancel</source>
+        <target>Cancel</target>
+      </segment>
+    </unit>
+    <unit id="2176659033176029418">
+      <segment state="initial">
+        <source>Key</source>
+        <target>Key</target>
+      </segment>
+    </unit>
+    <unit id="8115083664628466958">
+      <segment state="initial">
+        <source>E-Mail</source>
+        <target>E-Mail</target>
+      </segment>
+    </unit>
+    <unit id="7947087483896750480">
+      <segment state="initial">
+        <source>Last Active At</source>
+        <target>Last Active At</target>
+      </segment>
+    </unit>
+    <unit id="7293347258713947796">
+      <segment state="initial">
+        <source>Created At</source>
+        <target>Created At</target>
+      </segment>
+    </unit>
+    <unit id="1133598083088597330">
+      <segment state="initial">
+        <source>Updated At</source>
+        <target>Updated At</target>
+      </segment>
+    </unit>
+    <unit id="1211169124143348857">
+      <segment state="initial">
+        <source>Edit User</source>
+        <target>Edit User</target>
+      </segment>
+    </unit>
+    <unit id="4839682406703705780">
+      <segment state="initial">
+        <source>Delete User</source>
+        <target>Delete User</target>
+      </segment>
+    </unit>
+    <unit id="6642377239076032561">
+      <segment state="initial">
+        <source>Delete Users</source>
+        <target>Delete Users</target>
+      </segment>
+    </unit>
+    <unit id="3724963532350402042">
+      <segment state="initial">
+        <source>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="user.firstName"/> <ph id="1" equiv="PH_1" disp="user.lastName"/>&lt;/b&gt;?</source>
+        <target>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="user.firstName"/> <ph id="1" equiv="PH_1" disp="user.lastName"/>&lt;/b&gt;?</target>
+      </segment>
+    </unit>
+    <unit id="7637024258773636981">
+      <segment state="initial">
+        <source>Delete Multiple Users</source>
+        <target>Delete Multiple Users</target>
+      </segment>
+    </unit>
+    <unit id="6222971216828479808">
+      <segment state="initial">
+        <source>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="users.length"/> users&lt;/b&gt;?</source>
+        <target>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="users.length"/> users&lt;/b&gt;?</target>
+      </segment>
+    </unit>
+    <unit id="2769286710923024042">
+      <segment state="initial">
+        <source>Do you want to logout?</source>
+        <target>Do you want to logout?</target>
+      </segment>
+    </unit>
+    <unit id="843548054527451651">
+      <segment state="initial">
+        <source>Columns</source>
+        <target>Columns</target>
+      </segment>
+    </unit>
+    <unit id="1494518490116523821">
+      <segment state="initial">
+        <source>Select all</source>
+        <target>Select all</target>
+      </segment>
+    </unit>
+    <unit id="1512866475468373520">
+      <segment state="initial">
+        <source>Select page</source>
+        <target>Select page</target>
+      </segment>
+    </unit>
+    <unit id="8716359834484489616">
+      <segment state="initial">
+        <source>Select All</source>
+        <target>Select All</target>
+      </segment>
+    </unit>
+    <unit id="7808756054397155068">
+      <segment state="initial">
+        <source>Reset</source>
+        <target>Reset</target>
+      </segment>
+    </unit>
+  </file>
 </xliff>

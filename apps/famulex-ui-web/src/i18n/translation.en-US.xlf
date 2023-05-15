@@ -1,4 +1,260 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-US">
-  <file id="ngi18n" original="ng.template"/>
+  <file id="ngi18n" original="ng.template">
+    <unit id="1035300390243244763">
+      <segment>
+        <source>Provide a different username or email.</source>
+      </segment>
+    </unit>
+    <unit id="1133598083088597330">
+      <segment>
+        <source>Updated At</source>
+      </segment>
+    </unit>
+    <unit id="1145038455098179712">
+      <segment>
+        <source> Must contain a valid email address </source>
+      </segment>
+    </unit>
+    <unit id="1211169124143348857">
+      <segment>
+        <source>Edit User</source>
+      </segment>
+    </unit>
+    <unit id="1431416938026210429">
+      <segment>
+        <source>Password</source>
+      </segment>
+    </unit>
+    <unit id="1494518490116523821">
+      <segment>
+        <source>Select all</source>
+      </segment>
+    </unit>
+    <unit id="1512866475468373520">
+      <segment>
+        <source>Select page</source>
+      </segment>
+    </unit>
+    <unit id="178520337056147266">
+      <segment>
+        <source>Go to Dashboard</source>
+      </segment>
+    </unit>
+    <unit id="2159130950882492111">
+      <segment>
+        <source>Cancel</source>
+      </segment>
+    </unit>
+    <unit id="2176659033176029418">
+      <segment>
+        <source>Key</source>
+      </segment>
+    </unit>
+    <unit id="2769286710923024042">
+      <segment>
+        <source>Do you want to logout?</source>
+      </segment>
+    </unit>
+    <unit id="3049058671186266274">
+      <segment>
+        <source>Temporary Password</source>
+      </segment>
+    </unit>
+    <unit id="3391485649472751458">
+      <segment>
+        <source>You cannot delete yourself.</source>
+      </segment>
+    </unit>
+    <unit id="3458621579362975361">
+      <segment>
+        <source>Error while Loading Users</source>
+      </segment>
+    </unit>
+    <unit id="3529545672923323217">
+      <segment>
+        <source> Must contain at least <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;minlength&apos;).requiredLength }}"/> characters </source>
+      </segment>
+    </unit>
+    <unit id="3724963532350402042">
+      <segment>
+        <source>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="user.firstName"/> <ph id="1" equiv="PH_1" disp="user.lastName"/>&lt;/b&gt;?</source>
+      </segment>
+    </unit>
+    <unit id="4407559560004943843">
+      <segment>
+        <source>Last Name</source>
+      </segment>
+    </unit>
+    <unit id="4555457172864212828">
+      <segment>
+        <source>Users</source>
+      </segment>
+    </unit>
+    <unit id="4715800217518389151">
+      <segment>
+        <source> Must contain a value less than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;max&apos;).max }}"/> </source>
+      </segment>
+    </unit>
+    <unit id="4768749765465246664">
+      <segment>
+        <source>Email</source>
+      </segment>
+    </unit>
+    <unit id="4774743033649921775">
+      <segment>
+        <source> Optional </source>
+      </segment>
+    </unit>
+    <unit id="4839682406703705780">
+      <segment>
+        <source>Delete User</source>
+      </segment>
+    </unit>
+    <unit id="4951767904589262118">
+      <segment>
+        <source> Must contain a value greater than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;min&apos;).min }}"/> </source>
+      </segment>
+    </unit>
+    <unit id="5133936328458615117">
+      <segment>
+        <source>New user created successfully</source>
+      </segment>
+    </unit>
+    <unit id="518369635112290060">
+      <segment>
+        <source> This field is mandatory </source>
+      </segment>
+    </unit>
+    <unit id="5248717555542428023">
+      <segment>
+        <source>Username</source>
+      </segment>
+    </unit>
+    <unit id="5614702851324559565">
+      <segment>
+        <source> Both password entries must match </source>
+      </segment>
+    </unit>
+    <unit id="5891941941917080206">
+      <segment>
+        <source>Create User</source>
+      </segment>
+    </unit>
+    <unit id="5944812089887969249">
+      <segment>
+        <source>Groups</source>
+      </segment>
+    </unit>
+    <unit id="6028371114637047813">
+      <segment>
+        <source>First Name</source>
+      </segment>
+    </unit>
+    <unit id="6222971216828479808">
+      <segment>
+        <source>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="users.length"/> users&lt;/b&gt;?</source>
+      </segment>
+    </unit>
+    <unit id="6500919799852395758">
+      <segment>
+        <source>Set Password</source>
+      </segment>
+    </unit>
+    <unit id="6592827447522206519">
+      <segment>
+        <source>User deleted successfully</source>
+      </segment>
+    </unit>
+    <unit id="6642377239076032561">
+      <segment>
+        <source>Delete Users</source>
+      </segment>
+    </unit>
+    <unit id="7293347258713947796">
+      <segment>
+        <source>Created At</source>
+      </segment>
+    </unit>
+    <unit id="7352254752214518334">
+      <segment>
+        <source>Please try again later and reload the page.</source>
+      </segment>
+    </unit>
+    <unit id="7637024258773636981">
+      <segment>
+        <source>Delete Multiple Users</source>
+      </segment>
+    </unit>
+    <unit id="7808756054397155068">
+      <segment>
+        <source>Reset</source>
+      </segment>
+    </unit>
+    <unit id="7947087483896750480">
+      <segment>
+        <source>Last Active At</source>
+      </segment>
+    </unit>
+    <unit id="795890916060309463">
+      <segment>
+        <source>Roles</source>
+      </segment>
+    </unit>
+    <unit id="8115083664628466958">
+      <segment>
+        <source>E-Mail</source>
+      </segment>
+    </unit>
+    <unit id="8215577216205357784">
+      <segment>
+        <source>Error while creating user</source>
+      </segment>
+    </unit>
+    <unit id="8237453520946506968">
+      <segment>
+        <source>User already exists</source>
+      </segment>
+    </unit>
+    <unit id="8315276999155079299">
+      <segment>
+        <source> There is nothing here. You will be redirected in <ph id="0" equiv="INTERPOLATION" disp="{{ countDown }}"/>s. </source>
+      </segment>
+    </unit>
+    <unit id="8344589029680948932">
+      <segment>
+        <source> Oops! </source>
+      </segment>
+    </unit>
+    <unit id="843548054527451651">
+      <segment>
+        <source>Columns</source>
+      </segment>
+    </unit>
+    <unit id="8547747030242972664">
+      <segment>
+        <source>Password Confirmation</source>
+      </segment>
+    </unit>
+    <unit id="8684531125220504337">
+      <segment>
+        <source> May contain a maximum of <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;maxlength&apos;).requiredLength }}"/> characters </source>
+      </segment>
+    </unit>
+    <unit id="8716359834484489616">
+      <segment>
+        <source>Select All</source>
+      </segment>
+    </unit>
+    <unit id="8947585964755853889">
+      <segment>
+        <source>Please try again later.</source>
+      </segment>
+    </unit>
+    <unit id="9077834966587537939">
+      <segment>
+        <source>Error while deleting user</source>
+      </segment>
+    </unit>
+  </file>
 </xliff>
