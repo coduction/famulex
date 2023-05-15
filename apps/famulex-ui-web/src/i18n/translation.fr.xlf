@@ -306,5 +306,81 @@
         <target>Reset</target>
       </segment>
     </unit>
+    <unit id="7485224253733748591">
+      <segment state="initial">
+        <source>Connection Error</source>
+        <target>Connection Error</target>
+      </segment>
+    </unit>
+    <unit id="7404923338446646745">
+      <segment state="initial">
+        <source>Bad Request</source>
+        <target>Bad Request</target>
+      </segment>
+    </unit>
+    <unit id="5157686301659282350">
+      <segment state="initial">
+        <source>Something went wrong, please try again later.</source>
+        <target>Something went wrong, please try again later.</target>
+      </segment>
+    </unit>
+    <unit id="2649252321173430744">
+      <segment state="initial">
+        <source>Not Found</source>
+        <target>Not Found</target>
+      </segment>
+    </unit>
+    <unit id="8536406131431053083">
+      <segment state="initial">
+        <source>The requested resource could not be found. This indicates a problem with the application. Please contact your administrator.</source>
+        <target>The requested resource could not be found. This indicates a problem with the application. Please contact your administrator.</target>
+      </segment>
+    </unit>
+    <unit id="8002549289427560839">
+      <segment state="initial">
+        <source>Internal Server Error</source>
+        <target>Internal Server Error</target>
+      </segment>
+    </unit>
+    <unit id="2821179408673282599">
+      <segment state="initial">
+        <source>Home</source>
+        <target>Home</target>
+      </segment>
+    </unit>
+    <unit id="5900803322242454672">
+      <segment state="initial">
+        <source>Authoring</source>
+        <target>Authoring</target>
+      </segment>
+    </unit>
+    <unit id="4930506384627295710">
+      <segment state="initial">
+        <source>Settings</source>
+        <target>Settings</target>
+      </segment>
+    </unit>
+    <unit id="7844706011418789951">
+      <segment state="initial">
+        <source>Administration</source>
+        <target>Administration</target>
+      </segment>
+    </unit>
+    <unit id="1160568529967563561">
+      <segment state="initial">
+        <source>
+          <pc id="0" equivStart="START_TAG_SPAN" equivEnd="CLOSE_TAG_SPAN" type="other" dispStart="&lt;span *ngIf=&quot;selectedEntries.size&quot;&gt;" dispEnd="&lt;/span&gt;"><ph id="1" equiv="INTERPOLATION" disp="{{ selectedEntries.size }}"/> Entries Selected</pc>
+        </source>
+        <target>
+          <pc id="0" equivStart="START_TAG_SPAN" equivEnd="CLOSE_TAG_SPAN" type="other" dispStart="&lt;span *ngIf=&quot;selectedEntries.size&quot;&gt;" dispEnd="&lt;/span&gt;"><ph id="1" equiv="INTERPOLATION" disp="{{ selectedEntries.size }}"/> Entries Selected</pc>
+        </target>
+      </segment>
+    </unit>
+    <unit id="4290654866433187899">
+      <segment state="initial">
+        <source><ph id="0" equiv="INTERPOLATION" disp="{{ getTotalEntries() }}"/> Entries Total</source>
+        <target><ph id="0" equiv="INTERPOLATION" disp="{{ getTotalEntries() }}"/> Entries Total</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

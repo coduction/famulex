@@ -255,8 +255,7 @@
           "translation.es.xlf",
           "translation.fr.xlf",
           "translation.sr.xlf",
-          "translation.sr-Latn.xlf",
-          "translation.e2e.xlf"
+          "translation.sr-Latn.xlf"
         ]
       }
     },

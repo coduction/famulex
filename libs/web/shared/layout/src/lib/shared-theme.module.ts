@@ -8,6 +8,7 @@ import { ConfirmDialogModule }            from "@coduction/primeng/confirmdialog
 import { ConfirmPopupModule }             from "@coduction/primeng/confirmpopup";
 import { InputSwitchModule }              from "@coduction/primeng/inputswitch";
 import { InputTextModule }                from "@coduction/primeng/inputtext";
+import { OverlayPanelModule }             from "@coduction/primeng/overlaypanel";
 import { RadioButtonModule }              from "@coduction/primeng/radiobutton";
 import { RippleModule }                   from "@coduction/primeng/ripple";
 import { SidebarModule }                  from "@coduction/primeng/sidebar";
@@ -38,7 +39,8 @@ import { TopbarComponent }                from "./topbar/topbar.component";
     TooltipModule,
     ConfirmDialogModule,
     ToastModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
+    OverlayPanelModule
   ],
   declarations: [
     BreadcrumbComponent,

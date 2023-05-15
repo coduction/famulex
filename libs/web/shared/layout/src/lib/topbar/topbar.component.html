@@ -23,6 +23,14 @@
       </li>
 
       <li>
+        <button pButton type="button" icon="fa fa-globe fa-swap-opacity"
+                style="--fa-secondary-opacity: 0"
+                class="p-button-outlined p-button-rounded"
+                (click)="languageChooser.show($event)"
+        ></button>
+      </li>
+
+      <li>
         <button *ngIf="profilePicture"
                 type="button"
                 class="p-link"
@@ -39,7 +47,7 @@
                 (click)="onProfileButtonClick()"
         ></button>
       </li>
-      
+
       <li>
         <button pButton type="button" icon="fa fa-power-off"
                 class="p-button-outlined p-button-rounded"
@@ -49,3 +57,38 @@
     </ul>
   </div>
 </div>
+
+<p-overlayPanel #languageChooser>
+  <div class="flex flex-column">
+    <button pButton pRipple
+            label="English"
+            class="p-button-text"
+            (click)="onChangeLanguage('en')"
+    ></button>
+    <button pButton pRipple
+            label="Deutsch"
+            class="p-button-text"
+            (click)="onChangeLanguage('de')"
+    ></button>
+    <button pButton pRipple
+            label="Français"
+            class="p-button-text"
+            (click)="onChangeLanguage('fr')"
+    ></button>
+    <button pButton pRipple
+            label="Español"
+            class="p-button-text"
+            (click)="onChangeLanguage('es')"
+    ></button>
+    <button pButton pRipple
+            label="Srpski"
+            class="p-button-text"
+            (click)="onChangeLanguage('sr')"
+    ></button>
+    <button pButton pRipple
+            label="Српски"
+            class="p-button-text"
+            (click)="onChangeLanguage('sr-cyrl')"
+    ></button>
+  </div>
+</p-overlayPanel>

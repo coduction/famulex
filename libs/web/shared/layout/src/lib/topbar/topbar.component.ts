@@ -1,3 +1,4 @@
+import { LocationStrategy }                        from "@angular/common";
 import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { ConfirmationService }                     from "@coduction/primeng/api";
 import { AuthService }                             from "@famulex/shared/security/util";
@@ -12,9 +13,10 @@ export class TopbarComponent {
   @Input() profilePicture?: string;
   @ViewChild("menuButton") menuButton!: ElementRef;
 
-  constructor(public layoutService: LayoutService,
-              public confirmationService: ConfirmationService,
-              public authService: AuthService) {
+  constructor(private locationStrategy: LocationStrategy,
+              private layoutService: LayoutService,
+              private confirmationService: ConfirmationService,
+              private authService: AuthService) {
   }
 
   onMenuButtonClick() {
@@ -42,4 +44,14 @@ export class TopbarComponent {
     });
   }
 
+  onChangeLanguage(newLanguage: string) {
+    const baseHref = this.locationStrategy.getBaseHref();
+
+    if (baseHref === "/") {
+      return;
+    }
+
+    const url = window.location.href;
+    window.location.href = url.replace(baseHref, `/${newLanguage}/`);
+  }
 }
