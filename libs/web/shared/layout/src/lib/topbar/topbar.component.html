@@ -17,7 +17,7 @@
       <!--      </li>-->
       <li>
         <button pButton type="button" icon="fa fa-cog"
-                class="p-button-outlined p-button-rounded"
+                class="p-button-outlined p-button-rounded p-button-raised bg-white hover:bg-primary-50"
                 (click)="onConfigButtonClick()"
         ></button>
       </li>
@@ -25,7 +25,7 @@
       <li>
         <button pButton type="button" icon="fa fa-globe fa-swap-opacity"
                 style="--fa-secondary-opacity: 0"
-                class="p-button-outlined p-button-rounded"
+                class="p-button-outlined p-button-rounded p-button-raised bg-white hover:bg-primary-50"
                 (click)="languageChooser.show($event)"
         ></button>
       </li>
@@ -42,7 +42,7 @@
         <button *ngIf="!profilePicture"
                 pButton
                 type="button"
-                class="p-button-outlined p-button-rounded"
+                class="p-button-outlined p-button-rounded p-button-raised bg-white hover:bg-primary-50"
                 icon="fa fa-user"
                 (click)="onProfileButtonClick()"
         ></button>
@@ -50,7 +50,7 @@
 
       <li>
         <button pButton type="button" icon="fa fa-power-off"
-                class="p-button-outlined p-button-rounded"
+                class="p-button-outlined p-button-rounded p-button-raised bg-white hover:bg-primary-50"
                 (click)="onLogout($event)"
         ></button>
       </li>
