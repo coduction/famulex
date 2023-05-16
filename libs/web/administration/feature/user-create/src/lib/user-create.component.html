@@ -78,25 +78,22 @@
       </div>
     </div>
 
-    <div class="grid p-fluid">
-      <div class="col-12 md:col-6">
-        <button pButton pRipple i18n-label
-                type="submit"
-                label="Create User"
-                loadingIcon="fa fa-spin fa-spinner-third"
-                [loading]="(loading$ | async) ?? false"
-        ></button>
-      </div>
-
-      <div class="col-12 md:col-6">
-        <button pButton pRipple i18n-label
-                type="button"
-                label="Cancel"
-                class="p-button-outlined"
-                [disabled]="(loading$ | async) ?? false"
-                (click)="onCancel()"
-        ></button>
-      </div>
+    <div class="flex gap-3 justify-content-end">
+      <button pButton pRipple
+              type="button"
+              label="Cancel" i18n-label
+              class="p-button-outlined"
+              icon="fa fa-times"
+              [disabled]="(loading$ | async) ?? false"
+              (click)="onCancel()"
+      ></button>
+      <button pButton pRipple i18n-label
+              type="submit"
+              label="Create User"
+              icon="fa fa-user-plus"
+              loadingIcon="fa fa-spin fa-spinner-third"
+              [loading]="(loading$ | async) ?? false"
+      ></button>
     </div>
   </div>
 </form>

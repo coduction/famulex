@@ -11,7 +11,7 @@ import { UserRequest }                                  from "@famulex/shared/fa
 import { FormErrorComponent, FormLabelComponent }       from "@famulex/shared/ui";
 import { validateForm }                                 from "@famulex/shared/util";
 import { UserActions, UserState }                       from "@famulex/web/administration/data-access/user-state";
-import { ActionsSubject, Store }                        from "@ngrx/store";
+import { Store }                                        from "@ngrx/store";
 
 @Component({
   selector: "administration-user-create",
@@ -29,31 +29,32 @@ export class UserCreateComponent {
     username: ["", Validators.required],
     set_password: [false],
     password_temporary: [true],
-    password: [""],
-    password_confirmation: [""]
+    password: ["", [Validators.required]],
+    password_confirmation: ["", [Validators.required]]
   });
 
   loading$ = this.store.select(UserState.selectActionInProgress);
 
   constructor(private fb: FormBuilder,
-              private store: Store,
-              private actions$: ActionsSubject) {
+              private store: Store) {
+    // Hide password fields if set_password is false
     this.createUserForm.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe(form => {
         if (form.set_password) {
-          this.createUserForm.controls.password.setValidators([Validators.required]);
-          this.createUserForm.get("password_confirmation")!.setValidators([Validators.required]);
+          this.createUserForm.controls.password.enable({ emitEvent: false });
+          this.createUserForm.controls.password_confirmation.enable({ emitEvent: false });
 
           if (form.password_confirmation && form.password_confirmation !== form.password) {
-            this.createUserForm.get("password_confirmation")!.setErrors({ passwordMatch: true });
+            this.createUserForm.controls.password_confirmation.setErrors({ passwordMatch: true });
           }
         } else {
-          this.createUserForm.get("password")!.clearValidators();
-          this.createUserForm.get("password_confirmation")!.clearValidators();
+          this.createUserForm.controls.password.disable({ emitEvent: false });
+          this.createUserForm.controls.password_confirmation.disable({ emitEvent: false });
         }
       });
 
+    // Disable form while api call is in progress
     this.loading$.pipe(takeUntilDestroyed()).subscribe(loading => {
       if (loading) {
         this.createUserForm.disable();
