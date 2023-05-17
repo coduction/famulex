@@ -1,421 +1,411 @@
-<xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-US" trgLang="sr-Latn">
+<?xml version="1.0"?><xliff version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0" srcLang="en-US" trgLang="sr-Latn">
   <file original="ng.template" id="ngi18n">
     <unit id="8344589029680948932">
-      <segment state="initial">
+      <segment state="translated">
         <source> Oops! </source>
-        <target> Oops! </target>
+        <target> Ups! </target>
       </segment>
     </unit>
     <unit id="8315276999155079299">
-      <segment state="initial">
+      <segment state="translated">
         <source> There is nothing here. You will be redirected in <ph id="0" equiv="INTERPOLATION" disp="{{ countDown }}"/>s. </source>
-        <target> There is nothing here. You will be redirected in <ph id="0" equiv="INTERPOLATION" disp="{{ countDown }}"/>s. </target>
+        <target> Ovde nema ničega. Vratićete se na stranicu za <ph id="0" equiv="INTERPOLATION" disp="{{ countDown }}"/>s. </target>
       </segment>
     </unit>
     <unit id="178520337056147266">
-      <segment state="initial">
+      <segment state="translated">
         <source>Go to Dashboard</source>
-        <target>Go to Dashboard</target>
+        <target>Idite na kontrolnu tablu</target>
       </segment>
     </unit>
     <unit id="518369635112290060">
-      <segment state="initial">
+      <segment state="translated">
         <source> This field is mandatory </source>
-        <target> This field is mandatory </target>
+        <target> Ovo polje je obavezno </target>
       </segment>
     </unit>
     <unit id="3529545672923323217">
-      <segment state="initial">
-        <source> Must contain at least <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;minlength&apos;).requiredLength }}"/> characters </source>
-        <target> Must contain at least <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;minlength&apos;).requiredLength }}"/> characters </target>
+      <segment state="translated">
+        <source> Must contain at least <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('minlength').requiredLength }}"/> characters </source>
+        <target> Mora da sadrži najmanje <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('minlength').requiredLength }}"/> karaktera </target>
       </segment>
     </unit>
     <unit id="8684531125220504337">
-      <segment state="initial">
-        <source> May contain a maximum of <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;maxlength&apos;).requiredLength }}"/> characters </source>
-        <target> May contain a maximum of <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;maxlength&apos;).requiredLength }}"/> characters </target>
+      <segment state="translated">
+        <source> May contain a maximum of <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('maxlength').requiredLength }}"/> characters </source>
+        <target> Može da sadrži najviše <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('maxlength').requiredLength }}"/> karaktera </target>
       </segment>
     </unit>
     <unit id="1145038455098179712">
-      <segment state="initial">
+      <segment state="translated">
         <source> Must contain a valid email address </source>
-        <target> Must contain a valid email address </target>
+        <target> Mora da sadrži validnu e-mejl adresu </target>
       </segment>
     </unit>
     <unit id="5614702851324559565">
-      <segment state="initial">
+      <segment state="translated">
         <source> Both password entries must match </source>
-        <target> Both password entries must match </target>
+        <target> Obe lozinke se moraju podudarati </target>
       </segment>
     </unit>
     <unit id="4951767904589262118">
-      <segment state="initial">
-        <source> Must contain a value greater than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;min&apos;).min }}"/> </source>
-        <target> Must contain a value greater than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;min&apos;).min }}"/> </target>
+      <segment state="translated">
+        <source> Must contain a value greater than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('min').min }}"/> </source>
+        <target> Mora sadržati vrednost veći ili jednaku <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('min').min }}"/> </target>
       </segment>
     </unit>
     <unit id="4715800217518389151">
-      <segment state="initial">
-        <source> Must contain a value less than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;max&apos;).max }}"/> </source>
-        <target> Must contain a value less than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;max&apos;).max }}"/> </target>
+      <segment state="translated">
+        <source> Must contain a value less than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('max').max }}"/> </source>
+        <target> Mora sadržati vrednost manju ili jednaku <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('max').max }}"/> </target>
       </segment>
     </unit>
     <unit id="4774743033649921775">
-      <segment state="initial">
+      <segment state="translated">
         <source> Optional </source>
-        <target> Optional </target>
+        <target> Opciono </target>
       </segment>
     </unit>
     <unit id="3458621579362975361">
-      <segment state="initial">
+      <segment state="translated">
         <source>Error while Loading Users</source>
-        <target>Error while Loading Users</target>
+        <target>Greška kod učitavanja korisnika</target>
       </segment>
     </unit>
     <unit id="7352254752214518334">
-      <segment state="initial">
+      <segment state="translated">
         <source>Please try again later and reload the page.</source>
-        <target>Please try again later and reload the page.</target>
+        <target>Molim te pokušaj ponovo i osveži stranicu.</target>
       </segment>
     </unit>
     <unit id="8237453520946506968">
-      <segment state="initial">
+      <segment state="translated">
         <source>User already exists</source>
-        <target>User already exists</target>
+        <target>Korisnik već postoji</target>
       </segment>
     </unit>
     <unit id="1035300390243244763">
-      <segment state="initial">
+      <segment state="translated">
         <source>Provide a different username or email.</source>
-        <target>Provide a different username or email.</target>
+        <target>Promeni username ili e-mejl.</target>
       </segment>
     </unit>
     <unit id="8215577216205357784">
-      <segment state="initial">
+      <segment state="translated">
         <source>Error while creating user</source>
-        <target>Error while creating user</target>
+        <target>Greška pri kreiranju korisnika</target>
       </segment>
     </unit>
     <unit id="8947585964755853889">
-      <segment state="initial">
+      <segment state="translated">
         <source>Please try again later.</source>
-        <target>Please try again later.</target>
+        <target>Pokušaj ponovo kasnije.</target>
       </segment>
     </unit>
     <unit id="5133936328458615117">
-      <segment state="initial">
+      <segment state="translated">
         <source>New user created successfully</source>
-        <target>New user created successfully</target>
+        <target>Novi korisnik uspešno kreiran</target>
       </segment>
     </unit>
     <unit id="6592827447522206519">
-      <segment state="initial">
+      <segment state="translated">
         <source>User deleted successfully</source>
-        <target>User deleted successfully</target>
+        <target>Korisnik uspešno obrisan</target>
       </segment>
     </unit>
     <unit id="9077834966587537939">
-      <segment state="initial">
+      <segment state="translated">
         <source>Error while deleting user</source>
-        <target>Error while deleting user</target>
+        <target>Greška pri brisanju korisnika</target>
       </segment>
     </unit>
     <unit id="3391485649472751458">
-      <segment state="initial">
+      <segment state="translated">
         <source>You cannot delete yourself.</source>
-        <target>You cannot delete yourself.</target>
+        <target>Ne možeš obrisati sebe.</target>
       </segment>
     </unit>
     <unit id="4555457172864212828">
-      <segment state="initial">
+      <segment state="translated">
         <source>Users</source>
-        <target>Users</target>
+        <target>Korisnici</target>
       </segment>
     </unit>
     <unit id="5944812089887969249">
-      <segment state="initial">
+      <segment state="translated">
         <source>Groups</source>
-        <target>Groups</target>
+        <target>Grupe</target>
       </segment>
     </unit>
     <unit id="795890916060309463">
-      <segment state="initial">
+      <segment state="translated">
         <source>Roles</source>
-        <target>Roles</target>
+        <target>Uloge</target>
       </segment>
     </unit>
     <unit id="6028371114637047813">
-      <segment state="initial">
+      <segment state="translated">
         <source>First Name</source>
-        <target>First Name</target>
+        <target>Ime</target>
       </segment>
     </unit>
     <unit id="4407559560004943843">
-      <segment state="initial">
+      <segment state="translated">
         <source>Last Name</source>
-        <target>Last Name</target>
+        <target>Prezime</target>
       </segment>
     </unit>
     <unit id="5248717555542428023">
-      <segment state="initial">
+      <segment state="translated">
         <source>Username</source>
-        <target>Username</target>
+        <target>Korisničko ime</target>
       </segment>
     </unit>
     <unit id="4768749765465246664">
-      <segment state="initial">
+      <segment state="translated">
         <source>Email</source>
-        <target>Email</target>
+        <target>E-mejl</target>
       </segment>
     </unit>
     <unit id="6500919799852395758">
-      <segment state="initial">
+      <segment state="translated">
         <source>Set Password</source>
-        <target>Set Password</target>
+        <target>Napravi lozinku</target>
       </segment>
     </unit>
     <unit id="3049058671186266274">
-      <segment state="initial">
+      <segment state="translated">
         <source>Temporary Password</source>
-        <target>Temporary Password</target>
+        <target>Privremena lozinka</target>
       </segment>
     </unit>
     <unit id="1431416938026210429">
-      <segment state="initial">
+      <segment state="translated">
         <source>Password</source>
-        <target>Password</target>
+        <target>Lozinka</target>
       </segment>
     </unit>
     <unit id="8547747030242972664">
-      <segment state="initial">
+      <segment state="translated">
         <source>Password Confirmation</source>
-        <target>Password Confirmation</target>
+        <target>Potvrda lozinke</target>
       </segment>
     </unit>
     <unit id="5891941941917080206">
-      <segment state="initial">
+      <segment state="translated">
         <source>Create User</source>
-        <target>Create User</target>
+        <target>Napravi korisnika</target>
       </segment>
     </unit>
     <unit id="2159130950882492111">
-      <segment state="initial">
+      <segment state="translated">
         <source>Cancel</source>
-        <target>Cancel</target>
+        <target>Odustani</target>
       </segment>
     </unit>
     <unit id="2176659033176029418">
-      <segment state="initial">
+      <segment state="translated">
         <source>Key</source>
         <target>Key</target>
       </segment>
     </unit>
     <unit id="8115083664628466958">
-      <segment state="initial">
+      <segment state="translated">
         <source>E-Mail</source>
-        <target>E-Mail</target>
+        <target>E-mejl</target>
       </segment>
     </unit>
     <unit id="7947087483896750480">
-      <segment state="initial">
+      <segment state="translated">
         <source>Last Active At</source>
-        <target>Last Active At</target>
+        <target>Poslednji put aktivan u</target>
       </segment>
     </unit>
     <unit id="7293347258713947796">
-      <segment state="initial">
+      <segment state="translated">
         <source>Created At</source>
-        <target>Created At</target>
+        <target>Kreirano u</target>
       </segment>
     </unit>
     <unit id="1133598083088597330">
-      <segment state="initial">
+      <segment state="translated">
         <source>Updated At</source>
-        <target>Updated At</target>
+        <target>Ažuirirano u</target>
       </segment>
     </unit>
     <unit id="1211169124143348857">
-      <segment state="initial">
+      <segment state="translated">
         <source>Edit User</source>
-        <target>Edit User</target>
+        <target>Urediti korisnika</target>
       </segment>
     </unit>
     <unit id="4839682406703705780">
-      <segment state="initial">
+      <segment state="translated">
         <source>Delete User</source>
-        <target>Delete User</target>
+        <target>Obrisati korisnika</target>
       </segment>
     </unit>
     <unit id="6642377239076032561">
-      <segment state="initial">
+      <segment state="translated">
         <source>Delete Users</source>
-        <target>Delete Users</target>
+        <target>Obrisati korisnike</target>
       </segment>
     </unit>
     <unit id="3724963532350402042">
-      <segment state="initial">
+      <segment state="translated">
         <source>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="user.firstName"/> <ph id="1" equiv="PH_1" disp="user.lastName"/>&lt;/b&gt;?</source>
-        <target>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="user.firstName"/> <ph id="1" equiv="PH_1" disp="user.lastName"/>&lt;/b&gt;?</target>
+        <target>Da li si siguran/na da želiš da obrišeš &lt;b&gt;<ph id="0" equiv="PH" disp="user.firstName"/> <ph id="1" equiv="PH_1" disp="user.lastName"/>&lt;/b&gt;?</target>
       </segment>
     </unit>
     <unit id="7637024258773636981">
-      <segment state="initial">
+      <segment state="translated">
         <source>Delete Multiple Users</source>
-        <target>Delete Multiple Users</target>
+        <target>Obriši više korisnika</target>
       </segment>
     </unit>
     <unit id="6222971216828479808">
-      <segment state="initial">
+      <segment state="translated">
         <source>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="users.size"/> users&lt;/b&gt;?</source>
-        <target>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="users.size"/> users&lt;/b&gt;?</target>
+        <target>Da li si siguran/na da želiš da obrišeš &lt;b&gt;<ph id="0" equiv="PH" disp="users.size"/> users&lt;/b&gt;?</target>
       </segment>
     </unit>
     <unit id="2769286710923024042">
-      <segment state="initial">
+      <segment state="translated">
         <source>Do you want to logout?</source>
-        <target>Do you want to logout?</target>
+        <target>Da li želiš da se odjaviš?</target>
       </segment>
     </unit>
     <unit id="843548054527451651">
-      <segment state="initial">
+      <segment state="translated">
         <source>Columns</source>
-        <target>Columns</target>
+        <target>Kolumne</target>
       </segment>
     </unit>
     <unit id="1494518490116523821">
-      <segment state="initial">
+      <segment state="translated">
         <source>Select all</source>
-        <target>Select all</target>
+        <target>Izaberi sve</target>
       </segment>
     </unit>
     <unit id="1512866475468373520">
-      <segment state="initial">
+      <segment state="translated">
         <source>Select page</source>
-        <target>Select page</target>
+        <target>Izaberi stranicu</target>
       </segment>
     </unit>
     <unit id="8716359834484489616">
-      <segment state="initial">
+      <segment state="translated">
         <source>Select All</source>
-        <target>Select All</target>
+        <target>Izaberi sve</target>
       </segment>
     </unit>
     <unit id="7808756054397155068">
-      <segment state="initial">
+      <segment state="translated">
         <source>Reset</source>
-        <target>Reset</target>
+        <target>Resetuj</target>
       </segment>
     </unit>
     <unit id="7485224253733748591">
-      <segment state="initial">
+      <segment state="translated">
         <source>Connection Error</source>
-        <target>Connection Error</target>
+        <target>Greška pri konekciji</target>
       </segment>
     </unit>
     <unit id="7404923338446646745">
-      <segment state="initial">
+      <segment state="translated">
         <source>Bad Request</source>
-        <target>Bad Request</target>
+        <target>Loš zahtev</target>
       </segment>
     </unit>
     <unit id="5157686301659282350">
-      <segment state="initial">
+      <segment state="translated">
         <source>Something went wrong, please try again later.</source>
-        <target>Something went wrong, please try again later.</target>
+        <target>Nešto je pošlo po zlu, pokušaj kasnije.</target>
       </segment>
     </unit>
     <unit id="2649252321173430744">
-      <segment state="initial">
+      <segment state="translated">
         <source>Not Found</source>
-        <target>Not Found</target>
+        <target>Nije pronađeno</target>
       </segment>
     </unit>
     <unit id="8536406131431053083">
-      <segment state="initial">
+      <segment state="translated">
         <source>The requested resource could not be found. This indicates a problem with the application. Please contact your administrator.</source>
-        <target>The requested resource could not be found. This indicates a problem with the application. Please contact your administrator.</target>
+        <target>Traženi resurs nije pronađen. Ovo može da znači problem sa aplikacijom. Molim te kontaktiraj svog administratora.</target>
       </segment>
     </unit>
     <unit id="8002549289427560839">
-      <segment state="initial">
+      <segment state="translated">
         <source>Internal Server Error</source>
-        <target>Internal Server Error</target>
+        <target>Greška sa serverom</target>
       </segment>
     </unit>
     <unit id="2821179408673282599">
-      <segment state="initial">
+      <segment state="translated">
         <source>Home</source>
-        <target>Home</target>
+        <target>Početna</target>
       </segment>
     </unit>
     <unit id="5900803322242454672">
-      <segment state="initial">
+      <segment state="translated">
         <source>Authoring</source>
-        <target>Authoring</target>
+        <target>Kreiranje</target>
       </segment>
     </unit>
     <unit id="4930506384627295710">
-      <segment state="initial">
+      <segment state="translated">
         <source>Settings</source>
-        <target>Settings</target>
+        <target>Podešavanja</target>
       </segment>
     </unit>
     <unit id="7844706011418789951">
-      <segment state="initial">
+      <segment state="translated">
         <source>Administration</source>
-        <target>Administration</target>
+        <target>Administracija</target>
       </segment>
     </unit>
     <unit id="3880271436442763852">
-      <segment state="initial">
+      <segment state="translated">
         <source>Error while updating user</source>
-        <target>Error while updating user</target>
+        <target>Greška pri uređivanju korisnika</target>
       </segment>
     </unit>
     <unit id="6702848105425740590">
-      <segment state="initial">
+      <segment state="translated">
         <source>User updated successfully</source>
-        <target>User updated successfully</target>
+        <target>Korisnik uspešno uređen</target>
       </segment>
     </unit>
     <unit id="1831275657541826376">
-      <segment state="initial">
+      <segment state="translated">
         <source>Error while deleting users</source>
-        <target>Error while deleting users</target>
+        <target>Greška pri brisanju korisnika</target>
       </segment>
     </unit>
     <unit id="266170534157505056">
-      <segment state="initial">
+      <segment state="translated">
         <source>You cannot delete yourself. Remove yourself from the selection and try again.</source>
-        <target>You cannot delete yourself. Remove yourself from the selection and try again.</target>
+        <target>Ne možeš obrisati sebe. Izbaci sebe iz selekcije i pokušaj ponovo.</target>
       </segment>
     </unit>
     <unit id="4644190682765347553">
-      <segment state="initial">
+      <segment state="translated">
         <source>Users deleted successfully</source>
-        <target>Users deleted successfully</target>
+        <target>Korisnici uspešno obrisani</target>
       </segment>
     </unit>
     <unit id="7279134504499633050">
-      <segment state="initial">
+      <segment state="translated">
         <source>Could not delete <ph id="0" equiv="PH" disp="errorKeys.length"/> users. Please try again later.</source>
-        <target>Could not delete <ph id="0" equiv="PH" disp="errorKeys.length"/> users. Please try again later.</target>
+        <target>Nije moguće obrisati <ph id="0" equiv="PH" disp="errorKeys.length"/> korisnika. Pokušaj ponovo kasnije.</target>
       </segment>
     </unit>
     <unit id="6020357970867883938">
-      <segment state="initial">
+      <segment state="translated">
         <source>Update User</source>
-        <target>Update User</target>
-      </segment>
-    </unit>
-    <unit id="4006048405609668645">
-      <segment state="initial">
-        <source>
-          <pc id="0" equivStart="START_TAG_SPAN" equivEnd="CLOSE_TAG_SPAN" type="other" dispStart="&lt;span *ngIf=&quot;selectedAmount&quot;&gt;" dispEnd="&lt;/span&gt;"><ph id="1" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="2" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected</pc>
-        </source>
-        <target>
-          <pc id="0" equivStart="START_TAG_SPAN" equivEnd="CLOSE_TAG_SPAN" type="other" dispStart="&lt;span *ngIf=&quot;selectedAmount&quot;&gt;" dispEnd="&lt;/span&gt;"><ph id="1" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="2" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected</pc>
-        </target>
+        <target>Ažuriraj korisnika</target>
       </segment>
     </unit>
     <unit id="965271761094561416">
@@ -431,9 +421,15 @@
       </segment>
     </unit>
     <unit id="2160565755159356713">
-      <segment state="initial">
+      <segment state="translated">
         <source>Deselect page</source>
-        <target>Deselect page</target>
+        <target>Poništi izbor stranice</target>
+      </segment>
+    </unit>
+    <unit id="114224541241184668">
+      <segment state="initial">
+        <source> <ph id="0" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="1" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected </source>
+        <target> <ph id="0" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="1" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected </target>
       </segment>
     </unit>
   </file>

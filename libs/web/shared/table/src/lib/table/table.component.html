@@ -119,16 +119,15 @@
   </ng-template>
 
   <ng-template pTemplate="paginatorleft">
-    <div i18n class="paginator-info">
-      <span
-        *ngIf="selectedAmount">{{ selectedAmount }} {selectedAmount, plural, =1 {Entry} other {Entries}}
-        Selected</span>
+    <div class="paginator-info">
+      <span *ngIf="selectedAmount" i18n>
+        {{ selectedAmount }} {selectedAmount, plural, =1 {Entry} other {Entries}} Selected
+      </span>
     </div>
   </ng-template>
 
   <ng-template pTemplate="paginatorright">
-    <div i18n
-         class="paginator-info text-right">
+    <div i18n class="paginator-info text-right">
       {{ getTotalEntries() }} {getTotalEntries(), plural, =1 {Entry} other {Entries}} Total
     </div>
   </ng-template>

@@ -408,16 +408,6 @@
         <target>Update User</target>
       </segment>
     </unit>
-    <unit id="4006048405609668645">
-      <segment state="initial">
-        <source>
-          <pc id="0" equivStart="START_TAG_SPAN" equivEnd="CLOSE_TAG_SPAN" type="other" dispStart="&lt;span *ngIf=&quot;selectedAmount&quot;&gt;" dispEnd="&lt;/span&gt;"><ph id="1" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="2" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected</pc>
-        </source>
-        <target>
-          <pc id="0" equivStart="START_TAG_SPAN" equivEnd="CLOSE_TAG_SPAN" type="other" dispStart="&lt;span *ngIf=&quot;selectedAmount&quot;&gt;" dispEnd="&lt;/span&gt;"><ph id="1" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="2" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected</pc>
-        </target>
-      </segment>
-    </unit>
     <unit id="965271761094561416">
       <segment state="initial">
         <source>{VAR_PLURAL, plural, =1 {Entry} other {Entries}}</source>
@@ -434,6 +424,12 @@
       <segment state="initial">
         <source>Deselect page</source>
         <target>Deselect page</target>
+      </segment>
+    </unit>
+    <unit id="114224541241184668">
+      <segment state="initial">
+        <source> <ph id="0" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="1" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected </source>
+        <target> <ph id="0" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="1" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected </target>
       </segment>
     </unit>
   </file>
