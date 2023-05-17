@@ -1,14 +1,14 @@
-import { HttpErrorResponse }                                                        from "@angular/common/http";
-import { Injectable }                                                               from "@angular/core";
-import { MessageService }                                                           from "@coduction/primeng/api";
-import { UserService }                                                              from "@famulex/shared/famulex-api-client";
-import { AuthService }                                                              from "@famulex/shared/security/util";
-import { HttpErrorInterceptor }                                                     from "@famulex/shared/util";
-import { Actions, createEffect, ofType }                                            from "@ngrx/effects";
-import { Store }                                                                    from "@ngrx/store";
-import { catchError, concatMap, map, mergeMap, of, switchMap, tap, withLatestFrom } from "rxjs";
-import { UserActions }                                                              from "./user.actions";
-import { UserState }                                                                from "./user.reducer";
+import { HttpErrorResponse }                                                                  from "@angular/common/http";
+import { Injectable }                                                                         from "@angular/core";
+import { MessageService }                                                                     from "@coduction/primeng/api";
+import { UserService }                                                                        from "@famulex/shared/famulex-api-client";
+import { AuthService }                                                                        from "@famulex/shared/security/util";
+import { HttpErrorInterceptor }                                                               from "@famulex/shared/util";
+import { Actions, createEffect, ofType }                                                      from "@ngrx/effects";
+import { Store }                                                                              from "@ngrx/store";
+import { catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap, withLatestFrom } from "rxjs";
+import { UserActions }                                                                        from "./user.actions";
+import { UserState }                                                                          from "./user.reducer";
 
 @Injectable()
 export class UserEffects {
@@ -22,6 +22,9 @@ export class UserEffects {
   ) {
   }
 
+  /*************************************************************************
+   * Load Users
+   ************************************************************************/
   loadUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.loadUsers),
@@ -51,6 +54,9 @@ export class UserEffects {
     ), { dispatch: false }
   );
 
+  /*************************************************************************
+   * Create User
+   ************************************************************************/
   createUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.createUser),
@@ -95,10 +101,58 @@ export class UserEffects {
           summary: $localize`New user created successfully`,
           detail: `${user.firstName} ${user.lastName}`
         });
+      }),
+      map(() => UserActions.loadUsers())
+    );
+  });
+
+  /*************************************************************************
+   * Update User
+   ************************************************************************/
+  updateUser$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.updateUser),
+      concatMap(({ key, userRequest }) => {
+        HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
+
+        return this.userService.updateUser(key, userRequest).pipe(
+          map(user => UserActions.updateUserSuccess({ user: { id: key, changes: user } })),
+          catchError((error: HttpErrorResponse) => of(UserActions.updateUserFailure({ error })))
+        );
+      })
+    );
+  });
+
+  updateUserFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.updateUserFailure),
+      tap(({ error }) => {
+        this.messageService.add({
+          severity: "error",
+          summary: $localize`Error while updating user`,
+          detail: $localize`Please try again later.`
+        });
       })
     );
   }, { dispatch: false });
 
+  updateUserSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.updateUserSuccess),
+      tap(({ user }) => {
+        this.messageService.add({
+          severity: "success",
+          summary: $localize`User updated successfully`,
+          detail: `${user.changes.firstName} ${user.changes.lastName}`
+        });
+      }),
+      map(() => UserActions.loadUsers())
+    );
+  });
+
+  /*************************************************************************
+   * Delete Single Users
+   ************************************************************************/
   deleteUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.deleteUser),
@@ -124,9 +178,10 @@ export class UserEffects {
           summary: $localize`User deleted successfully`,
           detail: `${user.firstName} ${user.lastName}`
         });
-      })
+      }),
+      map(() => UserActions.loadUsers())
     );
-  }, { dispatch: false });
+  });
 
   deleteUserFailure$ = createEffect(() => {
     return this.actions$.pipe(
@@ -143,6 +198,72 @@ export class UserEffects {
     );
   }, { dispatch: false });
 
+  /*************************************************************************
+   * Delete Multiple Users
+   ************************************************************************/
+  deleteUsers$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.deleteUsers),
+      mergeMap(({ keys }) => {
+        if (keys.includes(this.authService.userKey)) {
+          return of(UserActions.deleteUsersFeedback({ containsCurrentUser: true }));
+        }
+
+        const deletedKeys: string[] = [];
+        const errorKeys: string[] = [];
+
+        const requests = keys.map(key => {
+          return this.userService.deleteUser(key).pipe(
+            tap(() => deletedKeys.push(key)),
+            catchError(error => {
+              errorKeys.push(key);
+              return of(error);
+            })
+          );
+        });
+
+        return forkJoin(requests).pipe(
+          map(() => UserActions.deleteUsersFeedback({ deletedKeys, errorKeys }))
+        );
+      })
+    );
+  });
+
+  deleteUsersFeedback$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.deleteUsersFeedback),
+      tap(({ error, containsCurrentUser, deletedKeys, errorKeys }) => {
+        if (containsCurrentUser) {
+          this.messageService.add({
+            severity: "error",
+            summary: $localize`Error while deleting users`,
+            detail: $localize`You cannot delete yourself. Remove yourself from the selection and try again.`
+          });
+        }
+
+        if (deletedKeys && deletedKeys.length > 0) {
+          this.messageService.add({
+            severity: "success",
+            summary: $localize`Users deleted successfully`,
+            detail: `${deletedKeys.length} users deleted.`
+          });
+        }
+
+        if (errorKeys && errorKeys.length > 0) {
+          this.messageService.add({
+            severity: "error",
+            summary: $localize`Error while deleting users`,
+            detail: $localize`Could not delete ${errorKeys.length} users. Please try again later.`
+          });
+        }
+      }),
+      map(() => UserActions.loadUsers())
+    );
+  });
+
+  /*************************************************************************
+   * Set Pagination
+   ************************************************************************/
   setPagination$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.setPagination),

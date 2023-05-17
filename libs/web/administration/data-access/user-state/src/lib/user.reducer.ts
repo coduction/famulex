@@ -40,6 +40,10 @@ export const initialState: State = adapter.getInitialState({
 
 export const reducer = createReducer(
   initialState,
+
+  /*************************************************************************
+   * Load Users
+   ************************************************************************/
   on(UserActions.loadUsers, state => produce(state, draft => {
     draft.loading = true;
   })),
@@ -55,6 +59,9 @@ export const reducer = createReducer(
     draft.loading = false;
   })),
 
+  /*************************************************************************
+   * Create User
+   ************************************************************************/
   on(UserActions.createUser, state => produce(state, draft => {
     draft.actionInProgress = true;
   })),
@@ -68,10 +75,27 @@ export const reducer = createReducer(
   on(UserActions.createUserFailure, state => produce(state, draft => {
     draft.actionInProgress = false;
   })),
-  on(UserActions.createUserCancel, state => produce(state, draft => {
+
+  /*************************************************************************
+   * Update User
+   ************************************************************************/
+  on(UserActions.updateUser, state => produce(state, draft => {
+    draft.actionInProgress = true;
+  })),
+  on(UserActions.updateUserSuccess, (state, { user }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return adapter.updateOne(user, state);
+  }),
+  on(UserActions.updateUserFailure, state => produce(state, draft => {
     draft.actionInProgress = false;
   })),
 
+  /*************************************************************************
+   * Delete Single User
+   ************************************************************************/
   on(UserActions.deleteUser, state => produce(state, draft => {
     draft.actionInProgress = true;
   })),
@@ -86,36 +110,21 @@ export const reducer = createReducer(
     draft.actionInProgress = false;
   })),
 
+  /*************************************************************************
+   * Delete Multiple Users
+   ************************************************************************/
+  on(UserActions.deleteUsers, state => produce(state, draft => {
+    draft.actionInProgress = true;
+  })),
+  on(UserActions.deleteUsersFeedback, (state, { deletedKeys }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
 
-  //
-  //
-  // on(UserActions.upsertUser,
-  //   (state, action) => adapter.upsertOne(action.user, state)
-  // ),
-  // on(UserActions.addUsers,
-  //   (state, action) => adapter.addMany(action.users, state)
-  // ),
-  // on(UserActions.upsertUsers,
-  //   (state, action) => adapter.upsertMany(action.users, state)
-  // ),
-  // on(UserActions.updateUser,
-  //   (state, action) => adapter.updateOne(action.user, state)
-  // ),
-  // on(UserActions.updateUsers,
-  //   (state, action) => adapter.updateMany(action.users, state)
-  // ),
-  // on(UserActions.deleteUser,
-  //   (state, action) => adapter.removeOne(action.id, state)
-  // ),
-  // on(UserActions.deleteUsers,
-  //   (state, action) => adapter.removeMany(action.ids, state)
-  // ),
-  // on(UserActions.loadUsers,
-  //   (state, action) => adapter.setAll(action.users, state)
-  // ),
-  // on(UserActions.clearUsers,
-  //   state => adapter.removeAll(state)
-  // )
+    return adapter.removeMany(deletedKeys ?? [], state);
+  }),
+
+
   on(UserActions.setPagination, (state, { page, pageSize, sortedBy }) => produce(state, draft => {
     draft.pageNumber = page;
     draft.pageSize = pageSize;
@@ -143,7 +152,7 @@ export const UserState = createFeature({
   })
 });
 
-// TODO Create user => pagination dont show user if out of bounds if  new user is added and pagination would not show it
+// TODO Alex: Create user => pagination dont show user if out of bounds if  new user is added and pagination would not show it
 
 // export const {
 //   selectIds,
