@@ -87,13 +87,25 @@
               [disabled]="(loading$ | async) ?? false"
               (click)="onCancel()"
       ></button>
-      <button pButton pRipple i18n-label
+
+      <button *ngIf="!config.data else updateButton"
+              pButton pRipple i18n-label
               type="submit"
               label="Create User"
               icon="fa fa-user-plus"
               loadingIcon="fa fa-spin fa-spinner-third"
               [loading]="(loading$ | async) ?? false"
       ></button>
+
+      <ng-template #updateButton>
+        <button pButton pRipple i18n-label
+                type="submit"
+                label="Update User"
+                icon="fa fa-user-edit"
+                loadingIcon="fa fa-spin fa-spinner-third"
+                [loading]="(loading$ | async) ?? false"
+        ></button>
+      </ng-template>
     </div>
   </div>
 </form>

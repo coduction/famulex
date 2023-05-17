@@ -1,26 +1,28 @@
 import { CommonModule }                                 from "@angular/common";
-import { Component }                                    from "@angular/core";
+import { Component, OnInit }                            from "@angular/core";
 import { takeUntilDestroyed }                           from "@angular/core/rxjs-interop";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ButtonModule }                                 from "@coduction/primeng/button";
+import { DynamicDialogConfig, DynamicDialogRef }        from "@coduction/primeng/dynamicdialog";
 import { InputSwitchModule }                            from "@coduction/primeng/inputswitch";
 import { InputTextModule }                              from "@coduction/primeng/inputtext";
 import { PasswordModule }                               from "@coduction/primeng/password";
 import { RippleModule }                                 from "@coduction/primeng/ripple";
-import { UserRequest }                                  from "@famulex/shared/famulex-api-client";
+import { User, UserRequest }                            from "@famulex/shared/famulex-api-client";
 import { FormErrorComponent, FormLabelComponent }       from "@famulex/shared/ui";
 import { validateForm }                                 from "@famulex/shared/util";
 import { UserActions, UserState }                       from "@famulex/web/administration/data-access/user-state";
-import { Store }                                        from "@ngrx/store";
+import { ofType }                                       from "@ngrx/effects";
+import { ActionsSubject, Store }                        from "@ngrx/store";
 
 @Component({
   selector: "administration-user-create",
   standalone: true,
   imports: [CommonModule, ButtonModule, RippleModule, PasswordModule, ReactiveFormsModule, InputSwitchModule, FormErrorComponent, FormLabelComponent, InputTextModule],
-  templateUrl: "./user-create.component.html",
-  styleUrls: ["./user-create.component.scss"]
+  templateUrl: "./user-edit.component.html",
+  styleUrls: ["./user-edit.component.scss"]
 })
-export class UserCreateComponent {
+export class UserEditComponent implements OnInit {
 
   createUserForm = this.fb.nonNullable.group({
     firstName: ["", Validators.required],
@@ -36,7 +38,10 @@ export class UserCreateComponent {
   loading$ = this.store.select(UserState.selectActionInProgress);
 
   constructor(private fb: FormBuilder,
-              private store: Store) {
+              private store: Store,
+              private actions$: ActionsSubject,
+              private dialogRef: DynamicDialogRef,
+              protected config: DynamicDialogConfig<User>) {
     // Hide password fields if set_password is false
     this.createUserForm.valueChanges
       .pipe(takeUntilDestroyed())
@@ -62,6 +67,17 @@ export class UserCreateComponent {
         this.createUserForm.enable();
       }
     });
+
+    this.actions$.pipe(
+      takeUntilDestroyed(),
+      ofType(UserActions.createUserSuccess, UserActions.updateUserSuccess)
+    ).subscribe(() => this.dialogRef.close());
+  }
+
+  ngOnInit(): void {
+    if (this.config.data) {
+      this.createUserForm.patchValue(this.config.data);
+    }
   }
 
   onSubmit(): void {
@@ -78,11 +94,15 @@ export class UserCreateComponent {
         userRequest.passwordTemporary = this.createUserForm.controls.password_temporary.value;
       }
 
-      this.store.dispatch(UserActions.createUser({ userRequest }));
+      if (this.config.data) {
+        this.store.dispatch(UserActions.updateUser({ key: this.config.data.key, userRequest }));
+      } else {
+        this.store.dispatch(UserActions.createUser({ userRequest }));
+      }
     }
   }
 
   onCancel(): void {
-    this.store.dispatch(UserActions.createUserCancel());
+    this.dialogRef.close();
   }
 }
