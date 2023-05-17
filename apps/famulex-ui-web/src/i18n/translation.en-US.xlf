@@ -153,7 +153,7 @@
     </unit>
     <unit id="6222971216828479808">
       <segment>
-        <source>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="users.length"/> users&lt;/b&gt;?</source>
+        <source>Are you sure you want to delete &lt;b&gt;<ph id="0" equiv="PH" disp="users.size"/> users&lt;/b&gt;?</source>
       </segment>
     </unit>
     <unit id="6500919799852395758">
@@ -256,13 +256,6 @@
         <source>Error while deleting user</source>
       </segment>
     </unit>
-    <unit id="1160568529967563561">
-      <segment>
-        <source>
-          <pc id="0" equivStart="START_TAG_SPAN" equivEnd="CLOSE_TAG_SPAN" type="other" dispStart="&lt;span *ngIf=&quot;selectedEntries.size&quot;&gt;" dispEnd="&lt;/span&gt;"><ph id="1" equiv="INTERPOLATION" disp="{{ selectedEntries.size }}"/> Entries Selected</pc>
-        </source>
-      </segment>
-    </unit>
     <unit id="2649252321173430744">
       <segment>
         <source>Not Found</source>
@@ -271,11 +264,6 @@
     <unit id="2821179408673282599">
       <segment>
         <source>Home</source>
-      </segment>
-    </unit>
-    <unit id="4290654866433187899">
-      <segment>
-        <source><ph id="0" equiv="INTERPOLATION" disp="{{ getTotalEntries() }}"/> Entries Total</source>
       </segment>
     </unit>
     <unit id="4930506384627295710">
@@ -316,6 +304,63 @@
     <unit id="8536406131431053083">
       <segment>
         <source>The requested resource could not be found. This indicates a problem with the application. Please contact your administrator.</source>
+      </segment>
+    </unit>
+    <unit id="1831275657541826376">
+      <segment>
+        <source>Error while deleting users</source>
+      </segment>
+    </unit>
+    <unit id="2065271483413150891">
+      <segment>
+        <source> <ph id="0" equiv="INTERPOLATION" disp="{{ getTotalEntries() }}"/> <ph id="1" equiv="ICU" disp="{getTotalEntries(), plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Total </source>
+      </segment>
+    </unit>
+    <unit id="2160565755159356713">
+      <segment>
+        <source>Deselect page</source>
+      </segment>
+    </unit>
+    <unit id="266170534157505056">
+      <segment>
+        <source>You cannot delete yourself. Remove yourself from the selection and try again.</source>
+      </segment>
+    </unit>
+    <unit id="3880271436442763852">
+      <segment>
+        <source>Error while updating user</source>
+      </segment>
+    </unit>
+    <unit id="4006048405609668645">
+      <segment>
+        <source>
+          <pc id="0" equivStart="START_TAG_SPAN" equivEnd="CLOSE_TAG_SPAN" type="other" dispStart="&lt;span *ngIf=&quot;selectedAmount&quot;&gt;" dispEnd="&lt;/span&gt;"><ph id="1" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="2" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected</pc>
+        </source>
+      </segment>
+    </unit>
+    <unit id="4644190682765347553">
+      <segment>
+        <source>Users deleted successfully</source>
+      </segment>
+    </unit>
+    <unit id="6020357970867883938">
+      <segment>
+        <source>Update User</source>
+      </segment>
+    </unit>
+    <unit id="6702848105425740590">
+      <segment>
+        <source>User updated successfully</source>
+      </segment>
+    </unit>
+    <unit id="7279134504499633050">
+      <segment>
+        <source>Could not delete <ph id="0" equiv="PH" disp="errorKeys.length"/> users. Please try again later.</source>
+      </segment>
+    </unit>
+    <unit id="965271761094561416">
+      <segment>
+        <source>{VAR_PLURAL, plural, =1 {Entry} other {Entries}}</source>
       </segment>
     </unit>
   </file>
