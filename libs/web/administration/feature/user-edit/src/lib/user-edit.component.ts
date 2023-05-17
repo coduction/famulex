@@ -16,7 +16,7 @@ import { ofType }                                       from "@ngrx/effects";
 import { ActionsSubject, Store }                        from "@ngrx/store";
 
 @Component({
-  selector: "administration-user-create",
+  selector: "administration-user-edit",
   standalone: true,
   imports: [CommonModule, ButtonModule, RippleModule, PasswordModule, ReactiveFormsModule, InputSwitchModule, FormErrorComponent, FormLabelComponent, InputTextModule],
   templateUrl: "./user-edit.component.html",
