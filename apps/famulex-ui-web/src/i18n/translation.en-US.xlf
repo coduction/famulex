@@ -311,11 +311,6 @@
         <source>Error while deleting users</source>
       </segment>
     </unit>
-    <unit id="2065271483413150891">
-      <segment>
-        <source> <ph id="0" equiv="INTERPOLATION" disp="{{ getTotalEntries() }}"/> <ph id="1" equiv="ICU" disp="{getTotalEntries(), plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Total </source>
-      </segment>
-    </unit>
     <unit id="2160565755159356713">
       <segment>
         <source>Deselect page</source>
@@ -351,14 +346,22 @@
         <source>Could not delete <ph id="0" equiv="PH" disp="errorKeys.length"/> users. Please try again later.</source>
       </segment>
     </unit>
-    <unit id="965271761094561416">
+    <unit id="7102563349364971491">
       <segment>
-        <source>{VAR_PLURAL, plural, =1 {Entry} other {Entries}}</source>
+        <source>{VAR_PLURAL, plural, =1 {Entry Total} other {Entries Total}}</source>
       </segment>
     </unit>
-    <unit id="114224541241184668">
+    <unit id="6577731927873413771">
       <segment>
-        <source> <ph id="0" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="1" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected </source>
+        <source>{VAR_PLURAL, plural, =1 {Entry Selected} other {Entries Selected}}</source>
+      </segment>
+    </unit>
+    <unit id="2091899494677002458">
+      <segment>
+        <source>
+          <ph id="0" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/>
+          <ph id="1" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry Selected} other {Entries Selected}}" subFlows="6577731927873413771"/>
+        </source>
       </segment>
     </unit>
   </file>

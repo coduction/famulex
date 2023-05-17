@@ -26,14 +26,14 @@
     </unit>
     <unit id="3529545672923323217">
       <segment state="translated">
-        <source> Must contain at least <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('minlength').requiredLength }}"/> characters </source>
-        <target> Mora da sadrži najmanje <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('minlength').requiredLength }}"/> karaktera </target>
+        <source> Must contain at least <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;minlength&apos;).requiredLength }}"/> characters </source>
+        <target> Mora da sadrži najmanje <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;minlength&apos;).requiredLength }}"/> karaktera </target>
       </segment>
     </unit>
     <unit id="8684531125220504337">
       <segment state="translated">
-        <source> May contain a maximum of <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('maxlength').requiredLength }}"/> characters </source>
-        <target> Može da sadrži najviše <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('maxlength').requiredLength }}"/> karaktera </target>
+        <source> May contain a maximum of <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;maxlength&apos;).requiredLength }}"/> characters </source>
+        <target> Može da sadrži najviše <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;maxlength&apos;).requiredLength }}"/> karaktera </target>
       </segment>
     </unit>
     <unit id="1145038455098179712">
@@ -50,14 +50,14 @@
     </unit>
     <unit id="4951767904589262118">
       <segment state="translated">
-        <source> Must contain a value greater than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('min').min }}"/> </source>
-        <target> Mora sadržati vrednost veći ili jednaku <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('min').min }}"/> </target>
+        <source> Must contain a value greater than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;min&apos;).min }}"/> </source>
+        <target> Mora sadržati vrednost veći ili jednaku <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;min&apos;).min }}"/> </target>
       </segment>
     </unit>
     <unit id="4715800217518389151">
       <segment state="translated">
-        <source> Must contain a value less than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('max').max }}"/> </source>
-        <target> Mora sadržati vrednost manju ili jednaku <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError('max').max }}"/> </target>
+        <source> Must contain a value less than or equal to <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;max&apos;).max }}"/> </source>
+        <target> Mora sadržati vrednost manju ili jednaku <ph id="0" equiv="INTERPOLATION" disp="{{ ngControl.getError(&apos;max&apos;).max }}"/> </target>
       </segment>
     </unit>
     <unit id="4774743033649921775">
@@ -408,16 +408,10 @@
         <target>Ažuriraj korisnika</target>
       </segment>
     </unit>
-    <unit id="965271761094561416">
-      <segment state="initial">
-        <source>{VAR_PLURAL, plural, =1 {Entry} other {Entries}}</source>
-        <target>{VAR_PLURAL, plural, =1 {Entry} other {Entries}}</target>
-      </segment>
-    </unit>
-    <unit id="2065271483413150891">
-      <segment state="initial">
-        <source> <ph id="0" equiv="INTERPOLATION" disp="{{ getTotalEntries() }}"/> <ph id="1" equiv="ICU" disp="{getTotalEntries(), plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Total </source>
-        <target> <ph id="0" equiv="INTERPOLATION" disp="{{ getTotalEntries() }}"/> <ph id="1" equiv="ICU" disp="{getTotalEntries(), plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Total </target>
+    <unit id="7102563349364971491">
+      <segment state="translated">
+        <source>{VAR_PLURAL, plural, =1 {Entry Total} other {Entries Total}}</source>
+        <target>{VAR_PLURAL, plural, =1 {unos} other {unosi}}</target>
       </segment>
     </unit>
     <unit id="2160565755159356713">
@@ -426,10 +420,22 @@
         <target>Poništi izbor stranice</target>
       </segment>
     </unit>
-    <unit id="114224541241184668">
-      <segment state="initial">
-        <source> <ph id="0" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="1" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected </source>
-        <target> <ph id="0" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/> <ph id="1" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry} other {Entries}}" subFlows="965271761094561416"/> Selected </target>
+    <unit id="6577731927873413771">
+      <segment state="translated">
+        <source>{VAR_PLURAL, plural, =1 {Entry Selected} other {Entries Selected}}</source>
+        <target>{VAR_PLURAL, plural, =1 {izabrana stavka} other {zabrane stavke}}</target>
+      </segment>
+    </unit>
+    <unit id="2091899494677002458">
+      <segment state="translated">
+        <source>
+          <ph id="0" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/>
+          <ph id="1" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry Selected} other {Entries Selected}}" subFlows="6577731927873413771"/>
+        </source>
+        <target>
+          <ph id="0" equiv="INTERPOLATION" disp="{{ selectedAmount }}"/>
+          <ph id="1" equiv="ICU" disp="{selectedAmount, plural, =1 {Entry Selected} other {Entries Selected}}" subFlows="6577731927873413771"/>
+        </target>
       </segment>
     </unit>
   </file>
