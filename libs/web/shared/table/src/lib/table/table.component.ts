@@ -32,7 +32,7 @@ import { EntryAction, Pagination, SelectionAction, TableAction, TableColumn }   
   styleUrls: ["./table.component.scss"],
   encapsulation: ViewEncapsulation.None
 })
-export class TableComponent<D, K> implements OnInit {
+export class TableComponent<K, D> implements OnInit {
 
   @Input() title?: string;
   @Input() description?: string;
@@ -42,20 +42,24 @@ export class TableComponent<D, K> implements OnInit {
 
   @Input() tableActions: TableAction[] = [];
   @Input() entryActions: EntryAction<D>[] = [];
-  @Input() selectionActions: SelectionAction<D>[] = [];
+  @Input() selectionActions: SelectionAction<K, D>[] = [];
 
-  @Input() selectedEntryKeys: K[] = [];
-
+  /**
+   * Caution!
+   * This event always contains all selected keys. Those keys may be set programmatically or by the user.
+   * If set programmatically, the full object may not be available in the selection map.
+   */
+  @Output() selection = new EventEmitter<Map<K, D | null>>();
+  @Output() selectedKeysChange = new EventEmitter<K[]>();
   @Output() pagination = new EventEmitter<Pagination>;
-  @Output() selection = new EventEmitter<D[]>();
-  @Output() selectionKeys = new EventEmitter<K[]>();
 
   @ViewChild("table") table!: Table;
   @ViewChild("entryActionsPanel") entryActionsPanel!: OverlayPanel;
   @ViewChild("selectActionsPanel") selectActionsPanel!: OverlayPanel;
 
-  selectionState: boolean | null = null;
-  selectedEntries = new Map<K, D>();
+  protected selectionState: boolean | null = null;
+  protected selectedEntries = new Map<K, D>();
+  protected selectedEntryKeys: K[] = [];
 
   private _data: D[] = [];
   private _actionEntry?: D;
@@ -87,6 +91,10 @@ export class TableComponent<D, K> implements OnInit {
 
   getKey(entry: D): K {
     return (entry as Record<string, unknown>)[this.keyField] as K;
+  }
+
+  getKeyString(entry: D): string {
+    return (entry as Record<string, unknown>)[this.keyField] as string;
   }
 
   /**************************************************************************
@@ -224,21 +232,57 @@ export class TableComponent<D, K> implements OnInit {
   }
 
   /**************************************************************************
+   * Selection Actions
+   **************************************************************************/
+  dispatchSelectionAction(selectionAction: SelectionAction<K, D>) {
+    // If selectionAction returns a promise, wait for it to resolve
+    const result = selectionAction.onClick(this.selectedEntries);
+
+    if (selectionAction.resetSelection) {
+      if (result instanceof Promise) {
+        result.then(() => this.selectedKeys(null));
+      } else {
+        this.selectedKeys(null);
+      }
+    }
+  }
+
+  /**************************************************************************
    * Selection
    **************************************************************************/
-  onSelection(selectedEntry: D) {
-    this.checkEntrySelection(selectedEntry);
+  @Input() selectedKeys(selectedKeys: K[] | null) {
+    this.selectedEntryKeys = selectedKeys ?? [];
+
+    // Remove all entries which are not in the selected keys
+    this.selectedEntries.forEach((entry, key) => {
+      if (!this.selectedEntryKeys.includes(key)) {
+        this.selectedEntries.delete(key);
+      }
+    });
+
+    // Try to add all entries which are in the selected keys
+    this.selectedEntryKeys.forEach(key => {
+      if (!this.selectedEntries.has(key)) {
+        const entry = this.getData().find(entry => this.getKey(entry) === key);
+        if (entry) {
+          this.selectedEntries.set(key, entry);
+        }
+      }
+    });
+
+    this.checkSelectionState();
+  }
+
+  onSelection(entry: D, selected: boolean) {
+    this.checkEntrySelection(entry, selected);
 
     this.checkSelectionState();
     this.emitSelection();
   }
 
-  onSelectPage(first: number, rows: number) {
-    this.getData()
-      .slice(first, first + rows)
-      .forEach(entry => this.checkEntrySelection(entry));
-
-    this.selectedEntryKeys = Array.from(this.selectedEntries.keys());
+  onSelectPage(select: boolean) {
+    const pageData = this.table.filteredValue as D[] || this.table.value as D[] || [];
+    pageData.forEach(entry => this.checkEntrySelection(entry, select, true));
 
     this.checkSelectionState();
     this.emitSelection();
@@ -246,37 +290,58 @@ export class TableComponent<D, K> implements OnInit {
     this.selectActionsPanel.hide();
   }
 
-  checkEntrySelection(selectedEntry: D) {
-    if (this.selectedEntries.has(this.getKey(selectedEntry))) {
-      this.selectedEntries.delete(this.getKey(selectedEntry));
+  checkEntrySelection(entry: D, selected: boolean, modifyKeys = false) {
+    if (!selected) {
+      this.selectedEntries.delete(this.getKey(entry));
+
+      if (modifyKeys) {
+        this.selectedEntryKeys = this.selectedEntryKeys.filter(key => key !== this.getKey(entry));
+      }
     } else {
-      this.selectedEntries.set(this.getKey(selectedEntry), selectedEntry);
+      this.selectedEntries.set(this.getKey(entry), entry);
+
+      if (modifyKeys && !this.selectedEntryKeys.includes(this.getKey(entry))) {
+        this.selectedEntryKeys = [...this.selectedEntryKeys, this.getKey(entry)];
+      }
     }
   }
 
   checkSelectionState() {
-    if (this.selectedEntries.size === 0) {
+    if (this.selectedEntryKeys.length === 0) {
       this.selectionState = null;
-    } else if (this.selectedEntries.size < this.getTotalEntries()) {
+    } else if (this.selectedEntryKeys.length < this.getTotalEntries()) {
       this.selectionState = false;
-    } else if (this.selectedEntries.size === this.getTotalEntries()) {
+    } else if (this.selectedEntryKeys.length === this.getTotalEntries()) {
       this.selectionState = true;
     }
   }
 
   emitSelection() {
-    this.selection.emit(this.selectedEntriesArray);
-    this.selectionKeys.emit(this.selectedEntryKeys);
+    this.selection.emit(this.selectedEntries);
+    this.selectedKeysChange.emit(this.selectedEntryKeys);
   }
 
-  get selectedEntriesArray() {
-    return Array.from(this.selectedEntries.values());
+  get selectedAmount(): number {
+    return this.selectedEntryKeys.length;
+  }
+
+  get isPageSelected(): boolean {
+    let isPageSelected = true;
+
+    for (const entry of this._data) {
+      if (!this.selectedEntryKeys.includes(this.getKey(entry))) {
+        isPageSelected = false;
+        break;
+      }
+    }
+
+    return isPageSelected;
   }
 
   /**************************************************************************
    * Helper
    **************************************************************************/
-  showMessage(message: string) {
-    this.messageService.add({ severity: "info", summary: message });
+  showMessage(message: string, detail?: string) {
+    this.messageService.add({ severity: "info", summary: message, detail: detail });
   }
 }

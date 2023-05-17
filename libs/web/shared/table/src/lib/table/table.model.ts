@@ -5,11 +5,12 @@ export interface TableAction {
   onClick: () => void;
 }
 
-export interface SelectionAction<D> {
+export interface SelectionAction<K, D> {
   icon?: string;
   label: string;
   primary?: boolean;
-  onClick: (entries: D[]) => void;
+  resetSelection?: boolean;
+  onClick: (entries: Map<K, D>) => void | Promise<any>;
 }
 
 export interface EntryAction<D> {

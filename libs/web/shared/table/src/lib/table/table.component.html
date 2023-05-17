@@ -9,13 +9,13 @@
 
   <!-- General table actions -->
   <div class="flex gap-3 mb-3">
-    <ng-container *ngIf="selectionActions.length && selectedEntries.size">
+    <ng-container *ngIf="selectionActions.length && selectedAmount">
       <button *ngFor="let selectionAction of selectionActions"
               pButton pRipple
               [icon]="selectionAction.icon ?? ''"
               [label]="selectionAction.label"
               [class.p-button-outlined]="!selectionAction.primary"
-              (click)="selectionAction.onClick(selectedEntriesArray)"
+              (click)="dispatchSelectionAction(selectionAction)"
       ></button>
     </ng-container>
 
@@ -44,6 +44,7 @@
          [totalRecords]="getTotalEntries()"
          [rows]="getPgeSize()"
          [rowsPerPageOptions]="[1,2,5,10,25,50]"
+         [rowHover]="true"
          [resetPageOnSort]="false"
          [lazy]="true"
          [lazyLoadOnInit]="false"
@@ -92,9 +93,11 @@
       <td *ngIf="selectionActions.length"
           pFrozenColumn
       >
-        <p-checkbox [value]="getKey(entry)"
+        <p-checkbox #selectRowBox
+                    [value]="getKeyString(entry)"
+                    [inputId]="getKeyString(entry)"
                     [(ngModel)]="selectedEntryKeys"
-                    (click)="onSelection(entry)">
+                    (click)="onSelection(entry, selectRowBox.checked())">
         </p-checkbox>
       </td>
 
@@ -118,7 +121,7 @@
   <ng-template pTemplate="paginatorleft">
     <div i18n class="paginator-info">
       <span
-        *ngIf="selectedEntries.size">{{ selectedEntries.size }} {selectedEntries.size, plural, =1 {Entry} other {Entries}}
+        *ngIf="selectedAmount">{{ selectedAmount }} {selectedAmount, plural, =1 {Entry} other {Entries}}
         Selected</span>
     </div>
   </ng-template>
@@ -156,16 +159,26 @@
               class="p-button-text"
               label="Select all"
               icon="fa fa-fw fa-square-check"
-              (click)="showMessage('This feature is not implemented yet')"
+              (click)="showMessage('This feature is not implemented yet', 'Pagination and select all in combination is not supported yet.')"
       >
       </button>
-      <button pButton i18n-label
+
+      <button *ngIf="isPageSelected else selectPageButton"
+              pButton i18n-label
               class="p-button-text"
-              label="Select page"
+              label="Deselect page"
               icon="fa fa-fw fa-ballot-check"
-              (click)="onSelectPage(table.first, table.rows)"
-      >
-      </button>
+              (click)="onSelectPage(false)"
+      ></button>
+
+      <ng-template #selectPageButton>
+        <button pButton i18n-label
+                class="p-button-text"
+                label="Select page"
+                icon="fa fa-fw fa-ballot-check"
+                (click)="onSelectPage(true)"
+        ></button>
+      </ng-template>
     </div>
   </ng-template>
 </p-overlayPanel>

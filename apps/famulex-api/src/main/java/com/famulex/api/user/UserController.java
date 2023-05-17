@@ -33,58 +33,58 @@ import java.util.UUID;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final UserService userService;
-    private final UserMapper userMapper;
+  private final UserRepository userRepository;
+  private final UserService userService;
+  private final UserMapper userMapper;
 
-    @GetMapping
-    @Operation(summary = "Load users")
-    public Page<UserResponse> loadUsers(@ParameterObject Pageable pagination) {
-        return userRepository.findAll(pagination).map(userMapper::toUserResponse);
-    }
+  @GetMapping
+  @Operation(summary = "Load users")
+  public Page<UserResponse> loadUsers(@ParameterObject Pageable pagination) {
+    return userRepository.findAll(pagination).map(userMapper::toUserResponse);
+  }
 
-    @GetMapping("/{userKey}")
-    public Optional<UserResponse> loadUser(@PathVariable UUID userKey) {
-        return userRepository.findByKey(userKey).map(userMapper::toUserResponse);
-    }
+  @GetMapping("/{userKey}")
+  public Optional<UserResponse> loadUser(@PathVariable UUID userKey) {
+    return userRepository.findByKey(userKey).map(userMapper::toUserResponse);
+  }
 
-    @Operation(summary = "Create a new user")
-    @Secured(Rights.MANAGE_USERS)
-    @PostMapping
-    public UserResponse createUser(UserRequest userRequest) {
-        return userMapper.toUserResponse(userService.createUser(userRequest));
-    }
+  @Operation(summary = "Create a new user")
+  @Secured(Rights.MANAGE_USERS)
+  @PostMapping
+  public UserResponse createUser(UserRequest userRequest) {
+    return userMapper.toUserResponse(userService.createUser(userRequest));
+  }
 
-    @Operation(summary = "Update a user")
-    @Secured(Rights.MANAGE_USERS)
-    @PutMapping("/{userKey}")
-    public UserResponse updateUser(@PathVariable UUID userKey, UserRequest userRequest) {
-        return userMapper.toUserResponse(userService.updateUser(userKey, userRequest));
-    }
+  @Operation(summary = "Update a user")
+  @Secured(Rights.MANAGE_USERS)
+  @PutMapping("/{userKey}")
+  public UserResponse updateUser(@PathVariable UUID userKey, UserRequest userRequest) {
+    return userMapper.toUserResponse(userService.updateUser(userKey, userRequest));
+  }
 
-    @Operation(summary = "Delete a user")
-    @Secured(Rights.MANAGE_USERS)
-    @DeleteMapping("/{userKey}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable UUID userKey) {
-        userService.deleteUser(userKey);
-    }
+  @Operation(summary = "Delete a user")
+  @Secured(Rights.MANAGE_USERS)
+  @DeleteMapping("/{userKey}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteUser(@PathVariable UUID userKey) {
+    userService.deleteUser(userKey);
+  }
 
-    @Operation(summary = "Set last active date")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/last-active")
-    public void updateLatestActivity() {
-        userService.updateLatestActivity(SecurityHelper.getCurrentUserKey());
-    }
+  @Operation(summary = "Set last active date")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @PutMapping("/last-active")
+  public void updateLatestActivity() {
+    userService.updateLatestActivity(SecurityHelper.getCurrentUserKey());
+  }
 
 
-    @Operation(summary = "Sync users with Keycloak")
-    @Secured(Rights.SYNC_KEYCLOAK)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping("/sync")
-    public void syncUsers() {
-        log.info("Received update from Keycloak - Sync users");
+  @Operation(summary = "Sync users with Keycloak")
+  @Secured(Rights.SYNC_KEYCLOAK)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @PostMapping("/sync")
+  public void syncUsers() {
+    log.info("Received update from Keycloak - Sync users");
 
-        userService.syncUsers();
-    }
+    userService.syncUsers();
+  }
 }
