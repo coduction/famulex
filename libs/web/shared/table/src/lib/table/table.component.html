@@ -1,5 +1,5 @@
 <div class="flex flex-wrap gap-3 justify-content-end align-items-center">
-  <h2 *ngIf="title" class="flex-grow-1">{{ title }}</h2>
+  <h2 *ngIf="heading" class="flex-grow-1">{{ heading }}</h2>
   <h4 *ngIf="description" class="flex-grow-1">{{ description }}</h4>
 
   <!-- Actions on selected items -->
@@ -41,7 +41,7 @@
          [columns]="columns"
          [value]="getData()"
          [paginator]="true"
-         [totalRecords]="getTotalEntries()"
+         [totalRecords]="totalAmount"
          [rows]="getPgeSize()"
          [rowsPerPageOptions]="[1,2,5,10,25,50]"
          [rowHover]="true"
@@ -71,7 +71,7 @@
       </th>
 
       <ng-container *ngFor="let column of columns">
-        <th pSortableColumn="{{column.key}}" *ngIf="column.visible">
+        <th pSortableColumn="{{column.key}}" *ngIf="column.visible" pRipple>
           {{column.name}}
           <p-sortIcon field="{{column.key}}"></p-sortIcon>
         </th>
@@ -109,26 +109,42 @@
           pFrozenColumn alignFrozen="right"
           class="p-table-actions"
       >
-        <button pButton
+        <button pButton pRipple
                 class="p-button-text"
                 icon="pi pi-ellipsis-v"
-                (click)="showEntryActions($event, entry)">
-        </button>
+                (click)="showEntryActions($event, entry)"
+        ></button>
       </td>
     </tr>
   </ng-template>
 
   <ng-template pTemplate="paginatorleft">
     <div class="paginator-info">
-      <span *ngIf="selectedAmount" i18n>
-        {{ selectedAmount }} {selectedAmount, plural, =1 {Entry Selected} other {Entries Selected}}
+      <span *ngIf="selectedAmount">
+        <ng-container *ngIf="textSelected else textSelectedDefault">
+          {{ textSelected }}
+        </ng-container>
+
+        <ng-template #textSelectedDefault>
+          <span i18n>
+            {selectedAmount, plural, =1 {{{ selectedAmount }} Entry Selected} other {{{ selectedAmount }} Entries Selected}}
+          </span>
+        </ng-template>
       </span>
     </div>
   </ng-template>
 
   <ng-template pTemplate="paginatorright">
-    <div i18n class="paginator-info text-right">
-      {{ getTotalEntries() }} {getTotalEntries(), plural, =1 {Entry Total} other {Entries Total}}
+    <div class="paginator-info text-right">
+      <ng-container *ngIf="textTotal else textTotalDefault">
+        {{ textTotal }}
+      </ng-container>
+
+      <ng-template #textTotalDefault>
+        <span i18n>
+          {totalAmount, plural, =1 {{{ totalAmount }} Entry Total} other {{{ totalAmount }} Entries Total}}
+        </span>
+      </ng-template>
     </div>
   </ng-template>
 </p-table>
@@ -154,7 +170,7 @@
 >
   <ng-template pTemplate="content">
     <div class="flex flex-column button-group-stacked">
-      <button pButton i18n-label
+      <button pButton pRipple i18n-label
               class="p-button-text"
               label="Select all"
               icon="fa fa-fw fa-square-check"
@@ -163,7 +179,7 @@
       </button>
 
       <button *ngIf="isPageSelected else selectPageButton"
-              pButton i18n-label
+              pButton pRipple i18n-label
               class="p-button-text"
               label="Deselect page"
               icon="fa fa-fw fa-ballot-check"
@@ -171,7 +187,7 @@
       ></button>
 
       <ng-template #selectPageButton>
-        <button pButton i18n-label
+        <button pButton pRipple i18n-label
                 class="p-button-text"
                 label="Select page"
                 icon="fa fa-fw fa-ballot-check"

@@ -42,6 +42,7 @@ Thumbs.db
 
 # Development
 db_data
+.data
 .env
 env.json
 env.*.json

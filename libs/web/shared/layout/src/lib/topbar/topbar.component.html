@@ -1,7 +1,7 @@
 <div class="layout-topbar">
   <div class="topbar-start">
-    <button #menuButton type="button" class="topbar-menubutton p-link p-trigger" (click)="onMenuButtonClick()">
-      <i class="pi pi-bars"></i>
+    <button #menuButton type="button" class="topbar-menubutton p-link p-trigger shadow-4" (click)="onMenuButtonClick()">
+      <i class="fa fa-bars"></i>
     </button>
 
     <layout-breadcrumb class="topbar-breadcrumb"></layout-breadcrumb>
@@ -10,49 +10,71 @@
   <div class="topbar-end">
     <ul class="topbar-menu">
       <!--      <li class="topbar-search">-->
-      <!--        <span class="p-input-icon-left">-->
-      <!--            <i class="pi pi-search"></i>-->
-      <!--            <input type="text" pInputText placeholder="Search" class="w-12rem sm:w-full">-->
-      <!--        </span>-->
+      <!--              <span class="p-input-icon-left">-->
+      <!--                  <i class="pi pi-search"></i>-->
+      <!--                  <input type="text" pInputText placeholder="Search" class="w-12rem sm:w-full shadow-4">-->
+      <!--              </span>-->
       <!--      </li>-->
       <li>
-        <button pButton type="button" icon="fa fa-cog"
-                class="p-button-outlined p-button-rounded p-button-raised bg-white hover:bg-primary-50"
-                (click)="onConfigButtonClick()"
-        ></button>
-      </li>
-
-      <li>
-        <button pButton type="button" icon="fa fa-globe fa-swap-opacity"
-                style="--fa-secondary-opacity: 0"
-                class="p-button-outlined p-button-rounded p-button-raised bg-white hover:bg-primary-50"
-                (click)="languageChooser.show($event)"
-        ></button>
-      </li>
-
-      <li>
-        <button *ngIf="profilePicture"
-                type="button"
-                class="p-link"
-                (click)="onProfileButtonClick()"
-        >
-          <img [ngSrc]="profilePicture" alt="Profile" />
+        <button type="button"
+                class="topbar-menubutton p-link p-trigger shadow-4"
+                pTooltip="Layout Settings" i18n-pTooltip
+                tooltipPosition="bottom"
+                [showDelay]="500"
+                (click)="onConfigButtonClick()">
+          <i class="fa fa-cog"></i>
         </button>
-
-        <button *ngIf="!profilePicture"
-                pButton
-                type="button"
-                class="p-button-outlined p-button-rounded p-button-raised bg-white hover:bg-primary-50"
-                icon="fa fa-user"
-                (click)="onProfileButtonClick()"
-        ></button>
       </li>
 
       <li>
-        <button pButton type="button" icon="fa fa-power-off"
-                class="p-button-outlined p-button-rounded p-button-raised bg-white hover:bg-primary-50"
-                (click)="onLogout($event)"
-        ></button>
+        <button type="button"
+                class="topbar-menubutton p-link p-trigger shadow-4"
+                pTooltip="Choose Language" i18n-pTooltip
+                tooltipPosition="bottom"
+                [showDelay]="500"
+                (click)="languageChooser.show($event)">
+          <i class="fa fa-globe fa-swap-opacity"
+             style="--fa-secondary-opacity: 0.3"
+          ></i>
+        </button>
+      </li>
+
+      <li>
+        <button type="button"
+                class="topbar-menubutton p-link p-trigger shadow-4"
+                pTooltip="Show Menu" i18n-pTooltip
+                tooltipPosition="bottom"
+                [showDelay]="500"
+                (click)="onProfileButtonClick()">
+          <i class="fa fa-user"></i>
+        </button>
+        <!--        <button *ngIf="profilePicture"-->
+        <!--                type="button"-->
+        <!--                class="p-link"-->
+        <!--                (click)="onProfileButtonClick()"-->
+        <!--        >-->
+        <!--          <img [ngSrc]="profilePicture" alt="Profile" />-->
+        <!--        </button>-->
+
+        <!--        <button *ngIf="!profilePicture"-->
+        <!--                pButton-->
+        <!--                type="button"-->
+        <!--                class="p-button-rounded p-button-raised"-->
+        <!--                icon="fa fa-user"-->
+        <!--                (click)="onProfileButtonClick()"-->
+        <!--        ></button>-->
+      </li>
+
+      <li>
+        <button type="button"
+                class="topbar-menubutton p-link p-trigger shadow-4"
+                (click)="onLogout($event)">
+          <i class="fa fa-power-off"></i>
+        </button>
+        <!--        <button pButton type="button" icon="fa fa-power-off"-->
+        <!--                class="p-button-rounded p-button-raised"-->
+        <!--                (click)="onLogout($event)"-->
+        <!--        ></button>-->
       </li>
     </ul>
   </div>

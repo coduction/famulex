@@ -1,12 +1,12 @@
-$primaryColor: #D62831 !default;
-$primaryLightColor: scale-color($primaryColor, $lightness: +10%) !default;
-$primaryDarkColor: scale-color($primaryColor, $lightness: -5%) !default;
-$primaryDarkerColor: scale-color($primaryColor, $lightness: -10%) !default;
+$primaryColor: rgb(214, 40, 49) !default;
+$primaryLightColor: scale-color($primaryColor, $alpha: -50%) !default;
+$primaryDarkColor: scale-color($primaryColor, $lightness: -10%) !default;
+$primaryDarkerColor: scale-color($primaryColor, $lightness: -20%) !default;
 $primaryTextColor: #ffffff !default;
 $primary500: #D62831 !default;
 
-$highlightBg: #ffe0e3 !default;
-$highlightTextColor: $primaryDarkerColor !default;
+$highlightBg: rgba(214, 40, 49, 0.3) !default;
+$highlightTextColor: rgba(255, 255, 255, .87) !default;
 
 @import '../_variables';
 @import '../../designer/_components';

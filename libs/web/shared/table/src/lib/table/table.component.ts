@@ -34,7 +34,7 @@ import { EntryAction, Pagination, SelectionAction, TableAction, TableColumn }   
 })
 export class TableComponent<K, D> implements OnInit {
 
-  @Input() title?: string;
+  @Input() heading?: string;
   @Input() description?: string;
 
   @Input({ required: true }) columns: TableColumn<D>[] = [];
@@ -43,6 +43,9 @@ export class TableComponent<K, D> implements OnInit {
   @Input() tableActions: TableAction[] = [];
   @Input() entryActions: EntryAction<D>[] = [];
   @Input() selectionActions: SelectionAction<K, D>[] = [];
+
+  @Input() textSelected?: string;
+  @Input() textTotal?: string;
 
   /**
    * Caution!
@@ -161,7 +164,7 @@ export class TableComponent<K, D> implements OnInit {
     this._totalEntries = totalEntries ?? 0;
   }
 
-  getTotalEntries(): number {
+  get totalAmount(): number {
     return this._totalEntries;
   }
 
@@ -205,7 +208,7 @@ export class TableComponent<K, D> implements OnInit {
   /**************************************************************************
    * Entry Actions
    **************************************************************************/
-  showEntryActions(event: Event, entry: D) {
+  showEntryActions(event: Event, entry: D, target?: HTMLElement) {
     // Check whether current target is the same
     this._actionEntry = entry;
 
@@ -214,7 +217,7 @@ export class TableComponent<K, D> implements OnInit {
       // Timeout is necessary to prevent clashing of events which leads only to hide the overlay
       setTimeout(() => this.entryActionsPanel.show(event), 150);
     } else {
-      this.entryActionsPanel.show(event);
+      this.entryActionsPanel.show(event, target);
     }
   }
 
@@ -309,9 +312,9 @@ export class TableComponent<K, D> implements OnInit {
   checkSelectionState() {
     if (this.selectedEntryKeys.length === 0) {
       this.selectionState = null;
-    } else if (this.selectedEntryKeys.length < this.getTotalEntries()) {
+    } else if (this.selectedEntryKeys.length < this.totalAmount) {
       this.selectionState = false;
-    } else if (this.selectedEntryKeys.length === this.getTotalEntries()) {
+    } else if (this.selectedEntryKeys.length === this.totalAmount) {
       this.selectionState = true;
     }
   }
