@@ -1,7 +1,7 @@
 package com.famulex.api.membership.api;
 
+import com.famulex.api.core.model.MembershipType;
 import com.famulex.api.membership.model.CourseRole;
-import com.famulex.api.membership.model.MembershipType;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

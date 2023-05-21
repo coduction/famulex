@@ -6,6 +6,7 @@ import com.famulex.api.core.model.UserType;
 import com.famulex.api.file.model.File;
 import com.famulex.api.file.model.FilePermission;
 import com.famulex.api.membership.model.CourseMembership;
+import com.famulex.api.security.model.RoleAssignment;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
@@ -66,6 +67,10 @@ public class User extends PublicKey {
   @Setter
   @Builder.Default
   private Language language = Language.ENGLISH;
+
+  @Builder.Default
+  @OneToMany(mappedBy = "user")
+  private List<RoleAssignment> roleAssignments = new ArrayList<>();
 
   @Builder.Default
   @OneToMany(mappedBy = "user")

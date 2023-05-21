@@ -2,6 +2,7 @@ package com.famulex.api.group.model;
 
 import com.famulex.api.core.model.PublicKey;
 import com.famulex.api.file.model.FilePermission;
+import com.famulex.api.security.model.RoleAssignment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,6 +39,10 @@ public class Group extends PublicKey {
   @Setter
   @Column(name = "description")
   private String description;
+
+  @Builder.Default
+  @OneToMany(mappedBy = "group")
+  private List<RoleAssignment> roleAssignments = new ArrayList<>();
 
   @Builder.Default
   @OneToMany(mappedBy = "group")

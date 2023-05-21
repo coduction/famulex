@@ -134,6 +134,13 @@
       "options": {
         "root": "apps/famulex-api"
       }
+    },
+    "drop-database": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/famulex-api",
+        "command": "mvn liquibase:dropAll"
+      }
     }
   },
   "tags": []

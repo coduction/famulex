@@ -1,7 +1,8 @@
 package com.famulex.api.membership.model;
 
 import com.famulex.api.authoring.course.model.CourseDraft;
-import com.famulex.api.core.model.ValidUntil;
+import com.famulex.api.core.model.MembershipType;
+import com.famulex.api.core.model.ValidFrom;
 import com.famulex.api.course.model.Course;
 import com.famulex.api.course.model.CourseNode;
 import com.famulex.api.course.model.CourseProgress;
@@ -26,7 +27,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "fx_course_membership")
-public class CourseMembership extends ValidUntil {
+public class CourseMembership extends ValidFrom {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "type", nullable = false, updatable = false)

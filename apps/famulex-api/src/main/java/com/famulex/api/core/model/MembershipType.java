@@ -1,4 +1,4 @@
-package com.famulex.api.membership.model;
+package com.famulex.api.core.model;
 
 /**
  * Enum MembershipType
@@ -7,6 +7,6 @@ package com.famulex.api.membership.model;
  * @date 14.12.22
  */
 public enum MembershipType {
-    GROUP,
-    USER
+  GROUP,
+  USER
 }
