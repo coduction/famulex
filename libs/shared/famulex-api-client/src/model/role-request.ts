@@ -9,15 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SortObject } from './sort-object';
+import { Right } from './right';
 
 
-export interface PageableObject { 
-    sort?: SortObject;
-    offset?: number;
-    paged?: boolean;
-    unpaged?: boolean;
-    pageNumber?: number;
-    pageSize?: number;
+export interface RoleRequest { 
+    name: string;
+    description?: string;
+    rights: Array<Right>;
 }
 

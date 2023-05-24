@@ -11,10 +11,21 @@
  */
 
 
-export type Right = 'sync_keycloak' | 'manage_users';
+export type Right = '_ACCESS_COURSES' | '_ACCESS_TESTS' | '_ACCESS_CERTIFICATES' | '_CREATE_COURSES' | '_CREATE_TESTS' | '_MANAGE_COURSES' | '_MANAGE_TESTS' | '_ACCESS_LIBRARY' | '_MANAGE_LIBRARIES' | '_MANAGE_USERS' | '_MANAGE_GROUPS' | '_MANAGE_ROLES' | '_SYNC_KEYCLOAK';
 
 export const Right = {
-    SyncKeycloak: 'sync_keycloak' as Right,
-    ManageUsers: 'manage_users' as Right
+    AccessCourses: '_ACCESS_COURSES' as Right,
+    AccessTests: '_ACCESS_TESTS' as Right,
+    AccessCertificates: '_ACCESS_CERTIFICATES' as Right,
+    CreateCourses: '_CREATE_COURSES' as Right,
+    CreateTests: '_CREATE_TESTS' as Right,
+    ManageCourses: '_MANAGE_COURSES' as Right,
+    ManageTests: '_MANAGE_TESTS' as Right,
+    AccessLibrary: '_ACCESS_LIBRARY' as Right,
+    ManageLibraries: '_MANAGE_LIBRARIES' as Right,
+    ManageUsers: '_MANAGE_USERS' as Right,
+    ManageGroups: '_MANAGE_GROUPS' as Right,
+    ManageRoles: '_MANAGE_ROLES' as Right,
+    SyncKeycloak: '_SYNC_KEYCLOAK' as Right
 };
 

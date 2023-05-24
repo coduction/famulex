@@ -13,7 +13,8 @@
           "apiModulePrefix": "Famulex",
           "configurationPrefix": "FamulexApi",
           "fileNaming": "kebab-case",
-          "stringEnums": false
+          "stringEnums": false,
+          "useSingleRequestParameter": false
         }
       }
     }

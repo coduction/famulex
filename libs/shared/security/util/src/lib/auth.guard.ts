@@ -62,8 +62,6 @@ export class AuthGuard extends KeycloakAuthGuard implements CanMatch {
 
       if (!requiredRights || requiredRights.length === 0) {
         granted = true;
-      } else if (this.roles.indexOf("admin") != -1) {
-        granted = true;
       } else {
         for (const requiredRole of requiredRights) {
           if (this.roles.indexOf(requiredRole) > -1) {

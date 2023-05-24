@@ -21,7 +21,7 @@ public class RightsConverter implements AttributeConverter<List<Right>, String> 
   @Override
   public String convertToDatabaseColumn(List<Right> rights) {
     return rights.stream()
-      .map(Right::toString)
+      .map(Right::name)
       .collect(Collectors.joining(SEPARATOR));
   }
 

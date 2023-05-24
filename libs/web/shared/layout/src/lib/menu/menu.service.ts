@@ -56,11 +56,11 @@ export class MenuService {
       administration.items.push(administrationUsers);
     }
 
-    if (rights.includes(Right.ManageUsers)) {
+    if (rights.includes(Right.ManageGroups)) {
       administration.items.push(administrationGroups);
     }
 
-    if (rights.includes(Right.ManageUsers)) {
+    if (rights.includes(Right.ManageRoles)) {
       administration.items.push(administrationRoles);
     }
 

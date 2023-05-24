@@ -82,13 +82,16 @@ public class SecurityController {
    * Roles
    ************************************************************************/
   @GetMapping("/roles")
-  public Page<RoleResponse> loadRoles(@ParameterObject Pageable pagination) {
+  public Page<RoleResponse> loadRoles(@ParameterObject Pageable pagination,
+                                      @RequestParam(required = false) String search) {
     return roleRepository.findAll(pagination).map(roleMapper::toRoleResponse);
   }
 
   @PostMapping("/roles")
   public RoleResponse createRole(@Valid @RequestBody RoleRequest roleRequest) {
     var role = roleRepository.save(roleMapper.toRole(roleRequest));
+
+    securityService.syncRolesAndRights();
 
     return roleMapper.toRoleResponse(role);
   }
@@ -101,6 +104,8 @@ public class SecurityController {
     roleMapper.updateRole(roleRequest, role);
     role = roleRepository.save(role);
 
+    securityService.syncRolesAndRights();
+
     return roleMapper.toRoleResponse(role);
   }
 
@@ -110,6 +115,8 @@ public class SecurityController {
       .orElseThrow(() -> new EntityNotFoundException(Role.class, roleKey));
 
     roleRepository.delete(role);
+
+    securityService.syncRolesAndRights();
   }
 
   /*************************************************************************

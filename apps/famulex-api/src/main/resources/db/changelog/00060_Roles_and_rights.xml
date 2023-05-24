@@ -17,7 +17,7 @@
         <constraints nullable="false"/>
       </column>
       <column name="name" type="text">
-        <constraints nullable="false"/>
+        <constraints nullable="false" unique="true"/>
       </column>
       <column name="description" type="text"/>
       <column name="rights" type="text">

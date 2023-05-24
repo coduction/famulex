@@ -3,30 +3,19 @@ import { Right }               from "@famulex/shared/famulex-api-client";
 import { NotFoundComponent }   from "@famulex/shared/security/ui";
 import { AuthGuard }           from "@famulex/shared/security/util";
 import { MainLayoutComponent } from "@famulex/web/shared/layout";
-import { NxWelcomeComponent }  from "./nx-welcome.component";
 
 export const appRoutes: Route[] = [
   {
     path: "",
     component: MainLayoutComponent,
-    canMatch: [AuthGuard],
-    children: [
-      {
-        path: "protected",
-        component: NxWelcomeComponent,
-        data: {
-          roles: ["manage_users"]
-        },
-        canMatch: [AuthGuard]
-      }
-    ]
+    children: []
   },
   {
     path: "administration",
     component: MainLayoutComponent,
-    canMatch: [AuthGuard],
+    canActivate: [AuthGuard],
     data: {
-      rights: [Right.ManageUsers]
+      rights: [Right.ManageUsers, Right.ManageGroups, Right.ManageRoles]
     },
     loadChildren: () => import("@famulex/web/administration/feature/shell").then(m => m.administrationRoutes)
   },

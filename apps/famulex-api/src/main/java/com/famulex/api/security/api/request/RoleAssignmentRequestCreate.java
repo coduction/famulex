@@ -52,4 +52,22 @@ public class RoleAssignmentRequestCreate {
   public boolean isGroupOrUserSet() {
     return userKey != null ^ groupKey != null;
   }
+
+  @AssertTrue(message = "Valid from must be before valid until")
+  public boolean isValidFromBeforeValidUntil() {
+    if (validFrom != null && validUntil != null) {
+      return validFrom.isBefore(validUntil);
+    }
+
+    return true;
+  }
+
+  @AssertTrue(message = "Valid from cannot be in the past")
+  public boolean isValidFromInFuture() {
+    if (validFrom != null) {
+      return validFrom.isAfter(OffsetDateTime.now());
+    }
+
+    return true;
+  }
 }

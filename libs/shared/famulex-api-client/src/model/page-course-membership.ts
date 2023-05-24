@@ -17,12 +17,12 @@ import { CourseMembership } from './course-membership';
 export interface PageCourseMembership { 
     totalPages?: number;
     totalElements?: number;
+    first?: boolean;
+    last?: boolean;
     sort?: SortObject;
     number?: number;
     size?: number;
     content?: Array<CourseMembership>;
-    first?: boolean;
-    last?: boolean;
     numberOfElements?: number;
     pageable?: PageableObject;
     empty?: boolean;

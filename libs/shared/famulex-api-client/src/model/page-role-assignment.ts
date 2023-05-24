@@ -9,15 +9,22 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { PageableObject } from './pageable-object';
+import { RoleAssignment } from './role-assignment';
 import { SortObject } from './sort-object';
 
 
-export interface PageableObject { 
+export interface PageRoleAssignment { 
+    totalPages?: number;
+    totalElements?: number;
+    first?: boolean;
+    last?: boolean;
     sort?: SortObject;
-    offset?: number;
-    paged?: boolean;
-    unpaged?: boolean;
-    pageNumber?: number;
-    pageSize?: number;
+    number?: number;
+    size?: number;
+    content?: Array<RoleAssignment>;
+    numberOfElements?: number;
+    pageable?: PageableObject;
+    empty?: boolean;
 }
 

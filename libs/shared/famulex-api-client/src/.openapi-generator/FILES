@@ -54,6 +54,8 @@ model/models.ts
 model/page-course-draft.ts
 model/page-course-membership.ts
 model/page-group.ts
+model/page-role-assignment.ts
+model/page-role.ts
 model/page-test-draft.ts
 model/page-test.ts
 model/page-user.ts
@@ -63,6 +65,11 @@ model/question-draft-request.ts
 model/question-draft.ts
 model/question-type.ts
 model/right.ts
+model/role-assignment-request-create.ts
+model/role-assignment-request-update.ts
+model/role-assignment.ts
+model/role-request.ts
+model/role.ts
 model/sort-object.ts
 model/test-configuration.ts
 model/test-draft-request.ts
