@@ -70,7 +70,7 @@ export class UserEditComponent implements OnInit {
 
     this.actions$.pipe(
       takeUntilDestroyed(),
-      ofType(UserActions.createUserSuccess, UserActions.updateUserSuccess)
+      ofType(UserActions.createSuccess, UserActions.updateSuccess)
     ).subscribe(() => this.dialogRef.close());
   }
 
@@ -95,9 +95,9 @@ export class UserEditComponent implements OnInit {
       }
 
       if (this.config.data) {
-        this.store.dispatch(UserActions.updateUser({ key: this.config.data.key, userRequest }));
+        this.store.dispatch(UserActions.update({ key: this.config.data.key, userRequest }));
       } else {
-        this.store.dispatch(UserActions.createUser({ userRequest }));
+        this.store.dispatch(UserActions.create({ userRequest }));
       }
     }
   }

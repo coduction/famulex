@@ -27,14 +27,14 @@ export class UserEffects {
    ************************************************************************/
   loadUsers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.loadUsers),
-      withLatestFrom(this.store.select(UserState.selectPagination)),
-      switchMap(([_, pagination]) => {
+      ofType(UserActions.load),
+      withLatestFrom(this.store.select(UserState.selectTableMetaData)),
+      switchMap(([_, table]) => {
           HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
-          return this.userService.loadUsers(pagination.pageNumber, pagination.pageSize, pagination.sortedBy).pipe(
-            map(page => UserActions.loadUsersSuccess({ page })),
-            catchError((error: HttpErrorResponse) => of(UserActions.loadUsersFailure({ error })))
+          return this.userService.loadUsers(table.pageIndex, table.pageSize, table.sortedBy, table.globalFilter).pipe(
+            map(page => UserActions.loadSuccess({ page })),
+            catchError((error: HttpErrorResponse) => of(UserActions.loadFailure({ error })))
           );
         }
       )
@@ -43,7 +43,7 @@ export class UserEffects {
 
   loadUsersFailure$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.loadUsersFailure),
+      ofType(UserActions.loadFailure),
       tap(({ error }) => {
         this.messageService.add({
           severity: "error",
@@ -59,13 +59,13 @@ export class UserEffects {
    ************************************************************************/
   createUser$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.createUser),
+      ofType(UserActions.create),
       concatMap(({ userRequest }) => {
         HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
         return this.userService.createUser(userRequest).pipe(
-          map(user => UserActions.createUserSuccess({ user })),
-          catchError((error: HttpErrorResponse) => of(UserActions.createUserFailure({ error })))
+          map(user => UserActions.createSuccess({ user })),
+          catchError((error: HttpErrorResponse) => of(UserActions.createFailure({ error })))
         );
       })
     );
@@ -73,7 +73,7 @@ export class UserEffects {
 
   createUserFailure$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.createUserFailure),
+      ofType(UserActions.createFailure),
       tap(({ error }) => {
         if (error.status === 409) {
           this.messageService.add({
@@ -94,7 +94,7 @@ export class UserEffects {
 
   createUserSuccess$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.createUserSuccess),
+      ofType(UserActions.createSuccess),
       tap(({ user }) => {
         this.messageService.add({
           severity: "success",
@@ -102,7 +102,7 @@ export class UserEffects {
           detail: `${user.firstName} ${user.lastName}`
         });
       }),
-      map(() => UserActions.loadUsers())
+      map(() => UserActions.load({}))
     );
   });
 
@@ -111,13 +111,13 @@ export class UserEffects {
    ************************************************************************/
   updateUser$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.updateUser),
+      ofType(UserActions.update),
       concatMap(({ key, userRequest }) => {
         HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
         return this.userService.updateUser(key, userRequest).pipe(
-          map(user => UserActions.updateUserSuccess({ user: { id: key, changes: user } })),
-          catchError((error: HttpErrorResponse) => of(UserActions.updateUserFailure({ error })))
+          map(user => UserActions.updateSuccess({ user: { id: key, changes: user } })),
+          catchError((error: HttpErrorResponse) => of(UserActions.updateFailure({ error })))
         );
       })
     );
@@ -125,7 +125,7 @@ export class UserEffects {
 
   updateUserFailure$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.updateUserFailure),
+      ofType(UserActions.updateFailure),
       tap(({ error }) => {
         this.messageService.add({
           severity: "error",
@@ -138,7 +138,7 @@ export class UserEffects {
 
   updateUserSuccess$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.updateUserSuccess),
+      ofType(UserActions.updateSuccess),
       tap(({ user }) => {
         this.messageService.add({
           severity: "success",
@@ -146,7 +146,7 @@ export class UserEffects {
           detail: `${user.changes.firstName} ${user.changes.lastName}`
         });
       }),
-      map(() => UserActions.loadUsers())
+      map(() => UserActions.load({}))
     );
   });
 
@@ -155,15 +155,15 @@ export class UserEffects {
    ************************************************************************/
   deleteUser$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.deleteUser),
+      ofType(UserActions.delete),
       mergeMap(({ user }) => {
         if (user.key === this.authService.userKey) {
-          return of(UserActions.deleteUserFailure({ isCurrentUser: true }));
+          return of(UserActions.deleteFailure({ isCurrentUser: true }));
         }
 
         return this.userService.deleteUser(user.key).pipe(
-          map(() => UserActions.deleteUserSuccess({ user })),
-          catchError((error: HttpErrorResponse) => of(UserActions.deleteUserFailure({ error })))
+          map(() => UserActions.deleteSuccess({ user })),
+          catchError((error: HttpErrorResponse) => of(UserActions.deleteFailure({ error })))
         );
       })
     );
@@ -171,7 +171,7 @@ export class UserEffects {
 
   deleteUserSuccess$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.deleteUserSuccess),
+      ofType(UserActions.deleteSuccess),
       tap(({ user }) => {
         this.messageService.add({
           severity: "success",
@@ -179,13 +179,13 @@ export class UserEffects {
           detail: `${user.firstName} ${user.lastName}`
         });
       }),
-      map(() => UserActions.loadUsers())
+      map(() => UserActions.load({}))
     );
   });
 
   deleteUserFailure$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.deleteUserFailure),
+      ofType(UserActions.deleteFailure),
       tap(({ error, isCurrentUser }) => {
         if (isCurrentUser) {
           this.messageService.add({
@@ -203,10 +203,10 @@ export class UserEffects {
    ************************************************************************/
   deleteUsers$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.deleteUsers),
+      ofType(UserActions.deleteMany),
       mergeMap(({ keys }) => {
         if (keys.includes(this.authService.userKey)) {
-          return of(UserActions.deleteUsersFeedback({ containsCurrentUser: true }));
+          return of(UserActions.deleteManyFeedback({ containsCurrentUser: true }));
         }
 
         const deletedKeys: string[] = [];
@@ -223,7 +223,7 @@ export class UserEffects {
         });
 
         return forkJoin(requests).pipe(
-          map(() => UserActions.deleteUsersFeedback({ deletedKeys, errorKeys }))
+          map(() => UserActions.deleteManyFeedback({ deletedKeys, errorKeys }))
         );
       })
     );
@@ -231,7 +231,7 @@ export class UserEffects {
 
   deleteUsersFeedback$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.deleteUsersFeedback),
+      ofType(UserActions.deleteManyFeedback),
       tap(({ error, containsCurrentUser, deletedKeys, errorKeys }) => {
         if (containsCurrentUser) {
           this.messageService.add({
@@ -257,17 +257,7 @@ export class UserEffects {
           });
         }
       }),
-      map(() => UserActions.loadUsers())
+      map(() => UserActions.load({}))
     );
   });
-
-  /*************************************************************************
-   * Set Pagination
-   ************************************************************************/
-  setPagination$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.setPagination),
-      map(() => UserActions.loadUsers())
-    )
-  );
 }

@@ -1,24 +1,37 @@
-<div class="flex flex-wrap gap-3 justify-content-end align-items-center">
-  <h2 *ngIf="heading" class="flex-grow-1">{{ heading }}</h2>
-  <h4 *ngIf="description" class="flex-grow-1">{{ description }}</h4>
-
-  <!-- Actions on selected items -->
-  <div class="flex gap-3 mb-3">
-
+<div class="flex flex-wrap gap-3 mb-3 align-items-center">
+  <div class="flex gap-3 align-items-center flex-grow-1">
+    <h2 *ngIf="heading">{{ heading }}</h2>
+    <p *ngIf="description">{{ description }}</p>
   </div>
 
-  <!-- General table actions -->
-  <div class="flex gap-3 mb-3">
+  <div class="flex flex-wrap gap-3 justify-content-end align-items-center flex-grow-1">
+    <span *ngIf="showSearch"
+          class="flex flex-grow-1 w-full sm:max-w-20rem p-inputgroup p-input-icon-left">
+      <i class="fa fa-magnifying-glass z-2"></i>
+      <input #filterInput pInputText [ngModel]="globalFilter"
+             class="flex-grow-1" type="text"
+             (ngModelChange)="onFilter(filterInput.value)"
+             (keydown)="onFilterKeydown($event)"
+      />
+      <button *ngIf="filterInput.value"
+              pButton type="button"
+              icon="fa fa-swap-opacity fa-xmark-large"
+              (click)="onFilter()"
+      ></button>
+    </span>
+
+    <!-- Actions on selected items -->
     <ng-container *ngIf="selectionActions.length && selectedAmount">
       <button *ngFor="let selectionAction of selectionActions"
-              pButton pRipple
+              pButton pRipple @fadeAndGrow
               [icon]="selectionAction.icon ?? ''"
-              [label]="selectionAction.label"
+              [label]="getSelectionButtonLabel(selectionAction)"
               [class.p-button-outlined]="!selectionAction.primary"
               (click)="dispatchSelectionAction(selectionAction)"
       ></button>
     </ng-container>
 
+    <!-- General table actions -->
     <button *ngFor="let tableAction of tableActions"
             pButton pRipple
             [icon]="tableAction.icon ?? ''"
@@ -53,7 +66,7 @@
          [loading]="isLoading()"
          [scrollable]="true"
          loadingIcon="fa fa-spin fa-spinner-third"
-         (onLazyLoad)="onPagination($event)"
+         (onLazyLoad)="onLoadData($event)"
 >
   <ng-template pTemplate="header">
     <tr>
@@ -71,7 +84,7 @@
       </th>
 
       <ng-container *ngFor="let column of columns">
-        <th pSortableColumn="{{column.key}}" *ngIf="column.visible" pRipple>
+        <th *ngIf="column.visible" pSortableColumn="{{column.key}}" pRipple>
           {{column.name}}
           <p-sortIcon field="{{column.key}}"></p-sortIcon>
         </th>

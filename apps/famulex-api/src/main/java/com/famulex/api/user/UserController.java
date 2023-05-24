@@ -1,6 +1,7 @@
 package com.famulex.api.user;
 
 import com.famulex.api.core.util.SecurityHelper;
+import com.famulex.api.core.util.TextHelper;
 import com.famulex.api.security.model.Rights;
 import com.famulex.api.user.api.UserMapper;
 import com.famulex.api.user.api.UserRequest;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.internal.util.StringHelper;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,9 +40,15 @@ public class UserController {
   private final UserMapper userMapper;
 
   @GetMapping
-  @Operation(summary = "Load users")
-  public Page<UserResponse> loadUsers(@ParameterObject Pageable pagination) {
-    return userRepository.findAll(pagination).map(userMapper::toUserResponse);
+  @Operation(summary = "Load users and filter by keyword")
+  public Page<UserResponse> loadUsers(@ParameterObject Pageable pagination,
+                                      @RequestParam(required = false) String keyword) {
+    if (StringHelper.isBlank(keyword)) {
+      return userRepository.findAll(pagination).map(userMapper::toUserResponse);
+    }
+
+    keyword = TextHelper.removeExtraBlanks(keyword);
+    return userRepository.search(keyword, pagination).map(userMapper::toUserResponse);
   }
 
   @GetMapping("/{userKey}")

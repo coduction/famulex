@@ -1,3 +1,4 @@
+import { animate, keyframes, style, transition, trigger }                                           from "@angular/animations";
 import { CommonModule }                                                                             from "@angular/common";
 import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { takeUntilDestroyed }                                                                       from "@angular/core/rxjs-interop";
@@ -6,13 +7,14 @@ import { MessageService }                                                       
 import { LazyLoadEvent }                                                                            from "@coduction/primeng/api/lazyloadevent";
 import { ButtonModule }                                                                             from "@coduction/primeng/button";
 import { CheckboxModule }                                                                           from "@coduction/primeng/checkbox";
+import { InputTextModule }                                                                          from "@coduction/primeng/inputtext";
 import { ListboxModule }                                                                            from "@coduction/primeng/listbox";
 import { OverlayPanel, OverlayPanelModule }                                                         from "@coduction/primeng/overlaypanel";
 import { RippleModule }                                                                             from "@coduction/primeng/ripple";
 import { Table, TableModule }                                                                       from "@coduction/primeng/table";
 import { TriStateCheckboxModule }                                                                   from "@coduction/primeng/tristatecheckbox";
 import { debounce, delay, Observable, of, switchMap }                                               from "rxjs";
-import { EntryAction, Pagination, SelectionAction, TableAction, TableColumn }                       from "./table.model";
+import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn }                    from "./table.model";
 
 @Component({
   selector: "web-table",
@@ -26,16 +28,66 @@ import { EntryAction, Pagination, SelectionAction, TableAction, TableColumn }   
     FormsModule,
     OverlayPanelModule,
     CheckboxModule,
-    ListboxModule
+    ListboxModule,
+    InputTextModule
   ],
   templateUrl: "./table.component.html",
   styleUrls: ["./table.component.scss"],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [
+    trigger("fadeAndGrow", [
+      transition(":enter", [
+        animate("300ms ease-out", keyframes([
+            style({
+              opacity: 0,
+              width: 0,
+              paddingLeft: 0,
+              paddingRight: 0,
+              whiteSpace: "nowrap",
+              scale: 0
+            }),
+            style({
+              width: "*",
+              paddingLeft: "*",
+              paddingRight: "*"
+            }),
+            style({
+              opacity: 1,
+              scale: 1
+            })
+          ])
+        )
+      ]),
+      transition(":leave", [
+        animate("300ms ease-in", keyframes([
+            style({
+              opacity: 1,
+              scale: 1,
+              width: "*",
+              paddingLeft: "*",
+              paddingRight: "*",
+              whiteSpace: "nowrap"
+            }),
+            style({
+              scale: 0,
+              opacity: 0
+            }),
+            style({
+              width: 0,
+              paddingLeft: 0,
+              paddingRight: 0
+            })
+          ])
+        )
+      ])
+    ])
+  ]
 })
 export class TableComponent<K, D> implements OnInit {
 
   @Input() heading?: string;
   @Input() description?: string;
+  @Input() showSearch = false;
 
   @Input({ required: true }) columns: TableColumn<D>[] = [];
   @Input() keyField = "key";
@@ -54,7 +106,7 @@ export class TableComponent<K, D> implements OnInit {
    */
   @Output() selection = new EventEmitter<Map<K, D | null>>();
   @Output() selectedKeysChange = new EventEmitter<K[]>();
-  @Output() pagination = new EventEmitter<Pagination>;
+  @Output() loadData = new EventEmitter<LoadDataEvent>;
 
   @ViewChild("table") table!: Table;
   @ViewChild("entryActionsPanel") entryActionsPanel!: OverlayPanel;
@@ -63,6 +115,7 @@ export class TableComponent<K, D> implements OnInit {
   protected selectionState: boolean | null = null;
   protected selectedEntries = new Map<K, D>();
   protected selectedEntryKeys: K[] = [];
+  protected globalFilter?: string;
 
   private _data: D[] = [];
   private _actionEntry?: D;
@@ -184,17 +237,31 @@ export class TableComponent<K, D> implements OnInit {
     return this._sortedBy;
   }
 
-  onPagination(event: LazyLoadEvent) {
+  onLoadData(event: LazyLoadEvent) {
     const page = event.first ? event.first / (event.rows ?? this.getPgeSize()) : 0;
     const pageSize = event.rows ?? this.getPgeSize();
     const sortField = event.sortField ?? this.sortField;
     const sortOrder = event.sortOrder ?? this.sortOrder;
+    const globalFilter = event.globalFilter;
 
-    this.pagination.emit({
-      page,
+    this.loadData.emit({
+      pageIndex: page,
       pageSize,
-      sortedBy: [`${sortField},${sortOrder === 1 ? "asc" : "desc"}`]
+      sortedBy: [`${sortField},${sortOrder === 1 ? "asc" : "desc"}`],
+      globalFilter
     });
+  }
+
+  onFilter(globalFilter?: string) {
+    this.globalFilter = globalFilter;
+
+    this.table.filterGlobal(globalFilter, "contains");
+  }
+
+  onFilterKeydown(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+      this.onFilter();
+    }
   }
 
   get sortField(): string {
@@ -339,6 +406,14 @@ export class TableComponent<K, D> implements OnInit {
     }
 
     return isPageSelected;
+  }
+
+  getSelectionButtonLabel(action: SelectionAction<K, D>) {
+    if (typeof action.label === "function") {
+      return action.label(this.selectedAmount);
+    }
+
+    return action.label;
   }
 
   /**************************************************************************

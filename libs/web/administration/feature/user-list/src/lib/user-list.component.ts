@@ -1,15 +1,15 @@
-import { CommonModule, DatePipe }                                                             from "@angular/common";
-import { Component, OnInit }                                                                  from "@angular/core";
-import { ConfirmationService }                                                                from "@coduction/primeng/api";
-import { CardModule }                                                                         from "@coduction/primeng/card";
-import { DialogService }                                                                      from "@coduction/primeng/dynamicdialog";
-import { User }                                                                               from "@famulex/shared/famulex-api-client";
-import { UserActions, UserState }                                                             from "@famulex/web/administration/data-access/user-state";
-import { UserEditComponent }                                                                  from "@famulex/web/administration/feature/user-edit";
-import { CONFIRM_DIALOG_NON_CLOSEABLE }                                                       from "@famulex/web/shared/layout";
-import { EntryAction, Pagination, SelectionAction, TableAction, TableColumn, TableComponent } from "@famulex/web/shared/table";
-import { Store }                                                                              from "@ngrx/store";
-import { Observable }                                                                         from "rxjs";
+import { CommonModule, DatePipe }                                                                from "@angular/common";
+import { Component, OnInit }                                                                     from "@angular/core";
+import { ConfirmationService }                                                                   from "@coduction/primeng/api";
+import { CardModule }                                                                            from "@coduction/primeng/card";
+import { DialogService }                                                                         from "@coduction/primeng/dynamicdialog";
+import { User }                                                                                  from "@famulex/shared/famulex-api-client";
+import { UserActions, UserState }                                                                from "@famulex/web/administration/data-access/user-state";
+import { UserEditComponent }                                                                     from "@famulex/web/administration/feature/user-edit";
+import { CONFIRM_DIALOG_NON_CLOSEABLE }                                                          from "@famulex/web/shared/layout";
+import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableComponent } from "@famulex/web/shared/table";
+import { Store }                                                                                 from "@ngrx/store";
+import { Observable }                                                                            from "rxjs";
 
 @Component({
   selector: "administration-user-list",
@@ -42,7 +42,15 @@ export class UserListComponent implements OnInit {
   ];
 
   selectionActions: SelectionAction<string, User>[] = [
-    { label: $localize`Delete Users`, icon: "fa fa-trash", resetSelection: true, onClick: users => this.onUserDeleteBulk(users) }
+    {
+      label: (amount) => {
+        if (amount === 1) {
+          return $localize`Delete ${amount} User`;
+        }
+
+        return $localize`Delete ${amount} Users`;
+      }, icon: "fa fa-trash", resetSelection: true, onClick: users => this.onUserDeleteBulk(users)
+    }
   ];
 
   users$: Observable<User[]> = this.store.select(UserState.selectAll);
@@ -57,11 +65,11 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(UserActions.loadUsers());
+    this.store.dispatch(UserActions.load({}));
   }
 
-  onPagination(event: Pagination) {
-    this.store.dispatch(UserActions.setPagination(event));
+  onLoadData(event: LoadDataEvent) {
+    this.store.dispatch(UserActions.load({ event }));
   }
 
   onUserCreate() {
@@ -90,12 +98,12 @@ export class UserListComponent implements OnInit {
       message: $localize`Are you sure you want to delete <b>${user.firstName} ${user.lastName}</b>?`,
       icon: "fa fa-trash",
       rejectVisible: true,
-      accept: () => this.store.dispatch(UserActions.deleteUser({ user }))
+      accept: () => this.store.dispatch(UserActions.delete({ user }))
     });
   }
 
   onUserDeleteBulk(users: Map<string, User>) {
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<boolean>(resolve => {
       this.confirmationService.confirm({
         key: CONFIRM_DIALOG_NON_CLOSEABLE,
         header: $localize`Delete Multiple Users`,
@@ -103,10 +111,9 @@ export class UserListComponent implements OnInit {
         icon: "fa fa-trash",
         rejectVisible: true,
         accept: () => {
-          this.store.dispatch(UserActions.deleteUsers({ keys: Array.from(users.keys()) }));
+          this.store.dispatch(UserActions.deleteMany({ keys: Array.from(users.keys()) }));
           resolve(true);
-        },
-        reject: () => reject()
+        }
       });
     });
   }

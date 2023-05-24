@@ -11,9 +11,10 @@ export interface State extends EntityState<User> {
   loading: boolean;
   actionInProgress: boolean;
 
-  pageNumber: number;
+  pageIndex: number;
   pageSize: number;
   sortedBy: string[];
+  globalFilter: string | undefined;
 
   page: PageUser | null;
 }
@@ -28,14 +29,12 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
   actionInProgress: false,
 
-  pageNumber: 0,
+  pageIndex: 0,
   pageSize: 10,
   sortedBy: [],
+  globalFilter: undefined,
 
-  page: null,
-
-  selectedUserId: null,
-  selectedUserIds: null
+  page: null
 });
 
 export const reducer = createReducer(
@@ -44,10 +43,17 @@ export const reducer = createReducer(
   /*************************************************************************
    * Load Users
    ************************************************************************/
-  on(UserActions.loadUsers, state => produce(state, draft => {
+  on(UserActions.load, (state, { event }) => produce(state, draft => {
     draft.loading = true;
+
+    if (event) {
+      draft.pageIndex = event.pageIndex;
+      draft.pageSize = event.pageSize;
+      draft.sortedBy = event.sortedBy;
+      draft.globalFilter = event.globalFilter;
+    }
   })),
-  on(UserActions.loadUsersSuccess, (state, { page }) => {
+  on(UserActions.loadSuccess, (state, { page }) => {
     state = produce(state, draft => {
       draft.loading = false;
       draft.page = page;
@@ -55,81 +61,74 @@ export const reducer = createReducer(
 
     return adapter.setAll(page.content ?? [], state);
   }),
-  on(UserActions.loadUsersFailure, state => produce(state, draft => {
+  on(UserActions.loadFailure, state => produce(state, draft => {
     draft.loading = false;
   })),
 
   /*************************************************************************
    * Create User
    ************************************************************************/
-  on(UserActions.createUser, state => produce(state, draft => {
+  on(UserActions.create, state => produce(state, draft => {
     draft.actionInProgress = true;
   })),
-  on(UserActions.createUserSuccess, (state, { user }) => {
+  on(UserActions.createSuccess, (state, { user }) => {
     state = produce(state, draft => {
       draft.actionInProgress = false;
     });
 
     return adapter.addOne(user, state);
   }),
-  on(UserActions.createUserFailure, state => produce(state, draft => {
+  on(UserActions.createFailure, state => produce(state, draft => {
     draft.actionInProgress = false;
   })),
 
   /*************************************************************************
    * Update User
    ************************************************************************/
-  on(UserActions.updateUser, state => produce(state, draft => {
+  on(UserActions.update, state => produce(state, draft => {
     draft.actionInProgress = true;
   })),
-  on(UserActions.updateUserSuccess, (state, { user }) => {
+  on(UserActions.updateSuccess, (state, { user }) => {
     state = produce(state, draft => {
       draft.actionInProgress = false;
     });
 
     return adapter.updateOne(user, state);
   }),
-  on(UserActions.updateUserFailure, state => produce(state, draft => {
+  on(UserActions.updateFailure, state => produce(state, draft => {
     draft.actionInProgress = false;
   })),
 
   /*************************************************************************
    * Delete Single User
    ************************************************************************/
-  on(UserActions.deleteUser, state => produce(state, draft => {
+  on(UserActions.delete, state => produce(state, draft => {
     draft.actionInProgress = true;
   })),
-  on(UserActions.deleteUserSuccess, (state, { user }) => {
+  on(UserActions.deleteSuccess, (state, { user }) => {
     state = produce(state, draft => {
       draft.actionInProgress = false;
     });
 
     return adapter.removeOne(user.key, state);
   }),
-  on(UserActions.deleteUserFailure, state => produce(state, draft => {
+  on(UserActions.deleteFailure, state => produce(state, draft => {
     draft.actionInProgress = false;
   })),
 
   /*************************************************************************
    * Delete Multiple Users
    ************************************************************************/
-  on(UserActions.deleteUsers, state => produce(state, draft => {
+  on(UserActions.deleteMany, state => produce(state, draft => {
     draft.actionInProgress = true;
   })),
-  on(UserActions.deleteUsersFeedback, (state, { deletedKeys }) => {
+  on(UserActions.deleteManyFeedback, (state, { deletedKeys }) => {
     state = produce(state, draft => {
       draft.actionInProgress = false;
     });
 
     return adapter.removeMany(deletedKeys ?? [], state);
-  }),
-
-
-  on(UserActions.setPagination, (state, { page, pageSize, sortedBy }) => produce(state, draft => {
-    draft.pageNumber = page;
-    draft.pageSize = pageSize;
-    draft.sortedBy = sortedBy;
-  }))
+  })
 );
 
 export const UserState = createFeature({
@@ -141,28 +140,14 @@ export const UserState = createFeature({
       selectUsersState,
       (state) => state.page?.totalElements || null
     ),
-    selectPagination: createSelector(
+    selectTableMetaData: createSelector(
       selectUsersState,
       (state) => ({
-        pageNumber: state.pageNumber,
+        pageIndex: state.pageIndex,
         pageSize: state.pageSize,
-        sortedBy: state.sortedBy
+        sortedBy: state.sortedBy,
+        globalFilter: state.globalFilter
       })
     )
   })
 });
-
-// TODO Alex: Create user => pagination dont show user if out of bounds if  new user is added and pagination would not show it
-
-// export const {
-//   selectIds,
-//   selectEntities,
-//   selectAll: selectUsers,
-//   selectTotal,
-//   selectLoading,
-//   selectPageNumber,
-//   selectPageSize,
-//   selectSortedBy,
-//   selectPage,
-//   selectPagination
-// } = UserState;

@@ -7,7 +7,7 @@ export interface TableAction {
 
 export interface SelectionAction<K, D> {
   icon?: string;
-  label: string;
+  label: string | ((amount: number) => string);
   primary?: boolean;
   resetSelection?: boolean;
   onClick: (entries: Map<K, D>) => void | Promise<any>;
@@ -26,9 +26,9 @@ export class TableColumn<T, V = string> {
   visible: boolean;
   visibleByDefault: boolean;
 
-  field: (object: T) => V;
+  field: (object: T) => V | V[] | null | undefined;
 
-  constructor(key: string, name: string, visibleByDefault: boolean, field: (object: T) => V) {
+  constructor(key: string, name: string, visibleByDefault: boolean, field: (object: T) => V | V[] | null | undefined) {
     this.key = key;
     this.name = name;
     this.visible = visibleByDefault;
@@ -42,8 +42,11 @@ export class TableColumn<T, V = string> {
   }
 }
 
-export interface Pagination {
-  page: number;
+export interface LoadDataEvent {
+  pageIndex: number;
   pageSize: number;
   sortedBy: string[];
+
+  globalFilter?: string;
+  filters?: { [s: string]: any };
 }

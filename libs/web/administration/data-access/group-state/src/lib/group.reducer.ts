@@ -26,7 +26,7 @@ export const initialState: State = adapter.getInitialState({
   // additional entity state properties
   loading: false,
 
-  pageNumber: 0,
+  pageIndex: 0,
   pageSize: 10,
   sortedBy: [],
 
@@ -71,7 +71,7 @@ export const GroupState = createFeature({
     selectPagination: createSelector(
       selectGroupsState,
       (state) => ({
-        pageNumber: state.pageNumber,
+        pageIndex: state.pageNumber,
         pageSize: state.pageSize,
         sortedBy: state.sortedBy
       })

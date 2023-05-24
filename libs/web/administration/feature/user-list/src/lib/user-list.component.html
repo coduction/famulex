@@ -5,6 +5,7 @@
     [loading$]="loading$"
     [columns]="userColumns"
     [data]="users$ | async"
+    [showSearch]="true"
 
     [tableActions]="tableActions"
     [entryActions]="entryActions"
@@ -13,6 +14,6 @@
     [totalEntries]="totalUsers$ | async"
     [pageSize]="pageSize$ | async"
 
-    (pagination)="onPagination($event)"
+    (loadData)="onLoadData($event)"
   ></web-table>
 </p-card>
