@@ -262,7 +262,7 @@
         <executions>
           <execution>
             <id>jooq-codegen</id>
-            <phase>generate-sources</phase>
+            <phase/>
             <goals>
               <goal>generate</goal>
             </goals>
@@ -293,6 +293,9 @@
 
             <target>
               <packageName>com.famulex.api.jooq</packageName>
+              <directory>src/main/java</directory>
+              <encoding>UTF-8</encoding>
+              <clean>true</clean>
             </target>
           </generator>
         </configuration>
