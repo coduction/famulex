@@ -5,11 +5,10 @@ import { ButtonModule }                                                         
 import { CardModule }                                                                            from "@coduction/primeng/card";
 import { DialogService }                                                                         from "@coduction/primeng/dynamicdialog";
 import { Role }                                                                                  from "@famulex/shared/famulex-api-client";
+import { RoleActions, RoleState }                                                                from "@famulex/web/administration/data-access/role-state";
 import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableComponent } from "@famulex/web/shared/table";
 import { Store }                                                                                 from "@ngrx/store";
 import { Observable }                                                                            from "rxjs";
-import { RoleActions }                                                                           from "../../../../data-access/role-state/src/lib/role.actions";
-import { RoleState }                                                                             from "../../../../data-access/role-state/src/lib/role.reducer";
 
 @Component({
   selector: "administration-role-list",
@@ -71,18 +70,18 @@ export class RoleListComponent implements OnInit {
   }
 
   onCreateRole() {
-
+    console.log("Create Role");
   }
 
   onEditRole(role: Role) {
-
+    console.log(role);
   }
 
   onDeleteRole(role: Role) {
-
+    console.log(role);
   }
 
   onDeleteRoleBulk(roles: Map<string, Role>) {
-
+    console.log(roles);
   }
 }

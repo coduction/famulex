@@ -1,11 +1,10 @@
 import { Route }                        from "@angular/router";
 import { Right }                        from "@famulex/shared/famulex-api-client";
 import { AuthGuard }                    from "@famulex/shared/security/util";
+import { RoleEffects, RoleState }       from "@famulex/web/administration/data-access/role-state";
 import { UserEffects, UserState }       from "@famulex/web/administration/data-access/user-state";
 import { provideEffects }               from "@ngrx/effects";
 import { provideState }                 from "@ngrx/store";
-import { RoleEffects }                  from "../../../../data-access/role-state/src/lib/role.effects";
-import { RoleState }                    from "../../../../data-access/role-state/src/lib/role.reducer";
 import { AdministrationShellComponent } from "./administration-shell.component";
 
 export const administrationRoutes: Route[] = [
