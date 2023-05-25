@@ -300,14 +300,14 @@ export class UserService {
      * @param page Zero-based page index (0..N)
      * @param size The size of the page to be returned
      * @param sort Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param keyword 
+     * @param search 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loadUsers(page?: number, size?: number, sort?: Array<string>, keyword?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<PageUser>;
-    public loadUsers(page?: number, size?: number, sort?: Array<string>, keyword?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<PageUser>>;
-    public loadUsers(page?: number, size?: number, sort?: Array<string>, keyword?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<PageUser>>;
-    public loadUsers(page?: number, size?: number, sort?: Array<string>, keyword?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public loadUsers(page?: number, size?: number, sort?: Array<string>, search?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<PageUser>;
+    public loadUsers(page?: number, size?: number, sort?: Array<string>, search?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<PageUser>>;
+    public loadUsers(page?: number, size?: number, sort?: Array<string>, search?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<PageUser>>;
+    public loadUsers(page?: number, size?: number, sort?: Array<string>, search?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (page !== undefined && page !== null) {
@@ -324,9 +324,9 @@ export class UserService {
                   <any>element, 'sort');
             })
         }
-        if (keyword !== undefined && keyword !== null) {
+        if (search !== undefined && search !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>keyword, 'keyword');
+            <any>search, 'search');
         }
 
         let localVarHeaders = this.defaultHeaders;

@@ -48,7 +48,7 @@ export const reducer = createReducer(
       draft.pageIndex = event.pageIndex;
       draft.pageSize = event.pageSize;
       draft.sortedBy = event.sortedBy;
-      draft.globalFilter = event.globalFilter;
+      draft.globalFilter = event.globalFilter ?? undefined;
     }
   })),
   on(RoleActions.loadSuccess, (state, { page }) => {

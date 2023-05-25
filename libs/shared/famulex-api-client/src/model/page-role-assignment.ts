@@ -19,12 +19,12 @@ export interface PageRoleAssignment {
     totalElements?: number;
     first?: boolean;
     last?: boolean;
-    sort?: SortObject;
     number?: number;
+    sort?: SortObject;
     size?: number;
     content?: Array<RoleAssignment>;
-    numberOfElements?: number;
     pageable?: PageableObject;
+    numberOfElements?: number;
     empty?: boolean;
 }
 

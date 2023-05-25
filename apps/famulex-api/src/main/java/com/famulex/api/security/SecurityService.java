@@ -15,6 +15,7 @@ import com.famulex.api.user.model.User;
 import com.famulex.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.jobrunr.scheduling.JobScheduler;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.springframework.stereotype.Service;
@@ -45,9 +46,16 @@ public class SecurityService {
 
   private final RealmResource keycloak;
 
+  private final JobScheduler jobScheduler;
+
   private final RoleMapper roleMapper;
 
   public List<Right> loadRightsForUser(UUID userKey) {
+
+
+    jobScheduler.schedule(OffsetDateTime.parse("2023-05-24T12:37:30+02:00"), () -> System.out.println("Hello World from JobScheduler!" + userKey));
+
+
     return null;
   }
 

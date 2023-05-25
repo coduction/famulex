@@ -146,7 +146,7 @@ public class UserService {
       user.setType(UserType.SYNCED);
       user = userRepository.save(user);
 
-      keycloak.users().get(createdUserKey).executeActionsEmail(requiredActions);
+//      keycloak.users().get(createdUserKey).executeActionsEmail(requiredActions);
       return user;
     } catch (Exception e) {
       log.error("Error while creating user", e);

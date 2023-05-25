@@ -1,4 +1,5 @@
 import { PageUser, User }                                   from "@famulex/shared/famulex-api-client";
+import { TableMetaData }                                    from "@famulex/web/shared/table";
 import { createEntityAdapter, EntityAdapter, EntityState }  from "@ngrx/entity";
 import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { produce }                                          from "immer";
@@ -16,7 +17,7 @@ export interface State extends EntityState<User> {
   sortedBy: string[];
   globalFilter: string | undefined;
 
-  page: PageUser | null;
+  page: PageUser | undefined;
 }
 
 export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
@@ -31,10 +32,10 @@ export const initialState: State = adapter.getInitialState({
 
   pageIndex: 0,
   pageSize: 10,
-  sortedBy: [],
+  sortedBy: ["createdAt,desc"],
   globalFilter: undefined,
 
-  page: null
+  page: undefined
 });
 
 export const reducer = createReducer(
@@ -50,7 +51,7 @@ export const reducer = createReducer(
       draft.pageIndex = event.pageIndex;
       draft.pageSize = event.pageSize;
       draft.sortedBy = event.sortedBy;
-      draft.globalFilter = event.globalFilter;
+      draft.globalFilter = event.globalFilter ?? undefined;
     }
   })),
   on(UserActions.loadSuccess, (state, { page }) => {
@@ -143,11 +144,13 @@ export const UserState = createFeature({
     selectTableMetaData: createSelector(
       selectUsersState,
       (state) => ({
+        loading: state.loading,
+        totalEntries: state.page?.totalElements || null,
         pageIndex: state.pageIndex,
         pageSize: state.pageSize,
         sortedBy: state.sortedBy,
         globalFilter: state.globalFilter
-      })
+      } as TableMetaData)
     )
   })
 });

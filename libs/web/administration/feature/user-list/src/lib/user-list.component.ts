@@ -1,15 +1,19 @@
-import { CommonModule, DatePipe }                                                                from "@angular/common";
-import { Component, OnInit }                                                                     from "@angular/core";
-import { ConfirmationService }                                                                   from "@coduction/primeng/api";
-import { CardModule }                                                                            from "@coduction/primeng/card";
-import { DialogService }                                                                         from "@coduction/primeng/dynamicdialog";
-import { User }                                                                                  from "@famulex/shared/famulex-api-client";
-import { UserActions, UserState }                                                                from "@famulex/web/administration/data-access/user-state";
-import { UserEditComponent }                                                                     from "@famulex/web/administration/feature/user-edit";
-import { CONFIRM_DIALOG_NON_CLOSEABLE }                                                          from "@famulex/web/shared/layout";
-import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableComponent } from "@famulex/web/shared/table";
-import { Store }                                                                                 from "@ngrx/store";
-import { Observable }                                                                            from "rxjs";
+import { CommonModule, DatePipe }                                                                               from "@angular/common";
+import { Component, OnInit }                                                                                    from "@angular/core";
+import { ConfirmationService }                                                                                  from "@coduction/primeng/api";
+import { CardModule }                                                                                           from "@coduction/primeng/card";
+import { DialogService }                                                                                        from "@coduction/primeng/dynamicdialog";
+import { User }                                                                                                 from "@famulex/shared/famulex-api-client";
+import {
+  UserActions, UserState
+}                                                                                                               from "@famulex/web/administration/data-access/user-state";
+import {
+  UserEditComponent
+}                                                                                                               from "@famulex/web/administration/feature/user-edit";
+import { CONFIRM_DIALOG_NON_CLOSEABLE }                                                                         from "@famulex/web/shared/layout";
+import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableComponent, TableMetaData } from "@famulex/web/shared/table";
+import { Store }                                                                                                from "@ngrx/store";
+import { Observable }                                                                                           from "rxjs";
 
 @Component({
   selector: "administration-user-list",
@@ -54,9 +58,8 @@ export class UserListComponent implements OnInit {
   ];
 
   users$: Observable<User[]> = this.store.select(UserState.selectAll);
-  totalUsers$ = this.store.select(UserState.selectTotal);
-  pageSize$ = this.store.select(UserState.selectPageSize);
-  loading$ = this.store.select(UserState.selectLoading);
+  tableMetaData$: Observable<TableMetaData> = this.store.select(UserState.selectTableMetaData);
+  loading$: Observable<boolean> = this.store.select(UserState.selectLoading);
 
   constructor(private store: Store,
               private datePipe: DatePipe,

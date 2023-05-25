@@ -3,18 +3,19 @@ import { CommonModule }                                                         
 import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { takeUntilDestroyed }                                                                       from "@angular/core/rxjs-interop";
 import { FormsModule }                                                                              from "@angular/forms";
-import { MessageService }                                                                           from "@coduction/primeng/api";
-import { LazyLoadEvent }                                                                            from "@coduction/primeng/api/lazyloadevent";
+import { MessageService, SortMeta }                                                                 from "@coduction/primeng/api";
 import { ButtonModule }                                                                             from "@coduction/primeng/button";
 import { CheckboxModule }                                                                           from "@coduction/primeng/checkbox";
 import { InputTextModule }                                                                          from "@coduction/primeng/inputtext";
 import { ListboxModule }                                                                            from "@coduction/primeng/listbox";
 import { OverlayPanel, OverlayPanelModule }                                                         from "@coduction/primeng/overlaypanel";
 import { RippleModule }                                                                             from "@coduction/primeng/ripple";
-import { Table, TableModule }                                                                       from "@coduction/primeng/table";
+import { SelectButtonModule }                                                                       from "@coduction/primeng/selectbutton";
+import { Table, TableLazyLoadEvent, TableModule }                                                   from "@coduction/primeng/table";
 import { TriStateCheckboxModule }                                                                   from "@coduction/primeng/tristatecheckbox";
+import { FormLabelComponent }                                                                       from "@famulex/shared/ui";
 import { debounce, delay, Observable, of, switchMap }                                               from "rxjs";
-import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn }                    from "./table.model";
+import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableMetaData }     from "./table.model";
 
 @Component({
   selector: "web-table",
@@ -29,7 +30,9 @@ import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn }
     OverlayPanelModule,
     CheckboxModule,
     ListboxModule,
-    InputTextModule
+    InputTextModule,
+    SelectButtonModule,
+    FormLabelComponent
   ],
   templateUrl: "./table.component.html",
   styleUrls: ["./table.component.scss"],
@@ -112,10 +115,11 @@ export class TableComponent<K, D> implements OnInit {
   @ViewChild("entryActionsPanel") entryActionsPanel!: OverlayPanel;
   @ViewChild("selectActionsPanel") selectActionsPanel!: OverlayPanel;
 
+  protected initialized = false;
   protected selectionState: boolean | null = null;
   protected selectedEntries = new Map<K, D>();
   protected selectedEntryKeys: K[] = [];
-  protected globalFilter?: string;
+  protected multiSortMeta: SortMeta[] = [];
 
   private _data: D[] = [];
   private _actionEntry?: D;
@@ -123,8 +127,10 @@ export class TableComponent<K, D> implements OnInit {
   private _selectedColumns: TableColumn<D>[] = [];
   private _loading = false;
   private _totalEntries = 0;
+  private _pageIndex = 0;
   private _pageSize = 10;
   private _sortedBy: string[] = [];
+  private _globalFilter?: string;
 
   constructor(private destroyRef: DestroyRef,
               private messageService: MessageService) {
@@ -139,6 +145,8 @@ export class TableComponent<K, D> implements OnInit {
    **************************************************************************/
   @Input({ required: true }) set data(data: D[] | null) {
     this._data = data ?? [];
+
+    this.initialized = true;
   }
 
   getData(): D[] {
@@ -157,7 +165,7 @@ export class TableComponent<K, D> implements OnInit {
    * Columns
    **************************************************************************/
   resetColumns(): void {
-    this.columns.forEach(column => column.visible = column.visibleByDefault);
+    this.columns.forEach(col => col.resetVisibility());
     this.selectedColumns = this.columns.filter(column => column.visibleByDefault);
   }
 
@@ -214,7 +222,11 @@ export class TableComponent<K, D> implements OnInit {
   }
 
   @Input() set totalEntries(totalEntries: number | null) {
-    this._totalEntries = totalEntries ?? 0;
+    if (totalEntries === null) {
+      return;
+    }
+
+    this._totalEntries = totalEntries;
   }
 
   get totalAmount(): number {
@@ -222,38 +234,106 @@ export class TableComponent<K, D> implements OnInit {
   }
 
   @Input() set pageSize(pageSize: number | null) {
-    this._pageSize = pageSize ?? 10;
+    if (this.initialized || pageSize === null) {
+      return;
+    }
+
+    // Set this._pageSize only if it has changed to avoid unnecessary table updates
+    if (this._pageSize != pageSize) {
+      this._pageSize = pageSize;
+    }
   }
 
-  getPgeSize(): number {
+  getPageSize(): number {
     return this._pageSize;
   }
 
-  @Input() set sortedBy(sortedBy: string[] | null) {
-    this._sortedBy = sortedBy ?? [];
+  @Input() set pageIndex(pageIndex: number | null) {
+    if (this.initialized || pageIndex === null) {
+      return;
+    }
+
+    // Set this._pageIndex only if it has changed to avoid unnecessary table updates
+    if (this._pageIndex != pageIndex) {
+      this._pageIndex = pageIndex;
+    }
   }
 
-  getSortedBy(): string[] {
+  getPageIndexAsFirst(): number {
+    return this._pageIndex * this.getPageSize();
+  }
+
+  @Input() set sortedBy(sortedBy: string[] | null) {
+    if (this.initialized || sortedBy === null) {
+      return;
+    }
+
+    this._sortedBy = sortedBy ?? [];
+    const multiSortMeta = sortedBy?.map(sort => {
+      const [field, order] = sort.split(",");
+      return { field, order: order === "asc" ? 1 : -1 };
+    }) ?? [];
+
+    // Set this.multiSortMeta only if it has changed to avoid unnecessary table updates
+    if (JSON.stringify(this.multiSortMeta) !== JSON.stringify(multiSortMeta)) {
+      this.multiSortMeta = multiSortMeta;
+    }
+  }
+
+  get sortedBy(): string[] {
     return this._sortedBy;
   }
 
-  onLoadData(event: LazyLoadEvent) {
-    const page = event.first ? event.first / (event.rows ?? this.getPgeSize()) : 0;
-    const pageSize = event.rows ?? this.getPgeSize();
-    const sortField = event.sortField ?? this.sortField;
-    const sortOrder = event.sortOrder ?? this.sortOrder;
-    const globalFilter = event.globalFilter;
+  @Input() set globalFilter(globalFilter: string | null | undefined) {
+    if (this.globalFilter != globalFilter) {
+      this._globalFilter = globalFilter ?? undefined;
+    }
+  }
+
+  getGlobalFilter() {
+    return this._globalFilter;
+  }
+
+  @Input() set metaData(metaData: TableMetaData | null) {
+    if (metaData === null) {
+      return;
+    }
+
+    this.totalEntries = metaData.totalEntries;
+    this.pageIndex = metaData.pageIndex;
+    this.pageSize = metaData.pageSize;
+    this.sortedBy = metaData.sortedBy;
+    this.globalFilter = metaData.globalFilter;
+  }
+
+  onLoadData(event: TableLazyLoadEvent) {
+    const pageIndex = event.first ? event.first / (event.rows ?? this.getPageSize()) : 0;
+    const pageSize = event.rows ?? this.getPageSize();
+    const sortedBy: string[] = [];
+    let globalFilter = event.globalFilter || undefined;
+
+    if (event.multiSortMeta?.length) {
+
+      event.multiSortMeta.forEach(sortMeta => {
+        sortedBy.push(`${sortMeta.field},${sortMeta.order === 1 ? "asc" : "desc"}`);
+      });
+    }
+
+    if (Array.isArray(globalFilter)) {
+      globalFilter = globalFilter.join(" ");
+    }
 
     this.loadData.emit({
-      pageIndex: page,
+      pageIndex,
       pageSize,
-      sortedBy: [`${sortField},${sortOrder === 1 ? "asc" : "desc"}`],
+      sortedBy,
       globalFilter
+      // filters
     });
   }
 
   onFilter(globalFilter?: string) {
-    this.globalFilter = globalFilter;
+    // this.globalFilter = globalFilter;
 
     this.table.filterGlobal(globalFilter, "contains");
   }
@@ -262,14 +342,6 @@ export class TableComponent<K, D> implements OnInit {
     if (event.key === "Escape") {
       this.onFilter();
     }
-  }
-
-  get sortField(): string {
-    return this.getSortedBy()[0]?.split(",")[0] || "";
-  }
-
-  get sortOrder(): number {
-    return this.getSortedBy()[0]?.split(",")[1] === "asc" ? 1 : -1;
   }
 
   /**************************************************************************

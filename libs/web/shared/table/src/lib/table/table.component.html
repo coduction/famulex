@@ -8,7 +8,7 @@
     <span *ngIf="showSearch"
           class="flex flex-grow-1 w-full sm:max-w-20rem p-inputgroup p-input-icon-left">
       <i class="fa fa-magnifying-glass z-2"></i>
-      <input #filterInput pInputText [ngModel]="globalFilter"
+      <input #filterInput pInputText [ngModel]="getGlobalFilter()"
              class="flex-grow-1" type="text"
              (ngModelChange)="onFilter(filterInput.value)"
              (keydown)="onFilterKeydown($event)"
@@ -55,16 +55,17 @@
          [value]="getData()"
          [paginator]="true"
          [totalRecords]="totalAmount"
-         [rows]="getPgeSize()"
+         [first]="getPageIndexAsFirst()"
+         [rows]="getPageSize()"
          [rowsPerPageOptions]="[1,2,5,10,25,50]"
          [rowHover]="true"
          [resetPageOnSort]="false"
          [lazy]="true"
          [lazyLoadOnInit]="false"
-         [sortField]="sortField"
-         [sortOrder]="sortOrder"
          [loading]="isLoading()"
          [scrollable]="true"
+         [multiSortMeta]="multiSortMeta"
+         sortMode="multiple"
          loadingIcon="fa fa-spin fa-spinner-third"
          (onLazyLoad)="onLoadData($event)"
 >
@@ -84,7 +85,9 @@
       </th>
 
       <ng-container *ngFor="let column of columns">
-        <th *ngIf="column.visible" pSortableColumn="{{column.key}}" pRipple>
+        <th *ngIf="column.visible"
+            pSortableColumn="{{column.key}}" pRipple
+        >
           {{column.name}}
           <p-sortIcon field="{{column.key}}"></p-sortIcon>
         </th>

@@ -2,17 +2,16 @@
   <web-table
     heading="Users" i18n-heading
 
-    [loading$]="loading$"
-    [columns]="userColumns"
+    [metaData]="tableMetaData$ | async"
     [data]="users$ | async"
+    [loading$]="loading$"
+
+    [columns]="userColumns"
     [showSearch]="true"
 
     [tableActions]="tableActions"
     [entryActions]="entryActions"
     [selectionActions]="selectionActions"
-
-    [totalEntries]="totalUsers$ | async"
-    [pageSize]="pageSize$ | async"
 
     (loadData)="onLoadData($event)"
   ></web-table>

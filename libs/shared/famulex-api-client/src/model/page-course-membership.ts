@@ -19,12 +19,12 @@ export interface PageCourseMembership {
     totalElements?: number;
     first?: boolean;
     last?: boolean;
-    sort?: SortObject;
     number?: number;
+    sort?: SortObject;
     size?: number;
     content?: Array<CourseMembership>;
-    numberOfElements?: number;
     pageable?: PageableObject;
+    numberOfElements?: number;
     empty?: boolean;
 }
 

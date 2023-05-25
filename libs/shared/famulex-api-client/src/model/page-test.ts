@@ -19,12 +19,12 @@ export interface PageTest {
     totalElements?: number;
     first?: boolean;
     last?: boolean;
-    sort?: SortObject;
     number?: number;
+    sort?: SortObject;
     size?: number;
     content?: Array<Test>;
-    numberOfElements?: number;
     pageable?: PageableObject;
+    numberOfElements?: number;
     empty?: boolean;
 }
 

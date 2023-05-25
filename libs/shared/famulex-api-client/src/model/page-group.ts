@@ -19,12 +19,12 @@ export interface PageGroup {
     totalElements?: number;
     first?: boolean;
     last?: boolean;
-    sort?: SortObject;
     number?: number;
+    sort?: SortObject;
     size?: number;
     content?: Array<Group>;
-    numberOfElements?: number;
     pageable?: PageableObject;
+    numberOfElements?: number;
     empty?: boolean;
 }
 

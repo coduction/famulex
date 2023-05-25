@@ -50,3 +50,12 @@ export interface LoadDataEvent {
   globalFilter?: string;
   filters?: { [s: string]: any };
 }
+
+export interface TableMetaData {
+  loading: boolean;
+  totalEntries: number | null;
+  pageIndex: number;
+  pageSize: number;
+  sortedBy: string[];
+  globalFilter?: string;
+}
