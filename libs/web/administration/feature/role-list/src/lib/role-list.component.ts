@@ -3,7 +3,6 @@ import { Component, OnInit }                                                    
 import { ConfirmationService }                                                                   from "@coduction/primeng/api";
 import { ButtonModule }                                                                          from "@coduction/primeng/button";
 import { CardModule }                                                                            from "@coduction/primeng/card";
-import { DialogService }                                                                         from "@coduction/primeng/dynamicdialog";
 import { Role }                                                                                  from "@famulex/shared/famulex-api-client";
 import { RoleActions, RoleState }                                                                from "@famulex/web/administration/data-access/role-state";
 import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableComponent } from "@famulex/web/shared/table";
@@ -19,23 +18,50 @@ import { Observable }                                                           
   styleUrls: ["./role-list.component.scss"]
 })
 export class RoleListComponent implements OnInit {
-
   roleColumns: TableColumn<Role>[] = [
-    new TableColumn("key", $localize`Key`, false, role => role.key),
-    new TableColumn("name", $localize`Name`, true, role => role.name),
-    new TableColumn("description", $localize`Description`, true, role => role.description),
-    new TableColumn("rights", $localize`Rights`, true, role => role.rights),
-    new TableColumn("createdAt", $localize`Created At`, false, role => this.datePipe.transform(role.createdAt, "shortDate") ?? ""),
-    new TableColumn("updatedAt", $localize`Updated At`, false, role => this.datePipe.transform(role.updatedAt, "shortDate") ?? "")
+    new TableColumn("key", $localize`Key`, false, (role) => role.key),
+    new TableColumn("name", $localize`Name`, true, (role) => role.name),
+    new TableColumn(
+      "description",
+      $localize`Description`,
+      true,
+      (role) => role.description
+    ),
+    new TableColumn("rights", $localize`Rights`, true, (role) => role.rights),
+    new TableColumn(
+      "createdAt",
+      $localize`Created At`,
+      false,
+      (role) => this.datePipe.transform(role.createdAt, "shortDate") ?? ""
+    ),
+    new TableColumn(
+      "updatedAt",
+      $localize`Updated At`,
+      false,
+      (role) => this.datePipe.transform(role.updatedAt, "shortDate") ?? ""
+    )
   ];
 
   tableActions: TableAction[] = [
-    { label: $localize`Create Role`, icon: "fa fa-shield-quartered", onClick: () => this.onCreateRole(), primary: true }
+    {
+      label: $localize`Create Role`,
+      icon: "fa fa-shield-quartered",
+      onClick: () => this.onCreateRole(),
+      primary: true
+    }
   ];
 
   entryActions: EntryAction<Role>[] = [
-    { label: $localize`Edit Role`, icon: "fa fa-pen-to-square", onClick: role => this.onEditRole(role) },
-    { label: $localize`Delete Role`, icon: "fa fa-trash", onClick: role => this.onDeleteRole(role) }
+    {
+      label: $localize`Edit Role`,
+      icon: "fa fa-pen-to-square",
+      onClick: (role) => this.onEditRole(role)
+    },
+    {
+      label: $localize`Delete Role`,
+      icon: "fa fa-trash",
+      onClick: (role) => this.onDeleteRole(role)
+    }
   ];
 
   selectionActions: SelectionAction<string, Role>[] = [
@@ -46,7 +72,10 @@ export class RoleListComponent implements OnInit {
         }
 
         return $localize`Delete ${amount} Roles`;
-      }, icon: "fa fa-trash", resetSelection: true, onClick: roles => this.onDeleteRoleBulk(roles)
+      },
+      icon: "fa fa-trash",
+      resetSelection: true,
+      onClick: (roles) => this.onDeleteRoleBulk(roles)
     }
   ];
 
@@ -55,10 +84,11 @@ export class RoleListComponent implements OnInit {
   pageSize$ = this.store.select(RoleState.selectPageSize);
   loading$ = this.store.select(RoleState.selectLoading);
 
-  constructor(private store: Store,
-              private datePipe: DatePipe,
-              private dialogService: DialogService,
-              private confirmationService: ConfirmationService) {
+  constructor(
+    private store: Store,
+    private datePipe: DatePipe,
+    private confirmationService: ConfirmationService
+  ) {
   }
 
   ngOnInit() {
@@ -70,7 +100,12 @@ export class RoleListComponent implements OnInit {
   }
 
   onCreateRole() {
-    console.log("Create Role");
+    // this.store.dispatch(
+    //   WizardActions.open({
+    //     id: RoleCreateComponent.WIZARD_ID,
+    //     component: RoleCreateComponent
+    //   })
+    // );
   }
 
   onEditRole(role: Role) {

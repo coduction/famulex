@@ -35,7 +35,7 @@ $borderRadius: 6px !default;
 $transitionDuration: .2s !default;
 $formElementTransition: background-color $transitionDuration, color $transitionDuration, border-color $transitionDuration, box-shadow $transitionDuration !default;
 $actionIconTransition: background-color $transitionDuration, color $transitionDuration, box-shadow $transitionDuration !default;
-$listItemTransition: box-shadow $transitionDuration !default;
+$listItemTransition: background-color $transitionDuration, color $transitionDuration, border-color $transitionDuration, box-shadow $transitionDuration, font-weight $transitionDuration !default;
 $primeIconFontSize: 1rem !default;
 $divider: 1px solid $shade300 !default;
 $inlineSpacing: .5rem !default;

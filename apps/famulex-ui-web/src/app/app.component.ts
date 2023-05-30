@@ -11,7 +11,6 @@ import { NxWelcomeComponent } from "./nx-welcome.component";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-  title = "famulex-ui-web";
 
   constructor(primeConfig: PrimeNGConfig) {
     primeConfig.ripple = true;

@@ -7,9 +7,10 @@ import { ConfirmationService, MessageService }                                  
 import { DialogService }                                                                from "@coduction/primeng/dynamicdialog";
 import { FamulexApiConfiguration, FamulexApiConfigurationParameters, FamulexApiModule } from "@famulex/shared/famulex-api-client";
 import { HttpErrorInterceptor }                                                         from "@famulex/shared/util";
+import { WizardEffects, WizardState }                                                   from "@famulex/web/shared/wizard";
 import { provideEffects }                                                               from "@ngrx/effects";
 import { provideRouterStore, routerReducer }                                            from "@ngrx/router-store";
-import { provideStore }                                                                 from "@ngrx/store";
+import { provideState, provideStore }                                                   from "@ngrx/store";
 import { provideStoreDevtools }                                                         from "@ngrx/store-devtools";
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService }            from "keycloak-angular";
 import { appRoutes }                                                                    from "./app.routes";
@@ -21,11 +22,13 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
-    provideStore({ router: routerReducer }),
+    // Disable strict immutability checks for now, because of the following issue: Wizards cannot be opened by passing a component as input if strict immutability checks are enabled
+    provideStore({ router: routerReducer }, { runtimeChecks: { strictActionImmutability: false } }),
     provideRouterStore(),
-    provideEffects(),
+    provideState(WizardState),
+    provideEffects(WizardEffects),
     provideStoreDevtools({
-      maxAge: 25,
+      maxAge: 100,
       logOnly: !isDevMode()
     }),
     {

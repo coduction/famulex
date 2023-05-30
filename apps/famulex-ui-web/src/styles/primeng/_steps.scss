@@ -1,0 +1,15 @@
+.p-steps {
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  
+  .p-steps-item {
+    a {
+      cursor: pointer;
+    }
+
+    a:focus {
+      outline: none !important;
+      box-shadow: unset !important;
+    }
+  }
+}

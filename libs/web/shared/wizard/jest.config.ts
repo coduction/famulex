@@ -1,10 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: "web-administration-feature-role-create",
-  preset: "../../../../../jest.preset.js",
+  displayName: "web-shared-wizard",
+  preset: "../../../../jest.preset.js",
   setupFilesAfterEnv: ["<rootDir>/src/test-setup.ts"],
-  coverageDirectory:
-    "../../../../../coverage/libs/web/administration/feature/role-create",
+  coverageDirectory: "../../../../coverage/libs/web/shared/wizard",
   transform: {
     "^.+\\.(ts|mjs|js|html)$": [
       "jest-preset-angular",

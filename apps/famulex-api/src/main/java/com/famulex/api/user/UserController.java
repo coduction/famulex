@@ -1,5 +1,6 @@
 package com.famulex.api.user;
 
+import com.famulex.api.core.exception.BadRequestException;
 import com.famulex.api.core.util.SecurityHelper;
 import com.famulex.api.security.model.Rights;
 import com.famulex.api.user.api.UserMapper;
@@ -51,6 +52,25 @@ public class UserController {
   @GetMapping("/{userKey}")
   public Optional<UserResponse> loadUser(@PathVariable UUID userKey) {
     return userRepository.findByKey(userKey).map(userMapper::toUserResponse);
+  }
+
+  @GetMapping("/available")
+  public boolean checkUserAvailability(@RequestParam(required = false) String username, @RequestParam(required = false) String email) {
+    if (username == null && email == null) {
+      throw new BadRequestException("Either username or email must be provided");
+    }
+
+    boolean available = true;
+
+    if (username != null) {
+      available &= !userRepository.existsByUsername(username);
+    }
+
+    if (email != null) {
+      available &= !userRepository.existsByEmail(email);
+    }
+
+    return available;
   }
 
   @Operation(summary = "Create a new user")

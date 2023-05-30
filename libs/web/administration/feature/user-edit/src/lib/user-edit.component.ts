@@ -1,34 +1,36 @@
-import { CommonModule }                                 from "@angular/common";
-import { Component, OnInit }                            from "@angular/core";
-import { takeUntilDestroyed }                           from "@angular/core/rxjs-interop";
-import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ButtonModule }                                 from "@coduction/primeng/button";
-import { DynamicDialogConfig, DynamicDialogRef }        from "@coduction/primeng/dynamicdialog";
-import { InputSwitchModule }                            from "@coduction/primeng/inputswitch";
-import { InputTextModule }                              from "@coduction/primeng/inputtext";
-import { PasswordModule }                               from "@coduction/primeng/password";
-import { RippleModule }                                 from "@coduction/primeng/ripple";
-import { User, UserRequest }                            from "@famulex/shared/famulex-api-client";
-import { FormErrorComponent, FormLabelComponent }       from "@famulex/shared/ui";
-import { validateForm }                                 from "@famulex/shared/util";
-import { UserActions, UserState }                       from "@famulex/web/administration/data-access/user-state";
-import { ofType }                                       from "@ngrx/effects";
-import { ActionsSubject, Store }                        from "@ngrx/store";
+import { CommonModule }                                                                                      from "@angular/common";
+import { Component, OnInit }                                                                                 from "@angular/core";
+import { takeUntilDestroyed }                                                                                from "@angular/core/rxjs-interop";
+import { AbstractControl, AsyncValidatorFn, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from "@angular/forms";
+import { DynamicDialogConfig }                                                                               from "@coduction/primeng/dynamicdialog";
+import { InputSwitchModule }                                                                                 from "@coduction/primeng/inputswitch";
+import { InputTextModule }                                                                                   from "@coduction/primeng/inputtext";
+import { PasswordModule }                                                                                    from "@coduction/primeng/password";
+import { User, UserRequest, UserService }                                                                    from "@famulex/shared/famulex-api-client";
+import { FormErrorComponent, FormLabelComponent }                                                            from "@famulex/shared/ui";
+import { InputPendingFeedbackDirective, validateForm }                                                       from "@famulex/shared/util";
+import { USER_EDIT_WIZARD_ID, UserActions, UserState }                                                       from "@famulex/web/administration/data-access/user-state";
+import { WizardStepComponent, WizardWrapperComponent }                                                       from "@famulex/web/shared/wizard";
+import { Store }                                                                                             from "@ngrx/store";
+import { catchError, delay, map, Observable, of, switchMap }                                                 from "rxjs";
 
 @Component({
   selector: "administration-user-edit",
   standalone: true,
-  imports: [CommonModule, ButtonModule, RippleModule, PasswordModule, ReactiveFormsModule, InputSwitchModule, FormErrorComponent, FormLabelComponent, InputTextModule],
+  imports: [CommonModule, WizardWrapperComponent, WizardStepComponent, ReactiveFormsModule, FormLabelComponent, FormErrorComponent, InputSwitchModule, PasswordModule, InputTextModule, InputPendingFeedbackDirective],
   templateUrl: "./user-edit.component.html",
   styleUrls: ["./user-edit.component.scss"]
 })
 export class UserEditComponent implements OnInit {
 
-  createUserForm = this.fb.nonNullable.group({
+  userForm = this.fb.nonNullable.group({
     firstName: ["", Validators.required],
     lastName: ["", [Validators.required]],
-    email: ["", [Validators.required, Validators.email]],
-    username: ["", Validators.required],
+    email: ["", [Validators.required, Validators.email], [this.validateEmail()]],
+    username: ["", [Validators.required], [this.validateUsername()]]
+  });
+
+  passwordForm = this.fb.nonNullable.group({
     set_password: [false],
     password_temporary: [true],
     password: ["", [Validators.required]],
@@ -39,59 +41,55 @@ export class UserEditComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private store: Store,
-              private actions$: ActionsSubject,
-              private dialogRef: DynamicDialogRef,
+              private userService: UserService,
               protected config: DynamicDialogConfig<User>) {
     // Hide password fields if set_password is false
-    this.createUserForm.valueChanges
+    this.passwordForm.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe(form => {
         if (form.set_password) {
-          this.createUserForm.controls.password.enable({ emitEvent: false });
-          this.createUserForm.controls.password_confirmation.enable({ emitEvent: false });
+          this.passwordForm.controls.password.enable({ emitEvent: false });
+          this.passwordForm.controls.password_confirmation.enable({ emitEvent: false });
 
           if (form.password_confirmation && form.password_confirmation !== form.password) {
-            this.createUserForm.controls.password_confirmation.setErrors({ passwordMatch: true });
+            this.passwordForm.controls.password_confirmation.setErrors({ passwordMatch: true });
           }
         } else {
-          this.createUserForm.controls.password.disable({ emitEvent: false });
-          this.createUserForm.controls.password_confirmation.disable({ emitEvent: false });
+          this.passwordForm.controls.password.disable({ emitEvent: false });
+          this.passwordForm.controls.password_confirmation.disable({ emitEvent: false });
         }
       });
 
     // Disable form while api call is in progress
     this.loading$.pipe(takeUntilDestroyed()).subscribe(loading => {
       if (loading) {
-        this.createUserForm.disable();
+        this.userForm.disable();
+        this.passwordForm.disable();
       } else {
-        this.createUserForm.enable();
+        this.userForm.enable();
+        this.passwordForm.enable();
       }
     });
-
-    this.actions$.pipe(
-      takeUntilDestroyed(),
-      ofType(UserActions.createSuccess, UserActions.updateSuccess)
-    ).subscribe(() => this.dialogRef.close());
   }
 
   ngOnInit(): void {
     if (this.config.data) {
-      this.createUserForm.patchValue(this.config.data);
+      this.userForm.patchValue(this.config.data);
     }
   }
 
-  onSubmit(): void {
-    if (validateForm(this.createUserForm)) {
+  onFinish = async () => {
+    if (await validateForm(this.userForm) && await validateForm(this.passwordForm)) {
       const userRequest: UserRequest = {
-        firstName: this.createUserForm.controls.firstName.value,
-        lastName: this.createUserForm.controls.lastName.value,
-        email: this.createUserForm.controls.email.value,
-        username: this.createUserForm.controls.username.value
+        firstName: this.userForm.controls.firstName.value,
+        lastName: this.userForm.controls.lastName.value,
+        email: this.userForm.controls.email.value,
+        username: this.userForm.controls.username.value
       };
 
-      if (this.createUserForm.value.set_password) {
-        userRequest.password = this.createUserForm.controls.password.value;
-        userRequest.passwordTemporary = this.createUserForm.controls.password_temporary.value;
+      if (this.passwordForm.value.set_password) {
+        userRequest.password = this.passwordForm.controls.password.value;
+        userRequest.passwordTemporary = this.passwordForm.controls.password_temporary.value;
       }
 
       if (this.config.data) {
@@ -99,10 +97,66 @@ export class UserEditComponent implements OnInit {
       } else {
         this.store.dispatch(UserActions.create({ userRequest }));
       }
+
+      return;
     }
+
+    return false;
+  };
+
+  onNextDetails = () => {
+    return validateForm(this.userForm);
+  };
+
+  onNextCredentials = () => {
+    return validateForm(this.passwordForm);
+  };
+
+  validateUsername(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return of(control.value).pipe(
+        delay(500),
+        switchMap(username => this.userService.checkUserAvailability(username)
+          .pipe(
+            delay(5000),
+            map(userNameAvailable => {
+              if (userNameAvailable) {
+                return null;
+              }
+
+              return { taken: true };
+            }),
+            catchError(() => {
+              return of({ asyncError: true });
+            })
+          )
+        )
+      );
+    };
   }
 
-  onCancel(): void {
-    this.dialogRef.close();
+  validateEmail(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return of(control.value).pipe(
+        delay(500),
+        switchMap(email => this.userService.checkUserAvailability(undefined, email).pipe(
+            map(emailAvailable => {
+              if (emailAvailable) {
+                return null;
+              }
+
+              return { taken: true };
+            }),
+            catchError(() => {
+              return of({ asyncError: true });
+            })
+          )
+        )
+      );
+    };
+  }
+
+  get wizardId(): string {
+    return USER_EDIT_WIZARD_ID;
   }
 }

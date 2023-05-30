@@ -1,0 +1,41 @@
+<div *ngIf="wizard" class="flex gap-3 w-full">
+  <p-button *ngIf="cancel && cancel.status !== 'HIDDEN'" @fadeAndGrow
+            [styleClass]="cancel.type === 'OUTLINED' ? 'p-button-outlined' : ''"
+            [disabled]="cancel.status === 'DISABLED'"
+            [loading]="cancel.loading ?? false"
+            [label]="cancel.label"
+            [icon]="cancel.icon"
+            (onClick)="onCancel()"
+  ></p-button>
+
+  <div class="flex-grow-1"></div>
+
+  <p-button *ngIf="previous && previous.status !== 'HIDDEN'" @fadeAndGrow
+            [styleClass]="previous.type === 'OUTLINED' ? 'p-button-outlined' : ''"
+            [disabled]="previous.status === 'DISABLED'"
+            [loading]="previous.loading ?? false"
+            [label]="previous.label"
+            [icon]="previous.icon"
+            (onClick)="onPrevious()"
+  ></p-button>
+
+  <p-button *ngIf="next && next.status !== 'HIDDEN'" @fadeAndGrow
+            [styleClass]="next.type === 'OUTLINED' ? 'p-button-outlined' : ''"
+            [disabled]="next.status === 'DISABLED'"
+            [loading]="next.loading ?? false"
+            [label]="next.label"
+            [icon]="next.icon"
+            iconPos="right"
+            (onClick)="onNext()"
+  ></p-button>
+
+  <p-button *ngIf="finish && finish.status !== 'HIDDEN'" @fadeAndGrow
+            [styleClass]="finish.type === 'OUTLINED' ? 'p-button-outlined' : ''"
+            [disabled]="finish.status === 'DISABLED'"
+            [loading]="finish.loading ?? false"
+            [label]="finish.label"
+            [icon]="finish.icon"
+            iconPos="right"
+            (onClick)="onFinish()"
+  ></p-button>
+</div>

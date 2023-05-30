@@ -1,0 +1,10 @@
+<div *ngIf="wizard" class="flex flex-column gap-5">
+  <wizard-steps [steps]="steps"
+                [activeIndex]="wizard.activeStepIndex"
+  ></wizard-steps>
+
+  <ng-container *ngTemplateOutlet="activeStepComponent?.content ?? null"
+  ></ng-container>
+
+  <wizard-buttons [wizard]="wizard"></wizard-buttons>
+</div>

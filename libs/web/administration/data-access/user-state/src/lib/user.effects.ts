@@ -1,14 +1,16 @@
-import { HttpErrorResponse }                                                                  from "@angular/common/http";
-import { Injectable }                                                                         from "@angular/core";
-import { MessageService }                                                                     from "@coduction/primeng/api";
-import { UserService }                                                                        from "@famulex/shared/famulex-api-client";
-import { AuthService }                                                                        from "@famulex/shared/security/util";
-import { HttpErrorInterceptor }                                                               from "@famulex/shared/util";
-import { Actions, createEffect, ofType }                                                      from "@ngrx/effects";
-import { Store }                                                                              from "@ngrx/store";
-import { catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap, withLatestFrom } from "rxjs";
-import { UserActions }                                                                        from "./user.actions";
-import { UserState }                                                                          from "./user.reducer";
+import { HttpErrorResponse }                                                  from "@angular/common/http";
+import { Injectable }                                                         from "@angular/core";
+import { MessageService }                                                     from "@coduction/primeng/api";
+import { UserService }                                                        from "@famulex/shared/famulex-api-client";
+import { AuthService }                                                        from "@famulex/shared/security/util";
+import { HttpErrorInterceptor }                                               from "@famulex/shared/util";
+import { WizardActions }                                                      from "@famulex/web/shared/wizard";
+import { Actions, concatLatestFrom, createEffect, ofType }                    from "@ngrx/effects";
+import { Store }                                                              from "@ngrx/store";
+import { catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap } from "rxjs";
+import { UserActions }                                                        from "./user.actions";
+import { USER_EDIT_WIZARD_ID }                                                from "./user.models";
+import { UserState }                                                          from "./user.reducer";
 
 @Injectable()
 export class UserEffects {
@@ -28,7 +30,7 @@ export class UserEffects {
   loadUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.load),
-      withLatestFrom(this.store.select(UserState.selectTableMetaData)),
+      concatLatestFrom(() => this.store.select(UserState.selectTableMetaData)),
       switchMap(([_, table]) => {
           HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
@@ -88,9 +90,10 @@ export class UserEffects {
             detail: $localize`Please try again later.`
           });
         }
-      })
+      }),
+      map(() => WizardActions.finishFailure({ id: USER_EDIT_WIZARD_ID }))
     );
-  }, { dispatch: false });
+  });
 
   createUserSuccess$ = createEffect(() => {
     return this.actions$.pipe(
@@ -102,7 +105,10 @@ export class UserEffects {
           detail: `${user.firstName} ${user.lastName}`
         });
       }),
-      map(() => UserActions.load({}))
+      concatMap(() => [
+        WizardActions.finishSuccess({ id: USER_EDIT_WIZARD_ID }),
+        UserActions.load({})
+      ])
     );
   });
 
@@ -132,9 +138,10 @@ export class UserEffects {
           summary: $localize`Error while updating user`,
           detail: $localize`Please try again later.`
         });
-      })
+      }),
+      map(() => WizardActions.finishFailure({ id: USER_EDIT_WIZARD_ID }))
     );
-  }, { dispatch: false });
+  });
 
   updateUserSuccess$ = createEffect(() => {
     return this.actions$.pipe(
@@ -146,7 +153,10 @@ export class UserEffects {
           detail: `${user.changes.firstName} ${user.changes.lastName}`
         });
       }),
-      map(() => UserActions.load({}))
+      concatMap(() => [
+        WizardActions.finishSuccess({ id: USER_EDIT_WIZARD_ID }),
+        UserActions.load({})
+      ])
     );
   });
 

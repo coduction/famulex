@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RoleCreateComponent } from "./role-create.component";
+import { WizardStepComponent } from "./wizard-step.component";
 
-describe("RoleCreateComponent", () => {
-  let component: RoleCreateComponent;
-  let fixture: ComponentFixture<RoleCreateComponent>;
+describe("WizardStepComponent", () => {
+  let component: WizardStepComponent;
+  let fixture: ComponentFixture<WizardStepComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RoleCreateComponent],
+      imports: [WizardStepComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RoleCreateComponent);
+    fixture = TestBed.createComponent(WizardStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

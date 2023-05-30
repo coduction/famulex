@@ -26,4 +26,12 @@
   <small *ngIf="ngControl.hasError('max')" i18n>
     Must contain a value less than or equal to {{ ngControl.getError('max').max }}
   </small>
+
+  <small *ngIf="ngControl.hasError('taken')" i18n>
+    This value is already taken
+  </small>
 </ng-container>
+
+<small *ngIf="ngControl.hasError('asyncError')" i18n>
+  An error occurred while validating
+</small>

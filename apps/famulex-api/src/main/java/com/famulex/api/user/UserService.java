@@ -100,7 +100,7 @@ public class UserService {
   }
 
   @Transactional
-  protected void createUser(UserRepresentation userRepresentation) {
+  public void createUser(UserRepresentation userRepresentation) {
     User localUser = userMapper.toUser(userRepresentation);
     localUser.setKey(UUID.fromString(userRepresentation.getId()));
     localUser.setType(UserType.SYNCED);

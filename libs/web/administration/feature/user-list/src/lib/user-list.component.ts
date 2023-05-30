@@ -5,13 +5,14 @@ import { CardModule }                                                           
 import { DialogService }                                                                                        from "@coduction/primeng/dynamicdialog";
 import { User }                                                                                                 from "@famulex/shared/famulex-api-client";
 import {
-  UserActions, UserState
+  USER_EDIT_WIZARD_ID, UserActions, UserState
 }                                                                                                               from "@famulex/web/administration/data-access/user-state";
 import {
   UserEditComponent
 }                                                                                                               from "@famulex/web/administration/feature/user-edit";
 import { CONFIRM_DIALOG_NON_CLOSEABLE }                                                                         from "@famulex/web/shared/layout";
 import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableComponent, TableMetaData } from "@famulex/web/shared/table";
+import { WizardActions }                                                                                        from "@famulex/web/shared/wizard";
 import { Store }                                                                                                from "@ngrx/store";
 import { Observable }                                                                                           from "rxjs";
 
@@ -63,8 +64,8 @@ export class UserListComponent implements OnInit {
 
   constructor(private store: Store,
               private datePipe: DatePipe,
-              private dialogService: DialogService,
-              private confirmationService: ConfirmationService) {
+              private confirmationService: ConfirmationService,
+              private dialogService: DialogService) {
   }
 
   ngOnInit() {
@@ -76,22 +77,20 @@ export class UserListComponent implements OnInit {
   }
 
   onUserCreate() {
-    this.dialogService.open(UserEditComponent, {
-      header: $localize`Create User`,
-      width: "55rem",
-      maximizable: true,
-      closable: false
-    });
+    this.store.dispatch(WizardActions.open({
+      id: USER_EDIT_WIZARD_ID,
+      component: UserEditComponent
+    }));
   }
 
   onUserEdit(user: User) {
-    this.dialogService.open(UserEditComponent, {
-      header: $localize`Edit User`,
-      data: user,
-      width: "55rem",
-      maximizable: true,
-      closable: false
-    });
+    this.store.dispatch(WizardActions.open({
+      id: USER_EDIT_WIZARD_ID,
+      component: UserEditComponent,
+      config: {
+        data: user
+      }
+    }));
   }
 
   onUserDelete(user: User) {

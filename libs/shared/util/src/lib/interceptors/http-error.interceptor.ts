@@ -3,7 +3,7 @@ import { Injectable }                                                           
 import { MessageService }                                                          from "@coduction/primeng/api";
 import { DialogService }                                                           from "@coduction/primeng/dynamicdialog";
 import { UnauthenticatedComponent, UnauthorizedComponent }                         from "@famulex/shared/security/ui";
-import { catchError, EMPTY, Observable, throwError }                               from "rxjs";
+import { catchError, EMPTY, Observable, tap, throwError }                          from "rxjs";
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -22,24 +22,24 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request)
-      .pipe(catchError(error => {
+      .pipe(
+        tap({ next: () => HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = false }),
+        catchError(error => {
           if (error) {
-            console.error(error);
-
             if (error.error instanceof ErrorEvent) {
               // Client side error
             } else if (error instanceof HttpErrorResponse) {
               // Server side error
               if (!error.status) {
                 this.showErrorMessage($localize`Connection Error`, $localize`Please try again later and reload the page.`);
-                return EMPTY;
+                return throwError(() => error);
               }
 
               switch (error.status) {
                 case 400:
                   if (!HttpErrorInterceptor.CUSTOM_ERROR_HANDLING) {
                     this.showErrorMessage($localize`Bad Request`, $localize`Something went wrong, please try again later.`);
-                    return EMPTY;
+                    return throwError(() => error);
                   }
 
                   break;

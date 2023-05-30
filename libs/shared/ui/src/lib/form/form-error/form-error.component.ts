@@ -1,6 +1,7 @@
 import { CommonModule }                    from "@angular/common";
 import { Component }                       from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
+import { AbstractControlFeedback }         from "@famulex/shared/util";
 
 /* eslint-disable */
 @Component({
@@ -25,4 +26,7 @@ export class FormErrorComponent implements ControlValueAccessor {
   writeValue(obj: any): void {
   }
 
+  get feedbackControl() {
+    return this.ngControl.control as AbstractControlFeedback;
+  }
 }

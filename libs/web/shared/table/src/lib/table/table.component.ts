@@ -1,4 +1,3 @@
-import { animate, keyframes, style, transition, trigger }                                           from "@angular/animations";
 import { CommonModule }                                                                             from "@angular/common";
 import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { takeUntilDestroyed }                                                                       from "@angular/core/rxjs-interop";
@@ -13,7 +12,7 @@ import { RippleModule }                                                         
 import { SelectButtonModule }                                                                       from "@coduction/primeng/selectbutton";
 import { Table, TableLazyLoadEvent, TableModule }                                                   from "@coduction/primeng/table";
 import { TriStateCheckboxModule }                                                                   from "@coduction/primeng/tristatecheckbox";
-import { FormLabelComponent }                                                                       from "@famulex/shared/ui";
+import { FADE_AND_GROW, FormLabelComponent }                                                        from "@famulex/shared/ui";
 import { debounce, delay, Observable, of, switchMap }                                               from "rxjs";
 import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableMetaData }     from "./table.model";
 
@@ -37,54 +36,7 @@ import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, 
   templateUrl: "./table.component.html",
   styleUrls: ["./table.component.scss"],
   encapsulation: ViewEncapsulation.None,
-  animations: [
-    trigger("fadeAndGrow", [
-      transition(":enter", [
-        animate("300ms ease-out", keyframes([
-            style({
-              opacity: 0,
-              width: 0,
-              paddingLeft: 0,
-              paddingRight: 0,
-              whiteSpace: "nowrap",
-              scale: 0
-            }),
-            style({
-              width: "*",
-              paddingLeft: "*",
-              paddingRight: "*"
-            }),
-            style({
-              opacity: 1,
-              scale: 1
-            })
-          ])
-        )
-      ]),
-      transition(":leave", [
-        animate("300ms ease-in", keyframes([
-            style({
-              opacity: 1,
-              scale: 1,
-              width: "*",
-              paddingLeft: "*",
-              paddingRight: "*",
-              whiteSpace: "nowrap"
-            }),
-            style({
-              scale: 0,
-              opacity: 0
-            }),
-            style({
-              width: 0,
-              paddingLeft: 0,
-              paddingRight: 0
-            })
-          ])
-        )
-      ])
-    ])
-  ]
+  animations: [FADE_AND_GROW]
 })
 export class TableComponent<K, D> implements OnInit {
 
@@ -290,7 +242,7 @@ export class TableComponent<K, D> implements OnInit {
     }
   }
 
-  getGlobalFilter() {
+  get globalFilter() {
     return this._globalFilter;
   }
 
@@ -333,7 +285,7 @@ export class TableComponent<K, D> implements OnInit {
   }
 
   onFilter(globalFilter?: string) {
-    // this.globalFilter = globalFilter;
+    this.globalFilter = globalFilter;
 
     this.table.filterGlobal(globalFilter, "contains");
   }

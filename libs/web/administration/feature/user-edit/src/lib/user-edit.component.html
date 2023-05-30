@@ -1,113 +1,98 @@
-<form [formGroup]="createUserForm"
-      (ngSubmit)="onSubmit()"
-      autocomplete="off">
-  <div class="flex flex-column gap-4">
-    <div class="grid p-fluid">
-      <div class="col-12 md:col-6">
-        <ui-form-label formControlName="firstName" i18n>First Name</ui-form-label>
-        <input pInputText
-               type="text"
-               id="firstName"
-               formControlName="firstName">
-        <ui-form-error formControlName="firstName"></ui-form-error>
+<wizard-wrapper [id]="wizardId"
+                [onFinish]="onFinish"
+>
+  <wizard-step title="User Details" i18n-title
+               [onNext]="onNextDetails"
+  >
+    <form [formGroup]="userForm"
+          autocomplete="off">
+      <div class="flex flex-column gap-4">
+        <div class="grid p-fluid">
+          <div class="col-12 md:col-6">
+            <ui-form-label formControlName="firstName" i18n>First Name</ui-form-label>
+            <input pInputText
+                   type="text"
+                   id="firstName"
+                   formControlName="firstName">
+            <ui-form-error formControlName="firstName"></ui-form-error>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <ui-form-label formControlName="lastName" i18n>Last Name</ui-form-label>
+            <input pInputText
+                   type="text"
+                   id="lastName"
+                   formControlName="lastName">
+            <ui-form-error formControlName="lastName"></ui-form-error>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <ui-form-label formControlName="username" i18n>Username</ui-form-label>
+            <input pInputText inputPendingFeedback
+                   type="text"
+                   id="username"
+                   formControlName="username">
+            <ui-form-error formControlName="username"></ui-form-error>
+          </div>
+
+          <div class="col-12 md:col-6">
+            <ui-form-label formControlName="email" i18n>Email</ui-form-label>
+            <input pInputText inputPendingFeedback
+                   type="email"
+                   id="email"
+                   formControlName="email">
+            <ui-form-error formControlName="email"></ui-form-error>
+          </div>
+        </div>
       </div>
+    </form>
+  </wizard-step>
 
-      <div class="col-12 md:col-6">
-        <ui-form-label formControlName="lastName" i18n>Last Name</ui-form-label>
-        <input pInputText
-               type="text"
-               id="lastName"
-               formControlName="lastName">
-        <ui-form-error formControlName="lastName"></ui-form-error>
+  <wizard-step title="Credentials" i18n-title
+               [onNext]="onNextCredentials"
+  >
+    <form [formGroup]="passwordForm"
+          autocomplete="off">
+      <div class="flex flex-column gap-4">
+        <div class="grid p-fluid">
+          <div class="col-12 md:col-6">
+            <ui-form-label formControlName="set_password" i18n>Set Password</ui-form-label>
+            <p-inputSwitch inputId="set_password"
+                           formControlName="set_password"
+            ></p-inputSwitch>
+            <ui-form-error formControlName="set_password"></ui-form-error>
+          </div>
+
+          <div class="col-12 md:col-6" *ngIf="passwordForm.controls.set_password.value">
+            <ui-form-label formControlName="password_temporary" i18n>Temporary Password</ui-form-label>
+            <p-inputSwitch inputId="password_temporary"
+                           formControlName="password_temporary"
+            ></p-inputSwitch>
+            <ui-form-error formControlName="password_temporary"></ui-form-error>
+          </div>
+
+          <div class="col-12 md:col-6" *ngIf="passwordForm.controls.set_password.value">
+            <ui-form-label formControlName="password" i18n>Password</ui-form-label>
+            <p-password inputId="password"
+                        [feedback]="false"
+                        [toggleMask]="true"
+                        formControlName="password"
+            ></p-password>
+            <ui-form-error formControlName="password"></ui-form-error>
+          </div>
+
+          <div class="col-12 md:col-6" *ngIf="passwordForm.controls.set_password.value">
+            <ui-form-label formControlName="password_confirmation" i18n>Password Confirmation</ui-form-label>
+            <p-password inputId="password_confirmation"
+                        formControlName="password_confirmation"
+                        [feedback]="false"
+                        [toggleMask]="true"
+            ></p-password>
+            <ui-form-error formControlName="password_confirmation"></ui-form-error>
+          </div>
+        </div>
       </div>
-
-      <div class="col-12 md:col-6">
-        <ui-form-label formControlName="username" i18n>Username</ui-form-label>
-        <input pInputText
-               type="text"
-               id="username"
-               formControlName="username">
-        <ui-form-error formControlName="username"></ui-form-error>
-      </div>
-
-      <div class="col-12 md:col-6">
-        <ui-form-label formControlName="email" i18n>Email</ui-form-label>
-        <input pInputText
-               type="text"
-               id="email"
-               formControlName="email">
-        <ui-form-error formControlName="email"></ui-form-error>
-      </div>
-    </div>
-
-    <div class="grid p-fluid">
-      <div class="col-12 md:col-6">
-        <ui-form-label formControlName="set_password" i18n>Set Password</ui-form-label>
-        <p-inputSwitch inputId="set_password"
-                       formControlName="set_password"
-        ></p-inputSwitch>
-        <ui-form-error formControlName="set_password"></ui-form-error>
-      </div>
-
-      <div class="col-12 md:col-6" *ngIf="createUserForm.value.set_password">
-        <ui-form-label formControlName="password_temporary" i18n>Temporary Password</ui-form-label>
-        <p-inputSwitch inputId="password_temporary"
-                       formControlName="password_temporary"
-        ></p-inputSwitch>
-        <ui-form-error formControlName="password_temporary"></ui-form-error>
-      </div>
-
-      <div class="col-12 md:col-6" *ngIf="createUserForm.value.set_password">
-        <ui-form-label formControlName="password" i18n>Password</ui-form-label>
-        <p-password inputId="password"
-                    [feedback]="false"
-                    [toggleMask]="true"
-                    formControlName="password"
-        ></p-password>
-        <ui-form-error formControlName="password"></ui-form-error>
-      </div>
-
-      <div class="col-12 md:col-6" *ngIf="createUserForm.value.set_password">
-        <ui-form-label formControlName="password_confirmation" i18n>Password Confirmation</ui-form-label>
-        <p-password inputId="password_confirmation"
-                    formControlName="password_confirmation"
-                    [feedback]="false"
-                    [toggleMask]="true"
-        ></p-password>
-        <ui-form-error formControlName="password_confirmation"></ui-form-error>
-      </div>
-    </div>
-
-    <div class="flex gap-3 justify-content-end">
-      <button pButton pRipple
-              type="button"
-              label="Cancel" i18n-label
-              class="p-button-outlined"
-              icon="fa fa-times"
-              [disabled]="(loading$ | async) ?? false"
-              (click)="onCancel()"
-      ></button>
-
-      <button *ngIf="!config.data else updateButton"
-              pButton pRipple i18n-label
-              type="submit"
-              label="Create User"
-              icon="fa fa-user-plus"
-              loadingIcon="fa fa-spin fa-spinner-third"
-              [loading]="(loading$ | async) ?? false"
-      ></button>
-
-      <ng-template #updateButton>
-        <button pButton pRipple i18n-label
-                type="submit"
-                label="Update User"
-                icon="fa fa-user-edit"
-                loadingIcon="fa fa-spin fa-spinner-third"
-                [loading]="(loading$ | async) ?? false"
-        ></button>
-      </ng-template>
-    </div>
-  </div>
-</form>
-
+    </form>
+  </wizard-step>
+</wizard-wrapper>
 
