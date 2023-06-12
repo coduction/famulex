@@ -11,17 +11,20 @@
  */
 
 
-export type Right = '_ACCESS_COURSES' | '_ACCESS_TESTS' | '_ACCESS_CERTIFICATES' | '_CREATE_COURSES' | '_CREATE_TESTS' | '_MANAGE_COURSES' | '_MANAGE_TESTS' | '_ACCESS_LIBRARY' | '_MANAGE_LIBRARIES' | '_MANAGE_USERS' | '_MANAGE_GROUPS' | '_MANAGE_ROLES' | '_SYNC_KEYCLOAK';
+export type Right = '_ACCESS_COURSES' | '_ACCESS_TESTS' | '_ACCESS_CERTIFICATES' | '_MANAGE_CERTIFICATES' | '_CHECK_CERTIFICATES' | '_CREATE_COURSES' | '_CREATE_TESTS' | '_MANAGE_COURSES' | '_MANAGE_TESTS' | '_ACCESS_LIBRARY' | '_CREATE_LIBRARIES' | '_MANAGE_LIBRARIES' | '_MANAGE_USERS' | '_MANAGE_GROUPS' | '_MANAGE_ROLES' | '_SYNC_KEYCLOAK';
 
 export const Right = {
     AccessCourses: '_ACCESS_COURSES' as Right,
     AccessTests: '_ACCESS_TESTS' as Right,
     AccessCertificates: '_ACCESS_CERTIFICATES' as Right,
+    ManageCertificates: '_MANAGE_CERTIFICATES' as Right,
+    CheckCertificates: '_CHECK_CERTIFICATES' as Right,
     CreateCourses: '_CREATE_COURSES' as Right,
     CreateTests: '_CREATE_TESTS' as Right,
     ManageCourses: '_MANAGE_COURSES' as Right,
     ManageTests: '_MANAGE_TESTS' as Right,
     AccessLibrary: '_ACCESS_LIBRARY' as Right,
+    CreateLibraries: '_CREATE_LIBRARIES' as Right,
     ManageLibraries: '_MANAGE_LIBRARIES' as Right,
     ManageUsers: '_MANAGE_USERS' as Right,
     ManageGroups: '_MANAGE_GROUPS' as Right,

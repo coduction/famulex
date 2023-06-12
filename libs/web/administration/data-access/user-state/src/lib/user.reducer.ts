@@ -5,7 +5,7 @@ import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { produce }                                          from "immer";
 import { UserActions }                                      from "./user.actions";
 
-export const USERS_FEATURE_KEY = "users";
+export const USERS_FEATURE_KEY = "Users";
 
 export interface State extends EntityState<User> {
   // additional entities state properties
@@ -32,7 +32,7 @@ export const initialState: State = adapter.getInitialState({
 
   pageIndex: 0,
   pageSize: 10,
-  sortedBy: ["createdAt,desc"],
+  sortedBy: ["firstName,asc", "lastName,asc"],
   globalFilter: undefined,
 
   page: undefined
@@ -137,10 +137,6 @@ export const UserState = createFeature({
   reducer,
   extraSelectors: ({ selectUsersState }) => ({
     ...adapter.getSelectors(selectUsersState),
-    selectTotal: createSelector(
-      selectUsersState,
-      (state) => state.page?.totalElements || null
-    ),
     selectTableMetaData: createSelector(
       selectUsersState,
       (state) => ({

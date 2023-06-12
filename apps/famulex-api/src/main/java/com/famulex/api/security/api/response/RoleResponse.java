@@ -29,11 +29,17 @@ public class RoleResponse {
   private OffsetDateTime createdAt;
   @NotNull
   private OffsetDateTime updatedAt;
+  private OffsetDateTime deletedAt;
 
   @NotNull
   private String name;
   private String description;
-  
+
+  @NotNull
+  private Boolean defaultRole;
+  @NotNull
+  private Boolean systemRole;
+
   @NotNull
   @ArraySchema
   private List<Right> rights = new ArrayList<>();

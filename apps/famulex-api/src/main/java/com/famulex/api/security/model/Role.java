@@ -32,7 +32,15 @@ public class Role extends PublicKey {
   @Setter
   @Convert(converter = RightsConverter.class)
   @Column(name = "rights", nullable = false)
-  private List<Right> rights;
+  private List<Right> rights = new ArrayList<>();
+
+  @Setter
+  @Column(name = "default_role", nullable = false)
+  private boolean defaultRole;
+
+  @Setter
+  @Column(name = "system_role", nullable = false)
+  private boolean systemRole;
 
   @Builder.Default
   @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)

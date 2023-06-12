@@ -17,14 +17,14 @@ import { SortObject } from './sort-object';
 export interface PageTest { 
     totalPages?: number;
     totalElements?: number;
-    size?: number;
-    content?: Array<Test>;
-    sort?: SortObject;
     first?: boolean;
     last?: boolean;
+    size?: number;
+    content?: Array<Test>;
     number?: number;
-    pageable?: PageableObject;
+    sort?: SortObject;
     numberOfElements?: number;
+    pageable?: PageableObject;
     empty?: boolean;
 }
 

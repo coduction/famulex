@@ -8,6 +8,7 @@ export const appRoutes: Route[] = [
   {
     path: "",
     component: MainLayoutComponent,
+    canActivate: [AuthGuard],
     children: []
   },
   {
@@ -17,6 +18,7 @@ export const appRoutes: Route[] = [
     data: {
       rights: [Right.ManageUsers, Right.ManageGroups, Right.ManageRoles]
     },
+    title: $localize`Administration`,
     loadChildren: () => import("@famulex/web/administration/feature/shell").then(m => m.administrationRoutes)
   },
   {

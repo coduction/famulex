@@ -1,15 +1,11 @@
 import { CommonModule, DatePipe }                                                                               from "@angular/common";
-import { Component, OnInit }                                                                                    from "@angular/core";
+import { Component }                                                                                            from "@angular/core";
 import { ConfirmationService }                                                                                  from "@coduction/primeng/api";
 import { CardModule }                                                                                           from "@coduction/primeng/card";
 import { DialogService }                                                                                        from "@coduction/primeng/dynamicdialog";
 import { User }                                                                                                 from "@famulex/shared/famulex-api-client";
-import {
-  USER_EDIT_WIZARD_ID, UserActions, UserState
-}                                                                                                               from "@famulex/web/administration/data-access/user-state";
-import {
-  UserEditComponent
-}                                                                                                               from "@famulex/web/administration/feature/user-edit";
+import { USER_EDIT_WIZARD_ID, UserActions, UserState }                                                          from "@famulex/web/administration/data-access/user-state";
+import { UserEditComponent }                                                                                    from "@famulex/web/administration/feature/user-edit";
 import { CONFIRM_DIALOG_NON_CLOSEABLE }                                                                         from "@famulex/web/shared/layout";
 import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableComponent, TableMetaData } from "@famulex/web/shared/table";
 import { WizardActions }                                                                                        from "@famulex/web/shared/wizard";
@@ -24,17 +20,17 @@ import { Observable }                                                           
   templateUrl: "./user-list.component.html",
   styleUrls: ["./user-list.component.scss"]
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent {
 
   userColumns: TableColumn<User>[] = [
-    new TableColumn("key", $localize`Key`, false, user => user.key),
-    new TableColumn("username", $localize`Username`, true, user => user.username),
-    new TableColumn("firstName", $localize`First Name`, true, user => user.firstName),
-    new TableColumn("lastName", $localize`Last Name`, true, user => user.lastName),
-    new TableColumn("email", $localize`E-Mail`, true, user => user.email),
-    new TableColumn("lastActiveAt", $localize`Last Active At`, false, user => this.datePipe.transform(user.lastActiveAt, "short") ?? ""),
-    new TableColumn("createdAt", $localize`Created At`, false, user => this.datePipe.transform(user.createdAt, "shortDate") ?? ""),
-    new TableColumn("updatedAt", $localize`Updated At`, false, user => this.datePipe.transform(user.updatedAt, "shortDate") ?? "")
+    new TableColumn({ key: "key", name: $localize`Key`, field: user => user.key, visibleByDefault: false }),
+    new TableColumn({ key: "firstName", name: $localize`First Name`, field: user => user.firstName }),
+    new TableColumn({ key: "lastName", name: $localize`Last Name`, field: user => user.lastName }),
+    new TableColumn({ key: "username", name: $localize`Username`, field: user => user.username }),
+    new TableColumn({ key: "email", name: $localize`E-Mail`, field: user => user.email }),
+    new TableColumn({ key: "lastActiveAt", name: $localize`Last Active At`, field: user => this.datePipe.transform(user.lastActiveAt, "short"), visibleByDefault: false }),
+    new TableColumn({ key: "createdAt", name: $localize`Created At`, field: user => this.datePipe.transform(user.createdAt, "short"), visibleByDefault: false }),
+    new TableColumn({ key: "updatedAt", name: $localize`Updated At`, field: user => this.datePipe.transform(user.updatedAt, "short"), visibleByDefault: false })
   ];
 
   tableActions: TableAction[] = [
@@ -42,8 +38,8 @@ export class UserListComponent implements OnInit {
   ];
 
   entryActions: EntryAction<User>[] = [
-    { label: $localize`Edit User`, icon: "fa fa-user-edit", onClick: user => this.onUserEdit(user) },
-    { label: $localize`Delete User`, icon: "fa fa-trash", onClick: user => this.onUserDelete(user) }
+    { label: $localize`Edit User`, icon: "fa fa-fw fa-user-edit", onClick: user => this.onUserEdit(user) },
+    { label: $localize`Delete User`, icon: "fa fa-fw fa-trash", onClick: user => this.onUserDelete(user) }
   ];
 
   selectionActions: SelectionAction<string, User>[] = [
@@ -66,10 +62,6 @@ export class UserListComponent implements OnInit {
               private datePipe: DatePipe,
               private confirmationService: ConfirmationService,
               private dialogService: DialogService) {
-  }
-
-  ngOnInit() {
-    this.store.dispatch(UserActions.load({}));
   }
 
   onLoadData(event: LoadDataEvent) {
@@ -109,13 +101,14 @@ export class UserListComponent implements OnInit {
       this.confirmationService.confirm({
         key: CONFIRM_DIALOG_NON_CLOSEABLE,
         header: $localize`Delete Multiple Users`,
-        message: $localize`Are you sure you want to delete <b>${users.size} users</b>?`,
+        message: users.size === 1 ? $localize`Are you sure you want to delete <b>1 user</b>?` : $localize`Are you sure you want to delete <b>${users.size} users</b>?`,
         icon: "fa fa-trash",
         rejectVisible: true,
         accept: () => {
           this.store.dispatch(UserActions.deleteMany({ keys: Array.from(users.keys()) }));
           resolve(true);
-        }
+        },
+        reject: () => resolve(false)
       });
     });
   }

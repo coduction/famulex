@@ -23,7 +23,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request)
       .pipe(
-        tap({ next: () => HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = false }),
+        tap({
+          complete: () => {
+            HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = false;
+          }
+        }),
         catchError(error => {
           if (error) {
             if (error.error instanceof ErrorEvent) {

@@ -1,37 +1,37 @@
 <ng-container *ngIf="ngControl.dirty && ngControl.touched && ngControl.errors">
-  <small *ngIf="ngControl.hasError('required')" i18n>
-    This field is mandatory
+  <small class="form-error" *ngIf="ngControl.hasError('required')" @fadeAndGrowY>
+    {{ requiredText }}
   </small>
 
-  <small *ngIf="ngControl.hasError('minlength')" i18n>
+  <small class="form-error" *ngIf="ngControl.hasError('minlength')" i18n @fadeAndGrowY>
     Must contain at least {{ ngControl.getError('minlength').requiredLength }} characters
   </small>
 
-  <small *ngIf="ngControl.hasError('maxlength')" i18n>
+  <small class="form-error" *ngIf="ngControl.hasError('maxlength')" i18n @fadeAndGrowY>
     May contain a maximum of {{ ngControl.getError('maxlength').requiredLength }} characters
   </small>
 
-  <small *ngIf="ngControl.hasError('email')" i18n>
+  <small class="form-error" *ngIf="ngControl.hasError('email')" i18n @fadeAndGrowY>
     Must contain a valid email address
   </small>
 
-  <small *ngIf="ngControl.hasError('passwordMatch')" i18n>
+  <small class="form-error" *ngIf="ngControl.hasError('passwordMatch')" i18n @fadeAndGrowY>
     Both password entries must match
   </small>
 
-  <small *ngIf="ngControl.hasError('min')" i18n>
+  <small class="form-error" *ngIf="ngControl.hasError('min')" i18n @fadeAndGrowY>
     Must contain a value greater than or equal to {{ ngControl.getError('min').min }}
   </small>
 
-  <small *ngIf="ngControl.hasError('max')" i18n>
+  <small class="form-error" *ngIf="ngControl.hasError('max')" i18n @fadeAndGrowY>
     Must contain a value less than or equal to {{ ngControl.getError('max').max }}
   </small>
 
-  <small *ngIf="ngControl.hasError('taken')" i18n>
+  <small class="form-error" *ngIf="ngControl.hasError('taken')" i18n @fadeAndGrowY>
     This value is already taken
   </small>
 </ng-container>
 
-<small *ngIf="ngControl.hasError('asyncError')" i18n>
+<small class="form-error" *ngIf="ngControl.hasError('asyncError')" i18n @fadeAndGrowY>
   An error occurred while validating
 </small>

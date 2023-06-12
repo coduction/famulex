@@ -1,3 +1,6 @@
+import { Type }         from "@angular/core";
+import { CellRenderer } from "../renderer/cell-renderer/cell-renderer.component";
+
 export interface TableAction {
   icon?: string;
   label: string;
@@ -10,7 +13,7 @@ export interface SelectionAction<K, D> {
   label: string | ((amount: number) => string);
   primary?: boolean;
   resetSelection?: boolean;
-  onClick: (entries: Map<K, D>) => void | Promise<any>;
+  onClick: (entries: Map<K, D>) => Promise<boolean | void> | boolean | void | any;
 }
 
 export interface EntryAction<D> {
@@ -19,22 +22,42 @@ export interface EntryAction<D> {
   onClick: (entry: D) => void;
 }
 
-export class TableColumn<T, V = string> {
+export interface ColumnAction<D> {
+  icon?: string;
+  label?: string;
+  onClick: (entry: D) => void;
+}
+
+export class TableColumn<T, V = any> {
 
   key: string;
   name: string;
+  sortable: boolean;
+
   visible: boolean;
   visibleByDefault: boolean;
 
-  field: (object: T) => V | V[] | null | undefined;
+  cellRenderer?: Type<CellRenderer<V>>;
 
-  constructor(key: string, name: string, visibleByDefault: boolean, field: (object: T) => V | V[] | null | undefined) {
-    this.key = key;
-    this.name = name;
-    this.visible = visibleByDefault;
-    this.visibleByDefault = visibleByDefault;
+  field: (object: T) => V | null | undefined;
 
-    this.field = field;
+  constructor(config: {
+    key: string,
+    name: string,
+    field: (object: T) => V | null | undefined,
+    visibleByDefault?: boolean,
+    sortable?: boolean,
+    customRenderer?: Type<CellRenderer<V>>
+  }) {
+    this.key = config.key;
+    this.name = config.name;
+    this.field = config.field;
+
+    this.sortable = config.sortable ?? true;
+    this.visibleByDefault = config.visibleByDefault ?? true;
+    this.visible = this.visibleByDefault;
+
+    this.cellRenderer = config.customRenderer;
   }
 
   resetVisibility() {
@@ -58,4 +81,5 @@ export interface TableMetaData {
   pageSize: number;
   sortedBy: string[];
   globalFilter?: string;
+  actionInProgress?: boolean;
 }

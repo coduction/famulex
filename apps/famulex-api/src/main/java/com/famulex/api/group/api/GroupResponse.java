@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 /**
@@ -21,6 +22,10 @@ public class GroupResponse {
 
   @NotNull
   private UUID key;
+  @NotNull
+  private OffsetDateTime createdAt;
+  @NotNull
+  private OffsetDateTime updatedAt;
   @NotNull
   private GroupType type;
 

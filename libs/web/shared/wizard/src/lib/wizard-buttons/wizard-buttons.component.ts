@@ -1,7 +1,7 @@
 import { CommonModule }          from "@angular/common";
 import { Component, Input }      from "@angular/core";
 import { ButtonModule }          from "@coduction/primeng/button";
-import { FADE_AND_GROW }         from "@famulex/shared/ui";
+import { FADE_AND_SCALE_X }      from "@famulex/shared/ui";
 import { Wizard, WizardActions } from "@famulex/web/shared/wizard";
 import { Store }                 from "@ngrx/store";
 
@@ -11,7 +11,7 @@ import { Store }                 from "@ngrx/store";
   imports: [CommonModule, ButtonModule],
   templateUrl: "./wizard-buttons.component.html",
   styleUrls: ["./wizard-buttons.component.scss"],
-  animations: [FADE_AND_GROW]
+  animations: [FADE_AND_SCALE_X]
 })
 export class WizardButtonsComponent {
 

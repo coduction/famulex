@@ -4,7 +4,6 @@ import com.famulex.api.security.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,9 +14,11 @@ import java.util.UUID;
  * @date 20.05.23
  */
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long>, RoleRepositoryCustom {
 
   Optional<Role> findByKey(UUID key);
 
-  List<Role> findByKeyIn(List<UUID> keys);
+  boolean existsByKey(UUID key);
+
+  boolean existsByName(String name);
 }

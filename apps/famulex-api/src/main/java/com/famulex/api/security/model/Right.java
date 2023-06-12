@@ -20,7 +20,13 @@ public enum Right {
    *****************************************************/
   ACCESS_COURSES(Rights.ACCESS_COURSES),
   ACCESS_TESTS(Rights.ACCESS_TESTS),
+
+  /******************************************************
+   * CERTIFICATES
+   *****************************************************/
   ACCESS_CERTIFICATES(Rights.ACCESS_CERTIFICATES),
+  MANAGE_CERTIFICATES(Rights.MANAGE_CERTIFICATES),
+  CHECk_CERTIFICATES(Rights.CHECK_CERTIFICATES),
 
   /******************************************************
    * Authoring
@@ -34,6 +40,7 @@ public enum Right {
    * Library
    *****************************************************/
   ACCESS_LIBRARY(Rights.ACCESS_LIBRARY),
+  CREATE_LIBRARIES(Rights.CREATE_LIBRARIES),
   MANAGE_LIBRARIES(Rights.MANAGE_LIBRARIES),
 
   /******************************************************

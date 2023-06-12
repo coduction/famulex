@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { Role } from './role';
+import { Status } from './status';
 import { Group } from './group';
 import { User } from './user';
 import { MembershipType } from './membership-type';
@@ -22,6 +23,7 @@ export interface RoleAssignment {
     deletedAt?: Date;
     validUntil?: Date;
     validFrom?: Date;
+    status: Status;
     role: Role;
     type: MembershipType;
     user?: User;

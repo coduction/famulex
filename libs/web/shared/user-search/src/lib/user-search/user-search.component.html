@@ -1,0 +1,18 @@
+<web-table
+  [heading]="heading"
+  [headingSmall]="headingSmall"
+
+  [columns]="userSearchColumns"
+  [columnActions]="columnActions"
+
+  [showSearch]="true"
+  [showSelection]="!columnActions.length || !!selectionActions.length"
+  [selectionActions]="selectionActions"
+
+  [data]="userSearchStore.users$ | async"
+  [metaData]="userSearchStore.tableMetaData$ | async"
+  [loading$]="userSearchStore.loading$"
+
+  (loadData)="userSearchStore.loadUsers($event)"
+  (selectedKeysChange)="userSelection.emit($event)"
+></web-table>

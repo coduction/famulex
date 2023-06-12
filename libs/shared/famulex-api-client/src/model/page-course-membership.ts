@@ -17,14 +17,14 @@ import { CourseMembership } from './course-membership';
 export interface PageCourseMembership { 
     totalPages?: number;
     totalElements?: number;
-    size?: number;
-    content?: Array<CourseMembership>;
-    sort?: SortObject;
     first?: boolean;
     last?: boolean;
+    size?: number;
+    content?: Array<CourseMembership>;
     number?: number;
-    pageable?: PageableObject;
+    sort?: SortObject;
     numberOfElements?: number;
+    pageable?: PageableObject;
     empty?: boolean;
 }
 

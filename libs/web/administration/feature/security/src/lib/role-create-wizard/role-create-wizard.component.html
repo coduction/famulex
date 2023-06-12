@@ -1,0 +1,38 @@
+<wizard-wrapper
+  [id]="ROLE_CREATE_WIZARD_ID"
+  [onFinish]="onCreateRole"
+>
+  <wizard-step
+    title="Role Details" i18n-title
+    [onNext]="onValidateDetails"
+  >
+    <security-role-details
+      [details]="detailsForm"
+    ></security-role-details>
+  </wizard-step>
+
+  <wizard-step
+    title="Permissions" i18n-title
+    [onNext]="onValidatePermissions"
+  >
+    <security-role-permissions
+      [permissions]="permissionsForm"
+    ></security-role-permissions>
+  </wizard-step>
+
+  <wizard-step
+    title="User Assignments" i18n-title
+  >
+    <security-role-assignments-user-edit
+      [userKeysForm]="userKeysForm"
+    ></security-role-assignments-user-edit>
+  </wizard-step>
+
+  <wizard-step
+    title="Group Assignments" i18n-title
+  >
+    <security-role-assignments-group-edit
+      [groupKeysForm]="groupKeysForm"
+    ></security-role-assignments-group-edit>
+  </wizard-step>
+</wizard-wrapper>

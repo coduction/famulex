@@ -1,0 +1,14 @@
+<web-table
+  [columns]="manageUsersColumns"
+
+  [showSearch]="true"
+  [tableActions]="tableActions"
+  [columnActions]="columnActions"
+  [selectionActions]="selectionActions"
+
+  [data]="store.assignments$ | async"
+  [metaData]="store.tableMetaData$ | async"
+  [loading$]="store.loading$"
+
+  (loadData)="store.loadAssignments($event)"
+></web-table>

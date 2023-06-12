@@ -1,4 +1,5 @@
 import { PageRole, Role }                                   from "@famulex/shared/famulex-api-client";
+import { TableMetaData }                                    from "@famulex/web/shared/table";
 import { createEntityAdapter, EntityAdapter, EntityState }  from "@ngrx/entity";
 import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { produce }                                          from "immer";
@@ -29,7 +30,7 @@ export const initialState: State = adapter.getInitialState({
 
   pageIndex: 0,
   pageSize: 10,
-  sortedBy: [],
+  sortedBy: ["name,asc"],
   globalFilter: undefined,
 
   page: null
@@ -141,11 +142,13 @@ export const RoleState = createFeature({
     selectTableMetaData: createSelector(
       selectRolesState,
       (state) => ({
+        loading: state.loading,
+        totalEntries: state.page?.totalElements || null,
         pageIndex: state.pageIndex,
         pageSize: state.pageSize,
         sortedBy: state.sortedBy,
         globalFilter: state.globalFilter
-      })
+      } as TableMetaData)
     )
   })
 });

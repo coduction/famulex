@@ -1,1 +1,18 @@
-<p>group-list works!</p>
+<p-card>
+  <web-table
+    heading="Groups" i18n-heading
+
+    [metaData]="tableMetaData$ | async"
+    [data]="groups$ | async"
+    [loading$]="loading$"
+
+    [columns]="groupColumns"
+    [showSearch]="true"
+
+    [tableActions]="tableActions"
+    [entryActions]="entryActions"
+    [selectionActions]="selectionActions"
+
+    (loadData)="onLoadData($event)"
+  ></web-table>
+</p-card>

@@ -16,12 +16,12 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function11;
+import org.jooq.Function12;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row11;
+import org.jooq.Row12;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -88,6 +88,11 @@ public class FxRoleAssignment extends TableImpl<FxRoleAssignmentRecord> {
      * The column <code>public.fx_role_assignment.valid_until</code>.
      */
     public final TableField<FxRoleAssignmentRecord, OffsetDateTime> VALID_UNTIL = createField(DSL.name("valid_until"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "");
+
+    /**
+     * The column <code>public.fx_role_assignment.status</code>.
+     */
+    public final TableField<FxRoleAssignmentRecord, String> STATUS = createField(DSL.name("status"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
      * The column <code>public.fx_role_assignment.type</code>.
@@ -241,18 +246,18 @@ public class FxRoleAssignment extends TableImpl<FxRoleAssignmentRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row11 type methods
+    // Row12 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<Long, UUID, OffsetDateTime, OffsetDateTime, OffsetDateTime, OffsetDateTime, OffsetDateTime, String, Long, Long, Long> fieldsRow() {
-        return (Row11) super.fieldsRow();
+    public Row12<Long, UUID, OffsetDateTime, OffsetDateTime, OffsetDateTime, OffsetDateTime, OffsetDateTime, String, String, Long, Long, Long> fieldsRow() {
+        return (Row12) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function11<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super String, ? super Long, ? super Long, ? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function12<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super String, ? super String, ? super Long, ? super Long, ? super Long, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -260,7 +265,7 @@ public class FxRoleAssignment extends TableImpl<FxRoleAssignmentRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function11<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super String, ? super Long, ? super Long, ? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function12<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super String, ? super String, ? super Long, ? super Long, ? super Long, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

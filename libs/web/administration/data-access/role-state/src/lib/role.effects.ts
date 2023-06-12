@@ -3,10 +3,12 @@ import { Injectable }                                                           
 import { MessageService }                                                                     from "@coduction/primeng/api";
 import { SecurityService }                                                                    from "@famulex/shared/famulex-api-client";
 import { HttpErrorInterceptor }                                                               from "@famulex/shared/util";
+import { WizardActions }                                                                      from "@famulex/web/shared/wizard";
 import { Actions, createEffect, ofType }                                                      from "@ngrx/effects";
 import { Store }                                                                              from "@ngrx/store";
 import { catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { RoleActions }                                                                        from "./role.actions";
+import { ROLE_CREATE_WIZARD_ID, ROLE_EDIT_WIZARD_ID }                                         from "./role.models";
 import { RoleState }                                                                          from "./role.reducer";
 
 @Injectable()
@@ -61,6 +63,8 @@ export class RoleEffects {
       concatMap(({ request }) => {
         HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
+        console.log(request);
+
         return this.securityService.createRole(request).pipe(
           map(role => RoleActions.createSuccess({ role })),
           catchError((error: HttpErrorResponse) => of(RoleActions.createFailure({ error })))
@@ -86,9 +90,10 @@ export class RoleEffects {
             detail: $localize`Please try again later.`
           });
         }
-      })
+      }),
+      map(() => WizardActions.finishFailure({ id: ROLE_CREATE_WIZARD_ID }))
     );
-  }, { dispatch: false });
+  });
 
   createSuccess$ = createEffect(() => {
     return this.actions$.pipe(
@@ -100,7 +105,10 @@ export class RoleEffects {
           detail: `${role.name}`
         });
       }),
-      map(() => RoleActions.load({}))
+      concatMap(() => [
+        WizardActions.finishSuccess({ id: ROLE_CREATE_WIZARD_ID }),
+        RoleActions.load({})
+      ])
     );
   });
 
@@ -130,9 +138,12 @@ export class RoleEffects {
           summary: $localize`Error while Updating Role`,
           detail: $localize`Please try again later.`
         });
-      })
+      }),
+      concatMap(() => [
+        WizardActions.finishFailure({ id: ROLE_EDIT_WIZARD_ID })
+      ])
     );
-  }, { dispatch: false });
+  });
 
   updateSuccess$ = createEffect(() => {
     return this.actions$.pipe(
@@ -144,7 +155,10 @@ export class RoleEffects {
           detail: `${update.changes.name}`
         });
       }),
-      map(() => RoleActions.load({}))
+      concatMap(() => [
+        WizardActions.finishSuccess({ id: ROLE_EDIT_WIZARD_ID }),
+        RoleActions.load({})
+      ])
     );
   });
 

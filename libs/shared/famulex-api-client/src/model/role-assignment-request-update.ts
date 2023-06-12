@@ -9,10 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Status } from './status';
 
 
 export interface RoleAssignmentRequestUpdate { 
+    status?: Status;
     validFrom?: Date;
     validUntil?: Date;
 }
+export namespace RoleAssignmentRequestUpdate {
+}
+
 

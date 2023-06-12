@@ -1,21 +1,41 @@
 <div class="flex flex-wrap gap-3 mb-3 align-items-center">
-  <div class="flex gap-3 align-items-center flex-grow-1">
+  <div class="flex gap-3 align-items-center flex-grow-1 mt-1">
     <h2 *ngIf="heading">{{ heading }}</h2>
+    <h5 *ngIf="headingSmall">{{ headingSmall }}</h5>
     <p *ngIf="description">{{ description }}</p>
-  </div>
 
-  <div class="flex flex-wrap gap-3 justify-content-end align-items-center flex-grow-1">
-    <span *ngIf="showSearch"
-          class="flex flex-grow-1 w-full sm:max-w-20rem p-inputgroup p-input-icon-left">
+    <span *ngIf="showSearch && searchPosition === 'LEFT'"
+          class="flex flex-grow-1 w-full sm:max-w-30rem p-inputgroup p-input-icon-left">
       <i class="fa fa-magnifying-glass z-2"></i>
       <input #filterInput pInputText [ngModel]="globalFilter"
              class="flex-grow-1" type="text"
+             [disabled]="actionInProgress"
              (ngModelChange)="onFilter(filterInput.value)"
              (keydown)="onFilterKeydown($event)"
       />
       <button *ngIf="filterInput.value"
               pButton type="button"
               icon="fa fa-swap-opacity fa-xmark-large"
+              [disabled]="actionInProgress"
+              (click)="onFilter()"
+      ></button>
+    </span>
+  </div>
+
+  <div class="flex flex-wrap gap-3 justify-content-end align-items-center flex-grow-1 mt-1">
+    <span *ngIf="showSearch && searchPosition === 'RIGHT'"
+          class="flex flex-grow-1 w-full sm:max-w-20rem p-inputgroup p-input-icon-left">
+      <i class="fa fa-magnifying-glass z-2"></i>
+      <input #filterInput pInputText [ngModel]="globalFilter"
+             class="flex-grow-1" type="text"
+             [disabled]="actionInProgress"
+             (ngModelChange)="onFilter(filterInput.value)"
+             (keydown)="onFilterKeydown($event)"
+      />
+      <button *ngIf="filterInput.value"
+              pButton type="button"
+              icon="fa fa-swap-opacity fa-xmark-large"
+              [disabled]="actionInProgress"
               (click)="onFilter()"
       ></button>
     </span>
@@ -23,7 +43,8 @@
     <!-- Actions on selected items -->
     <ng-container *ngIf="selectionActions.length && selectedAmount">
       <button *ngFor="let selectionAction of selectionActions"
-              pButton pRipple @fadeAndGrow
+              pButton pRipple @fadeAndScaleX
+              [disabled]="actionInProgress"
               [icon]="selectionAction.icon ?? ''"
               [label]="getSelectionButtonLabel(selectionAction)"
               [class.p-button-outlined]="!selectionAction.primary"
@@ -34,6 +55,7 @@
     <!-- General table actions -->
     <button *ngFor="let tableAction of tableActions"
             pButton pRipple
+            [disabled]="actionInProgress"
             [icon]="tableAction.icon ?? ''"
             [label]="tableAction.label"
             [class.p-button-outlined]="!tableAction.primary"
@@ -71,12 +93,13 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th *ngIf="selectionActions.length"
+      <th *ngIf="selectionActions.length || showSelection"
           class="fx-table-selection-header"
           pFrozenColumn
       >
         <p-triStateCheckbox [readonly]="true"
                             [ngModel]="selectionState"
+                            [disabled]="actionInProgress || !hasData"
                             (click)="selectActionsPanel.toggle($event)"
                             [class.indeterminate]="selectionState === false"
                             [styleClass]="selectionState === false ? 'indeterminate' : ''"
@@ -85,12 +108,25 @@
       </th>
 
       <ng-container *ngFor="let column of columns">
-        <th *ngIf="column.visible"
+        <th *ngIf="column.visible && column.sortable" @fadeInOut
             pSortableColumn="{{column.key}}" pRipple
         >
-          {{column.name}}
-          <p-sortIcon field="{{column.key}}"></p-sortIcon>
+          <div class="flex">
+            {{column.name}}
+            <div class="flex-grow-1"></div>
+            <p-sortIcon field="{{column.key}}"></p-sortIcon>
+          </div>
         </th>
+
+        <th *ngIf="column.visible && !column.sortable" @fadeInOut>
+          {{column.name}}
+        </th>
+      </ng-container>
+
+      <ng-container *ngIf="hasData">
+        <ng-container *ngFor="let columnAction of columnActions">
+          <th class="w-1rem"></th>
+        </ng-container>
       </ng-container>
 
       <th *ngIf="entryActions.length"
@@ -105,31 +141,77 @@
   </ng-template>
 
   <ng-template pTemplate="body" let-entry>
-    <tr>
-      <td *ngIf="selectionActions.length"
-          pFrozenColumn
-      >
-        <p-checkbox #selectRowBox
-                    [value]="getKeyString(entry)"
-                    [inputId]="getKeyString(entry)"
-                    [(ngModel)]="selectedEntryKeys"
-                    (click)="onSelection(entry, selectRowBox.checked())">
-        </p-checkbox>
-      </td>
-
-      <ng-container *ngFor="let column of columns">
-        <td *ngIf="column.visible">{{ column.field(entry) }}</td>
+    <tr [class.selected-entry]="isEntrySelected(entry)">
+      <ng-container *ngIf="hasData">
+        <td *ngIf="selectionActions.length || showSelection"
+            pFrozenColumn
+        >
+          <p-checkbox #selectRowBox
+                      [value]="getKeyString(entry)"
+                      [inputId]="getKeyString(entry)"
+                      [(ngModel)]="selectedEntryKeys"
+                      [disabled]="actionInProgress"
+                      (click)="onSelection(entry, selectRowBox.checked())">
+          </p-checkbox>
+        </td>
       </ng-container>
 
-      <td *ngIf="entryActions.length"
-          pFrozenColumn alignFrozen="right"
-          class="p-table-actions"
-      >
-        <button pButton pRipple
-                class="p-button-text"
-                icon="pi pi-ellipsis-v"
-                (click)="showEntryActions($event, entry)"
-        ></button>
+      <ng-container *ngFor="let column of columns">
+        <td *ngIf="column.visible" @fadeInOut>
+          <ng-container *ngIf="column.cellRenderer else defaultRenderer">
+            <web-table-cell-renderer-wrapper
+              [renderer]="column.cellRenderer"
+              [data]="column.field(entry)"
+            ></web-table-cell-renderer-wrapper>
+          </ng-container>
+
+          <ng-template #defaultRenderer>
+            <ng-container>{{ column.field(entry) }}</ng-container>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container *ngIf="hasData">
+        <ng-container *ngFor="let columnAction of columnActions">
+          <td *ngIf="columnAction.icon && !columnAction.label">
+            <p-button icon="fa fa-fw {{columnAction.icon}}"
+                      styleClass="p-button-sm p-button-outlined "
+                      [disabled]="actionInProgress"
+                      (onClick)="columnAction.onClick(entry)"
+            ></p-button>
+          </td>
+          <td *ngIf="columnAction.label">
+            <p-button icon="{{ columnAction.icon ? 'fa fa-fw ' + columnAction.icon : '' }}"
+                      styleClass="p-button-sm p-button-outlined"
+                      [disabled]="actionInProgress"
+                      [label]="columnAction.label"
+                      (onClick)="columnAction.onClick(entry)"
+            ></p-button>
+          </td>
+        </ng-container>
+
+        <td *ngIf="entryActions.length"
+            pFrozenColumn alignFrozen="right"
+            class="p-table-actions"
+        >
+          <button pButton pRipple
+                  class="p-button-text"
+                  icon="pi pi-ellipsis-v"
+                  [disabled]="actionInProgress"
+                  (click)="showEntryActions($event, entry)"
+          ></button>
+        </td>
+      </ng-container>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr class="hover:surface-card" @fadeInOut>
+      <td [colSpan]="visibleColumnsAmount">
+        <div class="flex flex-column gap-3 align-items-center text-lg">
+          <i class="fa fa-folder-open text-primary text-5xl"></i>
+          <div i18n>No Entries Found</div>
+        </div>
       </td>
     </tr>
   </ng-template>
@@ -173,6 +255,7 @@
       <button *ngFor="let entryAction of entryActions"
               pButton pRipple
               class="p-button-text"
+              [disabled]="actionInProgress"
               [label]="entryAction.label"
               [icon]="entryAction.icon ?? ''"
               (click)="dispatchEntryAction(entryAction)">
@@ -190,6 +273,7 @@
               class="p-button-text"
               label="Select all"
               icon="fa fa-fw fa-square-check"
+              [disabled]="actionInProgress"
               (click)="showMessage('This feature is not implemented yet', 'Pagination and select all in combination is not supported yet.')"
       >
       </button>
@@ -199,6 +283,7 @@
               class="p-button-text"
               label="Deselect page"
               icon="fa fa-fw fa-ballot-check"
+              [disabled]="actionInProgress"
               (click)="onSelectPage(false)"
       ></button>
 
@@ -207,6 +292,7 @@
                 class="p-button-text"
                 label="Select page"
                 icon="fa fa-fw fa-ballot-check"
+                [disabled]="actionInProgress"
                 (click)="onSelectPage(true)"
         ></button>
       </ng-template>

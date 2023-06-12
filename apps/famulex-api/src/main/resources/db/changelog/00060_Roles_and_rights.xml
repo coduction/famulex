@@ -16,11 +16,18 @@
       <column name="updated_at" type="timestamp with time zone">
         <constraints nullable="false"/>
       </column>
+      <column name="deleted_at" type="timestamp with time zone"/>
       <column name="name" type="text">
         <constraints nullable="false" unique="true"/>
       </column>
       <column name="description" type="text"/>
       <column name="rights" type="text">
+        <constraints nullable="false"/>
+      </column>
+      <column name="system_role" type="boolean">
+        <constraints nullable="false"/>
+      </column>
+      <column name="default_role" type="boolean">
         <constraints nullable="false"/>
       </column>
     </createTable>
@@ -43,6 +50,9 @@
       <column name="deleted_at" type="timestamp with time zone"/>
       <column name="valid_from" type="timestamp with time zone"/>
       <column name="valid_until" type="timestamp with time zone"/>
+      <column name="status" type="text">
+        <constraints nullable="false"/>
+      </column>
       <column name="type" type="text">
         <constraints nullable="false"/>
       </column>

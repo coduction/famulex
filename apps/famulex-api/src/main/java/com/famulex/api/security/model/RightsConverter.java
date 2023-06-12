@@ -29,6 +29,6 @@ public class RightsConverter implements AttributeConverter<List<Right>, String> 
   public List<Right> convertToEntityAttribute(String rightsString) {
     return Stream.of(rightsString.split(SEPARATOR))
       .map(Right::valueOf)
-      .toList();
+      .collect(Collectors.toList());
   }
 }

@@ -71,6 +71,7 @@ model/role-assignment.ts
 model/role-request.ts
 model/role.ts
 model/sort-object.ts
+model/status.ts
 model/test-configuration.ts
 model/test-draft-request.ts
 model/test-draft.ts

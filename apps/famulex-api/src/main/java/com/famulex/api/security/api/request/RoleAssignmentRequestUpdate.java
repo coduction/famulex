@@ -1,5 +1,6 @@
 package com.famulex.api.security.api.request;
 
+import com.famulex.api.security.model.RoleAssignment;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ import java.time.OffsetDateTime;
 @Setter
 public class RoleAssignmentRequestUpdate {
 
+  private RoleAssignment.Status status;
   private OffsetDateTime validFrom;
   private OffsetDateTime validUntil;
 

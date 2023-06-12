@@ -1,0 +1,172 @@
+<form>
+  <h5 i18n>User Permissions</h5>
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="user-permissions"
+                  [value]="Right.AccessCourses"
+                  [inputId]="Right.AccessCourses"
+                  [label]="translateRight(Right.AccessCourses)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="user-permissions"
+                  [value]="Right.AccessTests"
+                  [inputId]="Right.AccessTests"
+                  [label]="translateRight(Right.AccessTests)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="user-permissions"
+                  [value]="Right.AccessLibrary"
+                  [inputId]="Right.AccessLibrary"
+                  [label]="translateRight(Right.AccessLibrary)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+  </div>
+
+  <h5 i18n>Certification Permissions</h5>
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="certification-permissions"
+                  [value]="Right.AccessCertificates"
+                  [inputId]="Right.AccessCertificates"
+                  [label]="translateRight(Right.AccessCertificates)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="certification-permissions"
+                  [value]="Right.ManageCertificates"
+                  [inputId]="Right.ManageCertificates"
+                  [label]="translateRight(Right.ManageCertificates)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="certification-permissions"
+                  [value]="Right.CheckCertificates"
+                  [inputId]="Right.CheckCertificates"
+                  [label]="translateRight(Right.CheckCertificates)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+  </div>
+
+  <h5 i18n>Editor Permissions</h5>
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="editor-permissions"
+                  [value]="Right.CreateCourses"
+                  [inputId]="Right.CreateCourses"
+                  [label]="translateRight(Right.CreateCourses)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-8 mb-0 field-checkbox">
+      <p-checkbox name="editor-permissions"
+                  [value]="Right.ManageCourses"
+                  [inputId]="Right.ManageCourses"
+                  [label]="translateRight(Right.ManageCourses)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="editor-permissions"
+                  [value]="Right.CreateTests"
+                  [inputId]="Right.CreateTests"
+                  [label]="translateRight(Right.CreateTests)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-8 mb-0 field-checkbox">
+      <p-checkbox name="editor-permissions"
+                  [value]="Right.ManageTests"
+                  [inputId]="Right.ManageTests"
+                  [label]="translateRight(Right.ManageTests)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="editor-permissions"
+                  [value]="Right.CreateLibraries"
+                  [inputId]="Right.CreateLibraries"
+                  [label]="translateRight(Right.CreateLibraries)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-8 mb-0 field-checkbox">
+      <p-checkbox name="editor-permissions"
+                  [value]="Right.ManageLibraries"
+                  [inputId]="Right.ManageLibraries"
+                  [label]="translateRight(Right.ManageLibraries)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+  </div>
+
+  <h5 i18n>Administration</h5>
+  <div class="grid p-fluid">
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="administration"
+                  [value]="Right.ManageUsers"
+                  [inputId]="Right.ManageUsers"
+                  [label]="translateRight(Right.ManageUsers)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="administration"
+                  [value]="Right.ManageGroups"
+                  [inputId]="Right.ManageGroups"
+                  [label]="translateRight(Right.ManageGroups)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="administration"
+                  [value]="Right.ManageRoles"
+                  [inputId]="Right.ManageRoles"
+                  [label]="translateRight(Right.ManageRoles)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
+  </div>
+
+
+  <div class="grid p-fluid">
+    <div class="col-12 mb-0">
+      <ui-form-error [formControl]="permissions.controls.rights"
+                     requiredText="At least one permission is required" i18n-requiredText
+      ></ui-form-error>
+    </div>
+  </div>
+</form>

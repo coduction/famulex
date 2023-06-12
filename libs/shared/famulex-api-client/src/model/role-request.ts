@@ -15,6 +15,9 @@ import { Right } from './right';
 export interface RoleRequest { 
     name: string;
     description?: string;
+    defaultRole: boolean;
     rights: Array<Right>;
+    userKeys?: Array<string>;
+    groupKeys?: Array<string>;
 }
 

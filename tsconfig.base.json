@@ -10,32 +10,21 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "types": [
-      "@angular/localize"
-    ],
+    "types": ["@angular/localize"],
     "paths": {
       "@famulex/shared/famulex-api-client": [
         "libs/shared/famulex-api-client/src/index.ts"
       ],
-      "@famulex/shared/security/ui": [
-        "libs/shared/security/ui/src/index.ts"
-      ],
+      "@famulex/shared/security/ui": ["libs/shared/security/ui/src/index.ts"],
       "@famulex/shared/security/util": [
         "libs/shared/security/util/src/index.ts"
       ],
-      "@famulex/shared/ui": [
-        "libs/shared/ui/src/index.ts"
-      ],
-      "@famulex/shared/util": [
-        "libs/shared/util/src/index.ts"
-      ],
+      "@famulex/shared/ui": ["libs/shared/ui/src/index.ts"],
+      "@famulex/shared/util": ["libs/shared/util/src/index.ts"],
       "@famulex/web/administration/data-access/group-state": [
         "libs/web/administration/data-access/group-state/src/index.ts"
       ],
@@ -45,17 +34,14 @@
       "@famulex/web/administration/data-access/user-state": [
         "libs/web/administration/data-access/user-state/src/index.ts"
       ],
-      "@famulex/web/administration/feature/group-create": [
-        "libs/web/administration/feature/group-create/src/index.ts"
-      ],
       "@famulex/web/administration/feature/group-list": [
         "libs/web/administration/feature/group-list/src/index.ts"
       ],
       "@famulex/web/administration/feature/groups-list": [
         "libs/web/administration/feature/groups-list/src/index.ts"
       ],
-      "@famulex/web/administration/feature/role-list": [
-        "libs/web/administration/feature/role-list/src/index.ts"
+      "@famulex/web/administration/feature/security": [
+        "libs/web/administration/feature/security/src/index.ts"
       ],
       "@famulex/web/administration/feature/shell": [
         "libs/web/administration/feature/shell/src/index.ts"
@@ -69,19 +55,16 @@
       "@famulex/web/administration/feature/users-list": [
         "libs/web/administration/feature/users-list/src/index.ts"
       ],
-      "@famulex/web/shared/layout": [
-        "libs/web/shared/layout/src/index.ts"
+      "@famulex/web/shared/group-search": [
+        "libs/web/shared/group-search/src/index.ts"
       ],
-      "@famulex/web/shared/table": [
-        "libs/web/shared/table/src/index.ts"
+      "@famulex/web/shared/layout": ["libs/web/shared/layout/src/index.ts"],
+      "@famulex/web/shared/table": ["libs/web/shared/table/src/index.ts"],
+      "@famulex/web/shared/user-search": [
+        "libs/web/shared/user-search/src/index.ts"
       ],
-      "@famulex/web/shared/wizard": [
-        "libs/web/shared/wizard/src/index.ts"
-      ]
+      "@famulex/web/shared/wizard": ["libs/web/shared/wizard/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

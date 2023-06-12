@@ -1,0 +1,17 @@
+<p-card>
+  <web-table
+    heading="Roles" i18n-heading
+    [columns]="roleColumns"
+
+    [showSearch]="true"
+    [tableActions]="tableActions"
+    [entryActions]="entryActions"
+    [selectionActions]="selectionActions"
+
+    [loading$]="loading$"
+    [metaData]="metaData$ | async"
+    [data]="roles$ | async"
+
+    (loadData)="onLoadData($event)"
+  ></web-table>
+</p-card>

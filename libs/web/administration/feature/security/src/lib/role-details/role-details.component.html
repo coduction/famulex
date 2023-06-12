@@ -1,0 +1,34 @@
+<form [formGroup]="details"
+      autocomplete="off">
+  <div class="flex flex-column gap-4">
+    <div class="grid p-fluid">
+      <div class="col-12 md:col-6">
+        <ui-form-label formControlName="name" i18n>Name</ui-form-label>
+        <input pInputText inputPendingFeedback
+               type="text"
+               id="name"
+               formControlName="name">
+        <ui-form-error formControlName="name"></ui-form-error>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <ui-form-label formControlName="defaultRole" i18n>Default Role</ui-form-label>
+        <p-selectButton formControlName="defaultRole"
+                        ariaLabelledBy="defaultRole"
+                        id="defaultRole"
+                        [options]="defaultRoleOptions"
+        ></p-selectButton>
+      </div>
+
+      <div class="col-12">
+        <ui-form-label formControlName="description" i18n>Description</ui-form-label>
+        <textarea pInputTextarea
+                  type="text"
+                  id="description"
+                  formControlName="description">
+        </textarea>
+        <ui-form-error formControlName="description"></ui-form-error>
+      </div>
+    </div>
+  </div>
+</form>

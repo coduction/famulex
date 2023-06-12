@@ -9,21 +9,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Status } from './status';
 import { MembershipType } from './membership-type';
 
 
 export interface RoleAssignmentRequestCreate { 
     roleKey: string;
     type: MembershipType;
+    status?: Status;
     validFrom?: Date;
     validUntil?: Date;
     userKey?: string;
     groupKey?: string;
-    userKeyProvided?: boolean;
-    groupKeyProvided?: boolean;
-    groupOrUserSet?: boolean;
-    validFromInFuture?: boolean;
-    validFromBeforeValidUntil?: boolean;
 }
 export namespace RoleAssignmentRequestCreate {
 }

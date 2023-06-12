@@ -1,7 +1,8 @@
 import { CommonModule }                    from "@angular/common";
-import { Component }                       from "@angular/core";
+import { Component, Input }                from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { AbstractControlFeedback }         from "@famulex/shared/util";
+import { FADE_AND_GROW_Y }                 from "../../animations/animations";
 
 /* eslint-disable */
 @Component({
@@ -9,9 +10,14 @@ import { AbstractControlFeedback }         from "@famulex/shared/util";
   imports: [CommonModule],
   templateUrl: "./form-error.component.html",
   styleUrls: ["./form-error.component.scss"],
-  standalone: true
+  standalone: true,
+  animations: [
+    FADE_AND_GROW_Y
+  ]
 })
 export class FormErrorComponent implements ControlValueAccessor {
+
+  @Input() requiredText = $localize`This field is required`;
 
   constructor(public ngControl: NgControl) {
     ngControl.valueAccessor = this;

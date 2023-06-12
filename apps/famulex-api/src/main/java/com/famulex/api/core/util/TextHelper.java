@@ -25,6 +25,20 @@ public class TextHelper {
   }
 
   /**
+   * Trim and remove all blanks from string
+   *
+   * @param string
+   * @return
+   */
+  public static String removeAllBlanks(String string) {
+    if (string == null) {
+      return null;
+    }
+
+    return string.trim().replaceAll("\\s+", "");
+  }
+
+  /**
    * Prepare string for full text search. Split string by blanks and remove extra blanks.
    *
    * @param string

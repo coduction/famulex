@@ -71,7 +71,7 @@
 // Forms
 form {
   div {
-    label {
+    label:not(.p-checkbox-label) {
       display: block;
       margin-bottom: 0.75rem;
       font-size: 1.125rem;
@@ -86,13 +86,17 @@ form {
       margin-top: 0.5rem;
       font-weight: 600;
       font-size: 0.9rem;
-    }
 
-    .ng-invalid.ng-dirty {
-      small {
+      &.form-error {
         color: var(--error-color);
       }
     }
+
+    //.ng-invalid.ng-dirty {
+    //  small {
+    //    color: var(--error-color);
+    //  }
+    //}
   }
 }
 

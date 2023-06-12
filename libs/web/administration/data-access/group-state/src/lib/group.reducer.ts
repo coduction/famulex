@@ -1,4 +1,5 @@
 import { Group, PageGroup }                                 from "@famulex/shared/famulex-api-client";
+import { TableMetaData }                                    from "@famulex/web/shared/table";
 import { createEntityAdapter, EntityAdapter, EntityState }  from "@ngrx/entity";
 import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { produce }                                          from "immer";
@@ -9,10 +10,12 @@ export const GROUPS_FEATURE_KEY = "Groups";
 export interface State extends EntityState<Group> {
   // additional entities state properties
   loading: boolean;
+  actionInProgress: boolean;
 
-  pageNumber: number;
+  pageIndex: number;
   pageSize: number;
   sortedBy: string[];
+  globalFilter: string | undefined;
 
   page: PageGroup | null;
 }
@@ -25,10 +28,12 @@ export const adapter: EntityAdapter<Group> = createEntityAdapter<Group>({
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
   loading: false,
+  actionInProgress: false,
 
   pageIndex: 0,
   pageSize: 10,
-  sortedBy: [],
+  sortedBy: ["name,asc"],
+  globalFilter: undefined,
 
   page: null,
 
@@ -38,10 +43,21 @@ export const initialState: State = adapter.getInitialState({
 
 export const reducer = createReducer(
   initialState,
-  on(GroupActions.loadGroups, state => produce(state, draft => {
+
+  /*************************************************************************
+   * Load Users
+   ************************************************************************/
+  on(GroupActions.load, (state, { event }) => produce(state, draft => {
     draft.loading = true;
+
+    if (event) {
+      draft.pageIndex = event.pageIndex;
+      draft.pageSize = event.pageSize;
+      draft.sortedBy = event.sortedBy;
+      draft.globalFilter = event.globalFilter ?? undefined;
+    }
   })),
-  on(GroupActions.loadGroupsSuccess, (state, { page }) => {
+  on(GroupActions.loadSuccess, (state, { page }) => {
     state = produce(state, draft => {
       draft.loading = false;
       draft.page = page;
@@ -49,14 +65,74 @@ export const reducer = createReducer(
 
     return adapter.setAll(page.content ?? [], state);
   }),
-  on(GroupActions.loadGroupsFailure, state => produce(state, draft => {
+  on(GroupActions.loadFailure, state => produce(state, draft => {
     draft.loading = false;
   })),
-  on(GroupActions.setPagination, (state, { page, pageSize, sortedBy }) => produce(state, draft => {
-    draft.pageNumber = page;
-    draft.pageSize = pageSize;
-    draft.sortedBy = sortedBy;
-  }))
+
+  /*************************************************************************
+   * Create User
+   ************************************************************************/
+  on(GroupActions.create, state => produce(state, draft => {
+    draft.actionInProgress = true;
+  })),
+  on(GroupActions.createSuccess, (state, { group }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return adapter.addOne(group, state);
+  }),
+  on(GroupActions.createFailure, state => produce(state, draft => {
+    draft.actionInProgress = false;
+  })),
+
+  /*************************************************************************
+   * Update User
+   ************************************************************************/
+  on(GroupActions.update, state => produce(state, draft => {
+    draft.actionInProgress = true;
+  })),
+  on(GroupActions.updateSuccess, (state, { group }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return adapter.updateOne(group, state);
+  }),
+  on(GroupActions.updateFailure, state => produce(state, draft => {
+    draft.actionInProgress = false;
+  })),
+
+  /*************************************************************************
+   * Delete Single User
+   ************************************************************************/
+  on(GroupActions.delete, state => produce(state, draft => {
+    draft.actionInProgress = true;
+  })),
+  on(GroupActions.deleteSuccess, (state, { group }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return adapter.removeOne(group.key, state);
+  }),
+  on(GroupActions.deleteFailure, state => produce(state, draft => {
+    draft.actionInProgress = false;
+  })),
+
+  /*************************************************************************
+   * Delete Multiple Users
+   ************************************************************************/
+  on(GroupActions.deleteMany, state => produce(state, draft => {
+    draft.actionInProgress = true;
+  })),
+  on(GroupActions.deleteManyFeedback, (state, { deletedKeys }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return adapter.removeMany(deletedKeys ?? [], state);
+  })
 );
 
 export const GroupState = createFeature({
@@ -64,17 +140,16 @@ export const GroupState = createFeature({
   reducer,
   extraSelectors: ({ selectGroupsState }) => ({
     ...adapter.getSelectors(selectGroupsState),
-    selectTotal: createSelector(
-      selectGroupsState,
-      (state) => state.page?.totalElements || null
-    ),
-    selectPagination: createSelector(
+    selectTableMetaData: createSelector(
       selectGroupsState,
       (state) => ({
-        pageIndex: state.pageNumber,
+        loading: state.loading,
+        totalEntries: state.page?.totalElements || null,
+        pageIndex: state.pageIndex,
         pageSize: state.pageSize,
-        sortedBy: state.sortedBy
-      })
+        sortedBy: state.sortedBy,
+        globalFilter: state.globalFilter
+      } as TableMetaData)
     )
   })
 });

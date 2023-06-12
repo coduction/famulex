@@ -78,6 +78,8 @@ public class SecurityService {
         .orElseThrow(() -> new EntityNotFoundException(Group.class, request.getGroupKey()));
 
       assignment.setGroup(group);
+
+      // TODO Add role to group
     }
 
     return roleAssignmentRepository.save(assignment);
@@ -168,6 +170,8 @@ public class SecurityService {
 
   private void addRoleToUser(RoleAssignment assignment) {
     if (assignment.getValidFrom() != null && assignment.getValidFrom().isAfter(OffsetDateTime.now())) {
+      return;
+    } else if (assignment.getValidUntil() != null && assignment.getValidUntil().isBefore(OffsetDateTime.now())) {
       return;
     }
 

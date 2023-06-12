@@ -1,0 +1,22 @@
+<wizard-wrapper
+  [id]="ROLE_EDIT_WIZARD_ID"
+  [onFinish]="onUpdateRole"
+>
+  <wizard-step
+    title="Role Details" i18n-title
+    [onNext]="onValidateDetails"
+  >
+    <security-role-details
+      [details]="roleEditForm.controls.details"
+    ></security-role-details>
+  </wizard-step>
+
+  <wizard-step
+    title="Permissions" i18n-title
+    [onNext]="onValidatePermissions"
+  >
+    <security-role-permissions
+      [permissions]="roleEditForm.controls.permissions"
+    ></security-role-permissions>
+  </wizard-step>
+</wizard-wrapper>

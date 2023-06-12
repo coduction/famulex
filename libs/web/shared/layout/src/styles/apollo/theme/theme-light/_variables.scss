@@ -31,7 +31,9 @@ $fontSize: 1rem !default;
 $fontWeight: normal !default;
 $textColor: $shade900 !default;
 $textSecondaryColor: $shade600 !default;
-$borderRadius: 6px !default;
+$borderRadius: 14px !default;
+$borderRadiusSM: 8px !default;
+$borderRadiusLG: 20px !default;
 $transitionDuration: .2s !default;
 $formElementTransition: background-color $transitionDuration, color $transitionDuration, border-color $transitionDuration, box-shadow $transitionDuration !default;
 $actionIconTransition: background-color $transitionDuration, color $transitionDuration, box-shadow $transitionDuration !default;
@@ -433,7 +435,7 @@ $cardSubTitleFontWeight: 400 !default;
 $cardSubTitleColor: $shade600 !default;
 $cardContentPadding: 1.25rem 0 !default;
 $cardFooterPadding: 1.25rem 0 0 0 !default;
-$cardShadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12) !default;
+$cardShadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px !default;
 
 //editor
 $editorToolbarBg: $panelHeaderBg !default;

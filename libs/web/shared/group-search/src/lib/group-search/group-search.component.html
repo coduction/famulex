@@ -1,0 +1,17 @@
+<web-table
+  [heading]="heading"
+  [headingSmall]="headingSmall"
+
+  [columns]="groupSearchColumns"
+  [columnActions]="columnActions"
+
+  [showSearch]="true"
+  [showSelection]="!columnActions.length"
+
+  [data]="groupSearchStore.groups$ | async"
+  [metaData]="groupSearchStore.tableMetaData$ | async"
+  [loading$]="groupSearchStore.loading$"
+
+  (loadData)="groupSearchStore.loadGroups($event)"
+  (selectedKeysChange)="groupSelection.emit($event)"
+></web-table>

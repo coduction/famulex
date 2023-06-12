@@ -25,9 +25,9 @@ export class UserEffects {
   }
 
   /*************************************************************************
-   * Load Users
+   * Load
    ************************************************************************/
-  loadUsers$ = createEffect(() =>
+  load$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.load),
       concatLatestFrom(() => this.store.select(UserState.selectTableMetaData)),
@@ -43,7 +43,7 @@ export class UserEffects {
     )
   );
 
-  loadUsersFailure$ = createEffect(() =>
+  loadFailure$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.loadFailure),
       tap(({ error }) => {
@@ -59,7 +59,7 @@ export class UserEffects {
   /*************************************************************************
    * Create User
    ************************************************************************/
-  createUser$ = createEffect(() => {
+  create$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.create),
       concatMap(({ userRequest }) => {
@@ -73,7 +73,7 @@ export class UserEffects {
     );
   });
 
-  createUserFailure$ = createEffect(() => {
+  createFailure$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.createFailure),
       tap(({ error }) => {
@@ -95,7 +95,7 @@ export class UserEffects {
     );
   });
 
-  createUserSuccess$ = createEffect(() => {
+  createSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.createSuccess),
       tap(({ user }) => {
@@ -113,9 +113,9 @@ export class UserEffects {
   });
 
   /*************************************************************************
-   * Update User
+   * Update
    ************************************************************************/
-  updateUser$ = createEffect(() => {
+  update$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.update),
       concatMap(({ key, userRequest }) => {
@@ -161,9 +161,9 @@ export class UserEffects {
   });
 
   /*************************************************************************
-   * Delete Single Users
+   * Delete Single
    ************************************************************************/
-  deleteUser$ = createEffect(() => {
+  delete$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.delete),
       mergeMap(({ user }) => {
@@ -179,7 +179,7 @@ export class UserEffects {
     );
   });
 
-  deleteUserSuccess$ = createEffect(() => {
+  deleteSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.deleteSuccess),
       tap(({ user }) => {
@@ -193,7 +193,7 @@ export class UserEffects {
     );
   });
 
-  deleteUserFailure$ = createEffect(() => {
+  deleteFailure$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.deleteFailure),
       tap(({ error, isCurrentUser }) => {
@@ -209,9 +209,9 @@ export class UserEffects {
   }, { dispatch: false });
 
   /*************************************************************************
-   * Delete Multiple Users
+   * Delete Multiple
    ************************************************************************/
-  deleteUsers$ = createEffect(() => {
+  deleteMany$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.deleteMany),
       mergeMap(({ keys }) => {
@@ -239,7 +239,7 @@ export class UserEffects {
     );
   });
 
-  deleteUsersFeedback$ = createEffect(() => {
+  deleteManyFeedback$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.deleteManyFeedback),
       tap(({ error, containsCurrentUser, deletedKeys, errorKeys }) => {

@@ -15,7 +15,7 @@ import java.util.UUID;
  * @date 11.10.22
  */
 @Repository
-public interface GroupRepository extends JpaRepository<Group, Long> {
+public interface GroupRepository extends JpaRepository<Group, Long>, GroupRepositoryCustom {
 
   Optional<Group> findByKey(UUID key);
 

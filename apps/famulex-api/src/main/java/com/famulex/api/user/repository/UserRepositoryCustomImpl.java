@@ -30,7 +30,8 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
     if (!StringHelper.isBlank(search)) {
       for (var term : TextHelper.prepareFullTextSearch(search)) {
-        var termCondition = DSL.or(FX_USER.KEY.cast(String.class).containsIgnoreCase(term))
+        var termCondition = DSL
+          .or(FX_USER.KEY.cast(String.class).containsIgnoreCase(term))
           .or(FX_USER.FIRST_NAME.containsIgnoreCase(term))
           .or(FX_USER.LAST_NAME.containsIgnoreCase(term))
           .or(FX_USER.EMAIL.containsIgnoreCase(term))

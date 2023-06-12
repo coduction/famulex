@@ -59,12 +59,14 @@ export class WizardWrapperComponent implements AfterContentInit {
       command: () => this.onActivateStep(index)
     }));
 
+    // Update the amount of steps
+    this.store.dispatch(WizardActions.update({ id: this.id, changes: { amountOfSteps: this.stepComponents.length } }));
+
     // Select the wizard from the state
     // The store controls the state of the wizard
     this.store.select(WizardState.selectWizardById(this.id))
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(wizard => {
-
         if (!wizard) {
           if (!this.wizard) {
             console.error(`Wizard with id ${this.id} not found!`);
@@ -74,11 +76,10 @@ export class WizardWrapperComponent implements AfterContentInit {
         }
 
         this.wizard = wizard;
-        this.onActivateStep(wizard.activeStepIndex);
-      });
 
-    // Update the amount of steps
-    this.store.dispatch(WizardActions.update({ id: this.id, changes: { amountOfSteps: this.stepComponents.length } }));
+        // Activate the step in a timeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+        setTimeout(() => this.onActivateStep(wizard.activeStepIndex));
+      });
   }
 
   onActivateStep(index: number) {

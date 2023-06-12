@@ -1,7 +1,11 @@
 package com.famulex.api.security;
 
 import com.famulex.api.core.exception.EntityNotFoundException;
+import com.famulex.api.core.model.MembershipType;
 import com.famulex.api.core.util.SecurityHelper;
+import com.famulex.api.group.api.GroupMapper;
+import com.famulex.api.group.model.Group;
+import com.famulex.api.group.repository.GroupRepository;
 import com.famulex.api.security.api.RoleMapper;
 import com.famulex.api.security.api.request.RoleAssignmentRequestCreate;
 import com.famulex.api.security.api.request.RoleAssignmentRequestUpdate;
@@ -14,6 +18,8 @@ import com.famulex.api.security.model.Role;
 import com.famulex.api.security.model.RoleAssignment;
 import com.famulex.api.security.repository.RoleAssignmentRepository;
 import com.famulex.api.security.repository.RoleRepository;
+import com.famulex.api.user.api.UserMapper;
+import com.famulex.api.user.model.User;
 import com.famulex.api.user.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +34,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,10 +53,13 @@ public class SecurityController {
   private final RoleRepository roleRepository;
   private final RoleAssignmentRepository roleAssignmentRepository;
   private final UserRepository userRepository;
+  private final GroupRepository groupRepository;
 
   private final SecurityService securityService;
 
   private final RoleMapper roleMapper;
+  private final GroupMapper groupMapper;
+  private final UserMapper userMapper;
 
   @GetMapping("/config")
   @Operation(summary = "Get an overview of the current security options")
@@ -84,7 +92,13 @@ public class SecurityController {
   @GetMapping("/roles")
   public Page<RoleResponse> loadRoles(@ParameterObject Pageable pagination,
                                       @RequestParam(required = false) String search) {
-    return roleRepository.findAll(pagination).map(roleMapper::toRoleResponse);
+    return roleRepository.search(search, pagination)
+      .map(roleMapper::toRoleResponse);
+  }
+
+  @GetMapping("/roles/exists")
+  public boolean checkRoleExistence(@RequestParam String name) {
+    return roleRepository.existsByName(name);
   }
 
   @PostMapping("/roles")
@@ -92,6 +106,34 @@ public class SecurityController {
     var role = roleRepository.save(roleMapper.toRole(roleRequest));
 
     securityService.syncRolesAndRights();
+
+    roleRequest.getUserKeys().forEach(userKey -> {
+      var user = userRepository.findByKey(userKey)
+        .orElseThrow(() -> new EntityNotFoundException(User.class, userKey));
+
+      var request = RoleAssignmentRequestCreate.builder()
+        .roleKey(role.getKey())
+        .userKey(user.getKey())
+        .type(MembershipType.USER)
+        .status(RoleAssignment.Status.ACTIVE)
+        .build();
+
+      securityService.createRoleAssignment(request);
+    });
+
+    roleRequest.getGroupKeys().forEach(groupKey -> {
+      var group = groupRepository.findByKey(groupKey)
+        .orElseThrow(() -> new EntityNotFoundException(Group.class, groupKey));
+
+      var request = RoleAssignmentRequestCreate.builder()
+        .roleKey(role.getKey())
+        .groupKey(group.getKey())
+        .type(MembershipType.GROUP)
+        .status(RoleAssignment.Status.ACTIVE)
+        .build();
+
+      securityService.createRoleAssignment(request);
+    });
 
     return roleMapper.toRoleResponse(role);
   }
@@ -125,14 +167,15 @@ public class SecurityController {
   @Transactional(readOnly = true)
   @GetMapping("/roles-assignments")
   public Page<RoleAssignmentResponse> loadRoleAssignments(@RequestParam UUID roleKey,
-                                                          @ParameterObject Pageable pagination, Principal principal) {
+                                                          @RequestParam MembershipType type,
+                                                          @ParameterObject Pageable pagination,
+                                                          @RequestParam(required = false) String search) {
 
-    System.out.println("principal.getName() = " + principal.getName());
-    var role = roleRepository.findByKey(roleKey)
-      .orElseThrow(() -> new EntityNotFoundException(Role.class, roleKey));
+    if (!roleRepository.existsByKey(roleKey)) {
+      throw new EntityNotFoundException(Role.class, roleKey);
+    }
 
-    return roleAssignmentRepository.findByRole(role, pagination)
-      .map(roleMapper::toRoleAssignmentResponse);
+    return roleAssignmentRepository.searchAssignments(roleKey, type, search, pagination);
   }
 
   @Transactional
@@ -155,9 +198,10 @@ public class SecurityController {
     return roleMapper.toRoleAssignmentResponse(roleAssignment);
   }
 
+  @Transactional
   @DeleteMapping("/roles-assignments/{roleAssignmentKey}")
   public void deleteRoleAssignment(@PathVariable UUID roleAssignmentKey) {
-    RoleAssignment roleAssignment = roleAssignmentRepository.findByKey(roleAssignmentKey)
+    var roleAssignment = roleAssignmentRepository.findByKey(roleAssignmentKey)
       .orElseThrow(() -> new EntityNotFoundException(RoleAssignment.class, roleAssignmentKey));
 
     roleAssignmentRepository.delete(roleAssignment);

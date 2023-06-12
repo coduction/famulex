@@ -3,6 +3,7 @@ package com.famulex.api.group;
 import com.famulex.api.group.api.GroupMapper;
 import com.famulex.api.group.api.GroupRequest;
 import com.famulex.api.group.api.GroupResponse;
+import com.famulex.api.group.repository.GroupRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,18 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class GroupController {
 
+  private final GroupRepository groupRepository;
+
   private final GroupService groupService;
+
   private final GroupMapper groupMapper;
 
   @GetMapping
   @Operation(summary = "Load groups")
-  public Page<GroupResponse> loadGroups(@ParameterObject Pageable pagination) {
-    return groupService.loadGroups(pagination).map(groupMapper::toGroupResponse);
+  public Page<GroupResponse> loadGroups(@ParameterObject Pageable pagination,
+                                        @RequestParam(required = false) String search) {
+    return groupRepository.search(search, pagination)
+      .map(groupMapper::toGroupResponse);
   }
 
   @GetMapping("/{key}")

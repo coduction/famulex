@@ -12,14 +12,14 @@ export interface Wizard {
 
 export interface WizardButton {
   type: ButtonType;
-  status: ButtonStatus;
+  visible: boolean;
+  disabled: boolean;
   label: string;
   icon?: string;
   loading?: boolean;
 }
 
 export type WizardAction = "OPEN" | "CANCEL" | "PREVIOUS" | "NEXT" | "FINISH";
-export type ButtonStatus = "HIDDEN" | "VISIBLE" | "DISABLED";
 export type ButtonType = "FILLED" | "OUTLINED";
 
 export function updateWizard(wizard: Wizard, changes?: Partial<Wizard>, activeAction?: WizardAction): Partial<Wizard> {
@@ -33,34 +33,50 @@ export function updateWizard(wizard: Wizard, changes?: Partial<Wizard>, activeAc
   nextButton.loading = activeAction === "NEXT";
   finishButton.loading = activeAction === "FINISH";
 
+  // If an action is active, disable all buttons
+  if (activeAction) {
+    cancelButton.disabled = true;
+    previousButton.disabled = true;
+    nextButton.disabled = true;
+    finishButton.disabled = true;
+  } else {
+    // If no action is active, enable all buttons
+    cancelButton.disabled = false;
+    previousButton.disabled = false;
+    nextButton.disabled = false;
+    finishButton.disabled = false;
+  }
+
   // If activeStepIndex or amountOfSteps are provided, take them, otherwise use the wizard's values
   const activeStepIndex = changes?.activeStepIndex ?? wizardClone.activeStepIndex;
   const amountOfSteps = changes?.amountOfSteps ?? wizardClone.amountOfSteps;
 
   // Show or hide buttons
   if (amountOfSteps === 1) {
-    previousButton.status = "HIDDEN";
-    nextButton.status = "HIDDEN";
-    finishButton.status = "VISIBLE";
+    previousButton.visible = false;
+    nextButton.visible = false;
+    finishButton.visible = true;
   } else if (amountOfSteps > 1) {
     if (activeStepIndex === 0) {
-      previousButton.status = "HIDDEN";
-      nextButton.status = "VISIBLE";
+      previousButton.visible = false;
+      nextButton.visible = true;
       nextButton.type = "FILLED";
-      finishButton.status = "HIDDEN";
+      finishButton.visible = false;
     } else if (activeStepIndex > 0 && activeStepIndex < amountOfSteps - 1) {
-      previousButton.status = "VISIBLE";
-      nextButton.status = "VISIBLE";
+      previousButton.visible = true;
+      nextButton.visible = true;
       nextButton.type = "FILLED";
-      finishButton.status = "HIDDEN";
+      finishButton.visible = false;
     } else if (activeStepIndex === amountOfSteps - 1) {
-      previousButton.status = "VISIBLE";
-      nextButton.status = "DISABLED";
+      previousButton.visible = true;
+      nextButton.visible = true;
+      nextButton.disabled = true;
       nextButton.type = "OUTLINED";
-      finishButton.status = "VISIBLE";
+      finishButton.visible = true;
       finishButton.type = "FILLED";
     }
   }
+
 
   return { cancelButton, previousButton, nextButton, finishButton, amountOfSteps, activeStepIndex };
 }
@@ -68,7 +84,8 @@ export function updateWizard(wizard: Wizard, changes?: Partial<Wizard>, activeAc
 export function provideDefaultButtons() {
   const cancelButton: WizardButton = {
     type: "OUTLINED",
-    status: "VISIBLE",
+    visible: true,
+    disabled: false,
     label: $localize`Cancel`,
     icon: "fa fa-fw fa-stop",
     loading: false
@@ -76,7 +93,8 @@ export function provideDefaultButtons() {
 
   const previousButton: WizardButton = {
     type: "OUTLINED",
-    status: "HIDDEN",
+    visible: false,
+    disabled: false,
     label: $localize`Previous`,
     icon: "fa fa-fw fa-backward-step",
     loading: false
@@ -84,7 +102,8 @@ export function provideDefaultButtons() {
 
   const nextButton: WizardButton = {
     type: "FILLED",
-    status: "HIDDEN",
+    visible: false,
+    disabled: false,
     label: $localize`Next`,
     icon: "fa fa-fw fa-forward-step",
     loading: false
@@ -92,7 +111,8 @@ export function provideDefaultButtons() {
 
   const finishButton: WizardButton = {
     type: "OUTLINED",
-    status: "HIDDEN",
+    visible: false,
+    disabled: false,
     label: $localize`Finish`,
     icon: "fa fa-fw fa-circle",
     loading: false

@@ -1,20 +1,21 @@
-import { CommonModule }                                                                             from "@angular/common";
-import { Component, DestroyRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from "@angular/core";
-import { takeUntilDestroyed }                                                                       from "@angular/core/rxjs-interop";
-import { FormsModule }                                                                              from "@angular/forms";
-import { MessageService, SortMeta }                                                                 from "@coduction/primeng/api";
-import { ButtonModule }                                                                             from "@coduction/primeng/button";
-import { CheckboxModule }                                                                           from "@coduction/primeng/checkbox";
-import { InputTextModule }                                                                          from "@coduction/primeng/inputtext";
-import { ListboxModule }                                                                            from "@coduction/primeng/listbox";
-import { OverlayPanel, OverlayPanelModule }                                                         from "@coduction/primeng/overlaypanel";
-import { RippleModule }                                                                             from "@coduction/primeng/ripple";
-import { SelectButtonModule }                                                                       from "@coduction/primeng/selectbutton";
-import { Table, TableLazyLoadEvent, TableModule }                                                   from "@coduction/primeng/table";
-import { TriStateCheckboxModule }                                                                   from "@coduction/primeng/tristatecheckbox";
-import { FADE_AND_GROW, FormLabelComponent }                                                        from "@famulex/shared/ui";
-import { debounce, delay, Observable, of, switchMap }                                               from "rxjs";
-import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableMetaData }     from "./table.model";
+import { CommonModule }                                                                                        from "@angular/common";
+import { Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, ViewEncapsulation } from "@angular/core";
+import { takeUntilDestroyed }                                                                                  from "@angular/core/rxjs-interop";
+import { FormsModule }                                                                                         from "@angular/forms";
+import { MessageService, SortMeta }                                                                            from "@coduction/primeng/api";
+import { ButtonModule }                                                                                        from "@coduction/primeng/button";
+import { CheckboxModule }                                                                                      from "@coduction/primeng/checkbox";
+import { InputTextModule }                                                                                     from "@coduction/primeng/inputtext";
+import { ListboxModule }                                                                                       from "@coduction/primeng/listbox";
+import { OverlayPanel, OverlayPanelModule }                                                                    from "@coduction/primeng/overlaypanel";
+import { RippleModule }                                                                                        from "@coduction/primeng/ripple";
+import { SelectButtonModule }                                                                                  from "@coduction/primeng/selectbutton";
+import { Table, TableLazyLoadEvent, TableModule }                                                              from "@coduction/primeng/table";
+import { TriStateCheckboxModule }                                                                              from "@coduction/primeng/tristatecheckbox";
+import { FADE_AND_SCALE_X, FADE_IN_OUT, FormLabelComponent }                                                   from "@famulex/shared/ui";
+import { debounce, delay, Observable, of, switchMap }                                                          from "rxjs";
+import { CellRendererWrapperComponent }                                                                        from "../renderer/cell-renderer-wrapper/cell-renderer-wrapper.component";
+import { ColumnAction, EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableMetaData }  from "./table.model";
 
 @Component({
   selector: "web-table",
@@ -31,24 +32,32 @@ import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, 
     ListboxModule,
     InputTextModule,
     SelectButtonModule,
-    FormLabelComponent
+    FormLabelComponent,
+    CellRendererWrapperComponent
   ],
   templateUrl: "./table.component.html",
   styleUrls: ["./table.component.scss"],
   encapsulation: ViewEncapsulation.None,
-  animations: [FADE_AND_GROW]
+  animations: [FADE_AND_SCALE_X, FADE_IN_OUT]
 })
-export class TableComponent<K, D> implements OnInit {
+export class TableComponent<K, D> implements OnInit, OnChanges {
 
-  @Input() heading?: string;
-  @Input() description?: string;
-  @Input() showSearch = false;
+  @Input() heading?: string | null;
+  @Input() headingSmall?: string | null;
+  @Input() description?: string | null;
 
-  @Input({ required: true }) columns: TableColumn<D>[] = [];
   @Input() keyField = "key";
+
+  /**
+   * If true, the table will show a checkbox column and allow the user to select rows.
+   * Use this if you want to show a selection column but don't want to use the selection actions.
+   */
+  @Input() showSelection = false;
+  @Input() showSearch = false;
 
   @Input() tableActions: TableAction[] = [];
   @Input() entryActions: EntryAction<D>[] = [];
+  @Input() columnActions: ColumnAction<D>[] = [];
   @Input() selectionActions: SelectionAction<K, D>[] = [];
 
   @Input() textSelected?: string;
@@ -67,12 +76,14 @@ export class TableComponent<K, D> implements OnInit {
   @ViewChild("entryActionsPanel") entryActionsPanel!: OverlayPanel;
   @ViewChild("selectActionsPanel") selectActionsPanel!: OverlayPanel;
 
-  protected initialized = false;
+  protected searchPosition: "LEFT" | "RIGHT" = "RIGHT";
   protected selectionState: boolean | null = null;
   protected selectedEntries = new Map<K, D>();
   protected selectedEntryKeys: K[] = [];
   protected multiSortMeta: SortMeta[] = [];
+  protected actionInProgress = false;
 
+  private _columns: TableColumn<D>[] = [];
   private _data: D[] = [];
   private _actionEntry?: D;
 
@@ -90,15 +101,20 @@ export class TableComponent<K, D> implements OnInit {
 
   ngOnInit(): void {
     this.selectedColumns = this.columns.filter(column => column.visibleByDefault);
+
+    this.onLoadData({}, true);
+  }
+
+  ngOnChanges(): void {
+    this.checkSearchPosition();
   }
 
   /**************************************************************************
    * Data
    **************************************************************************/
-  @Input({ required: true }) set data(data: D[] | null) {
+  @Input({ required: true }) set data(data: D[] | null | undefined) {
     this._data = data ?? [];
-
-    this.initialized = true;
+    this.checkSelectionState();
   }
 
   getData(): D[] {
@@ -116,6 +132,14 @@ export class TableComponent<K, D> implements OnInit {
   /**************************************************************************
    * Columns
    **************************************************************************/
+  @Input({ required: true }) set columns(columns: TableColumn<D>[]) {
+    this._columns = columns;
+  }
+
+  get columns(): TableColumn<D>[] {
+    return this._columns;
+  }
+
   resetColumns(): void {
     this.columns.forEach(col => col.resetVisibility());
     this.selectedColumns = this.columns.filter(column => column.visibleByDefault);
@@ -186,9 +210,14 @@ export class TableComponent<K, D> implements OnInit {
   }
 
   @Input() set pageSize(pageSize: number | null) {
-    if (this.initialized || pageSize === null) {
+    // if (this.initialized || pageSize === null) {
+    //   return;
+    // }
+
+    if (pageSize === null) {
       return;
     }
+
 
     // Set this._pageSize only if it has changed to avoid unnecessary table updates
     if (this._pageSize != pageSize) {
@@ -201,7 +230,11 @@ export class TableComponent<K, D> implements OnInit {
   }
 
   @Input() set pageIndex(pageIndex: number | null) {
-    if (this.initialized || pageIndex === null) {
+    // if (this.initialized || pageIndex === null) {
+    //   return;
+    // }
+
+    if (pageIndex === null) {
       return;
     }
 
@@ -216,7 +249,12 @@ export class TableComponent<K, D> implements OnInit {
   }
 
   @Input() set sortedBy(sortedBy: string[] | null) {
-    if (this.initialized || sortedBy === null) {
+    // if (this.initialized || sortedBy === null) {
+    //   return;
+    // }
+
+    if (sortedBy === null) {
+      this.multiSortMeta = [];
       return;
     }
 
@@ -256,16 +294,20 @@ export class TableComponent<K, D> implements OnInit {
     this.pageSize = metaData.pageSize;
     this.sortedBy = metaData.sortedBy;
     this.globalFilter = metaData.globalFilter;
+    this.actionInProgress = metaData.actionInProgress ?? false;
   }
 
-  onLoadData(event: TableLazyLoadEvent) {
+  onLoadData(event: TableLazyLoadEvent, initialLoad = false) {
     const pageIndex = event.first ? event.first / (event.rows ?? this.getPageSize()) : 0;
     const pageSize = event.rows ?? this.getPageSize();
     const sortedBy: string[] = [];
     let globalFilter = event.globalFilter || undefined;
 
-    if (event.multiSortMeta?.length) {
-
+    if (initialLoad) {
+      this.multiSortMeta.forEach(sortMeta => {
+        sortedBy.push(`${sortMeta.field},${sortMeta.order === 1 ? "asc" : "desc"}`);
+      });
+    } else if (event.multiSortMeta?.length) {
       event.multiSortMeta.forEach(sortMeta => {
         sortedBy.push(`${sortMeta.field},${sortMeta.order === 1 ? "asc" : "desc"}`);
       });
@@ -328,16 +370,16 @@ export class TableComponent<K, D> implements OnInit {
   /**************************************************************************
    * Selection Actions
    **************************************************************************/
-  dispatchSelectionAction(selectionAction: SelectionAction<K, D>) {
+  async dispatchSelectionAction(selectionAction: SelectionAction<K, D>) {
     // If selectionAction returns a promise, wait for it to resolve
-    const result = selectionAction.onClick(this.selectedEntries);
+    const result = await selectionAction.onClick(this.selectedEntries);
 
     if (selectionAction.resetSelection) {
-      if (result instanceof Promise) {
-        result.then(() => this.selectedKeys(null));
-      } else {
-        this.selectedKeys(null);
+      if (typeof result === "boolean" && !result) {
+        return;
       }
+
+      this.selectedKeys(null);
     }
   }
 
@@ -440,10 +482,40 @@ export class TableComponent<K, D> implements OnInit {
     return action.label;
   }
 
+  isEntrySelected(entry: D): boolean {
+    return this.selectedEntries.has(this.getKey(entry));
+  }
+
   /**************************************************************************
    * Helper
    **************************************************************************/
   showMessage(message: string, detail?: string) {
     this.messageService.add({ severity: "info", summary: message, detail: detail });
+  }
+
+  checkSearchPosition() {
+    if (this.heading || this.headingSmall || this.description) {
+      this.searchPosition = "RIGHT";
+    } else {
+      this.searchPosition = "LEFT";
+    }
+  }
+
+  get visibleColumnsAmount(): number {
+    let visibleColumns = this.columns.filter(column => column.visible).length;
+
+    if (this.selectionActions.length || this.showSelection) {
+      visibleColumns++;
+    }
+
+    if (this.entryActions.length) {
+      visibleColumns++;
+    }
+
+    return visibleColumns;
+  }
+
+  get hasData(): boolean {
+    return this._data.length > 0;
   }
 }

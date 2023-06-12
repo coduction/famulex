@@ -17,14 +17,14 @@ import { CourseDraft } from './course-draft';
 export interface PageCourseDraft { 
     totalPages?: number;
     totalElements?: number;
-    size?: number;
-    content?: Array<CourseDraft>;
-    sort?: SortObject;
     first?: boolean;
     last?: boolean;
+    size?: number;
+    content?: Array<CourseDraft>;
     number?: number;
-    pageable?: PageableObject;
+    sort?: SortObject;
     numberOfElements?: number;
+    pageable?: PageableObject;
     empty?: boolean;
 }
 

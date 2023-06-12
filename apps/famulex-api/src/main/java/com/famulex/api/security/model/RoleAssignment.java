@@ -21,6 +21,11 @@ import lombok.*;
 @Table(name = "fx_role_assignment")
 public class RoleAssignment extends ValidFrom {
 
+  @Setter
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status", nullable = false)
+  private Status status;
+
   @Enumerated(EnumType.STRING)
   @Column(name = "type", nullable = false, updatable = false)
   private MembershipType type;
@@ -40,4 +45,7 @@ public class RoleAssignment extends ValidFrom {
   @JoinColumn(name = "fk_group", nullable = false, updatable = false)
   private Group group;
 
+  public enum Status {
+    ACTIVE, INACTIVE
+  }
 }

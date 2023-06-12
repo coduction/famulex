@@ -14,7 +14,13 @@ public class Rights {
    *****************************************************/
   public static final String ACCESS_COURSES = "_ACCESS_COURSES";
   public static final String ACCESS_TESTS = "_ACCESS_TESTS";
+
+  /******************************************************
+   * Certificates
+   *****************************************************/
   public static final String ACCESS_CERTIFICATES = "_ACCESS_CERTIFICATES";
+  public static final String MANAGE_CERTIFICATES = "_MANAGE_CERTIFICATES";
+  public static final String CHECK_CERTIFICATES = "_CHECK_CERTIFICATES";
 
   /******************************************************
    * Authoring
@@ -28,6 +34,7 @@ public class Rights {
    * Library
    *****************************************************/
   public static final String ACCESS_LIBRARY = "_ACCESS_LIBRARY";
+  public static final String CREATE_LIBRARIES = "_CREATE_LIBRARIES";
   public static final String MANAGE_LIBRARIES = "_MANAGE_LIBRARIES";
 
   /******************************************************

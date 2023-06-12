@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.jooq.DSLContext;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,14 +38,12 @@ public class UserController {
   private final UserService userService;
   private final UserMapper userMapper;
 
-  private final DSLContext dsl;
-
   @GetMapping
   @Operation(summary = "Load users and filter by keyword")
   public Page<UserResponse> loadUsers(@ParameterObject Pageable pagination,
                                       @RequestParam(required = false) String search) {
     return userRepository.search(search, pagination)
-      .map(userMapper::map);
+      .map(userMapper::toUserResponse);
   }
 
   @GetMapping("/{userKey}")

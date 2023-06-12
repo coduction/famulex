@@ -1,0 +1,40 @@
+{
+  "name": "web-administration-feature-security",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/administration/feature/security/src",
+  "prefix": "security",
+  "tags": [
+    "feature"
+  ],
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "libs/web/administration/feature/security/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/web/administration/feature/security/**/*.ts",
+          "libs/web/administration/feature/security/**/*.html"
+        ]
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@ package com.famulex.api.security.api.response;
 
 import com.famulex.api.core.model.MembershipType;
 import com.famulex.api.group.api.GroupResponse;
+import com.famulex.api.security.model.RoleAssignment;
 import com.famulex.api.user.api.UserResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -32,6 +33,8 @@ public class RoleAssignmentResponse {
   private OffsetDateTime validUntil;
   private OffsetDateTime validFrom;
 
+  @NotNull
+  private RoleAssignment.Status status;
   @NotNull
   private RoleResponse role;
 

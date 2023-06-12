@@ -16,8 +16,11 @@ export interface Role {
     key: string;
     createdAt: Date;
     updatedAt: Date;
+    deletedAt?: Date;
     name: string;
     description?: string;
+    defaultRole: boolean;
+    systemRole: boolean;
     rights: Array<Right>;
 }
 

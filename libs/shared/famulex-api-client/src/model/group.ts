@@ -14,6 +14,8 @@ import { GroupType } from './group-type';
 
 export interface Group { 
     key: string;
+    createdAt: Date;
+    updatedAt: Date;
     type: GroupType;
     name: string;
     description?: string;

@@ -114,11 +114,14 @@ export class UserEditComponent implements OnInit {
 
   validateUsername(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (this.config.data?.username === control.value) {
+        return of(null);
+      }
+
       return of(control.value).pipe(
         delay(500),
         switchMap(username => this.userService.checkUserAvailability(username)
           .pipe(
-            delay(5000),
             map(userNameAvailable => {
               if (userNameAvailable) {
                 return null;
@@ -137,6 +140,10 @@ export class UserEditComponent implements OnInit {
 
   validateEmail(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (this.config.data?.email === control.value) {
+        return of(null);
+      }
+
       return of(control.value).pipe(
         delay(500),
         switchMap(email => this.userService.checkUserAvailability(undefined, email).pipe(

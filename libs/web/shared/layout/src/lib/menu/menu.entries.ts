@@ -5,20 +5,87 @@ import { MenuItem } from "@coduction/primeng/api";
  ******************************************************/
 export const rootHome: MenuItem = {
   label: $localize`Home`,
-  icon: "fa fa-fw fa-house",
+  items: []
+};
+
+export const rootCertificates: MenuItem = {
+  label: $localize`Certificates`,
+  items: []
+};
+
+export const rootLibrary: MenuItem = {
+  label: $localize`Certificates`,
   items: []
 };
 
 export const rootAuthoring: MenuItem = {
   label: $localize`Authoring`,
-  icon: "fa fa-fw fa-cog",
   items: []
 };
 
 export const rootSettings: MenuItem = {
   label: $localize`Settings`,
-  icon: "fa fa-fw fa-cog",
   items: []
+};
+
+/******************************************************
+ * Home
+ ******************************************************/
+export const dashboard: MenuItem = {
+  label: $localize`Dashboard`,
+  icon: "fa fa-fw fa-house",
+  routerLink: ["/dashboard"]
+};
+
+export const myCourses: MenuItem = {
+  label: $localize`My Courses`,
+  icon: "fa fa-fw fa-book",
+  routerLink: ["/my-courses"]
+};
+
+export const testResults: MenuItem = {
+  label: $localize`Test Results`,
+  icon: "fa fa-fw fa-flask-vial",
+  routerLink: ["/test-results"]
+};
+
+/******************************************************
+ * Library
+ ******************************************************/
+export const library: MenuItem = {
+  label: $localize`Library`,
+  icon: "fa fa-fw fa-books",
+  routerLink: ["/library"]
+};
+
+/******************************************************
+ * Authoring
+ ******************************************************/
+export const courseAuthoring: MenuItem = {
+  label: $localize`Courses`,
+  icon: "fa fa-fw fa-wand-magic-sparkles",
+  routerLink: ["/authoring/courses"]
+};
+
+export const testAuthoring: MenuItem = {
+  label: $localize`Tests`,
+  icon: "fa fa-fw fa-flask-gear",
+  routerLink: ["/authoring/tests"]
+};
+
+/******************************************************
+ * Certificates
+ ******************************************************/
+export const accessCertificates: MenuItem = {
+  label: $localize`Certificates`,
+  icon: "fa fa-fw fa-file-certificate",
+  routerLink: ["/certificates"]
+};
+
+export const checkCertificates: MenuItem = {
+  label: $localize`Check Certificates`,
+  icon: "fa fa-fw fa-stamp",
+  routerLink: ["/certificates/check"]
 };
 
 /******************************************************
@@ -26,9 +93,7 @@ export const rootSettings: MenuItem = {
  ******************************************************/
 export const administration: MenuItem = {
   label: $localize`Administration`,
-  icon: "fa fa-fw fa-cog",
-  routerLink: ["/administration"],
-  items: []
+  icon: "fa fa-fw fa-cog"
 };
 
 export const administrationUsers: MenuItem = {
@@ -47,5 +112,11 @@ export const administrationRoles: MenuItem = {
   label: $localize`Roles`,
   icon: "fa fa-fw fa-shield-quartered",
   routerLink: ["/administration/roles"]
+};
+
+export const administrationLibraries: MenuItem = {
+  label: $localize`Libraries`,
+  icon: "fa fa-fw fa-books",
+  routerLink: ["/administration/libraries"]
 };
 

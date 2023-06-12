@@ -16,12 +16,12 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function7;
+import org.jooq.Function10;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row7;
+import org.jooq.Row10;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -75,6 +75,11 @@ public class FxRole extends TableImpl<FxRoleRecord> {
     public final TableField<FxRoleRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "");
 
     /**
+     * The column <code>public.fx_role.deleted_at</code>.
+     */
+    public final TableField<FxRoleRecord, OffsetDateTime> DELETED_AT = createField(DSL.name("deleted_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "");
+
+    /**
      * The column <code>public.fx_role.name</code>.
      */
     public final TableField<FxRoleRecord, String> NAME = createField(DSL.name("name"), SQLDataType.CLOB.nullable(false), this, "");
@@ -88,6 +93,16 @@ public class FxRole extends TableImpl<FxRoleRecord> {
      * The column <code>public.fx_role.rights</code>.
      */
     public final TableField<FxRoleRecord, String> RIGHTS = createField(DSL.name("rights"), SQLDataType.CLOB.nullable(false), this, "");
+
+    /**
+     * The column <code>public.fx_role.system_role</code>.
+     */
+    public final TableField<FxRoleRecord, Boolean> SYSTEM_ROLE = createField(DSL.name("system_role"), SQLDataType.BOOLEAN.nullable(false), this, "");
+
+    /**
+     * The column <code>public.fx_role.default_role</code>.
+     */
+    public final TableField<FxRoleRecord, Boolean> DEFAULT_ROLE = createField(DSL.name("default_role"), SQLDataType.BOOLEAN.nullable(false), this, "");
 
     private FxRole(Name alias, Table<FxRoleRecord> aliased) {
         this(alias, aliased, null);
@@ -182,18 +197,18 @@ public class FxRole extends TableImpl<FxRoleRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row10 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Long, UUID, OffsetDateTime, OffsetDateTime, String, String, String> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row10<Long, UUID, OffsetDateTime, OffsetDateTime, OffsetDateTime, String, String, String, Boolean, Boolean> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function7<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function10<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super String, ? super String, ? super String, ? super Boolean, ? super Boolean, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -201,7 +216,7 @@ public class FxRole extends TableImpl<FxRoleRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function10<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super String, ? super String, ? super String, ? super Boolean, ? super Boolean, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

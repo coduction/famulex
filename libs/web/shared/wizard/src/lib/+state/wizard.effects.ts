@@ -36,7 +36,7 @@ export class WizardEffects {
 
         this.componentMap.set(id, component);
         this.configMap.set(id, {
-          width: "55rem",
+          width: "65rem",
           closable: false,
           draggable: true,
           ...config
