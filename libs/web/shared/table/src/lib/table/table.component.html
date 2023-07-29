@@ -157,7 +157,7 @@
       </ng-container>
 
       <ng-container *ngFor="let column of columns">
-        <td *ngIf="column.visible" @fadeInOut>
+        <td *ngIf="column.visible">
           <ng-container *ngIf="column.cellRenderer else defaultRenderer">
             <web-table-cell-renderer-wrapper
               [renderer]="column.cellRenderer"
@@ -206,7 +206,7 @@
   </ng-template>
 
   <ng-template pTemplate="emptymessage">
-    <tr class="hover:surface-card" @fadeInOut>
+    <tr class="hover:surface-card">
       <td [colSpan]="visibleColumnsAmount">
         <div class="flex flex-column gap-3 align-items-center text-lg">
           <i class="fa fa-folder-open text-primary text-5xl"></i>
