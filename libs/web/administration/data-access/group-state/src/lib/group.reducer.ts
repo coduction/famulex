@@ -15,7 +15,7 @@ export interface State extends EntityState<Group> {
   pageIndex: number;
   pageSize: number;
   sortedBy: string[];
-  globalFilter: string | undefined;
+  search: string | undefined;
 
   page: PageGroup | null;
 }
@@ -33,7 +33,7 @@ export const initialState: State = adapter.getInitialState({
   pageIndex: 0,
   pageSize: 10,
   sortedBy: ["name,asc"],
-  globalFilter: undefined,
+  search: undefined,
 
   page: null,
 
@@ -54,7 +54,7 @@ export const reducer = createReducer(
       draft.pageIndex = event.pageIndex;
       draft.pageSize = event.pageSize;
       draft.sortedBy = event.sortedBy;
-      draft.globalFilter = event.globalFilter ?? undefined;
+      draft.search = event.search ?? undefined;
     }
   })),
   on(GroupActions.loadSuccess, (state, { page }) => {
@@ -148,7 +148,7 @@ export const GroupState = createFeature({
         pageIndex: state.pageIndex,
         pageSize: state.pageSize,
         sortedBy: state.sortedBy,
-        globalFilter: state.globalFilter
+        search: state.search
       } as TableMetaData)
     )
   })

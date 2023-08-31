@@ -32,7 +32,7 @@ export class RoleEffects {
       switchMap(([_, table]) => {
           HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
-          return this.securityService.loadRoles(table.pageIndex, table.pageSize, table.sortedBy, table.globalFilter).pipe(
+          return this.securityService.loadRoles(table.pageIndex, table.pageSize, table.sortedBy, table.search).pipe(
             map(page => RoleActions.loadSuccess({ page })),
             catchError((error: HttpErrorResponse) => of(RoleActions.loadFailure({ error })))
           );

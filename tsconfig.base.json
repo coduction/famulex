@@ -55,6 +55,33 @@
       "@famulex/web/administration/feature/users-list": [
         "libs/web/administration/feature/users-list/src/index.ts"
       ],
+      "@famulex/web/authoring/data-access/course-draft-editor-state": [
+        "libs/web/authoring/data-access/course-draft-editor-state/src/index.ts"
+      ],
+      "@famulex/web/authoring/data-access/course-draft-list-state": [
+        "libs/web/authoring/data-access/course-draft-list-state/src/index.ts"
+      ],
+      "@famulex/web/authoring/data-access/test-draft-editor-state": [
+        "libs/web/authoring/data-access/test-draft-editor-state/src/index.ts"
+      ],
+      "@famulex/web/authoring/feature/course-draft/edit": [
+        "libs/web/authoring/feature/course-draft/edit/src/index.ts"
+      ],
+      "@famulex/web/authoring/feature/course-draft/editor": [
+        "libs/web/authoring/feature/course-draft/editor/src/index.ts"
+      ],
+      "@famulex/web/authoring/feature/course-draft/list": [
+        "libs/web/authoring/feature/course-draft/list/src/index.ts"
+      ],
+      "@famulex/web/authoring/feature/test-draft/edit": [
+        "libs/web/authoring/feature/test-draft/edit/src/index.ts"
+      ],
+      "@famulex/web/authoring/feature/test-draft/editor": [
+        "libs/web/authoring/feature/test-draft/editor/src/index.ts"
+      ],
+      "@famulex/web/authoring/feature/test-draft/list": [
+        "libs/web/authoring/feature/test-draft/list/src/index.ts"
+      ],
       "@famulex/web/shared/group-search": [
         "libs/web/shared/group-search/src/index.ts"
       ],

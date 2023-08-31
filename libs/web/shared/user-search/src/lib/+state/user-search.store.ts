@@ -13,7 +13,7 @@ export interface UserSearchState {
   pageIndex: number;
   pageSize: number;
   sortedBy: string[];
-  globalFilter: string | undefined;
+  search: string | undefined;
 
   page: PageUser | undefined;
 }
@@ -25,7 +25,7 @@ const initialState: UserSearchState = {
   pageIndex: 0,
   pageSize: 5,
   sortedBy: ["firstName,asc"],
-  globalFilter: undefined,
+  search: undefined,
 
   page: undefined
 };
@@ -41,7 +41,7 @@ export class UserSearchStore extends ComponentStore<UserSearchState> {
     pageIndex: state.pageIndex,
     pageSize: state.pageSize,
     sortedBy: state.sortedBy,
-    globalFilter: state.globalFilter,
+    search: state.search,
     actionInProgress: state.actionInProgress
   } as TableMetaData));
 
@@ -58,7 +58,7 @@ export class UserSearchStore extends ComponentStore<UserSearchState> {
         }
       }),
       concatLatestFrom(() => this.tableMetaData$),
-      switchMap(([_, metaData]) => this.userService.loadUsers(metaData.pageIndex, metaData.pageSize, metaData.sortedBy, metaData.globalFilter).pipe(
+      switchMap(([_, metaData]) => this.userService.loadUsers(metaData.pageIndex, metaData.pageSize, metaData.sortedBy, metaData.search).pipe(
         tap(page => this._setUsers(page)),
         catchError(error => {
           console.error(error);
@@ -81,7 +81,7 @@ export class UserSearchStore extends ComponentStore<UserSearchState> {
       draft.pageIndex = loadDataEvent.pageIndex;
       draft.pageSize = loadDataEvent.pageSize;
       draft.sortedBy = loadDataEvent.sortedBy;
-      draft.globalFilter = loadDataEvent.globalFilter;
+      draft.search = loadDataEvent.search;
     });
   });
 }

@@ -34,7 +34,7 @@ export class UserEffects {
       switchMap(([_, table]) => {
           HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
-          return this.userService.loadUsers(table.pageIndex, table.pageSize, table.sortedBy, table.globalFilter).pipe(
+          return this.userService.loadUsers(table.pageIndex, table.pageSize, table.sortedBy, table.search).pipe(
             map(page => UserActions.loadSuccess({ page })),
             catchError((error: HttpErrorResponse) => of(UserActions.loadFailure({ error })))
           );

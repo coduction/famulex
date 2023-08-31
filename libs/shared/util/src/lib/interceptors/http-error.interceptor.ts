@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable }                                                              from "@angular/core";
 import { MessageService }                                                          from "@coduction/primeng/api";
 import { DialogService }                                                           from "@coduction/primeng/dynamicdialog";
-import { UnauthenticatedComponent, UnauthorizedComponent }                         from "@famulex/shared/security/ui";
+import { ForbiddenComponent, UnauthorizedComponent }                               from "@famulex/shared/security/ui";
 import { catchError, EMPTY, Observable, tap, throwError }                          from "rxjs";
 
 @Injectable()
@@ -55,7 +55,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
                   return EMPTY;
                 case 403:
-                  this.dialogService.open(UnauthenticatedComponent, {
+                  this.dialogService.open(ForbiddenComponent, {
                     width: "60rem",
                     closable: false
                   });

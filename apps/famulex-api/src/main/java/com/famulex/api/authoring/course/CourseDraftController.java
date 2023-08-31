@@ -1,15 +1,20 @@
 package com.famulex.api.authoring.course;
 
 import com.famulex.api.authoring.course.api.CourseDraftMapper;
+import com.famulex.api.authoring.course.api.request.CourseDraftFilter;
 import com.famulex.api.authoring.course.api.request.CourseDraftRequest;
 import com.famulex.api.authoring.course.api.response.CourseDraftResponse;
 import com.famulex.api.authoring.course.model.CourseDraft;
 import com.famulex.api.authoring.course.repository.CourseDraftRepository;
+import com.famulex.api.core.exception.AccessDeniedException;
 import com.famulex.api.core.exception.EntityNotFoundException;
+import com.famulex.api.core.util.SecurityHelper;
 import com.famulex.api.course.model.CourseStatus;
 import com.famulex.api.course.repository.CourseRepository;
 import com.famulex.api.file.FileService;
 import com.famulex.api.file.repository.FilePermissionRepository;
+import com.famulex.api.security.model.Right;
+import com.famulex.api.security.model.Rights;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,8 +55,18 @@ public class CourseDraftController {
   private final CourseDraftMapper courseDraftMapper;
 
   @GetMapping
-  public Page<CourseDraftResponse> loadCourseDrafts(@ParameterObject Pageable pagination) {
-    return courseDraftRepository.findAll(pagination)
+  @Secured({Rights.MANAGE_COURSES, Rights.CREATE_COURSES})
+  public Page<CourseDraftResponse> loadCourseDrafts(@ParameterObject Pageable pagination,
+                                                    @Valid CourseDraftFilter filter) {
+    if (SecurityHelper.userHasNotRight(Right.MANAGE_COURSES) && !filter.isMyCourses()) {
+      throw new AccessDeniedException("You are not allowed to access all courses.");
+    }
+
+    if (filter.isMyCourses()) {
+      filter.setOwnerKey(SecurityHelper.getCurrentUserKey());
+    }
+
+    return courseDraftRepository.searchCourseDrafts(filter, pagination)
       .map(courseDraftMapper::toResponse);
   }
 

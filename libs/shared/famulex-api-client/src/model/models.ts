@@ -3,6 +3,7 @@ export * from './answer-draft-request';
 export * from './configuration-type';
 export * from './course';
 export * from './course-draft';
+export * from './course-draft-filter';
 export * from './course-draft-item';
 export * from './course-draft-item-request-create';
 export * from './course-draft-node';

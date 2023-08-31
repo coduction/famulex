@@ -16,6 +16,7 @@ import com.famulex.api.user.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -119,6 +120,7 @@ public class CourseController {
     return courseMapper.toResponse(course);
   }
 
+  @PreAuthorize("@SecurityHelper.isMyCourseMembership(#membershipKey)")
   @GetMapping("/membership/{membershipKey}")
   public CourseMembershipResponse loadCourseByMembership(@PathVariable UUID membershipKey) {
     var membership = membershipRepository.findByKey(membershipKey)

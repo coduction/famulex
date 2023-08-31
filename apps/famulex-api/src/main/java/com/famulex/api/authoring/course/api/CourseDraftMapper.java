@@ -12,6 +12,7 @@ import com.famulex.api.authoring.course.model.CourseDraftItem;
 import com.famulex.api.authoring.course.model.CourseDraftNode;
 import com.famulex.api.core.mapper.MapperConfiguration;
 import com.famulex.api.file.api.FileMapper;
+import com.famulex.api.jooq.tables.records.FxCourseDraftRecord;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -28,6 +29,8 @@ public interface CourseDraftMapper {
    * Course Draft
    *************************************************************************/
   CourseDraftResponse toResponse(CourseDraft courseDraft);
+
+  CourseDraftResponse toResponse(FxCourseDraftRecord courseDraftRecord);
 
   CourseDraft fromRequest(CourseDraftRequest courseDraftRequest);
 

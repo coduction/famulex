@@ -1,0 +1,16 @@
+<div class="px-5 flex justify-content-center align-items-center">
+  <div class="z-1 text-center">
+    <div i18n class="text-900 font-bold text-8xl mb-4">
+      Oops!
+    </div>
+
+    <p i18n class="line-height-3 mt-0 mb-5 text-700 text-xl font-medium">
+      You are not allowed to be here. You will be redirected in {{ countDown }}s.
+    </p>
+
+    <p-button label="Go to Dashboard" i18n-label
+              styleClass="font-medium p-button-raised"
+              (click)="skipCountDown()"
+    ></p-button>
+  </div>
+</div>

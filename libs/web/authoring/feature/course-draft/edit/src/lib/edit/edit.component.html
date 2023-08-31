@@ -1,0 +1,47 @@
+<form [formGroup]="createCourseDraftForm" (ngSubmit)="onSubmit()">
+  <div class="flex flex-column gap-4">
+    <div class="grid p-fluid">
+      <div class="col-12">
+        <ui-form-label formControlName="title" i18n>Title</ui-form-label>
+        <input pInputText
+               type="text"
+               id="title"
+               formControlName="title">
+        <ui-form-error formControlName="title"></ui-form-error>
+      </div>
+
+      <div class="col-12">
+        <ui-form-label formControlName="author" i18n>Author</ui-form-label>
+        <input pInputText
+               type="text"
+               id="author"
+               formControlName="author">
+        <ui-form-error formControlName="author"></ui-form-error>
+      </div>
+
+      <div class="col-12">
+        <ui-form-label formControlName="description" i18n>Description</ui-form-label>
+        <textarea pInputTextarea
+                  type="text"
+                  id="description"
+                  formControlName="description">
+        </textarea>
+        <ui-form-error formControlName="description"></ui-form-error>
+      </div>
+    </div>
+
+    <div class="flex gap-3 justify-content-end">
+      <button pButton pRipple i18n-label
+              type="button"
+              label="Cancel"
+              class="p-button-outlined"
+              (click)="onCancel()"
+      ></button>
+      <button pButton pRipple i18n-label
+              type="submit"
+              label="Create Course"
+      ></button>
+    </div>
+  </div>
+</form>
+

@@ -13,7 +13,7 @@ export interface GroupSearchState {
   pageIndex: number;
   pageSize: number;
   sortedBy: string[];
-  globalFilter: string | undefined;
+  search: string | undefined;
 
   page: PageGroup | undefined;
 }
@@ -25,7 +25,7 @@ const initialState: GroupSearchState = {
   pageIndex: 0,
   pageSize: 10,
   sortedBy: ["name,asc"],
-  globalFilter: undefined,
+  search: undefined,
 
   page: undefined
 };
@@ -41,7 +41,7 @@ export class GroupSearchStore extends ComponentStore<GroupSearchState> {
     pageIndex: state.pageIndex,
     pageSize: state.pageSize,
     sortedBy: state.sortedBy,
-    globalFilter: state.globalFilter,
+    search: state.search,
     actionInProgress: state.actionInProgress
   } as TableMetaData));
 
@@ -58,7 +58,7 @@ export class GroupSearchStore extends ComponentStore<GroupSearchState> {
         }
       }),
       concatLatestFrom(() => this.tableMetaData$),
-      switchMap(([_, metaData]) => this.groupService.loadGroups(metaData.pageIndex, metaData.pageSize, metaData.sortedBy, metaData.globalFilter).pipe(
+      switchMap(([_, metaData]) => this.groupService.loadGroups(metaData.pageIndex, metaData.pageSize, metaData.sortedBy, metaData.search).pipe(
         tap(page => this._setGroups(page)),
         catchError(error => {
           console.error(error);
@@ -81,7 +81,7 @@ export class GroupSearchStore extends ComponentStore<GroupSearchState> {
       draft.pageIndex = loadDataEvent.pageIndex;
       draft.pageSize = loadDataEvent.pageSize;
       draft.sortedBy = loadDataEvent.sortedBy;
-      draft.globalFilter = loadDataEvent.globalFilter;
+      draft.search = loadDataEvent.search;
     });
   });
 }

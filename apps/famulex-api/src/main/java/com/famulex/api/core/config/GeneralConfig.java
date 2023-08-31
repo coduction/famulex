@@ -4,8 +4,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import java.util.TimeZone;
 
@@ -17,17 +15,15 @@ import java.util.TimeZone;
  */
 @Log4j2
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true)
 public class GeneralConfig {
 
-    @Value("${timezone.default}")
-    private String defaultTimeZone;
+  @Value("${timezone.default}")
+  private String defaultTimeZone;
 
-    @PostConstruct
-    public void init() {
-        TimeZone.setDefault(TimeZone.getTimeZone(defaultTimeZone));
+  @PostConstruct
+  public void init() {
+    TimeZone.setDefault(TimeZone.getTimeZone(defaultTimeZone));
 
-        log.info("Default timezone set to {}", defaultTimeZone);
-    }
+    log.info("Default timezone set to {}", defaultTimeZone);
+  }
 }

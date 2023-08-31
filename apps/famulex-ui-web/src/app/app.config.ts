@@ -2,7 +2,7 @@ import { APP_BASE_HREF, LocationStrategy, PlatformLocation }                    
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi }                 from "@angular/common/http";
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, isDevMode }           from "@angular/core";
 import { provideAnimations }                                                            from "@angular/platform-browser/animations";
-import { provideRouter }                                                                from "@angular/router";
+import { provideRouter, withComponentInputBinding }                                     from "@angular/router";
 import { ConfirmationService, MessageService }                                          from "@coduction/primeng/api";
 import { DialogService }                                                                from "@coduction/primeng/dynamicdialog";
 import { FamulexApiConfiguration, FamulexApiConfigurationParameters, FamulexApiModule } from "@famulex/shared/famulex-api-client";
@@ -19,7 +19,7 @@ import { envConfig, EnvService }                                                
 export const appConfig: ApplicationConfig = {
   providers: [
     // provideRouter(appRoutes, withPreloading(PreloadAllModules)), TODO Alex: Currently preloading is not respecting the canMatch / canLoad guards. Check later and implement own preloading strategy if needed
-    provideRouter(appRoutes),
+    provideRouter(appRoutes, withComponentInputBinding()),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
     // Disable strict immutability checks for now, because of the following issue: Wizards cannot be opened by passing a component as input if strict immutability checks are enabled

@@ -4,8 +4,8 @@ import { Right }       from "@famulex/shared/famulex-api-client";
 import { AuthService } from "@famulex/shared/security/util";
 import { Subject }     from "rxjs";
 import {
-  accessCertificates, administration, administrationGroups, administrationLibraries, administrationRoles, administrationUsers, checkCertificates, courseAuthoring, dashboard, myCourses, rootAuthoring,
-  rootCertificates, rootHome, rootLibrary, rootSettings, testAuthoring, testResults
+  accessCertificates, administration, administrationGroups, administrationLibraries, administrationRoles, administrationUsers, authoringCourses, authoringTests, checkCertificates, dashboard,
+  myCourses, rootAuthoring, rootCertificates, rootHome, rootLibrary, rootSettings, testResults
 }                      from "./menu.entries";
 
 @Injectable({
@@ -120,11 +120,11 @@ export class MenuService {
     rootAuthoring.items = [];
 
     if (rights.includes(Right.CreateCourses) || rights.includes(Right.ManageCourses)) {
-      rootAuthoring.items.push(courseAuthoring);
+      rootAuthoring.items.push(authoringCourses);
     }
 
     if (rights.includes(Right.CreateTests) || rights.includes(Right.ManageTests)) {
-      rootAuthoring.items.push(testAuthoring);
+      rootAuthoring.items.push(authoringTests);
     }
 
     if (rootAuthoring.items.length > 0) {

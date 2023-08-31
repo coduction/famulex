@@ -1,0 +1,273 @@
+import { HttpErrorResponse }                                                  from "@angular/common/http";
+import { Injectable }                                                         from "@angular/core";
+import { MessageService }                                                     from "@coduction/primeng/api";
+import { UserService }                                                        from "@famulex/shared/famulex-api-client";
+import { AuthService }                                                        from "@famulex/shared/security/util";
+import { HttpErrorInterceptor }                                               from "@famulex/shared/util";
+import { WizardActions }                                                      from "@famulex/web/shared/wizard";
+import { Actions, concatLatestFrom, createEffect, ofType }                    from "@ngrx/effects";
+import { Store }                                                              from "@ngrx/store";
+import { catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap } from "rxjs";
+import { CourseDraftEditorActions }                                           from "./course-draft-editor.actions";
+import { USER_EDIT_WIZARD_ID }                                                from "./user.models";
+import { UserState }                                                          from "./user.reducer";
+
+@Injectable()
+export class CourseDraftEditorEffects {
+
+  constructor(
+    private actions$: Actions,
+    private store: Store,
+    private userService: UserService,
+    private messageService: MessageService,
+    private authService: AuthService // TODO Alex: Refactor this and put auth data into a separate state
+  ) {
+  }
+
+  /*************************************************************************
+   * Load
+   ************************************************************************/
+  load$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CourseDraftEditorActions.load),
+      concatLatestFrom(() => this.store.select(UserState.selectTableMetaData)),
+      switchMap(([_, table]) => {
+          HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
+
+          return this.userService.loadUsers(table.pageIndex, table.pageSize, table.sortedBy, table.search).pipe(
+            map(page => CourseDraftEditorActions.loadSuccess({ page })),
+            catchError((error: HttpErrorResponse) => of(CourseDraftEditorActions.loadFailure({ error })))
+          );
+        }
+      )
+    )
+  );
+
+  loadFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CourseDraftEditorActions.loadFailure),
+      tap(({ error }) => {
+        this.messageService.add({
+          severity: "error",
+          summary: $localize`Error while Loading Users`,
+          detail: $localize`Please try again later and reload the page.`
+        });
+      })
+    ), { dispatch: false }
+  );
+
+  /*************************************************************************
+   * Create User
+   ************************************************************************/
+  create$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.create),
+      concatMap(({ userRequest }) => {
+        HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
+
+        return this.userService.createUser(userRequest).pipe(
+          map(user => CourseDraftEditorActions.createSuccess({ user })),
+          catchError((error: HttpErrorResponse) => of(CourseDraftEditorActions.createFailure({ error })))
+        );
+      })
+    );
+  });
+
+  createFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.createFailure),
+      tap(({ error }) => {
+        if (error.status === 409) {
+          this.messageService.add({
+            severity: "error",
+            summary: $localize`User already exists`,
+            detail: $localize`Provide a different username or email.`
+          });
+        } else {
+          this.messageService.add({
+            severity: "error",
+            summary: $localize`Error while creating user`,
+            detail: $localize`Please try again later.`
+          });
+        }
+      }),
+      map(() => WizardActions.finishFailure({ id: USER_EDIT_WIZARD_ID }))
+    );
+  });
+
+  createSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.createSuccess),
+      tap(({ user }) => {
+        this.messageService.add({
+          severity: "success",
+          summary: $localize`New user created successfully`,
+          detail: `${user.firstName} ${user.lastName}`
+        });
+      }),
+      concatMap(() => [
+        WizardActions.finishSuccess({ id: USER_EDIT_WIZARD_ID }),
+        CourseDraftEditorActions.load({})
+      ])
+    );
+  });
+
+  /*************************************************************************
+   * Update
+   ************************************************************************/
+  update$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.update),
+      concatMap(({ key, userRequest }) => {
+        HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
+
+        return this.userService.updateUser(key, userRequest).pipe(
+          map(user => CourseDraftEditorActions.updateSuccess({ user: { id: key, changes: user } })),
+          catchError((error: HttpErrorResponse) => of(CourseDraftEditorActions.updateFailure({ error })))
+        );
+      })
+    );
+  });
+
+  updateUserFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.updateFailure),
+      tap(({ error }) => {
+        this.messageService.add({
+          severity: "error",
+          summary: $localize`Error while updating user`,
+          detail: $localize`Please try again later.`
+        });
+      }),
+      map(() => WizardActions.finishFailure({ id: USER_EDIT_WIZARD_ID }))
+    );
+  });
+
+  updateUserSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.updateSuccess),
+      tap(({ user }) => {
+        this.messageService.add({
+          severity: "success",
+          summary: $localize`User updated successfully`,
+          detail: `${user.changes.firstName} ${user.changes.lastName}`
+        });
+      }),
+      concatMap(() => [
+        WizardActions.finishSuccess({ id: USER_EDIT_WIZARD_ID }),
+        CourseDraftEditorActions.load({})
+      ])
+    );
+  });
+
+  /*************************************************************************
+   * Delete Single
+   ************************************************************************/
+  delete$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.delete),
+      mergeMap(({ user }) => {
+        if (user.key === this.authService.userKey) {
+          return of(CourseDraftEditorActions.deleteFailure({ isCurrentUser: true }));
+        }
+
+        return this.userService.deleteUser(user.key).pipe(
+          map(() => CourseDraftEditorActions.deleteSuccess({ user })),
+          catchError((error: HttpErrorResponse) => of(CourseDraftEditorActions.deleteFailure({ error })))
+        );
+      })
+    );
+  });
+
+  deleteSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.deleteSuccess),
+      tap(({ user }) => {
+        this.messageService.add({
+          severity: "success",
+          summary: $localize`User deleted successfully`,
+          detail: `${user.firstName} ${user.lastName}`
+        });
+      }),
+      map(() => CourseDraftEditorActions.load({}))
+    );
+  });
+
+  deleteFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.deleteFailure),
+      tap(({ error, isCurrentUser }) => {
+        if (isCurrentUser) {
+          this.messageService.add({
+            severity: "error",
+            summary: $localize`Error while deleting user`,
+            detail: $localize`You cannot delete yourself.`
+          });
+        }
+      })
+    );
+  }, { dispatch: false });
+
+  /*************************************************************************
+   * Delete Multiple
+   ************************************************************************/
+  deleteMany$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.deleteMany),
+      mergeMap(({ keys }) => {
+        if (keys.includes(this.authService.userKey)) {
+          return of(CourseDraftEditorActions.deleteManyFeedback({ containsCurrentUser: true }));
+        }
+
+        const deletedKeys: string[] = [];
+        const errorKeys: string[] = [];
+
+        const requests = keys.map(key => {
+          return this.userService.deleteUser(key).pipe(
+            tap(() => deletedKeys.push(key)),
+            catchError(error => {
+              errorKeys.push(key);
+              return of(error);
+            })
+          );
+        });
+
+        return forkJoin(requests).pipe(
+          map(() => CourseDraftEditorActions.deleteManyFeedback({ deletedKeys, errorKeys }))
+        );
+      })
+    );
+  });
+
+  deleteManyFeedback$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftEditorActions.deleteManyFeedback),
+      tap(({ error, containsCurrentUser, deletedKeys, errorKeys }) => {
+        if (containsCurrentUser) {
+          this.messageService.add({
+            severity: "error",
+            summary: $localize`Error while deleting users`,
+            detail: $localize`You cannot delete yourself. Remove yourself from the selection and try again.`
+          });
+        }
+
+        if (deletedKeys && deletedKeys.length > 0) {
+          this.messageService.add({
+            severity: "success",
+            summary: $localize`Users deleted successfully`,
+            detail: `${deletedKeys.length} users deleted.`
+          });
+        }
+
+        if (errorKeys && errorKeys.length > 0) {
+          this.messageService.add({
+            severity: "error",
+            summary: $localize`Error while deleting users`,
+            detail: $localize`Could not delete ${errorKeys.length} users. Please try again later.`
+          });
+        }
+      }),
+      map(() => CourseDraftEditorActions.load({}))
+    );
+  });
+}

@@ -1,8 +1,13 @@
+import { CommonModule }                                 from "@angular/common";
 import { Component, OnDestroy, Renderer2, ViewChild }   from "@angular/core";
-import { NavigationEnd, Router }                        from "@angular/router";
+import { NavigationEnd, Router, RouterOutlet }          from "@angular/router";
 import { ConfirmationService }                          from "@coduction/primeng/api";
+import { ConfirmDialogModule }                          from "@coduction/primeng/confirmdialog";
+import { ConfirmPopupModule }                           from "@coduction/primeng/confirmpopup";
+import { ToastModule }                                  from "@coduction/primeng/toast";
 import { BehaviorSubject, filter, Subscription }        from "rxjs";
 import { MenuService }                                  from "../../menu/menu.service";
+import { SharedThemeModule }                            from "../../shared-theme.module";
 import { SidebarLeftComponent }                         from "../../sidebar-left/sidebar-left.component";
 import { TopbarComponent }                              from "../../topbar/topbar.component";
 import { CONFIRM_DIALOG, CONFIRM_DIALOG_NON_CLOSEABLE } from "../layout.options";
@@ -10,6 +15,15 @@ import { LayoutService }                                from "../layout.service"
 
 @Component({
   selector: "layout-main-layout",
+  standalone: true,
+  imports: [
+    CommonModule,
+    ConfirmDialogModule,
+    ConfirmPopupModule,
+    RouterOutlet,
+    SharedThemeModule,
+    ToastModule
+  ],
   templateUrl: "./main-layout.component.html"
 })
 export class MainLayoutComponent implements OnDestroy {

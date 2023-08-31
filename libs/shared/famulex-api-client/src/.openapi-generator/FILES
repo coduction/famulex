@@ -9,6 +9,7 @@ api/course.service.ts
 api/file.service.ts
 api/group.service.ts
 api/security.service.ts
+api/spring-doc-helper.service.ts
 api/system-status.service.ts
 api/test-configuration.service.ts
 api/test-draft.service.ts
@@ -22,6 +23,7 @@ index.ts
 model/answer-draft-request.ts
 model/answer-draft.ts
 model/configuration-type.ts
+model/course-draft-filter.ts
 model/course-draft-item-request-create.ts
 model/course-draft-item.ts
 model/course-draft-node-request-create.ts

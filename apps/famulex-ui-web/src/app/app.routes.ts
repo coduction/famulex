@@ -6,7 +6,7 @@ import { MainLayoutComponent } from "@famulex/web/shared/layout";
 
 export const appRoutes: Route[] = [
   {
-    path: "",
+    path: "dashboard",
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: []
@@ -20,6 +20,27 @@ export const appRoutes: Route[] = [
     },
     title: $localize`Administration`,
     loadChildren: () => import("@famulex/web/administration/feature/shell").then(m => m.administrationRoutes)
+  },
+  {
+    path: "authoring/courses",
+    canActivate: [AuthGuard],
+    data: {
+      rights: [Right.ManageCourses, Right.CreateCourses]
+    },
+    loadChildren: () => import("@famulex/web/authoring/feature/course-draft/editor").then(m => m.courseDraftEditorRoutes)
+  },
+  {
+    path: "authoring/tests",
+    canActivate: [AuthGuard],
+    data: {
+      rights: [Right.CreateTests, Right.ManageTests]
+    },
+    loadChildren: () => import("@famulex/web/authoring/feature/test-draft/editor").then(m => m.testDraftEditorRoutes)
+  },
+  {
+    path: "",
+    pathMatch: "full",
+    redirectTo: "dashboard"
   },
   {
     path: "**",

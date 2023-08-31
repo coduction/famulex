@@ -65,3 +65,25 @@ famulex.localhost {
     reverse_proxy localhost:4200
   }
 }
+
+old.localhost {
+
+  rewrite /api /api/
+  handle /api/* {
+    reverse_proxy localhost:8080
+  }
+
+  redir /auth /auth/
+  handle /auth/* {
+    reverse_proxy localhost:8100
+  }
+
+  rewrite /db /db/
+  handle_path /db/* {
+    reverse_proxy localhost:10001
+  }
+
+  handle * {
+    reverse_proxy localhost:4201
+  }
+}

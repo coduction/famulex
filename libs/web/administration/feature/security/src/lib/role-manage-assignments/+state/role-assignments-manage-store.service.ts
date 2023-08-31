@@ -17,7 +17,7 @@ export interface RoleAssignmentsManageState {
   pageIndex: number;
   pageSize: number;
   sortedBy: string[];
-  globalFilter: string | undefined;
+  search: string | undefined;
 
   page: PageRoleAssignment | undefined;
 }
@@ -32,7 +32,7 @@ const initialState: RoleAssignmentsManageState = {
   pageIndex: 0,
   pageSize: 5,
   sortedBy: ["firstName,asc"],
-  globalFilter: undefined,
+  search: undefined,
 
   page: undefined
 };
@@ -50,7 +50,7 @@ export class RoleAssignmentsManageStore extends ComponentStore<RoleAssignmentsMa
     pageIndex: state.pageIndex,
     pageSize: state.pageSize,
     sortedBy: state.sortedBy,
-    globalFilter: state.globalFilter,
+    search: state.search,
     actionInProgress: state.actionInProgress
   } as TableMetaData));
 
@@ -84,7 +84,7 @@ export class RoleAssignmentsManageStore extends ComponentStore<RoleAssignmentsMa
           role.key,
           type,
           metaData.pageIndex, metaData.pageSize, metaData.sortedBy,
-          metaData.globalFilter)
+          metaData.search)
           .pipe(
             tap(page => this._setAssignments(page)),
             catchError(error => {
@@ -270,7 +270,7 @@ export class RoleAssignmentsManageStore extends ComponentStore<RoleAssignmentsMa
       draft.pageIndex = loadDataEvent.pageIndex;
       draft.pageSize = loadDataEvent.pageSize;
       draft.sortedBy = loadDataEvent.sortedBy;
-      draft.globalFilter = loadDataEvent.globalFilter;
+      draft.search = loadDataEvent.search;
     });
   });
 }

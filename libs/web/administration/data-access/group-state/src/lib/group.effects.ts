@@ -32,7 +32,7 @@ export class GroupEffects {
       switchMap(([_, table]) => {
           HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
-          return this.groupService.loadGroups(table.pageIndex, table.pageSize, table.sortedBy, table.globalFilter).pipe(
+          return this.groupService.loadGroups(table.pageIndex, table.pageSize, table.sortedBy, table.search).pipe(
             map(page => GroupActions.loadSuccess({ page })),
             catchError((error: HttpErrorResponse) => of(GroupActions.loadFailure({ error })))
           );

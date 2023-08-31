@@ -14,13 +14,12 @@ import java.util.UUID;
  * @date 23.02.22
  */
 @Repository
-public interface CourseDraftRepository extends JpaRepository<CourseDraft, Long> {
-
-  Optional<CourseDraft> findByKey(UUID key);
-
-//    @EntityGraph(value = "CourseDraft.Content", type = EntityGraph.EntityGraphType.LOAD)
-//    Optional<CourseDraft> findWithContentByKey(UUID key);
+public interface CourseDraftRepository extends JpaRepository<CourseDraft, Long>, CourseDraftRepositoryCustom {
 
   boolean existsByKey(UUID key);
+
+  Optional<CourseDraft> findByKey(UUID key);
+//    @EntityGraph(value = "CourseDraft.Content", type = EntityGraph.EntityGraphType.LOAD)
+//    Optional<CourseDraft> findWithContentByKey(UUID key);
 
 }

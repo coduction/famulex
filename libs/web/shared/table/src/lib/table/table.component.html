@@ -7,17 +7,17 @@
     <span *ngIf="showSearch && searchPosition === 'LEFT'"
           class="flex flex-grow-1 w-full sm:max-w-30rem p-inputgroup p-input-icon-left">
       <i class="fa fa-magnifying-glass z-2"></i>
-      <input #filterInput pInputText [ngModel]="globalFilter"
+      <input #filterInput pInputText [ngModel]="search"
              class="flex-grow-1" type="text"
              [disabled]="actionInProgress"
-             (ngModelChange)="onFilter(filterInput.value)"
-             (keydown)="onFilterKeydown($event)"
+             (ngModelChange)="onSearch(filterInput.value)"
+             (keydown)="onSearchKeydown($event)"
       />
       <button *ngIf="filterInput.value"
               pButton type="button"
               icon="fa fa-swap-opacity fa-xmark-large"
               [disabled]="actionInProgress"
-              (click)="onFilter()"
+              (click)="onSearch()"
       ></button>
     </span>
   </div>
@@ -26,17 +26,17 @@
     <span *ngIf="showSearch && searchPosition === 'RIGHT'"
           class="flex flex-grow-1 w-full sm:max-w-20rem p-inputgroup p-input-icon-left">
       <i class="fa fa-magnifying-glass z-2"></i>
-      <input #filterInput pInputText [ngModel]="globalFilter"
+      <input #searchInput pInputText [ngModel]="search"
              class="flex-grow-1" type="text"
              [disabled]="actionInProgress"
-             (ngModelChange)="onFilter(filterInput.value)"
-             (keydown)="onFilterKeydown($event)"
+             (ngModelChange)="onSearch(searchInput.value)"
+             (keydown)="onSearchKeydown($event)"
       />
-      <button *ngIf="filterInput.value"
+      <button *ngIf="searchInput.value"
               pButton type="button"
               icon="fa fa-swap-opacity fa-xmark-large"
               [disabled]="actionInProgress"
-              (click)="onFilter()"
+              (click)="onSearch()"
       ></button>
     </span>
 
@@ -72,6 +72,10 @@
   </div>
 </div>
 
+<div *ngIf="showTabs()" class="tabs">
+  <p-tabMenu [model]="tabs" [activeItem]="activeTab"></p-tabMenu>
+</div>
+
 <p-table #table
          [columns]="columns"
          [value]="getData()"
@@ -97,7 +101,8 @@
           class="fx-table-selection-header"
           pFrozenColumn
       >
-        <p-triStateCheckbox [readonly]="true"
+        <p-triStateCheckbox *ngIf="hasData"
+                            [readonly]="true"
                             [ngModel]="selectionState"
                             [disabled]="actionInProgress || !hasData"
                             (click)="selectActionsPanel.toggle($event)"
@@ -105,10 +110,15 @@
                             [styleClass]="selectionState === false ? 'indeterminate' : ''"
                             checkboxFalseIcon="fa fa-fw fa-square"
         ></p-triStateCheckbox>
+        <p-triStateCheckbox *ngIf="!hasData"
+                            [readonly]="true"
+                            [ngModel]="null"
+                            [disabled]="true"
+        ></p-triStateCheckbox>
       </th>
 
       <ng-container *ngFor="let column of columns">
-        <th *ngIf="column.visible && column.sortable" @fadeInOut
+        <th *ngIf="column.visible && column.sortable"
             pSortableColumn="{{column.key}}" pRipple
         >
           <div class="flex">
@@ -118,7 +128,7 @@
           </div>
         </th>
 
-        <th *ngIf="column.visible && !column.sortable" @fadeInOut>
+        <th *ngIf="column.visible && !column.sortable">
           {{column.name}}
         </th>
       </ng-container>
@@ -182,7 +192,7 @@
           </td>
           <td *ngIf="columnAction.label">
             <p-button icon="{{ columnAction.icon ? 'fa fa-fw ' + columnAction.icon : '' }}"
-                      styleClass="p-button-sm p-button-outlined"
+                      styleClass="p-button-sm p-button-outlined white-space-nowrap"
                       [disabled]="actionInProgress"
                       [label]="columnAction.label"
                       (onClick)="columnAction.onClick(entry)"

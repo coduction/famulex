@@ -61,13 +61,13 @@ export const library: MenuItem = {
 /******************************************************
  * Authoring
  ******************************************************/
-export const courseAuthoring: MenuItem = {
+export const authoringCourses: MenuItem = {
   label: $localize`Courses`,
   icon: "fa fa-fw fa-wand-magic-sparkles",
   routerLink: ["/authoring/courses"]
 };
 
-export const testAuthoring: MenuItem = {
+export const authoringTests: MenuItem = {
   label: $localize`Tests`,
   icon: "fa fa-fw fa-flask-gear",
   routerLink: ["/authoring/tests"]

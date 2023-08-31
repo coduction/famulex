@@ -16,7 +16,6 @@ import { ToastModule }                    from "@coduction/primeng/toast";
 import { TooltipModule }                  from "@coduction/primeng/tooltip";
 import { BreadcrumbComponent }            from "./breadcrumb/breadcrumb.component";
 import { ConfigComponent }                from "./config/config.component";
-import { MainLayoutComponent }            from "./layout/main/main-layout.component";
 import { MenuItemComponent }              from "./menu-item/menu-item.component";
 import { MenuComponent }                  from "./menu/menu.component";
 import { SidebarLeftComponent }           from "./sidebar-left/sidebar-left.component";
@@ -45,7 +44,15 @@ import { TopbarComponent }                from "./topbar/topbar.component";
   declarations: [
     BreadcrumbComponent,
     ConfigComponent,
-    MainLayoutComponent,
+    MenuComponent,
+    MenuItemComponent,
+    SidebarLeftComponent,
+    SidebarRightComponent,
+    TopbarComponent
+  ],
+  exports: [
+    BreadcrumbComponent,
+    ConfigComponent,
     MenuComponent,
     MenuItemComponent,
     SidebarLeftComponent,

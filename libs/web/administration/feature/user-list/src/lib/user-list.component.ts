@@ -21,7 +21,9 @@ import { Observable }                                                           
   styleUrls: ["./user-list.component.scss"]
 })
 export class UserListComponent {
-
+  // Filter concept: add filters to TableColumn, add new global filter object to table
+  // Filter must contain type, value, potentially a label, min and max values
+  // Column filter should contain a match mode and an operator
   userColumns: TableColumn<User>[] = [
     new TableColumn({ key: "key", name: $localize`Key`, field: user => user.key, visibleByDefault: false }),
     new TableColumn({ key: "firstName", name: $localize`First Name`, field: user => user.firstName }),

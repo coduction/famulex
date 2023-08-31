@@ -1,4 +1,5 @@
 import { Type }         from "@angular/core";
+import { MenuItem }     from "@coduction/primeng/api";
 import { CellRenderer } from "../renderer/cell-renderer/cell-renderer.component";
 
 export interface TableAction {
@@ -29,7 +30,6 @@ export interface ColumnAction<D> {
 }
 
 export class TableColumn<T, V = any> {
-
   key: string;
   name: string;
   sortable: boolean;
@@ -70,8 +70,7 @@ export interface LoadDataEvent {
   pageSize: number;
   sortedBy: string[];
 
-  globalFilter?: string;
-  filters?: { [s: string]: any };
+  search?: string;
 }
 
 export interface TableMetaData {
@@ -80,6 +79,20 @@ export interface TableMetaData {
   pageIndex: number;
   pageSize: number;
   sortedBy: string[];
-  globalFilter?: string;
+  search?: string;
   actionInProgress?: boolean;
+  activeTabKey?: string | number;
+}
+
+export interface TableTab extends MenuItem {
+  key: number | string,
+  label: string,
+  icon?: string,
+  // onActivate: () => void,
+}
+
+export enum TableTabVisibility {
+  ALWAYS,
+  NEVER,
+  IF_MORE_THAN_ONE
 }

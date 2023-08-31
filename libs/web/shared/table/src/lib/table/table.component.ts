@@ -1,21 +1,24 @@
-import { CommonModule }                                                                                        from "@angular/common";
-import { Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, ViewEncapsulation } from "@angular/core";
-import { takeUntilDestroyed }                                                                                  from "@angular/core/rxjs-interop";
-import { FormsModule }                                                                                         from "@angular/forms";
-import { MessageService, SortMeta }                                                                            from "@coduction/primeng/api";
-import { ButtonModule }                                                                                        from "@coduction/primeng/button";
-import { CheckboxModule }                                                                                      from "@coduction/primeng/checkbox";
-import { InputTextModule }                                                                                     from "@coduction/primeng/inputtext";
-import { ListboxModule }                                                                                       from "@coduction/primeng/listbox";
-import { OverlayPanel, OverlayPanelModule }                                                                    from "@coduction/primeng/overlaypanel";
-import { RippleModule }                                                                                        from "@coduction/primeng/ripple";
-import { SelectButtonModule }                                                                                  from "@coduction/primeng/selectbutton";
-import { Table, TableLazyLoadEvent, TableModule }                                                              from "@coduction/primeng/table";
-import { TriStateCheckboxModule }                                                                              from "@coduction/primeng/tristatecheckbox";
-import { FADE_AND_SCALE_X, FADE_IN_OUT, FormLabelComponent }                                                   from "@famulex/shared/ui";
-import { debounce, delay, Observable, of, switchMap }                                                          from "rxjs";
-import { CellRendererWrapperComponent }                                                                        from "../renderer/cell-renderer-wrapper/cell-renderer-wrapper.component";
-import { ColumnAction, EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableMetaData }  from "./table.model";
+import { CommonModule }                                                                                                                     from "@angular/common";
+import { Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, ViewEncapsulation }                              from "@angular/core";
+import { takeUntilDestroyed }                                                                                                               from "@angular/core/rxjs-interop";
+import { FormsModule }                                                                                                                      from "@angular/forms";
+import { MessageService, SortMeta }                                                                                                         from "@coduction/primeng/api";
+import { ButtonModule }                                                                                                                     from "@coduction/primeng/button";
+import { CheckboxModule }                                                                                                                   from "@coduction/primeng/checkbox";
+import { InputTextModule }                                                                                                                  from "@coduction/primeng/inputtext";
+import { ListboxModule }                                                                                                                    from "@coduction/primeng/listbox";
+import { OverlayPanel, OverlayPanelModule }                                                                                                 from "@coduction/primeng/overlaypanel";
+import { RippleModule }                                                                                                                     from "@coduction/primeng/ripple";
+import { SelectButtonModule }                                                                                                               from "@coduction/primeng/selectbutton";
+import { Table, TableLazyLoadEvent, TableModule }                                                                                           from "@coduction/primeng/table";
+import { TabMenuModule }                                                                                                                    from "@coduction/primeng/tabmenu";
+import { TriStateCheckboxModule }                                                                                                           from "@coduction/primeng/tristatecheckbox";
+import { FADE_AND_SCALE_X, FADE_IN_OUT, FormLabelComponent }                                                                                from "@famulex/shared/ui";
+import { debounce, delay, Observable, of, switchMap }                                                                                       from "rxjs";
+import {
+  CellRendererWrapperComponent
+}                                                                                                                                           from "../renderer/cell-renderer-wrapper/cell-renderer-wrapper.component";
+import { ColumnAction, EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableMetaData, TableTab, TableTabVisibility } from "./table.model";
 
 @Component({
   selector: "web-table",
@@ -33,7 +36,8 @@ import { ColumnAction, EntryAction, LoadDataEvent, SelectionAction, TableAction,
     InputTextModule,
     SelectButtonModule,
     FormLabelComponent,
-    CellRendererWrapperComponent
+    CellRendererWrapperComponent,
+    TabMenuModule
   ],
   templateUrl: "./table.component.html",
   styleUrls: ["./table.component.scss"],
@@ -45,6 +49,9 @@ export class TableComponent<K, D> implements OnInit, OnChanges {
   @Input() heading?: string | null;
   @Input() headingSmall?: string | null;
   @Input() description?: string | null;
+
+  @Input() tabs: TableTab[] = [];
+  @Input() tabsVisibility: TableTabVisibility = TableTabVisibility.IF_MORE_THAN_ONE;
 
   @Input() keyField = "key";
 
@@ -82,6 +89,7 @@ export class TableComponent<K, D> implements OnInit, OnChanges {
   protected selectedEntryKeys: K[] = [];
   protected multiSortMeta: SortMeta[] = [];
   protected actionInProgress = false;
+  protected activeTab?: TableTab;
 
   private _columns: TableColumn<D>[] = [];
   private _data: D[] = [];
@@ -93,7 +101,7 @@ export class TableComponent<K, D> implements OnInit, OnChanges {
   private _pageIndex = 0;
   private _pageSize = 10;
   private _sortedBy: string[] = [];
-  private _globalFilter?: string;
+  private _search?: string;
 
   constructor(private destroyRef: DestroyRef,
               private messageService: MessageService) {
@@ -160,6 +168,29 @@ export class TableComponent<K, D> implements OnInit, OnChanges {
     this.columns.forEach(column => {
       column.visible = selectedColumns.includes(column);
     });
+  }
+
+  /**************************************************************************
+   * Tabs
+   **************************************************************************/
+  showTabs(): boolean {
+    if (!this.tabs.length) {
+      return false;
+    }
+
+    if (this.tabsVisibility === TableTabVisibility.ALWAYS) {
+      return true;
+    }
+
+    if (this.tabsVisibility === TableTabVisibility.NEVER) {
+      return false;
+    }
+
+    if (this.tabsVisibility === TableTabVisibility.IF_MORE_THAN_ONE) {
+      return this.tabs.length > 1;
+    }
+
+    return false;
   }
 
   /**************************************************************************
@@ -274,14 +305,14 @@ export class TableComponent<K, D> implements OnInit, OnChanges {
     return this._sortedBy;
   }
 
-  @Input() set globalFilter(globalFilter: string | null | undefined) {
-    if (this.globalFilter != globalFilter) {
-      this._globalFilter = globalFilter ?? undefined;
+  @Input() set search(search: string | null | undefined) {
+    if (this.search != search) {
+      this._search = search ?? undefined;
     }
   }
 
-  get globalFilter() {
-    return this._globalFilter;
+  get search() {
+    return this._search;
   }
 
   @Input() set metaData(metaData: TableMetaData | null) {
@@ -293,15 +324,19 @@ export class TableComponent<K, D> implements OnInit, OnChanges {
     this.pageIndex = metaData.pageIndex;
     this.pageSize = metaData.pageSize;
     this.sortedBy = metaData.sortedBy;
-    this.globalFilter = metaData.globalFilter;
+    this.search = metaData.search;
     this.actionInProgress = metaData.actionInProgress ?? false;
+
+    if (metaData.activeTabKey != null) {
+      this.activeTab = this.tabs.find(tab => tab.key === metaData.activeTabKey);
+    }
   }
 
   onLoadData(event: TableLazyLoadEvent, initialLoad = false) {
     const pageIndex = event.first ? event.first / (event.rows ?? this.getPageSize()) : 0;
     const pageSize = event.rows ?? this.getPageSize();
     const sortedBy: string[] = [];
-    let globalFilter = event.globalFilter || undefined;
+    let search = event.globalFilter || undefined;
 
     if (initialLoad) {
       this.multiSortMeta.forEach(sortMeta => {
@@ -313,28 +348,28 @@ export class TableComponent<K, D> implements OnInit, OnChanges {
       });
     }
 
-    if (Array.isArray(globalFilter)) {
-      globalFilter = globalFilter.join(" ");
+    if (Array.isArray(search)) {
+      search = search.join(" ");
     }
 
     this.loadData.emit({
       pageIndex,
       pageSize,
       sortedBy,
-      globalFilter
+      search
       // filters
     });
   }
 
-  onFilter(globalFilter?: string) {
-    this.globalFilter = globalFilter;
+  onSearch(search?: string) {
+    this.search = search;
 
-    this.table.filterGlobal(globalFilter, "contains");
+    this.table.filterGlobal(search, "contains");
   }
 
-  onFilterKeydown(event: KeyboardEvent) {
+  onSearchKeydown(event: KeyboardEvent) {
     if (event.key === "Escape") {
-      this.onFilter();
+      this.onSearch();
     }
   }
 
