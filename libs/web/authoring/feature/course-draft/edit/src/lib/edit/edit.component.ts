@@ -1,5 +1,5 @@
 import { CommonModule }                                 from "@angular/common";
-import { Component }                                    from "@angular/core";
+import { Component, Optional }                          from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ButtonModule }                                 from "@coduction/primeng/button";
 import { DynamicDialogRef }                             from "@coduction/primeng/dynamicdialog";
@@ -11,6 +11,7 @@ import { FormErrorComponent, FormLabelComponent }       from "@famulex/shared/ui
 import { validateForm }                                 from "@famulex/shared/util";
 import { CourseDraftListActions }                       from "@famulex/web/authoring/data-access/course-draft-list-state";
 import { Store }                                        from "@ngrx/store";
+import { DialogButton, DialogOptions }                  from "../../../../../../../../shared/util/src/lib/helper/dialog.helper";
 
 @Component({
   selector: "authoring-course-draft-edit",
@@ -27,9 +28,28 @@ export class CourseDraftEditComponent {
     description: ["", [Validators.maxLength(500)]]
   });
 
+  createButton: DialogButton = {
+    label: $localize`Create Course`,
+    icon: "fa fa-save",
+    loading: false,
+    disabled: false
+  };
+
+  cancelButton: DialogButton = {
+    label: $localize`Cancel`,
+    icon: "fa fa-close",
+    loading: false,
+    disabled: false
+  };
+
+  dialogOptions: DialogOptions = {
+    dialogRef: this.dialogRef,
+    buttons: [this.createButton, this.cancelButton]
+  };
+
   constructor(private fb: FormBuilder,
               private store: Store,
-              private dialogRef: DynamicDialogRef) {
+              @Optional() private dialogRef?: DynamicDialogRef) {
   }
 
   async onSubmit() {
@@ -40,12 +60,13 @@ export class CourseDraftEditComponent {
         description: this.createCourseDraftForm.value.description!
       };
 
+      this.dialogOptions.activeButton = this.createButton;
 
-      this.store.dispatch(CourseDraftListActions.create({ request: courseDraftRequest, dialog: this.dialogRef }));
+      this.store.dispatch(CourseDraftListActions.create({ request: courseDraftRequest, dialog: this.dialogOptions }));
     }
   }
 
   onCancel(): void {
-    this.dialogRef.close();
+    this.dialogRef?.close();
   }
 }

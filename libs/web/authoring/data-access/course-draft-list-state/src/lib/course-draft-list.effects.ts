@@ -6,6 +6,7 @@ import { AuthService }                                                        fr
 import { HttpErrorInterceptor }                                               from "@famulex/shared/util";
 import { Actions, concatLatestFrom, createEffect, ofType }                    from "@ngrx/effects";
 import { Store }                                                              from "@ngrx/store";
+import { produce }                                                            from "immer";
 import { catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap } from "rxjs";
 import { CourseDraftListActions }                                             from "./course-draft-list.actions";
 import { CourseDraftTab }                                                     from "./course-draft-list.models";
@@ -76,9 +77,19 @@ export class CourseDraftListEffects {
       concatMap(({ request, dialog }) => {
         HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
+        if (dialog) {
+          dialog.buttons?.forEach(button => button.disabled = true);
+
+          if (dialog.activeButton) {
+            dialog.activeButton = produce(dialog.activeButton, draft => {
+              draft.loading = true;
+            });
+          }
+        }
+
         return this.courseDraftService.createCourseDraft(request).pipe(
           map(response => CourseDraftListActions.createSuccess({ response, dialog })),
-          catchError((error: HttpErrorResponse) => of(CourseDraftListActions.createFailure({ error })))
+          catchError((error: HttpErrorResponse) => of(CourseDraftListActions.createFailure({ error, dialog })))
         );
       })
     );
@@ -87,7 +98,15 @@ export class CourseDraftListEffects {
   createFailure$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseDraftListActions.createFailure),
-      tap(({ error }) => {
+      tap(({ error, dialog }) => {
+        if (dialog) {
+          if (dialog.activeButton) {
+            dialog.activeButton.loading = false;
+          }
+
+          dialog.buttons?.forEach(button => button.disabled = false);
+        }
+
         this.messageService.add({
           severity: "error",
           summary: $localize`Course could not be created.`,
@@ -101,15 +120,15 @@ export class CourseDraftListEffects {
     return this.actions$.pipe(
       ofType(CourseDraftListActions.createSuccess),
       tap(({ response, dialog }) => {
+        if (dialog) {
+          dialog.dialogRef?.close();
+        }
+
         this.messageService.add({
           severity: "success",
           summary: $localize`New course created.`,
           detail: `${response.title}`
         });
-
-        if (dialog) {
-          dialog.close();
-        }
       }),
       concatMap(() => [
         //WizardActions.finishSuccess({ id: USER_EDIT_WIZARD_ID }),

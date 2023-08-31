@@ -31,15 +31,21 @@
     </div>
 
     <div class="flex gap-3 justify-content-end">
-      <button pButton pRipple i18n-label
+      <button pButton pRipple
               type="button"
-              label="Cancel"
               class="p-button-outlined"
+              [label]="cancelButton.label"
+              [icon]="cancelButton.icon ?? ''"
+              [disabled]="cancelButton.disabled"
+              [loading]="cancelButton.loading"
               (click)="onCancel()"
       ></button>
-      <button pButton pRipple i18n-label
+      <button pButton pRipple
               type="submit"
-              label="Create Course"
+              [label]="createButton.label"
+              [icon]="createButton.icon ?? ''"
+              [disabled]="createButton.disabled"
+              [loading]="createButton.loading"
       ></button>
     </div>
   </div>

@@ -1,9 +1,9 @@
 import { HttpErrorResponse }                                from "@angular/common/http";
-import { DynamicDialogRef }                                 from "@coduction/primeng/dynamicdialog";
 import { CourseDraft, CourseDraftRequest, PageCourseDraft } from "@famulex/shared/famulex-api-client";
 import { LoadDataEvent }                                    from "@famulex/web/shared/table";
 import { Update }                                           from "@ngrx/entity";
 import { createActionGroup, emptyProps, props }             from "@ngrx/store";
+import { DialogOptions }                                    from "../../../../../../shared/util/src/lib/helper/dialog.helper";
 import { CourseDraftTab }                                   from "./course-draft-list.models";
 
 
@@ -15,9 +15,9 @@ export const CourseDraftListActions = createActionGroup({
     "Load": props<{ event?: LoadDataEvent }>(),
     "Load Success": props<{ page: PageCourseDraft }>(),
     "Load Failure": props<{ error: HttpErrorResponse }>(),
-    "Create": props<{ request: CourseDraftRequest, dialog?: DynamicDialogRef }>(),
-    "Create Success": props<{ response: CourseDraft, dialog?: DynamicDialogRef }>(),
-    "Create Failure": props<{ error: HttpErrorResponse }>(),
+    "Create": props<{ request: CourseDraftRequest, dialog?: DialogOptions }>(),
+    "Create Success": props<{ response: CourseDraft, dialog?: DialogOptions }>(),
+    "Create Failure": props<{ error: HttpErrorResponse, dialog?: DialogOptions }>(),
     "Update": props<{ key: string, request: CourseDraftRequest }>(),
     "Update Success": props<{ update: Update<CourseDraft> }>(),
     "Update Failure": props<{ error: HttpErrorResponse }>(),
