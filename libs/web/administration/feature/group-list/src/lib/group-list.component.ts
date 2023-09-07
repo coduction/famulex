@@ -58,6 +58,7 @@ export class GroupListComponent {
               private datePipe: DatePipe,
               private confirmationService: ConfirmationService,
               private dialogService: DialogService) {
+
   }
 
   onLoadData(event: LoadDataEvent) {

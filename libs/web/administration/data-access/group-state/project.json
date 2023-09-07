@@ -3,12 +3,16 @@
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/web/administration/data-access/group-state/src",
   "prefix": "famulex",
-  "tags": [],
+  "tags": [
+    "type:data-access"
+  ],
   "projectType": "library",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "libs/web/administration/data-access/group-state/jest.config.ts",
         "passWithNoTests": true
@@ -22,7 +26,9 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
           "libs/web/administration/data-access/group-state/**/*.ts",

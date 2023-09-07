@@ -4,7 +4,7 @@
   "sourceRoot": "libs/web/administration/feature/security/src",
   "prefix": "security",
   "tags": [
-    "feature"
+    "type:feature"
   ],
   "projectType": "library",
   "targets": {

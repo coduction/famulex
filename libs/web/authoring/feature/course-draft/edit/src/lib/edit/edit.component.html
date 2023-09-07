@@ -37,15 +37,15 @@
               [label]="cancelButton.label"
               [icon]="cancelButton.icon ?? ''"
               [disabled]="cancelButton.disabled"
-              [loading]="cancelButton.loading"
               (click)="onCancel()"
       ></button>
       <button pButton pRipple
               type="submit"
+              loadingIcon="fa fa-spin fa-rotate"
               [label]="createButton.label"
               [icon]="createButton.icon ?? ''"
               [disabled]="createButton.disabled"
-              [loading]="createButton.loading"
+              [loading]="createButton.loading ?? false"
       ></button>
     </div>
   </div>

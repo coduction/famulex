@@ -4,7 +4,8 @@
   "sourceRoot": "libs/shared/famulex-api-client/src",
   "prefix": "famulex",
   "tags": [
-    "data-access"
+    "type:data-access",
+    "type:util"
   ],
   "projectType": "library",
   "targets": {

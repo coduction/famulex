@@ -4,8 +4,8 @@ export interface DialogButton {
   label: string;
   icon?: string;
   hidden?: boolean;
-  disabled: boolean;
-  loading: boolean;
+  disabled?: boolean;
+  loading?: boolean;
 }
 
 export interface DialogOptions {

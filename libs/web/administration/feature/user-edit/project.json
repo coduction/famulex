@@ -4,7 +4,7 @@
   "sourceRoot": "libs/web/administration/feature/user-edit/src",
   "prefix": "administration",
   "tags": [
-    "feature"
+    "type:feature"
   ],
   "projectType": "library",
   "targets": {

@@ -1,41 +1,45 @@
 <div *ngIf="wizard" class="flex gap-3 w-full">
-  <p-button *ngIf="cancel.visible" @fadeAndScaleX
-            [styleClass]="cancel.type === 'OUTLINED' ? 'p-button-outlined' : ''"
-            [disabled]="cancel.disabled"
-            [loading]="cancel.loading ?? false"
-            [label]="cancel.label"
-            [icon]="cancel.icon"
-            (onClick)="onCancel()"
-  ></p-button>
+  <button pButton *ngIf="cancel.visible" @fadeAndScaleX
+          [class]="cancel.type === 'OUTLINED' ? 'p-button-outlined' : ''"
+          [disabled]="cancel.disabled"
+          [loading]="cancel.loading ?? false"
+          [label]="cancel.label"
+          [icon]="cancel.icon ?? ''"
+          loadingIcon="fa fa-spin fa-rotate"
+          (click)="onCancel()"
+  ></button>
 
   <div class="flex-grow-1"></div>
 
-  <p-button *ngIf="previous.visible" @fadeAndScaleX
-            [styleClass]="previous.type === 'OUTLINED' ? 'p-button-outlined' : ''"
-            [disabled]="previous.disabled"
-            [loading]="previous.loading ?? false"
-            [label]="previous.label"
-            [icon]="previous.icon"
-            (onClick)="onPrevious()"
-  ></p-button>
+  <button pButton *ngIf="previous.visible" @fadeAndScaleX
+          [class]="previous.type === 'OUTLINED' ? 'p-button-outlined' : ''"
+          [disabled]="previous.disabled"
+          [loading]="previous.loading ?? false"
+          [label]="previous.label"
+          [icon]="previous.icon ?? ''"
+          loadingIcon="fa fa-spin fa-rotate"
+          (click)="onPrevious()"
+  ></button>
 
-  <p-button *ngIf="next.visible" @fadeAndScaleX
-            [styleClass]="next.type === 'OUTLINED' ? 'p-button-outlined' : ''"
-            [disabled]="next.disabled"
-            [loading]="next.loading ?? false"
-            [label]="next.label"
-            [icon]="next.icon"
-            iconPos="right"
-            (onClick)="onNext()"
-  ></p-button>
+  <button pButton *ngIf="next.visible" @fadeAndScaleX
+          [class]="next.type === 'OUTLINED' ? 'p-button-outlined' : ''"
+          [disabled]="next.disabled"
+          [loading]="next.loading ?? false"
+          [label]="next.label"
+          [icon]="next.icon ?? ''"
+          iconPos="right"
+          loadingIcon="fa fa-spin fa-rotate"
+          (click)="onNext()"
+  ></button>
 
-  <p-button *ngIf="finish.visible" @fadeAndScaleX
-            [styleClass]="finish.type === 'OUTLINED' ? 'p-button-outlined' : ''"
-            [disabled]="finish.disabled"
-            [loading]="finish.loading ?? false"
-            [label]="finish.label"
-            [icon]="finish.icon"
-            iconPos="right"
-            (onClick)="onFinish()"
-  ></p-button>
+  <button pButton *ngIf="finish.visible" @fadeAndScaleX
+          [class]="finish.type === 'OUTLINED' ? 'p-button-outlined' : ''"
+          [disabled]="finish.disabled"
+          [loading]="finish.loading ?? false"
+          [label]="finish.label"
+          [icon]="finish.icon ?? ''"
+          iconPos="right"
+          loadingIcon="fa fa-spin fa-rotate"
+          (click)="onFinish()"
+  ></button>
 </div>

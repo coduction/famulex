@@ -6,7 +6,6 @@ import { AuthService }                                                        fr
 import { HttpErrorInterceptor }                                               from "@famulex/shared/util";
 import { Actions, concatLatestFrom, createEffect, ofType }                    from "@ngrx/effects";
 import { Store }                                                              from "@ngrx/store";
-import { produce }                                                            from "immer";
 import { catchError, concatMap, forkJoin, map, mergeMap, of, switchMap, tap } from "rxjs";
 import { CourseDraftListActions }                                             from "./course-draft-list.actions";
 import { CourseDraftTab }                                                     from "./course-draft-list.models";
@@ -81,9 +80,7 @@ export class CourseDraftListEffects {
           dialog.buttons?.forEach(button => button.disabled = true);
 
           if (dialog.activeButton) {
-            dialog.activeButton = produce(dialog.activeButton, draft => {
-              draft.loading = true;
-            });
+            dialog.activeButton.loading = true;
           }
         }
 

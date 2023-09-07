@@ -4,7 +4,8 @@
   "sourceRoot": "libs/web/shared/layout/src",
   "prefix": "layout",
   "tags": [
-    "feature"
+    "type:feature",
+    "scope:shared"
   ],
   "projectType": "library",
   "targets": {

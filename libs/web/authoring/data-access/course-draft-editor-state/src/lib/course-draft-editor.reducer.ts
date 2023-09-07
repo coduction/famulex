@@ -1,9 +1,8 @@
-import { PageUser, User }                                   from "@famulex/shared/famulex-api-client";
-import { TableMetaData }                                    from "@famulex/web/shared/table";
-import { createEntityAdapter, EntityAdapter, EntityState }  from "@ngrx/entity";
-import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
-import { produce }                                          from "immer";
-import { CourseDraftEditorActions }                         from "./course-draft-editor.actions";
+import { PageUser, User }                                  from "@famulex/shared/famulex-api-client";
+import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
+import { createReducer, on }                               from "@ngrx/store";
+import { produce }                                         from "immer";
+import { CourseDraftEditorActions }                        from "./course-draft-editor.actions";
 
 export const USERS_FEATURE_KEY = "Users";
 
@@ -132,21 +131,21 @@ export const reducer = createReducer(
   })
 );
 
-export const UserState = createFeature({
-  name: USERS_FEATURE_KEY,
-  reducer,
-  extraSelectors: ({ selectUsersState }) => ({
-    ...adapter.getSelectors(selectUsersState),
-    selectTableMetaData: createSelector(
-      selectUsersState,
-      (state) => ({
-        loading: state.loading,
-        totalEntries: state.page?.totalElements || null,
-        pageIndex: state.pageIndex,
-        pageSize: state.pageSize,
-        sortedBy: state.sortedBy,
-        search: state.search
-      } as TableMetaData)
-    )
-  })
-});
+// export const UserState = createFeature({
+//   name: USERS_FEATURE_KEY,
+//   reducer,
+//   extraSelectors: ({ selectUsersState }) => ({
+//     ...adapter.getSelectors(selectUsersState),
+//     selectTableMetaData: createSelector(
+//       selectUsersState,
+//       (state) => ({
+//         loading: state.loading,
+//         totalEntries: state.page?.totalElements || null,
+//         pageIndex: state.pageIndex,
+//         pageSize: state.pageSize,
+//         sortedBy: state.sortedBy,
+//         search: state.search
+//       } as TableMetaData)
+//     )
+//   })
+// });

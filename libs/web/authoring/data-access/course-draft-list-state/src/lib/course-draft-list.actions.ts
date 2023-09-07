@@ -1,9 +1,9 @@
 import { HttpErrorResponse }                                from "@angular/common/http";
 import { CourseDraft, CourseDraftRequest, PageCourseDraft } from "@famulex/shared/famulex-api-client";
+import { DialogOptions }                                    from "@famulex/shared/util";
 import { LoadDataEvent }                                    from "@famulex/web/shared/table";
 import { Update }                                           from "@ngrx/entity";
 import { createActionGroup, emptyProps, props }             from "@ngrx/store";
-import { DialogOptions }                                    from "../../../../../../shared/util/src/lib/helper/dialog.helper";
 import { CourseDraftTab }                                   from "./course-draft-list.models";
 
 
