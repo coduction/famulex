@@ -5,26 +5,31 @@ import { MenuItem } from "@coduction/primeng/api";
  ******************************************************/
 export const rootHome: MenuItem = {
   label: $localize`Home`,
+  icon: "fa fa-fw fa-home",
   items: []
 };
 
 export const rootCertificates: MenuItem = {
   label: $localize`Certificates`,
+  icon: "fa fa-fw fa-file-certificate",
   items: []
 };
 
 export const rootLibrary: MenuItem = {
-  label: $localize`Certificates`,
+  label: $localize`Library`,
+  icon: "fa fa-fw fa-books",
   items: []
 };
 
 export const rootAuthoring: MenuItem = {
   label: $localize`Authoring`,
+  icon: "fa fa-fw fa-wand-magic-sparkles",
   items: []
 };
 
 export const rootSettings: MenuItem = {
   label: $localize`Settings`,
+  icon: "fa fa-fw fa-cog",
   items: []
 };
 
@@ -94,6 +99,12 @@ export const checkCertificates: MenuItem = {
 export const administration: MenuItem = {
   label: $localize`Administration`,
   icon: "fa fa-fw fa-cog"
+};
+
+export const administrationSystemInfo: MenuItem = {
+  label: $localize`System`,
+  icon: "fa fa-fw fa-info",
+  routerLink: ["/administration/system"]
 };
 
 export const administrationUsers: MenuItem = {

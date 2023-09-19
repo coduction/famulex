@@ -4,8 +4,8 @@ import { Right }       from "@famulex/shared/famulex-api-client";
 import { AuthService } from "@famulex/shared/security/util";
 import { Subject }     from "rxjs";
 import {
-  accessCertificates, administration, administrationGroups, administrationLibraries, administrationRoles, administrationUsers, authoringCourses, authoringTests, checkCertificates, dashboard,
-  myCourses, rootAuthoring, rootCertificates, rootHome, rootLibrary, rootSettings, testResults
+  accessCertificates, administration, administrationGroups, administrationLibraries, administrationRoles, administrationSystemInfo, administrationUsers, authoringCourses, authoringTests,
+  checkCertificates, dashboard, myCourses, rootAuthoring, rootCertificates, rootHome, rootLibrary, rootSettings, testResults
 }                      from "./menu.entries";
 
 @Injectable({
@@ -147,6 +147,10 @@ export class MenuService {
 
   private _createAdministrationMenu(rights: Right[], settingsMenuItem: MenuItem) {
     administration.items = [];
+
+    if (rights.includes(Right.ManageSystem)) {
+      administration.items.push(administrationSystemInfo);
+    }
 
     if (rights.includes(Right.ManageUsers)) {
       administration.items.push(administrationUsers);

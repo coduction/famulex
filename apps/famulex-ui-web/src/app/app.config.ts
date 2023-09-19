@@ -23,7 +23,10 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
     // Disable strict immutability checks for now, because of the following issue: Wizards cannot be opened by passing a component as input if strict immutability checks are enabled
-    provideStore({ router: routerReducer }, { runtimeChecks: { strictActionImmutability: false } }),
+    provideStore(
+      { router: routerReducer },
+      { runtimeChecks: { strictActionImmutability: false } }
+    ),
     provideRouterStore(),
     provideState(WizardState),
     provideEffects(WizardEffects),
@@ -70,7 +73,8 @@ export function initializeFamulex(
 ): () => Promise<void> {
   return () =>
     new Promise<void>((resolve, reject) => {
-      env.loadEnvConfig()
+      env
+        .loadEnvConfig()
         .then(() =>
           keycloak.init({
             config: {
@@ -89,7 +93,7 @@ export function initializeFamulex(
           })
         )
         .then(() => resolve())
-        .catch(error => reject(error));
+        .catch((error) => reject(error));
     });
 }
 

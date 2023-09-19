@@ -23,6 +23,7 @@
       "@famulex/shared/security/util": [
         "libs/shared/security/util/src/index.ts"
       ],
+      "@famulex/shared/system-info": ["libs/shared/system-info/src/index.ts"],
       "@famulex/shared/ui": ["libs/shared/ui/src/index.ts"],
       "@famulex/shared/util": ["libs/shared/util/src/index.ts"],
       "@famulex/web/administration/data-access/group-state": [
@@ -45,6 +46,9 @@
       ],
       "@famulex/web/administration/feature/shell": [
         "libs/web/administration/feature/shell/src/index.ts"
+      ],
+      "@famulex/web/administration/feature/system-info": [
+        "libs/web/administration/feature/system-info/src/index.ts"
       ],
       "@famulex/web/administration/feature/user-edit": [
         "libs/web/administration/feature/user-edit/src/index.ts"

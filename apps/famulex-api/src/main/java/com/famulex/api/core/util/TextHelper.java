@@ -1,5 +1,7 @@
 package com.famulex.api.core.util;
 
+import org.hibernate.internal.util.StringHelper;
+
 import java.util.List;
 
 /**
@@ -9,6 +11,10 @@ import java.util.List;
  * @date 23.05.23
  */
 public class TextHelper {
+
+  public static boolean isNotBlank(String string) {
+    return !StringHelper.isBlank(string);
+  }
 
   /**
    * Trim and remove extra blanks from string

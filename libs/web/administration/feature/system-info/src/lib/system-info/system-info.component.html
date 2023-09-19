@@ -1,0 +1,65 @@
+<p-card>
+  <div class="grid">
+    <div class="col-12">
+      <h3 i18n>System Settings</h3>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <h4>Logo</h4>
+      <ng-container *ngIf="logoUrl$ | async as logoUrl else uploadLogo">
+        <p-image
+          [src]="logoUrl"
+          styleClass="max-h-6rem"
+          imageClass="logo-preview"
+        ></p-image>
+
+        <p-button label="Delete Logo" i18n-label
+                  icon="fa fa-trash"
+                  [loading]="(logoPending$ | async) ?? false"
+                  (onClick)="onDeleteLogo()"
+        ></p-button>
+      </ng-container>
+
+      <ng-template #uploadLogo>
+        <p-fileUpload [auto]=true
+                      [customUpload]="true"
+                      mode="basic"
+                      name="logo"
+                      accept="image/*"
+                      chooseLabel="Upload Logo"
+                      (uploadHandler)="onUploadLogo($event)"
+        ></p-fileUpload>
+      </ng-template>
+
+    </div>
+
+    <div class="col-12 md:col-6">
+      <h4>Compact Logo</h4>
+      <ng-container *ngIf="compactLogoUrl$ | async as compactLogoUrl else uploadCompactLogo">
+        <div>
+          <p-image
+            [src]="compactLogoUrl"
+            imageClass="logo-preview"
+          ></p-image>
+        </div>
+
+        <p-button label="Delete Compact Logo" i18n-label
+                  icon="fa fa-trash"
+                  [loading]="(compactLogoPending$ | async) ?? false"
+                  (onClick)="onDeleteCompactLogo()"
+        ></p-button>
+      </ng-container>
+
+      <ng-template #uploadCompactLogo>
+        <p-fileUpload [auto]=true
+                      [customUpload]="true"
+                      mode="basic"
+                      name="compact-logo"
+                      accept="image/*"
+                      chooseLabel="Upload Compact Logo"
+                      (uploadHandler)="onUploadCompactLogo($event)"
+        ></p-fileUpload>
+      </ng-template>
+    </div>
+  </div>
+</p-card>

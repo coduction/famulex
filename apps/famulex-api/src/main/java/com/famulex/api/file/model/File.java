@@ -43,6 +43,7 @@ public class File extends PublicKey {
   @Column(name = "file_size")
   private long size;
 
+  // TODO Why is this necessary? Could be removed?
   @Column(name = "length")
   private Integer length;
 

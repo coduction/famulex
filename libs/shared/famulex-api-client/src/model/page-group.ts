@@ -23,8 +23,8 @@ export interface PageGroup {
     last?: boolean;
     size?: number;
     content?: Array<Group>;
-    pageable?: PageableObject;
     numberOfElements?: number;
+    pageable?: PageableObject;
     empty?: boolean;
 }
 

@@ -231,16 +231,16 @@ export class FileService {
     }
 
     /**
-     * @param fileKey 
+     * @param fileName 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loadFile(fileKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Blob>;
-    public loadFile(fileKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Blob>>;
-    public loadFile(fileKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Blob>>;
-    public loadFile(fileKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (fileKey === null || fileKey === undefined) {
-            throw new Error('Required parameter fileKey was null or undefined when calling loadFile.');
+    public loadFile(fileName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Blob>;
+    public loadFile(fileName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Blob>>;
+    public loadFile(fileName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Blob>>;
+    public loadFile(fileName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (fileName === null || fileName === undefined) {
+            throw new Error('Required parameter fileName was null or undefined when calling loadFile.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -270,7 +270,7 @@ export class FileService {
         }
 
 
-        let localVarPath = `/files/${this.configuration.encodeParam({name: "fileKey", value: fileKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/files/${this.configuration.encodeParam({name: "fileName", value: fileName, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

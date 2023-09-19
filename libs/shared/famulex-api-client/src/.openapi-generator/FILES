@@ -10,6 +10,7 @@ api/file.service.ts
 api/group.service.ts
 api/security.service.ts
 api/spring-doc-helper.service.ts
+api/system-info.service.ts
 api/system-status.service.ts
 api/test-configuration.service.ts
 api/test-draft.service.ts
@@ -74,6 +75,7 @@ model/role-request.ts
 model/role.ts
 model/sort-object.ts
 model/status.ts
+model/system-info.ts
 model/test-configuration.ts
 model/test-draft-request.ts
 model/test-draft.ts

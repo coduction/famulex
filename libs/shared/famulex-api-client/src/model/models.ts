@@ -51,6 +51,7 @@ export * from './role-assignment-request-update';
 export * from './role-request';
 export * from './sort-object';
 export * from './status';
+export * from './system-info';
 export * from './test';
 export * from './test-configuration';
 export * from './test-draft';

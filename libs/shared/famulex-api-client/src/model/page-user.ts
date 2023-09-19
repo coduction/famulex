@@ -23,8 +23,8 @@ export interface PageUser {
     last?: boolean;
     size?: number;
     content?: Array<User>;
-    pageable?: PageableObject;
     numberOfElements?: number;
+    pageable?: PageableObject;
     empty?: boolean;
 }
 

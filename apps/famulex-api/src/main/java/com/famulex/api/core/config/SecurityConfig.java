@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -49,6 +50,8 @@ public class SecurityConfig {
         .requestMatchers("/docs/swagger-config").permitAll()
         .requestMatchers("/ws").permitAll()
         .requestMatchers("/files/*").permitAll()
+        .requestMatchers(HttpMethod.GET, "/system/info/logo").permitAll()
+        .requestMatchers(HttpMethod.GET, "/system/info/logo-compact").permitAll()
         .anyRequest().authenticated())
       .oauth2Client(Customizer.withDefaults())
       .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(grantedAuthoritiesExtractor())))

@@ -40,6 +40,7 @@ import com.famulex.api.jooq.tables.FxQuestionDraftI18n;
 import com.famulex.api.jooq.tables.FxQuestionI18n;
 import com.famulex.api.jooq.tables.FxRole;
 import com.famulex.api.jooq.tables.FxRoleAssignment;
+import com.famulex.api.jooq.tables.FxSystemInfo;
 import com.famulex.api.jooq.tables.FxTest;
 import com.famulex.api.jooq.tables.FxTestConfiguration;
 import com.famulex.api.jooq.tables.FxTestDraft;
@@ -253,6 +254,11 @@ public class Public extends SchemaImpl {
     public final FxRoleAssignment FX_ROLE_ASSIGNMENT = FxRoleAssignment.FX_ROLE_ASSIGNMENT;
 
     /**
+     * The table <code>public.fx_system_info</code>.
+     */
+    public final FxSystemInfo FX_SYSTEM_INFO = FxSystemInfo.FX_SYSTEM_INFO;
+
+    /**
      * The table <code>public.fx_test</code>.
      */
     public final FxTest FX_TEST = FxTest.FX_TEST;
@@ -354,6 +360,7 @@ public class Public extends SchemaImpl {
             FxQuestionI18n.FX_QUESTION_I18N,
             FxRole.FX_ROLE,
             FxRoleAssignment.FX_ROLE_ASSIGNMENT,
+            FxSystemInfo.FX_SYSTEM_INFO,
             FxTest.FX_TEST,
             FxTestConfiguration.FX_TEST_CONFIGURATION,
             FxTestDraft.FX_TEST_DRAFT,

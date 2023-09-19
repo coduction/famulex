@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
-    <changeSet id="0.5 - Course draft" author="Alexander Boeckle">
+    <changeSet id="00040 - Course draft" author="Alexander Boeckle">
         <createTable tableName="fx_course_draft">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -158,6 +158,6 @@
 
 
     <changeSet author="Alexander Boeckle" id="00040 - Tag DB">
-        <tagDatabase tag="00050"/>
+        <tagDatabase tag="00040"/>
     </changeSet>
 </databaseChangeLog>

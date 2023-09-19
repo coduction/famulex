@@ -23,8 +23,8 @@ export interface PageCourseDraft {
     last?: boolean;
     size?: number;
     content?: Array<CourseDraft>;
-    pageable?: PageableObject;
     numberOfElements?: number;
+    pageable?: PageableObject;
     empty?: boolean;
 }
 

@@ -11,7 +11,7 @@
  */
 
 
-export type Right = '_ACCESS_COURSES' | '_ACCESS_TESTS' | '_ACCESS_CERTIFICATES' | '_MANAGE_CERTIFICATES' | '_CHECK_CERTIFICATES' | '_CREATE_COURSES' | '_CREATE_TESTS' | '_MANAGE_COURSES' | '_MANAGE_TESTS' | '_ACCESS_LIBRARY' | '_CREATE_LIBRARIES' | '_MANAGE_LIBRARIES' | '_MANAGE_USERS' | '_MANAGE_GROUPS' | '_MANAGE_ROLES' | '_SYNC_KEYCLOAK';
+export type Right = '_ACCESS_COURSES' | '_ACCESS_TESTS' | '_ACCESS_CERTIFICATES' | '_MANAGE_CERTIFICATES' | '_CHECK_CERTIFICATES' | '_CREATE_COURSES' | '_CREATE_TESTS' | '_MANAGE_COURSES' | '_MANAGE_TESTS' | '_ACCESS_LIBRARY' | '_CREATE_LIBRARIES' | '_MANAGE_LIBRARIES' | '_MANAGE_USERS' | '_MANAGE_GROUPS' | '_MANAGE_ROLES' | '_SYNC_KEYCLOAK' | '_MANAGE_SYSTEM';
 
 export const Right = {
     AccessCourses: '_ACCESS_COURSES' as Right,
@@ -29,6 +29,7 @@ export const Right = {
     ManageUsers: '_MANAGE_USERS' as Right,
     ManageGroups: '_MANAGE_GROUPS' as Right,
     ManageRoles: '_MANAGE_ROLES' as Right,
-    SyncKeycloak: '_SYNC_KEYCLOAK' as Right
+    SyncKeycloak: '_SYNC_KEYCLOAK' as Right,
+    ManageSystem: '_MANAGE_SYSTEM' as Right
 };
 

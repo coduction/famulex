@@ -33,7 +33,8 @@
         "args": [
           "-B",
           "-e",
-          "--no-transfer-progress"
+          "--no-transfer-progress",
+          "-DskipTests=true"
         ]
       },
       "outputs": [

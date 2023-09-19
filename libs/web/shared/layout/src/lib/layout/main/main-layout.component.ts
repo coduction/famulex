@@ -1,17 +1,19 @@
-import { CommonModule }                                 from "@angular/common";
-import { Component, OnDestroy, Renderer2, ViewChild }   from "@angular/core";
-import { NavigationEnd, Router, RouterOutlet }          from "@angular/router";
-import { ConfirmationService }                          from "@coduction/primeng/api";
-import { ConfirmDialogModule }                          from "@coduction/primeng/confirmdialog";
-import { ConfirmPopupModule }                           from "@coduction/primeng/confirmpopup";
-import { ToastModule }                                  from "@coduction/primeng/toast";
-import { BehaviorSubject, filter, Subscription }        from "rxjs";
-import { MenuService }                                  from "../../menu/menu.service";
-import { SharedThemeModule }                            from "../../shared-theme.module";
-import { SidebarLeftComponent }                         from "../../sidebar-left/sidebar-left.component";
-import { TopbarComponent }                              from "../../topbar/topbar.component";
-import { CONFIRM_DIALOG, CONFIRM_DIALOG_NON_CLOSEABLE } from "../layout.options";
-import { LayoutService }                                from "../layout.service";
+import { CommonModule }                                       from "@angular/common";
+import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from "@angular/core";
+import { NavigationEnd, Router, RouterOutlet }                from "@angular/router";
+import { ConfirmationService }                                from "@coduction/primeng/api";
+import { ConfirmDialogModule }                                from "@coduction/primeng/confirmdialog";
+import { ConfirmPopupModule }                                 from "@coduction/primeng/confirmpopup";
+import { ToastModule }                                        from "@coduction/primeng/toast";
+import { SystemInfoActions }                                  from "@famulex/shared/system-info";
+import { Store }                                              from "@ngrx/store";
+import { BehaviorSubject, filter, Subscription }              from "rxjs";
+import { MenuService }                                        from "../../menu/menu.service";
+import { SharedThemeModule }                                  from "../../shared-theme.module";
+import { SidebarLeftComponent }                               from "../../sidebar-left/sidebar-left.component";
+import { TopbarComponent }                                    from "../../topbar/topbar.component";
+import { CONFIRM_DIALOG, CONFIRM_DIALOG_NON_CLOSEABLE }       from "../layout.options";
+import { LayoutService }                                      from "../layout.service";
 
 @Component({
   selector: "layout-main-layout",
@@ -26,7 +28,7 @@ import { LayoutService }                                from "../layout.service"
   ],
   templateUrl: "./main-layout.component.html"
 })
-export class MainLayoutComponent implements OnDestroy {
+export class MainLayoutComponent implements OnInit, OnDestroy {
 
   static ScrollEvents$ = new BehaviorSubject<ScrollDirection>("UP");
 
@@ -47,6 +49,7 @@ export class MainLayoutComponent implements OnDestroy {
   constructor(private menuService: MenuService,
               private confirmationService: ConfirmationService,
               public layoutService: LayoutService,
+              public store: Store,
               public renderer: Renderer2,
               public router: Router) {
     this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
@@ -112,6 +115,20 @@ export class MainLayoutComponent implements OnDestroy {
     });
   }
 
+  ngOnInit() {
+    this.store.dispatch(SystemInfoActions.load());
+  }
+
+  ngOnDestroy() {
+    if (this.overlayMenuOpenSubscription) {
+      this.overlayMenuOpenSubscription.unsubscribe();
+    }
+
+    if (this.menuOutsideClickListener) {
+      this.menuOutsideClickListener();
+    }
+  }
+
   blockBodyScroll(): void {
     if (document.body.classList) {
       document.body.classList.add("blocked-scroll");
@@ -171,16 +188,6 @@ export class MainLayoutComponent implements OnDestroy {
       "layout-sidebar-active": this.layoutService.state.sidebarActive,
       "layout-sidebar-anchored": this.layoutService.state.anchored
     };
-  }
-
-  ngOnDestroy() {
-    if (this.overlayMenuOpenSubscription) {
-      this.overlayMenuOpenSubscription.unsubscribe();
-    }
-
-    if (this.menuOutsideClickListener) {
-      this.menuOutsideClickListener();
-    }
   }
 
   get scrollEvents$() {

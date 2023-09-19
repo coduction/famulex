@@ -40,6 +40,7 @@ import com.famulex.api.jooq.tables.FxQuestionDraftI18n;
 import com.famulex.api.jooq.tables.FxQuestionI18n;
 import com.famulex.api.jooq.tables.FxRole;
 import com.famulex.api.jooq.tables.FxRoleAssignment;
+import com.famulex.api.jooq.tables.FxSystemInfo;
 import com.famulex.api.jooq.tables.FxTest;
 import com.famulex.api.jooq.tables.FxTestConfiguration;
 import com.famulex.api.jooq.tables.FxTestDraft;
@@ -237,6 +238,11 @@ public class Tables {
      * The table <code>public.fx_role_assignment</code>.
      */
     public static final FxRoleAssignment FX_ROLE_ASSIGNMENT = FxRoleAssignment.FX_ROLE_ASSIGNMENT;
+
+    /**
+     * The table <code>public.fx_system_info</code>.
+     */
+    public static final FxSystemInfo FX_SYSTEM_INFO = FxSystemInfo.FX_SYSTEM_INFO;
 
     /**
      * The table <code>public.fx_test</code>.

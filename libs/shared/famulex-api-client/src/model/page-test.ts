@@ -23,8 +23,8 @@ export interface PageTest {
     last?: boolean;
     size?: number;
     content?: Array<Test>;
-    pageable?: PageableObject;
     numberOfElements?: number;
+    pageable?: PageableObject;
     empty?: boolean;
 }
 

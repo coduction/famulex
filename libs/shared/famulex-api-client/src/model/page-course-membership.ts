@@ -23,8 +23,8 @@ export interface PageCourseMembership {
     last?: boolean;
     size?: number;
     content?: Array<CourseMembership>;
-    pageable?: PageableObject;
     numberOfElements?: number;
+    pageable?: PageableObject;
     empty?: boolean;
 }
 

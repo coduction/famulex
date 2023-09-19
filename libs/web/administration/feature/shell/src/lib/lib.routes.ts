@@ -25,6 +25,15 @@ export const administrationRoutes: Route[] = [
         component: AdministrationShellComponent
       },
       {
+        path: "system",
+        canActivate: [AuthGuard],
+        data: {
+          rights: [Right.ManageSystem]
+        },
+        title: $localize`System`,
+        loadComponent: () => import("@famulex/web/administration/feature/system-info").then(c => c.SystemInfoComponent)
+      },
+      {
         path: "users",
         canActivate: [AuthGuard],
         data: {

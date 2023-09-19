@@ -11,6 +11,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * Class File
@@ -37,6 +38,12 @@ public class FilePermission extends ValidFrom {
   @ManyToOne
   @JoinColumn(name = "fk_file", updatable = false, nullable = false)
   private File file;
+
+  /**************************************************************************
+   * FileAccess
+   *************************************************************************/
+  @OneToMany(mappedBy = "filePermission", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<FileAccess> fileAccesses = List.of();
 
   /**************************************************************************
    * Personal Access

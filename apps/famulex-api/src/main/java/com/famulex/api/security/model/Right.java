@@ -49,7 +49,8 @@ public enum Right {
   MANAGE_USERS(Rights.MANAGE_USERS),
   MANAGE_GROUPS(Rights.MANAGE_GROUPS),
   MANAGE_ROLES(Rights.MANAGE_ROLES),
-  SYNC_KEYCLOAK(Rights.SYNC_KEYCLOAK);
+  SYNC_KEYCLOAK(Rights.SYNC_KEYCLOAK),
+  MANAGE_SYSTEM(Rights.MANAGE_SYSTEM);
 
   private final String label;
   private static final Map<String, Right> RIGHT_MAP;

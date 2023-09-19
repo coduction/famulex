@@ -1,10 +1,12 @@
 package com.famulex.api.file;
 
+import com.famulex.api.core.exception.BadRequestException;
 import com.famulex.api.core.exception.EntityNotFoundException;
 import com.famulex.api.file.api.FileMapper;
 import com.famulex.api.file.api.FileResponse;
 import com.famulex.api.file.model.File;
 import com.famulex.api.file.model.FilePermission;
+import com.famulex.api.file.repository.FileAccessRepository;
 import com.famulex.api.file.repository.FilePermissionRepository;
 import com.famulex.api.file.repository.FileRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 
@@ -32,64 +35,82 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileController {
 
-  public final static String FILE_ENDPOINT = "/files";
-  private final FileService fileService;
-  private final FileMapper fileMapper;
-  private final FileRepository fileRepository;
-  private final FilePermissionRepository filePermissionRepository;
+    public final static String FILE_ENDPOINT = "/files";
+    private final FileService fileService;
+    private final FileMapper fileMapper;
+    private final FileRepository fileRepository;
+    private final FileAccessRepository fileAccessRepository;
+    private final FilePermissionRepository filePermissionRepository;
 
-  @GetMapping(path = "/{fileKey}")
-  public ResponseEntity<ByteArrayResource> loadFile(@PathVariable String fileKey) throws IOException {
-    File file = fileService.loadFile(UUID.fromString(fileKey));
+    @GetMapping(path = "/{fileName}")
+    public ResponseEntity<ByteArrayResource> loadFile(@PathVariable String fileName) throws IOException {
+        // Get fileKey from file (Should be formatted in fileKey.extension)
+        UUID fileKey;
 
-    return ResponseEntity.ok()
-      .contentLength(file.getSize())
-      .contentType(MediaType.parseMediaType(file.getMimeType()))
-      .body(file.getByteArrayResource());
-  }
+        try {
+            fileKey = UUID.fromString(fileName.split("\\.")[0]);
+        } catch (Exception e) {
+            throw new BadRequestException("File name must contain a valid UUID");
+//            return ResponseEntity.badRequest().build();
+        }
 
-  @GetMapping(path = "/template/{type}")
-  public ResponseEntity<ByteArrayResource> loadImportTemplate(@PathVariable String type) throws IOException {
-    File file = fileService.loadImportTemplate(FileService.ImportTemplateType.valueOf(type.toUpperCase()));
+        var fileAccess = fileAccessRepository.findByKeyAndValidUntilAfter(fileKey, OffsetDateTime.now());
 
-    return ResponseEntity.ok()
-      .contentLength(file.getSize())
-      .contentType(MediaType.parseMediaType(file.getMimeType()))
-      .body(file.getByteArrayResource());
-  }
+        if (fileAccess.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
-  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public FileResponse uploadFile(@RequestParam MultipartFile file,
-                                 @RequestParam(required = false) String name,
-                                 @RequestParam(required = false) Integer length) throws IOException {
-    return fileMapper.toResponse(fileService.saveFile(file, name, length));
-  }
+        var file = fileAccess.get().getFilePermission().getFile();
+        fileService.loadFileContent(file);
 
-  @DeleteMapping("/{fileKey}")
-  public void deleteFile(@PathVariable UUID fileKey) throws IOException {
-    File file = fileRepository.findByKey(fileKey)
-      .orElseThrow(() -> new EntityNotFoundException(File.class, fileKey));
-
-    // TODO Implement custom checks, e.g. if file is used in a course
-
-    fileService.deleteFile(file);
-  }
-
-  @DeleteMapping("/permissions/{filePermissionKey}")
-  public void deleteFilePermission(@PathVariable UUID filePermissionKey) throws IOException {
-    FilePermission filePermission = filePermissionRepository.findByKey(filePermissionKey)
-      .orElseThrow(() -> new EntityNotFoundException(FilePermission.class, filePermissionKey));
-
-    fileService.deleteFilePermission(filePermission);
-  }
-
-  @ExceptionHandler(IOException.class)
-  public ResponseEntity<?> handleFileError(IOException exception) {
-    if (exception instanceof FileNotFoundException) {
-      return ResponseEntity.notFound().build();
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(file.getMimeType()))
+                .contentLength(file.getSize())
+                .body(file.getByteArrayResource());
     }
 
-    return ResponseEntity.internalServerError().build();
-  }
+    @GetMapping(path = "/template/{type}")
+    public ResponseEntity<ByteArrayResource> loadImportTemplate(@PathVariable String type) throws IOException {
+        File file = fileService.loadImportTemplate(FileService.ImportTemplateType.valueOf(type.toUpperCase()));
+
+        return ResponseEntity.ok()
+                .contentLength(file.getSize())
+                .contentType(MediaType.parseMediaType(file.getMimeType()))
+                .body(file.getByteArrayResource());
+    }
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public FileResponse uploadFile(@RequestParam MultipartFile file,
+                                   @RequestParam(required = false) String name,
+                                   @RequestParam(required = false) Integer length) throws IOException {
+        return fileMapper.toResponse(fileService.saveFile(file, name, length));
+    }
+
+    @DeleteMapping("/{fileKey}")
+    public void deleteFile(@PathVariable UUID fileKey) throws IOException {
+        File file = fileRepository.findByKey(fileKey)
+                .orElseThrow(() -> new EntityNotFoundException(File.class, fileKey));
+
+        // TODO Implement custom checks, e.g. if file is used in a course
+
+        fileService.deleteFile(file);
+    }
+
+    @DeleteMapping("/permissions/{filePermissionKey}")
+    public void deleteFilePermission(@PathVariable UUID filePermissionKey) throws IOException {
+        FilePermission filePermission = filePermissionRepository.findByKey(filePermissionKey)
+                .orElseThrow(() -> new EntityNotFoundException(FilePermission.class, filePermissionKey));
+
+        fileService.deleteFilePermission(filePermission);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<?> handleFileError(IOException exception) {
+        if (exception instanceof FileNotFoundException) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.internalServerError().build();
+    }
 
 }

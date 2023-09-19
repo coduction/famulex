@@ -3,6 +3,7 @@ package com.famulex.api.file;
 import com.famulex.api.authoring.course.model.CourseDraft;
 import com.famulex.api.authoring.course.model.CourseDraftItem;
 import com.famulex.api.core.exception.AccessDeniedException;
+import com.famulex.api.core.exception.BadRequestException;
 import com.famulex.api.core.util.SecurityHelper;
 import com.famulex.api.course.model.Course;
 import com.famulex.api.course.model.CourseItem;
@@ -18,6 +19,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.tika.Tika;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
 import org.hibernate.internal.util.StringHelper;
@@ -95,9 +97,8 @@ public class FileService {
     }
 
     serverUrl += contextPath;
-    serverUrl += FileController.FILE_ENDPOINT;
 
-    FileHelper.InitFileHelper(serverUrl);
+    FileHelper.InitFileHelper(serverUrl, FileController.FILE_ENDPOINT);
 
     log.info("Files will be stored at " + filesDirectoryPath);
     log.info("Files will be handled at " + serverUrl);
@@ -170,6 +171,26 @@ public class FileService {
     }
 
     return createFilePermission(file, courseDraftItem, position);
+  }
+
+  /**
+   * Saves an image and creates a file permission for public access.
+   * Throws an exception if the file is not an image.
+   */
+  public FilePermission saveImage(MultipartFile imageInput, String name) throws IOException {
+    // Check whether the file is an image
+    try (InputStream input = imageInput.getInputStream()) {
+      var tika = new Tika();
+      var mimeType = tika.detect(input);
+
+      if (!mimeType.startsWith("image/")) {
+        throw new BadRequestException("Only images are allowed");
+      }
+    }
+
+    var image = persistFile(imageInput, name, null);
+
+    return createFilePermission(image);
   }
 
   private File persistFile(MultipartFile fileInput, String name, Integer length) throws IOException {
@@ -311,6 +332,15 @@ public class FileService {
     checkAllFileAccessesAndDeleteFile(file);
   }
 
+  @Transactional
+  public void deleteFilePermission(Long filePermissionId) throws IOException {
+    // Load file permission
+    FilePermission filePermission = filePermissionRepository.findById(filePermissionId)
+      .orElseThrow(() -> new FileNotFoundException("No file permission was found with the given id: " + filePermissionId));
+
+    deleteFilePermission(filePermission);
+  }
+
   public void checkAllFileAccessesAndDeleteFile(File file) throws IOException {
     // Check whether the file is still used by any other file permissions
     if (filePermissionRepository.existsByFile(file)) {
@@ -332,6 +362,11 @@ public class FileService {
     file.setByteArrayResource(new ByteArrayResource(Files.readAllBytes(filePath)));
 
     return file;
+  }
+
+  public void loadFileContent(File file) throws IOException {
+    Path filePath = filesDirectoryPath.resolve(file.getKey() + "." + file.getExtension());
+    file.setByteArrayResource(new ByteArrayResource(Files.readAllBytes(filePath)));
   }
 
   private void checkAccessAllowed(File file) {

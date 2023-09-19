@@ -9,6 +9,7 @@ import org.mapstruct.MapperConfig;
  * @date 10.12.22
  */
 @MapperConfig(componentModel = "spring",
-              unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE)
+  uses = MappingHelper.class,
+  unmappedTargetPolicy = org.mapstruct.ReportingPolicy.IGNORE)
 public interface MapperConfiguration {
 }

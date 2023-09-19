@@ -44,4 +44,5 @@ public class Rights {
   public static final String MANAGE_GROUPS = "_MANAGE_GROUPS";
   public static final String MANAGE_ROLES = "_MANAGE_ROLES";
   public static final String SYNC_KEYCLOAK = "_SYNC_KEYCLOAK";
+  public static final String MANAGE_SYSTEM = "_MANAGE_SYSTEM";
 }

@@ -1,4 +1,6 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
+import { SystemInfoState }                  from "@famulex/shared/system-info";
+import { Store }                            from "@ngrx/store";
 import { LayoutService }                    from "../layout/layout.service";
 
 @Component({
@@ -11,7 +13,12 @@ export class SidebarLeftComponent {
 
   timeout: any = null;
 
-  constructor(public layoutService: LayoutService, public el: ElementRef) {
+  logoUrl$ = this.store.select(SystemInfoState.selectLogoUrl);
+  compactLogoUrl$ = this.store.select(SystemInfoState.selectCompactLogoUrl);
+
+  constructor(public layoutService: LayoutService,
+              public store: Store,
+              public el: ElementRef) {
   }
 
 

@@ -49,6 +49,6 @@
     </changeSet>
 
     <changeSet id="00051 - Tag DB" author="Alexander Boeckle">
-        <tagDatabase tag="00052"/>
+        <tagDatabase tag="00051"/>
     </changeSet>
 </databaseChangeLog>
