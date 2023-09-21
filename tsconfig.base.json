@@ -65,6 +65,9 @@
       "@famulex/web/authoring/data-access/course-draft-list-state": [
         "libs/web/authoring/data-access/course-draft-list-state/src/index.ts"
       ],
+      "@famulex/web/authoring/data-access/course-memberships-state": [
+        "libs/web/authoring/data-access/course-memberships-state/src/index.ts"
+      ],
       "@famulex/web/authoring/data-access/test-draft-editor-state": [
         "libs/web/authoring/data-access/test-draft-editor-state/src/index.ts"
       ],
@@ -85,6 +88,12 @@
       ],
       "@famulex/web/authoring/feature/test-draft/list": [
         "libs/web/authoring/feature/test-draft/list/src/index.ts"
+      ],
+      "@famulex/web/authoring/ui/course-draft-ui": [
+        "libs/web/authoring/ui/course-draft-ui/src/index.ts"
+      ],
+      "@famulex/web/authoring/ui/test-draft-ui": [
+        "libs/web/authoring/ui/test-draft-ui/src/index.ts"
       ],
       "@famulex/web/shared/group-search": [
         "libs/web/shared/group-search/src/index.ts"

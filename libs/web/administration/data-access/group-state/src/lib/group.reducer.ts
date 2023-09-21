@@ -5,7 +5,7 @@ import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { produce }                                          from "immer";
 import { GroupActions }                                     from "./group.actions";
 
-export const GROUPS_FEATURE_KEY = "Groups";
+export const GROUPS_FEATURE_KEY = "groups";
 
 export interface State extends EntityState<Group> {
   // additional entities state properties

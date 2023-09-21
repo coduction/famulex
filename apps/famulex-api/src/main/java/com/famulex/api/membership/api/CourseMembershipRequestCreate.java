@@ -2,6 +2,7 @@ package com.famulex.api.membership.api;
 
 import com.famulex.api.core.model.MembershipType;
 import com.famulex.api.membership.model.CourseRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class CourseMembershipRequestCreate {
   private UUID userKey;
   private UUID groupKey;
 
+  @JsonIgnore
   @AssertTrue(message = "Either user or group must be set")
   public boolean isUserOrGroupSet() {
     return userKey != null ^ groupKey != null;

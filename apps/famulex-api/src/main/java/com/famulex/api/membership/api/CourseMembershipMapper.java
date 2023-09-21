@@ -6,6 +6,7 @@ import com.famulex.api.membership.model.CourseMembership;
 import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 /**
  * Interface MembershipMapper
@@ -26,4 +27,6 @@ public interface CourseMembershipMapper {
   CourseMembershipResponse toResponseForUser(CourseMembership courseMembership);
 
   CourseMembership toCourseMembership(CourseMembershipRequestCreate courseMembershipRequest);
+
+  void updateCourseMembership(@MappingTarget CourseMembership membership, CourseMembershipRequestUpdate request);
 }

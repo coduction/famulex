@@ -159,6 +159,16 @@
                   (ngModelChange)="onRightChange($event)"
       ></p-checkbox>
     </div>
+
+    <div class="col-12 md:col-4 mb-0 field-checkbox">
+      <p-checkbox name="administration"
+                  [value]="Right.ManageSystem"
+                  [inputId]="Right.ManageSystem"
+                  [label]="translateRight(Right.ManageSystem)"
+                  [ngModel]="selectedRights"
+                  (ngModelChange)="onRightChange($event)"
+      ></p-checkbox>
+    </div>
   </div>
 
 

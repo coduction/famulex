@@ -35,6 +35,7 @@ model/course-draft.ts
 model/course-item-type.ts
 model/course-item.ts
 model/course-membership-request-create.ts
+model/course-membership-request-update.ts
 model/course-membership.ts
 model/course-node-type.ts
 model/course-node.ts

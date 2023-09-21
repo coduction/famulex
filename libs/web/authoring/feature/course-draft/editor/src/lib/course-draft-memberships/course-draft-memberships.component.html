@@ -1,0 +1,14 @@
+<web-table
+  [metaData]="tableMetaData$ | async"
+  [data]="memberships$ | async"
+  [loading$]="loading$"
+
+  [columns]="courseMembershipColumns"
+  [showSearch]="true"
+
+  [tableActions]="tableActions"
+  [entryActions]="entryActions"
+  [selectionActions]="selectionActions"
+
+  (loadData)="onLoadData($event)"
+></web-table>

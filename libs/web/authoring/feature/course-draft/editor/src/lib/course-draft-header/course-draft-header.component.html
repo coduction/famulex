@@ -1,0 +1,49 @@
+<!--<div class="flex gap-2 align-items-baseline">-->
+<!--  <h2 class="m-0">{{ title$ | async }}</h2>-->
+<!--  <span *ngIf="author$ | async as author"-->
+<!--        class="text-color-secondary"-->
+<!--  >-->
+<!--    by {{ author }}-->
+<!--  </span>-->
+
+<!--  <div class="flex-grow-1"></div>-->
+
+<!--  <ng-container *ngIf="status$ | async as status">-->
+<!--    <authoring-course-draft-status [status]="status" />-->
+<!--  </ng-container>-->
+
+<!--  <p-splitButton label="Publish" i18n-label-->
+<!--                 icon="fa fa-upload"-->
+<!--                 styleClass="p-button-outlined"-->
+<!--                 appendTo="body"-->
+<!--                 [model]="actions"-->
+<!--                 (onClick)="onPublish()"-->
+<!--  />-->
+<!--</div>-->
+
+<div class="grid">
+  <div class="col-12 md:col-5">
+    <h2 class="mb-0 mr-1 inline">{{ title$ | async }}</h2>
+    <span *ngIf="author$ | async as author"
+          class="text-color-secondary"
+    >
+    by {{ author }}
+  </span>
+  </div>
+
+
+  <div class="col-4 md:col">
+    <authoring-course-draft-status *ngIf="status$ | async as status"
+                                   [status]="status"
+    />
+  </div>
+
+  <div class="col-8 md:col-5 flex justify-content-end">
+    <p-splitButton label="Publish" i18n-label
+                   icon="fa fa-upload"
+                   appendTo="body"
+                   [model]="actions"
+                   (onClick)="onPublish()"
+    />
+  </div>
+</div>

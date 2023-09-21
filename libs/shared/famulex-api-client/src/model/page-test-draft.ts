@@ -23,8 +23,8 @@ export interface PageTestDraft {
     last?: boolean;
     size?: number;
     content?: Array<TestDraft>;
-    numberOfElements?: number;
     pageable?: PageableObject;
+    numberOfElements?: number;
     empty?: boolean;
 }
 

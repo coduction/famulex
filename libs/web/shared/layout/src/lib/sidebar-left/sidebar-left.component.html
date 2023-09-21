@@ -2,7 +2,7 @@
   <div class="sidebar-header">
     <a [routerLink]="['/']" class="app-logo">
       <ng-container *ngIf="logoUrl$ | async as logoUrl else defaultLogo">
-        <img [src]="logoUrl" alt="logo" class="app-logo-normal px-5 max-w-full max-h-6rem" />
+        <img [src]="logoUrl" alt="logo" class="app-logo-normal px-5 max-w-full h-4rem" />
       </ng-container>
       <ng-template #defaultLogo>
         <svg viewBox="0 0 124 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="app-logo-normal default-logo">
@@ -28,7 +28,7 @@
       </ng-template>
 
       <ng-container *ngIf="compactLogoUrl$ | async as compactLogoUrl else defaultLogoCompact">
-        <img [src]="compactLogoUrl" alt="logo" class="app-logo-small max-w-full max-h-6rem px-1" />
+        <img [src]="compactLogoUrl" alt="logo" class="app-logo-small max-w-full h-4rem px-1" />
       </ng-container>
       <ng-template #defaultLogoCompact>
         <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg"

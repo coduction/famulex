@@ -39,6 +39,8 @@ export function translateRight(right: Right): string {
       return $localize`Manage Groups`;
     case Right.ManageRoles:
       return $localize`Manage Roles`;
+    case Right.ManageSystem:
+      return $localize`Manage System`;
   }
 
   return "";
@@ -71,6 +73,7 @@ export function iconForRight(right: Right): string {
     case Right.ManageUsers:
     case Right.ManageGroups:
     case Right.ManageRoles:
+    case Right.ManageSystem:
       return "fa fa-fw fa-cog";
   }
 
@@ -128,6 +131,9 @@ export function prepareRightsRendering(rights: Right[]): { icon: string, label: 
   }
   if (rights.includes(Right.ManageRoles)) {
     result.push({ icon: iconForRight(Right.ManageRoles), label: translateRight(Right.ManageRoles) });
+  }
+  if (rights.includes(Right.ManageSystem)) {
+    result.push({ icon: iconForRight(Right.ManageSystem), label: translateRight(Right.ManageSystem) });
   }
 
   return result;

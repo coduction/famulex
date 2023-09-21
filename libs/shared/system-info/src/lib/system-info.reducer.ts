@@ -3,7 +3,7 @@ import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { produce }                                          from "immer";
 import { SystemInfoActions }                                from "./system-info.actions";
 
-export const SYSTEM_INFO_FEATURE_KEY = "SystemInfo";
+export const SYSTEM_INFO_FEATURE_KEY = "systemInfo";
 
 export interface SystemInfoState {
   systemInfo: SystemInfo;

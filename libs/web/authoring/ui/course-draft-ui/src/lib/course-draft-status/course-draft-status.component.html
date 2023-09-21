@@ -1,0 +1,29 @@
+<div *ngIf="status === 'DRAFT'" i18n
+     class="p-message p-message-info"
+>
+  <i class="fa fa-fw fa-compass-drafting"></i> Draft
+</div>
+
+<div *ngIf="status === 'EDITED'" i18n
+     class="p-message p-message-info"
+>
+  <i class="fa fa-fw fa-compass-drafting"></i> Edited
+</div>
+
+<div *ngIf="status === 'PUBLISHED'" i18n
+     class="p-message p-message-success"
+>
+  <i class="fa fa-fw fa-compass-drafting"></i> Published
+</div>
+
+<div *ngIf="status === 'INVALID'" i18n
+     class="p-message p-message-error"
+>
+  <i class="fa fa-fw fa-compass-drafting"></i> Invalid
+</div>
+
+<div *ngIf="status === 'ARCHIVED'" i18n
+     class="p-message p-message-warn"
+>
+  <i class="fa fa-fw fa-compass-drafting"></i> Archived
+</div>

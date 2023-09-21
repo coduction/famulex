@@ -1,151 +1,78 @@
-import { PageUser, User }                                  from "@famulex/shared/famulex-api-client";
-import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
-import { createReducer, on }                               from "@ngrx/store";
-import { produce }                                         from "immer";
-import { CourseDraftEditorActions }                        from "./course-draft-editor.actions";
+import { CourseDraft }                                      from "@famulex/shared/famulex-api-client";
+import { CourseDraftListActions }                           from "@famulex/web/authoring/data-access/course-draft-list-state";
+import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
+import { produce }                                          from "immer";
+import { CourseDraftEditorActions }                         from "./course-draft-editor.actions";
 
-export const USERS_FEATURE_KEY = "Users";
+export const COURSE_DRAFT_EDITOR_FEATURE_KEY = "courseDraftEditor";
 
-export interface State extends EntityState<User> {
-  // additional entities state properties
-  loading: boolean;
-  actionInProgress: boolean;
-
-  pageIndex: number;
-  pageSize: number;
-  sortedBy: string[];
-  search: string | undefined;
-
-  page: PageUser | undefined;
+export interface CourseDraftEditorState {
+  courseDraft: CourseDraft | undefined;
+  courseDraftKey: string | undefined;
+  courseDraftLoading: boolean;
 }
 
-export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
-  selectId: user => user.key,
-  sortComparer: false
-});
 
-export const initialState: State = adapter.getInitialState({
-  // additional entity state properties
-  loading: false,
-  actionInProgress: false,
-
-  pageIndex: 0,
-  pageSize: 10,
-  sortedBy: ["firstName,asc", "lastName,asc"],
-  search: undefined,
-
-  page: undefined
-});
+export const initialState: CourseDraftEditorState = {
+  courseDraft: undefined,
+  courseDraftKey: undefined,
+  courseDraftLoading: false
+};
 
 export const reducer = createReducer(
   initialState,
 
   /*************************************************************************
-   * Load Users
+   * General Actions
    ************************************************************************/
-  on(CourseDraftEditorActions.load, (state, { event }) => produce(state, draft => {
-    draft.loading = true;
-
-    if (event) {
-      draft.pageIndex = event.pageIndex;
-      draft.pageSize = event.pageSize;
-      draft.sortedBy = event.sortedBy;
-      draft.search = event.search ?? undefined;
-    }
-  })),
-  on(CourseDraftEditorActions.loadSuccess, (state, { page }) => {
-    state = produce(state, draft => {
-      draft.loading = false;
-      draft.page = page;
-    });
-
-    return adapter.setAll(page.content ?? [], state);
-  }),
-  on(CourseDraftEditorActions.loadFailure, state => produce(state, draft => {
-    draft.loading = false;
-  })),
+  on(CourseDraftEditorActions.leaveEditor, () => initialState),
 
   /*************************************************************************
-   * Create User
+   * Load CourseDraft
    ************************************************************************/
-  on(CourseDraftEditorActions.create, state => produce(state, draft => {
-    draft.actionInProgress = true;
-  })),
-  on(CourseDraftEditorActions.createSuccess, (state, { user }) => {
-    state = produce(state, draft => {
-      draft.actionInProgress = false;
+  on(CourseDraftEditorActions.loadCourseDraft, (state, { key }) => {
+    return produce(state, draft => {
+      draft.courseDraftKey = key;
+      draft.courseDraftLoading = true;
     });
-
-    return adapter.addOne(user, state);
   }),
-  on(CourseDraftEditorActions.createFailure, state => produce(state, draft => {
-    draft.actionInProgress = false;
-  })),
+
+  on(CourseDraftEditorActions.loadCourseDraftSuccess, (state, { response }) => {
+    return produce(state, draft => {
+      draft.courseDraft = response;
+      draft.courseDraftLoading = false;
+    });
+  }),
+
+  on(CourseDraftEditorActions.loadCourseDraftFailure, (state) => {
+    return produce(state, draft => {
+      draft.courseDraftLoading = false;
+    });
+  }),
 
   /*************************************************************************
-   * Update User
+   * Update CourseDraft
    ************************************************************************/
-  on(CourseDraftEditorActions.update, state => produce(state, draft => {
-    draft.actionInProgress = true;
-  })),
-  on(CourseDraftEditorActions.updateSuccess, (state, { user }) => {
-    state = produce(state, draft => {
-      draft.actionInProgress = false;
+  on(CourseDraftListActions.updateSuccess, (state, { update }) => {
+    return produce(state, draft => {
+      if (draft.courseDraft?.key === update.id) {
+        console.log(update);
+        draft.courseDraft = {
+          ...draft.courseDraft,
+          ...update.changes
+        };
+      }
     });
-
-    return adapter.updateOne(user, state);
-  }),
-  on(CourseDraftEditorActions.updateFailure, state => produce(state, draft => {
-    draft.actionInProgress = false;
-  })),
-
-  /*************************************************************************
-   * Delete Single User
-   ************************************************************************/
-  on(CourseDraftEditorActions.delete, state => produce(state, draft => {
-    draft.actionInProgress = true;
-  })),
-  on(CourseDraftEditorActions.deleteSuccess, (state, { user }) => {
-    state = produce(state, draft => {
-      draft.actionInProgress = false;
-    });
-
-    return adapter.removeOne(user.key, state);
-  }),
-  on(CourseDraftEditorActions.deleteFailure, state => produce(state, draft => {
-    draft.actionInProgress = false;
-  })),
-
-  /*************************************************************************
-   * Delete Multiple Users
-   ************************************************************************/
-  on(CourseDraftEditorActions.deleteMany, state => produce(state, draft => {
-    draft.actionInProgress = true;
-  })),
-  on(CourseDraftEditorActions.deleteManyFeedback, (state, { deletedKeys }) => {
-    state = produce(state, draft => {
-      draft.actionInProgress = false;
-    });
-
-    return adapter.removeMany(deletedKeys ?? [], state);
   })
 );
 
-// export const UserState = createFeature({
-//   name: USERS_FEATURE_KEY,
-//   reducer,
-//   extraSelectors: ({ selectUsersState }) => ({
-//     ...adapter.getSelectors(selectUsersState),
-//     selectTableMetaData: createSelector(
-//       selectUsersState,
-//       (state) => ({
-//         loading: state.loading,
-//         totalEntries: state.page?.totalElements || null,
-//         pageIndex: state.pageIndex,
-//         pageSize: state.pageSize,
-//         sortedBy: state.sortedBy,
-//         search: state.search
-//       } as TableMetaData)
-//     )
-//   })
-// });
+export const CourseDraftEditorState = createFeature({
+  name: COURSE_DRAFT_EDITOR_FEATURE_KEY,
+  reducer,
+  extraSelectors: ({ selectCourseDraftEditorState }) => ({
+    selectCourseDraftTitle: createSelector(selectCourseDraftEditorState, state => state.courseDraft?.title),
+    selectCourseDraftDescription: createSelector(selectCourseDraftEditorState, state => state.courseDraft?.description),
+    selectCourseDraftAuthor: createSelector(selectCourseDraftEditorState, state => state.courseDraft?.author),
+    selectCourseDraftStatus: createSelector(selectCourseDraftEditorState, state => state.courseDraft?.status)
+  })
+});

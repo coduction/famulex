@@ -11,6 +11,7 @@ import com.famulex.api.group.model.Group;
 import com.famulex.api.group.repository.GroupRepository;
 import com.famulex.api.membership.api.CourseMembershipMapper;
 import com.famulex.api.membership.api.CourseMembershipRequestCreate;
+import com.famulex.api.membership.api.CourseMembershipRequestUpdate;
 import com.famulex.api.membership.api.CourseMembershipResponse;
 import com.famulex.api.membership.model.CourseMembership;
 import com.famulex.api.membership.model.CourseRole;
@@ -75,11 +76,13 @@ public class CourseMembershipController {
   }
 
   @GetMapping("/courses/{courseKey}")
-  public Page<CourseMembershipResponse> loadCourseMemberships(@PathVariable UUID courseKey, @ParameterObject Pageable pagination) {
+  public Page<CourseMembershipResponse> loadCourseMemberships(@PathVariable UUID courseKey,
+                                                              @ParameterObject Pageable pagination,
+                                                              @RequestParam(required = false) String search) {
     CourseDraft courseDraft = courseDraftRepository.findByKey(courseKey).orElseThrow(() -> new EntityNotFoundException(Course.class, courseKey));
 
     return courseMembershipRepository.findByCourseDraft(courseDraft, pagination)
-      .map(courseMembershipMapper::toResponse);
+        .map(courseMembershipMapper::toResponse);
   }
 
   @Transactional
@@ -89,7 +92,7 @@ public class CourseMembershipController {
     // Membership can only be created for course drafts
     // Memberships for published courses are managed during the publication process
     CourseDraft courseDraft = courseDraftRepository.findByKey(courseKey)
-      .orElseThrow(() -> new EntityNotFoundException(CourseDraft.class, courseKey));
+        .orElseThrow(() -> new EntityNotFoundException(CourseDraft.class, courseKey));
 
     // Load user or group
     Optional<User> user = userRepository.findByKey(membershipRequest.getUserKey());
@@ -127,12 +130,24 @@ public class CourseMembershipController {
     return courseMembershipMapper.toResponse(membership);
   }
 
+  @PutMapping("/{membershipKey}")
+  public CourseMembershipResponse updateCourseMembership(@PathVariable UUID membershipKey, @Valid @RequestBody CourseMembershipRequestUpdate updateRequest) {
+    var membership = courseMembershipRepository.findByKey(membershipKey)
+        .orElseThrow(() -> new EntityNotFoundException(CourseMembership.class, membershipKey));
+
+    courseMembershipMapper.updateCourseMembership(membership, updateRequest);
+
+    membership = courseMembershipRepository.save(membership);
+
+    return courseMembershipMapper.toResponse(membership);
+  }
+
   // Set last node
   @Transactional
   @PutMapping("/{userMembershipKey}/lastNode")
   public CourseMembershipResponse setMembershipLastNode(@PathVariable UUID userMembershipKey, @RequestParam UUID lastNodeKey) {
     CourseMembership membership = courseMembershipRepository.findByKey(userMembershipKey)
-      .orElseThrow(() -> new EntityNotFoundException("Course user membership not found", userMembershipKey));
+        .orElseThrow(() -> new EntityNotFoundException("Course user membership not found", userMembershipKey));
 
     // TODO Refactor Flat
     CourseNode node = membership.getCourse().getNodes().stream().filter(n -> n.getKey().equals(lastNodeKey)).findFirst().orElseThrow(() -> new EntityNotFoundException("Node not found", lastNodeKey));
@@ -149,7 +164,7 @@ public class CourseMembershipController {
   public void deleteMembership(@PathVariable UUID membershipKey) {
     // Load membership
     CourseMembership membership = courseMembershipRepository.findByKey(membershipKey)
-      .orElseThrow(() -> new EntityNotFoundException(CourseMembership.class, membershipKey));
+        .orElseThrow(() -> new EntityNotFoundException(CourseMembership.class, membershipKey));
 
     // Delete membership
     courseMembershipRepository.delete(membership);

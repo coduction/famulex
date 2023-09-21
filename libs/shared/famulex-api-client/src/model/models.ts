@@ -14,6 +14,7 @@ export * from './course-item';
 export * from './course-item-type';
 export * from './course-membership';
 export * from './course-membership-request-create';
+export * from './course-membership-request-update';
 export * from './course-node';
 export * from './course-node-type';
 export * from './course-progress';

@@ -3,3 +3,7 @@
     margin-right: 0.5rem;
   }
 }
+
+.p-tieredmenu .p-menuitem-link:focus {
+  box-shadow: unset;
+}

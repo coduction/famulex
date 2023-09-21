@@ -140,12 +140,20 @@ export class CourseDraftListEffects {
   update$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseDraftListActions.update),
-      concatMap(({ key, request }) => {
+      concatMap(({ key, request, dialog }) => {
         HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
+        if (dialog) {
+          dialog.buttons?.forEach(button => button.disabled = true);
+
+          if (dialog.activeButton) {
+            dialog.activeButton.loading = true;
+          }
+        }
+
         return this.courseDraftService.updateCourseDraft(key, request).pipe(
-          map(response => CourseDraftListActions.updateSuccess({ update: { id: key, changes: response } })),
-          catchError((error: HttpErrorResponse) => of(CourseDraftListActions.updateFailure({ error })))
+          map(response => CourseDraftListActions.updateSuccess({ update: { id: key, changes: response }, dialog })),
+          catchError((error: HttpErrorResponse) => of(CourseDraftListActions.updateFailure({ error, dialog })))
         );
       })
     );
@@ -154,30 +162,38 @@ export class CourseDraftListEffects {
   updateFailure$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseDraftListActions.updateFailure),
-      tap(({ error }) => {
+      tap(({ error, dialog }) => {
+        if (dialog) {
+          if (dialog.activeButton) {
+            dialog.activeButton.loading = false;
+          }
+
+          dialog.buttons?.forEach(button => button.disabled = false);
+        }
+
         this.messageService.add({
           severity: "error",
-          summary: $localize`Changes to course could not be saved.`,
+          summary: $localize`Course could not be updated`,
           detail: $localize`Please try again later.`
         });
       })
-      //map(() => WizardActions.finishFailure({ id: USER_EDIT_WIZARD_ID }))
     );
   }, { dispatch: false });
 
   updateSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseDraftListActions.updateSuccess),
-      tap(({ update }) => {
+      tap(({ update, dialog }) => {
+        if (dialog) {
+          dialog.dialogRef?.close();
+        }
+
         this.messageService.add({
           severity: "success",
-          summary: $localize`Changes to course saved.`
+          summary: $localize`Course Updated`
         });
       }),
-      concatMap(() => [
-        //WizardActions.finishSuccess({ id: USER_EDIT_WIZARD_ID }),
-        CourseDraftListActions.load({})
-      ])
+      map(() => CourseDraftListActions.load({}))
     );
   });
 
@@ -202,7 +218,7 @@ export class CourseDraftListEffects {
       tap(({ entry }) => {
         this.messageService.add({
           severity: "success",
-          summary: $localize`Course deleted.`,
+          summary: $localize`Course Deleted`,
           detail: `${entry.title}`
         });
       }),

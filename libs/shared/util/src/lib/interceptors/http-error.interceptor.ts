@@ -21,6 +21,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    console.log(request, next);
+    
     return next.handle(request)
       .pipe(
         tap({
@@ -72,7 +74,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 default:
                   if (!HttpErrorInterceptor.CUSTOM_ERROR_HANDLING) {
                     this.showErrorMessage($localize`Internal Server Error`, $localize`Something went wrong, please try again later.`);
-                    return EMPTY;
                   }
               }
             }
@@ -81,7 +82,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           // Disable custom error handling after request was intercepted
           HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = false;
 
-          return throwError(error);
+          return throwError(() => error);
         })
       );
   }

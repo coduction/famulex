@@ -23,8 +23,8 @@ export interface PageRoleAssignment {
     last?: boolean;
     size?: number;
     content?: Array<RoleAssignment>;
-    numberOfElements?: number;
     pageable?: PageableObject;
+    numberOfElements?: number;
     empty?: boolean;
 }
 

@@ -18,6 +18,10 @@
     align-items: center;
 
     .app-logo {
+      img {
+        object-fit: contain;
+      }
+
       .app-logo-normal {
         display: inline;
 

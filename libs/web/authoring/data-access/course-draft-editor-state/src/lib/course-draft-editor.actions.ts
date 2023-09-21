@@ -1,6 +1,5 @@
 import { HttpErrorResponse }                    from "@angular/common/http";
-import { PageUser, User, UserRequest }          from "@famulex/shared/famulex-api-client";
-import { LoadDataEvent }                        from "@famulex/web/shared/table";
+import { CourseDraft, User, UserRequest }       from "@famulex/shared/famulex-api-client";
 import { Update }                               from "@ngrx/entity";
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
 
@@ -8,9 +7,12 @@ import { createActionGroup, emptyProps, props } from "@ngrx/store";
 export const CourseDraftEditorActions = createActionGroup({
   source: "Authoring - Course Draft Editor",
   events: {
-    "Load": props<{ event?: LoadDataEvent }>(),
-    "Load Success": props<{ page: PageUser }>(),
-    "Load Failure": props<{ error: HttpErrorResponse }>(),
+    "Leave Editor": emptyProps(),
+
+    "Load Course Draft": props<{ key: string }>(),
+    "Load Course Draft Success": props<{ response: CourseDraft }>(),
+    "Load Course Draft Failure": props<{ routingError: boolean, httpError?: HttpErrorResponse }>(),
+
     "Create": props<{ userRequest: UserRequest }>(),
     "Create Success": props<{ user: User }>(),
     "Create Failure": props<{ error: HttpErrorResponse }>(),

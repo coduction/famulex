@@ -169,13 +169,11 @@ export class CourseDraftListComponent implements OnInit {
   }
 
   onEdit(entry: CourseDraft) {
-    // this.store.dispatch(WizardActions.open({
-    //   id: USER_EDIT_WIZARD_ID,
-    //   component: UserEditComponent,
-    //   config: {
-    //     data: entry
-    //   }
-    // }));
+    this.dialogService.open(CourseDraftEditComponent, {
+      header: $localize`Edit Course`,
+      width: "60rem",
+      data: entry
+    });
   }
 
   onDelete(entry: CourseDraft) {

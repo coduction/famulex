@@ -39,14 +39,27 @@
               [disabled]="cancelButton.disabled"
               (click)="onCancel()"
       ></button>
-      <button pButton pRipple
+
+      <button *ngIf="dialogConfig?.data else create"
+              pButton pRipple
               type="submit"
               loadingIcon="fa fa-spin fa-rotate"
-              [label]="createButton.label"
-              [icon]="createButton.icon ?? ''"
-              [disabled]="createButton.disabled"
-              [loading]="createButton.loading ?? false"
+              [label]="updateButton.label"
+              [icon]="updateButton.icon ?? ''"
+              [disabled]="updateButton.disabled"
+              [loading]="updateButton.loading ?? false"
       ></button>
+
+      <ng-template #create>
+        <button pButton pRipple
+                type="submit"
+                loadingIcon="fa fa-spin fa-rotate"
+                [label]="createButton.label"
+                [icon]="createButton.icon ?? ''"
+                [disabled]="createButton.disabled"
+                [loading]="createButton.loading ?? false"
+        ></button>
+      </ng-template>
     </div>
   </div>
 </form>

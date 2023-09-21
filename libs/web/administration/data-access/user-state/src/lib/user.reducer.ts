@@ -5,7 +5,7 @@ import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { produce }                                          from "immer";
 import { UserActions }                                      from "./user.actions";
 
-export const USERS_FEATURE_KEY = "Users";
+export const USERS_FEATURE_KEY = "users";
 
 export interface State extends EntityState<User> {
   // additional entities state properties

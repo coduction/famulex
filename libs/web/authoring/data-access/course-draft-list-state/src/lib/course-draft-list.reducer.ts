@@ -6,7 +6,7 @@ import { produce }                                          from "immer";
 import { CourseDraftListActions }                           from "./course-draft-list.actions";
 import { CourseDraftTab }                                   from "./course-draft-list.models";
 
-export const COURSE_DRAFT_LIST_FEATURE_KEY = "CourseDraftList";
+export const COURSE_DRAFT_LIST_FEATURE_KEY = "courseDraftList";
 
 export interface State extends EntityState<CourseDraft> {
   // additional entities state properties

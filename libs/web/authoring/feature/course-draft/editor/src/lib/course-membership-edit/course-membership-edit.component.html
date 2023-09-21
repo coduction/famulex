@@ -1,0 +1,38 @@
+<form [formGroup]="membershipEditForm"
+      (ngSubmit)="onSubmit()"
+      autocomplete="off">
+  <div class="grid">
+    <div class="col-12 p-fluid">
+      <ui-form-label formControlName="role" i18n>Course Role</ui-form-label>
+      <p-selectButton [options]="roleOptions"
+                      id="role"
+                      formControlName="role"
+      />
+      <ui-form-error formControlName="role"></ui-form-error>
+    </div>
+
+    <div class="col-12">
+      <ui-form-label formControlName="users" i18n>Users</ui-form-label>
+      <user-search id="users"
+                   (userSelection)="onUserSelection($event)"
+      />
+      <ui-form-error formControlName="users" requiredText="Please select at least one user" />
+    </div>
+
+    <div class="col-12 flex gap-3 justify-content-end">
+      <button pButton
+              type="button"
+              class="p-button-outlined"
+              icon="fa fa-stop"
+              label="Cancel" i18n-label
+              (click)="onCancel()"
+      ></button>
+
+      <button pButton
+              type="submit"
+              icon="fa fa-floppy-disk"
+              label="Save" i18n-label
+      ></button>
+    </div>
+  </div>
+</form>
