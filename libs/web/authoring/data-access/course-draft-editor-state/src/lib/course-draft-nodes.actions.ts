@@ -3,6 +3,7 @@ import { ActivatedRoute }                                                       
 import { CourseDraftNode, CourseDraftNodeRequestCreate, CourseDraftNodeRequestUpdate } from "@famulex/shared/famulex-api-client";
 import { Update }                                                                      from "@ngrx/entity";
 import { createActionGroup, emptyProps, props }                                        from "@ngrx/store";
+import { CourseDraftNodeAction }                                                       from "./course-draft-nodes.models";
 
 
 export const CourseDraftNodesActions = createActionGroup({
@@ -24,6 +25,10 @@ export const CourseDraftNodesActions = createActionGroup({
 
     "Delete": props<{ node: CourseDraftNode }>(),
     "Delete Success": props<{ node: CourseDraftNode }>(),
-    "Delete Failure": props<{ httpError?: HttpErrorResponse }>()
+    "Delete Failure": props<{ httpError?: HttpErrorResponse }>(),
+
+    "Add Action": props<{ id: string, action: CourseDraftNodeAction }>(),
+    "Remove Action": props<{ id: string }>(),
+    "Clear Actions": emptyProps
   }
 });

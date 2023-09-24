@@ -1,7 +1,7 @@
 import { HttpEventType }                                   from "@angular/common/http";
 import { Injectable }                                      from "@angular/core";
 import { MessageService }                                  from "@coduction/primeng/api";
-import { CourseDraftService, CourseMembershipService }     from "@famulex/shared/famulex-api-client";
+import { CourseDraftService, FileService }                 from "@famulex/shared/famulex-api-client";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store }                                           from "@ngrx/store";
 import { catchError, map, mergeMap, of, switchMap, tap }   from "rxjs";
@@ -17,7 +17,7 @@ export class CourseDraftItemsEffects {
     private actions$: Actions,
     private store: Store,
     private courseDraftService: CourseDraftService,
-    private courseMembershipService: CourseMembershipService,
+    private fileService: FileService,
     private messageService: MessageService
   ) {
   }
@@ -102,11 +102,46 @@ export class CourseDraftItemsEffects {
       ofType(CourseDraftItemsActions.uploadFileFailure),
       tap(({ httpError }) => {
         if (httpError) {
-          this.messageService.add({ severity: "error", summary: "Upload Failed", detail: httpError.message });
+          this.messageService.add({ severity: "error", summary: $localize`Upload Failed`, detail: httpError.message });
         }
       })
     );
   }, { dispatch: false });
 
+  /*************************************************************************
+   * Delete
+   ************************************************************************/
+  deleteFilePermission$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftItemsActions.deleteFilePermission),
+      switchMap(({ filePermission }) => {
+        return this.fileService.deleteFilePermission(filePermission.key).pipe(
+          map(() => CourseDraftItemsActions.deleteFilePermissionSuccess({ deletedFilePermission: filePermission })),
+          catchError(httpError => of(CourseDraftItemsActions.deleteFilePermissionFailure({ httpError })))
+        );
+      })
+    );
+  });
+
+  deleteFilePermissionSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftItemsActions.deleteFilePermissionSuccess),
+      tap(({ deletedFilePermission }) => {
+        this.messageService.add({ severity: "success", summary: $localize`File Deleted`, detail: deletedFilePermission.file.name });
+      }),
+      map(() => CourseDraftItemsActions.load())
+    );
+  });
+
+  deleteFilePermissionFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftItemsActions.deleteFilePermissionFailure),
+      tap(({ httpError }) => {
+        if (httpError) {
+          this.messageService.add({ severity: "error", summary: $localize`Could Not Delete File`, detail: httpError.message });
+        }
+      })
+    );
+  }, { dispatch: false });
 
 }

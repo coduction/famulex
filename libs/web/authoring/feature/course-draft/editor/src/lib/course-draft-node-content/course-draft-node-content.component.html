@@ -3,7 +3,13 @@
     <h4 class="inline"><i [class]="iconForCourseNodeType(currentNode)"></i>{{ currentNode.title }}</h4>
     <span class="flex-grow-1 text-color-secondary">{{ translateCourseNodeType(currentNode)}}</span>
 
-    <button pButton icon="fa fa-trash" class="p-button-danger"></button>
+    <button *ngFor="let action of nodeActions$ | async"
+            pButton
+            [icon]="action.icon ?? ''"
+            [label]="action.label"
+            [class.p-button-outlined]="!action.primary"
+            (click)="action.onClick()"
+    ></button>
   </div>
 
   <p class="mt-2">{{ currentNode.description }}</p>

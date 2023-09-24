@@ -1,7 +1,7 @@
 <ng-container *ngFor="let item of items$ | async; index as i">
-  <ng-container *ngIf="item.filePermissions[0] else uploadVideo">
-    Video here
-  </ng-container>
+  <div *ngIf="item.filePermissions.length else uploadVideo">
+    <ui-video-player [filePermissions]="item.filePermissions" />
+  </div>
 
   <ng-template #uploadVideo>
     <p-fileUpload #fileUpload

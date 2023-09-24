@@ -59,6 +59,7 @@
         "styles": [
           "libs/web/shared/layout/src/styles/apollo/apollo.scss",
           "apps/famulex-ui-web/src/styles/styles.scss",
+          "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
           {
             "input": "libs/web/shared/layout/src/styles/apollo/theme/theme-light/blue/theme.scss",
             "bundleName": "theme-light-blue",

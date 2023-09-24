@@ -23,6 +23,8 @@ export class CourseDraftNodeContentComponent {
   CourseNodeType = CourseNodeType;
 
   currentNode$ = this.store.select(CourseDraftNodesState.selectCurrentNode);
+  nodeActions$ = this.store.select(CourseDraftNodesState.selectActions);
+
 
   constructor(private store: Store) {
   }

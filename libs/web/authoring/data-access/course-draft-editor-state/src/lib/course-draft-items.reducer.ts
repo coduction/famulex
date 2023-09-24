@@ -97,6 +97,27 @@ const reducer = createReducer(
         draft.uploadProgress = progress;
       }
     });
+  }),
+
+  /*************************************************************************
+   * Delete
+   ************************************************************************/
+  on(CourseDraftItemsActions.deleteFilePermission, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = true;
+    });
+  }),
+
+  on(CourseDraftItemsActions.deleteFilePermissionSuccess, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+  }),
+
+  on(CourseDraftItemsActions.deleteFilePermissionFailure, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = false;
+    });
   })
 );
 

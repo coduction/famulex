@@ -4,6 +4,7 @@ import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { produce }                                          from "immer";
 import { CourseDraftNodesActions }                          from "./course-draft-nodes.actions";
 import { buildCurrentTreeNode, buildNodesTree }             from "./course-draft-nodes.helper";
+import { CourseDraftNodeAction }                            from "./course-draft-nodes.models";
 import { CourseDraftActions }                               from "./course-draft.actions";
 
 export const COURSE_DRAFT_NODES_FEATURE_KEY = "courseDraftNodes";
@@ -13,6 +14,7 @@ export interface CourseDraftNodesState extends EntityState<CourseDraftNode> {
   actionInProgress: boolean;
 
   selectedKey: string | null;
+  actions: { [id: string]: CourseDraftNodeAction };
 }
 
 export const courseDraftNodesAdapter = createEntityAdapter<CourseDraftNode>({
@@ -25,7 +27,8 @@ const initialState: CourseDraftNodesState = courseDraftNodesAdapter.getInitialSt
   loading: false,
   actionInProgress: false,
 
-  selectedKey: null
+  selectedKey: null,
+  actions: {}
 });
 
 const reducer = createReducer(
@@ -59,9 +62,30 @@ const reducer = createReducer(
     return courseDraftNodesAdapter.setAll(response, state);
   }),
 
-  on(CourseDraftActions.loadFailure, (state) => {
+  on(CourseDraftNodesActions.loadFailure, (state) => {
     return produce(state, draft => {
       draft.loading = false;
+    });
+  }),
+
+  /*************************************************************************
+   * Actions
+   ************************************************************************/
+  on(CourseDraftNodesActions.addAction, (state, { id, action }) => {
+    return produce(state, draft => {
+      draft.actions[id] = action;
+    });
+  }),
+
+  on(CourseDraftNodesActions.removeAction, (state, { id }) => {
+    return produce(state, draft => {
+      delete draft.actions[id];
+    });
+  }),
+
+  on(CourseDraftNodesActions.clearActions, (state) => {
+    return produce(state, draft => {
+      draft.actions = {};
     });
   })
 );
@@ -75,6 +99,7 @@ export const CourseDraftNodesState = createFeature({
     selectTree: createSelector(selectEntities, entities => buildNodesTree(entities)),
     selectCurrentTreeNode: createSelector(selectEntities, selectSelectedKey, (entities, selectedKey) => buildCurrentTreeNode(entities, selectedKey)),
 
-    selectCurrentNode: createSelector(selectEntities, selectSelectedKey, (entities, selectedKey) => selectedKey ? entities[selectedKey] : undefined)
+    selectCurrentNode: createSelector(selectEntities, selectSelectedKey, (entities, selectedKey) => selectedKey ? entities[selectedKey] : undefined),
+    selectActions: createSelector(selectCourseDraftNodesState, state => Object.values(state.actions))
   })
 });

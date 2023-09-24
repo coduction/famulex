@@ -17,6 +17,10 @@ export const CourseDraftItemsActions = createActionGroup({
     "Upload File Failure": props<{ httpError?: HttpErrorResponse }>(),
     "Upload File Progress": props<{ progress?: number }>(),
 
+    "Delete File Permission": props<{ filePermission: FilePermission }>(),
+    "Delete File Permission Success": props<{ deletedFilePermission: FilePermission }>(),
+    "Delete File Permission Failure": props<{ httpError?: HttpErrorResponse }>(),
+
     "Upload Files": props<{ files: File[] }>(),
     "Upload Files Feedback": props<{ successes?: FilePermission[], errors?: File[] }>()
   }
