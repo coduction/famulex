@@ -5,10 +5,10 @@ import { CourseDraftService, CourseMembershipService } from "@famulex/shared/fam
 import { Actions, createEffect, ofType }               from "@ngrx/effects";
 import { Store }                                       from "@ngrx/store";
 import { catchError, map, of, switchMap }              from "rxjs";
-import { CourseDraftEditorActions }                    from "./course-draft-editor.actions";
+import { CourseDraftActions }                          from "./course-draft.actions";
 
 @Injectable()
-export class CourseDraftEditorEffects {
+export class CourseDraftEffects {
 
   constructor(
     private actions$: Actions,
@@ -24,15 +24,15 @@ export class CourseDraftEditorEffects {
    ************************************************************************/
   loadCourseDraft$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(CourseDraftEditorActions.loadCourseDraft),
+      ofType(CourseDraftActions.load),
       switchMap(({ key }) => {
         if (!key) {
-          return of(CourseDraftEditorActions.loadCourseDraftFailure({ routingError: true }));
+          return of(CourseDraftActions.loadFailure({ routingError: true }));
         }
 
         return this.courseDraftService.loadCourseDraft(key).pipe(
-          map(response => CourseDraftEditorActions.loadCourseDraftSuccess({ response })),
-          catchError((httpError: HttpErrorResponse) => of(CourseDraftEditorActions.loadCourseDraftFailure({ routingError: false, httpError })))
+          map(response => CourseDraftActions.loadSuccess({ response })),
+          catchError((httpError: HttpErrorResponse) => of(CourseDraftActions.loadFailure({ routingError: false, httpError })))
         );
       })
     );

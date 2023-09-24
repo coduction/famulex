@@ -1,0 +1,60 @@
+<div class="grid">
+  <p-tree selectionMode="single"
+          draggableScope="self"
+          droppableScope="self"
+          class="col-12 md:col-3 transition-all"
+          [value]="nodesTree$ | async"
+          [selection]="currentTreeNode$ | async"
+          [draggableNodes]="true"
+          [droppableNodes]="true"
+          [validateDrop]="true"
+          [filter]="true"
+          (onNodeDrop)="onNodeDrop($event)"
+          (selectionChange)="onNodeSelect($event)"
+  >
+    <ng-template let-node pTemplate="ACTION_ADD_NODE">
+      <div class="cursor-pointer" (click)="onNodeAdd(node)">
+        <b>{{node.label}}</b>
+      </div>
+    </ng-template>
+
+    <ng-template let-node pTemplate="default">
+      <div class="flex gap-3 justify-content-between align-items-center">
+        <span class="flex-grow-1">{{ node.label }}</span>
+        <button pButton uiStopClickPropagation
+                icon="pi pi-ellipsis-v"
+                class="p-button-outlined p-button-sm
+                       w-auto p-1 transition-all opacity-0"
+                [class.p-button-secondary]="node.key !== actionEntry?.key"
+                (click)="onShowEntryActions($event, node.data)"
+        ></button>
+      </div>
+    </ng-template>
+
+  </p-tree>
+
+  <div class="col-12 md:col-9">
+    <router-outlet />
+  </div>
+</div>
+
+<p-overlayPanel #courseNodeActions
+                styleClass="fx-overlaypanel-no-padding fx-overlaypanel-no-arrow"
+                (onHide)="onResetEntryActions()">
+  <ng-template pTemplate="content">
+    <div class="flex flex-column button-group-stacked">
+      <button pButton i18n-label
+              class="p-button-text"
+              label="Edit node"
+              icon="fa fa-fw fa-pencil"
+              (click)="onEditNode(actionEntry!)">
+      </button>
+      <button pButton i18n-label
+              class="p-button-text"
+              label="Delete node"
+              icon="fa fa-fw fa-trash"
+              (click)="onDeleteNode(actionEntry!)">
+      </button>
+    </div>
+  </ng-template>
+</p-overlayPanel>

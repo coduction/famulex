@@ -1,16 +1,33 @@
-import { Route }                                            from "@angular/router";
-import { Right }                                            from "@famulex/shared/famulex-api-client";
-import { AuthGuard }                                        from "@famulex/shared/security/util";
-import { CourseDraftEditorEffects, CourseDraftEditorState } from "@famulex/web/authoring/data-access/course-draft-editor-state";
-import { CourseDraftListEffects, CourseDraftListState }     from "@famulex/web/authoring/data-access/course-draft-list-state";
-import { CourseMembershipsEffects, CourseMembershipsState } from "@famulex/web/authoring/data-access/course-memberships-state";
-import { CourseDraftListComponent }                         from "@famulex/web/authoring/feature/course-draft/list";
-import { MainLayoutComponent }                              from "@famulex/web/shared/layout";
-import { provideEffects }                                   from "@ngrx/effects";
-import { provideState }                                     from "@ngrx/store";
-import { CourseDraftMembershipsComponent }                  from "./course-draft-memberships/course-draft-memberships.component";
-import { CourseDraftStructureComponent }                    from "./course-draft-structure/course-draft-structure.component";
-import { CourseDraftEditorComponent }                       from "./editor/editor.component";
+import { Route }                      from "@angular/router";
+import { Right }                      from "@famulex/shared/famulex-api-client";
+import { AuthGuard }                  from "@famulex/shared/security/util";
+import {
+  CourseDraftEffects, CourseDraftItemsEffects, CourseDraftItemsState, CourseDraftNodesEffects, CourseDraftNodesState, CourseDraftState
+}                                     from "@famulex/web/authoring/data-access/course-draft-editor-state";
+import {
+  CourseDraftListEffects, CourseDraftListState
+}                                     from "@famulex/web/authoring/data-access/course-draft-list-state";
+import {
+  CourseMembershipsEffects, CourseMembershipsState
+}                                     from "@famulex/web/authoring/data-access/course-memberships-state";
+import { CourseDraftListComponent }   from "@famulex/web/authoring/feature/course-draft/list";
+import { MainLayoutComponent }        from "@famulex/web/shared/layout";
+import { provideEffects }             from "@ngrx/effects";
+import { provideState }               from "@ngrx/store";
+import {
+  CourseDraftContentComponent
+}                                     from "./course-draft-content/course-draft-content.component";
+import {
+  CourseDraftMembershipsComponent
+}                                     from "./course-draft-memberships/course-draft-memberships.component";
+import {
+  CourseDraftNodeContentComponent
+}                                     from "./course-draft-node-content/course-draft-node-content.component";
+import {
+  courseDraftNodeContentGuard, courseDraftNodeRestoreGuard
+}                                     from "./course-draft-node-content/course-draft-node-content.guard";
+import { courseDraftStateGuard }      from "./editor/course-draft-state.guard";
+import { CourseDraftEditorComponent } from "./editor/editor.component";
 
 export const courseDraftEditorRoutes: Route[] = [
   {
@@ -22,9 +39,7 @@ export const courseDraftEditorRoutes: Route[] = [
     },
     providers: [
       provideState(CourseDraftListState),
-      provideState(CourseMembershipsState),
-      provideEffects(CourseDraftListEffects),
-      provideEffects(CourseMembershipsEffects)
+      provideEffects(CourseDraftListEffects)
     ],
     children: [
       {
@@ -35,13 +50,33 @@ export const courseDraftEditorRoutes: Route[] = [
         path: ":courseDraftKey",
         component: CourseDraftEditorComponent,
         providers: [
-          provideState(CourseDraftEditorState),
-          provideEffects(CourseDraftEditorEffects)
+          provideState(CourseDraftState),
+          provideState(CourseDraftNodesState),
+          provideState(CourseDraftItemsState),
+          provideState(CourseMembershipsState),
+          provideEffects(CourseDraftEffects),
+          provideEffects(CourseDraftNodesEffects),
+          provideEffects(CourseDraftItemsEffects),
+          provideEffects(CourseMembershipsEffects)
         ],
+        canActivate: [courseDraftStateGuard],
         children: [
           {
             path: "content",
-            component: CourseDraftStructureComponent
+            component: CourseDraftContentComponent,
+
+            children: [
+              {
+                path: ":nodeKey",
+                component: CourseDraftNodeContentComponent,
+                canActivate: [courseDraftNodeContentGuard]
+              },
+              {
+                path: "**",
+                children: [],
+                canActivate: [courseDraftNodeRestoreGuard]
+              }
+            ]
           },
           {
             path: "memberships",

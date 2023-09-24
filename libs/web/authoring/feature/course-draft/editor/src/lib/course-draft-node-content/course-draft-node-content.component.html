@@ -1,0 +1,18 @@
+<ng-container *ngIf="currentNode$ | async as currentNode">
+  <div class="flex gap-2 align-items-baseline">
+    <h4 class="inline"><i [class]="iconForCourseNodeType(currentNode)"></i>{{ currentNode.title }}</h4>
+    <span class="flex-grow-1 text-color-secondary">{{ translateCourseNodeType(currentNode)}}</span>
+
+    <button pButton icon="fa fa-trash" class="p-button-danger"></button>
+  </div>
+
+  <p class="mt-2">{{ currentNode.description }}</p>
+
+  <ng-container [ngSwitch]="currentNode.type">
+    <authoring-course-draft-node-chapter *ngSwitchCase="CourseNodeType.Chapter" />
+    <authoring-course-draft-node-text *ngSwitchCase="CourseNodeType.Text" />
+    <authoring-course-draft-node-pdf *ngSwitchCase="CourseNodeType.Pdf" />
+    <authoring-course-draft-node-quiz *ngSwitchCase="CourseNodeType.Quiz" />
+    <authoring-course-draft-node-video *ngSwitchCase="CourseNodeType.Video" />
+  </ng-container>
+</ng-container>

@@ -1,4 +1,4 @@
-import { CourseRole } from "@famulex/shared/famulex-api-client";
+import { CourseNodeType, CourseRole } from "@famulex/shared/famulex-api-client";
 
 export function translateCourseRole(courseRole: CourseRole): string {
   switch (courseRole) {
@@ -41,4 +41,38 @@ export function prepareCourseRoleRendering(courseRoles: CourseRole[]): { icon: s
   }
 
   return result;
+}
+
+export function translateCourseNodeType(nodeType: CourseNodeType): string {
+  switch (nodeType) {
+    case CourseNodeType.Chapter:
+      return $localize`Chapter`;
+    case CourseNodeType.Video:
+      return $localize`Video`;
+    case CourseNodeType.Pdf:
+      return $localize`PDF`;
+    case CourseNodeType.Text:
+      return $localize`Text`;
+    case CourseNodeType.Quiz:
+      return $localize`Quiz`;
+  }
+
+  return "";
+}
+
+export function iconForCourseNodeType(nodeType: CourseNodeType): string {
+  switch (nodeType) {
+    case CourseNodeType.Chapter:
+      return "fa fa-fw fa-folder-tree";
+    case CourseNodeType.Pdf:
+      return "fa fa-fw fa-file-pdf";
+    case CourseNodeType.Quiz:
+      return "fa fa-fw fa-block-question";
+    case CourseNodeType.Video:
+      return "fa fa-fw fa-film";
+    case CourseNodeType.Text:
+      return "fa fa-fw fa-paragraph";
+  }
+
+  return "";
 }

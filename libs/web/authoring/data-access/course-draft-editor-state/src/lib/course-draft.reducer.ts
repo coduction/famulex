@@ -2,18 +2,18 @@ import { CourseDraft }                                      from "@famulex/share
 import { CourseDraftListActions }                           from "@famulex/web/authoring/data-access/course-draft-list-state";
 import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import { produce }                                          from "immer";
-import { CourseDraftEditorActions }                         from "./course-draft-editor.actions";
+import { CourseDraftActions }                               from "./course-draft.actions";
 
-export const COURSE_DRAFT_EDITOR_FEATURE_KEY = "courseDraftEditor";
+export const COURSE_DRAFT_FEATURE_KEY = "courseDraft";
 
-export interface CourseDraftEditorState {
+export interface CourseDraftState {
   courseDraft: CourseDraft | undefined;
   courseDraftKey: string | undefined;
   courseDraftLoading: boolean;
 }
 
 
-export const initialState: CourseDraftEditorState = {
+export const initialState: CourseDraftState = {
   courseDraft: undefined,
   courseDraftKey: undefined,
   courseDraftLoading: false
@@ -25,26 +25,26 @@ export const reducer = createReducer(
   /*************************************************************************
    * General Actions
    ************************************************************************/
-  on(CourseDraftEditorActions.leaveEditor, () => initialState),
+  on(CourseDraftActions.leaveEditor, () => initialState),
 
   /*************************************************************************
    * Load CourseDraft
    ************************************************************************/
-  on(CourseDraftEditorActions.loadCourseDraft, (state, { key }) => {
+  on(CourseDraftActions.load, (state, { key }) => {
     return produce(state, draft => {
       draft.courseDraftKey = key;
       draft.courseDraftLoading = true;
     });
   }),
 
-  on(CourseDraftEditorActions.loadCourseDraftSuccess, (state, { response }) => {
+  on(CourseDraftActions.loadSuccess, (state, { response }) => {
     return produce(state, draft => {
       draft.courseDraft = response;
       draft.courseDraftLoading = false;
     });
   }),
 
-  on(CourseDraftEditorActions.loadCourseDraftFailure, (state) => {
+  on(CourseDraftActions.loadFailure, (state) => {
     return produce(state, draft => {
       draft.courseDraftLoading = false;
     });
@@ -66,13 +66,13 @@ export const reducer = createReducer(
   })
 );
 
-export const CourseDraftEditorState = createFeature({
-  name: COURSE_DRAFT_EDITOR_FEATURE_KEY,
+export const CourseDraftState = createFeature({
+  name: COURSE_DRAFT_FEATURE_KEY,
   reducer,
-  extraSelectors: ({ selectCourseDraftEditorState }) => ({
-    selectCourseDraftTitle: createSelector(selectCourseDraftEditorState, state => state.courseDraft?.title),
-    selectCourseDraftDescription: createSelector(selectCourseDraftEditorState, state => state.courseDraft?.description),
-    selectCourseDraftAuthor: createSelector(selectCourseDraftEditorState, state => state.courseDraft?.author),
-    selectCourseDraftStatus: createSelector(selectCourseDraftEditorState, state => state.courseDraft?.status)
+  extraSelectors: ({ selectCourseDraftState }) => ({
+    selectCourseDraftTitle: createSelector(selectCourseDraftState, state => state.courseDraft?.title),
+    selectCourseDraftDescription: createSelector(selectCourseDraftState, state => state.courseDraft?.description),
+    selectCourseDraftAuthor: createSelector(selectCourseDraftState, state => state.courseDraft?.author),
+    selectCourseDraftStatus: createSelector(selectCourseDraftState, state => state.courseDraft?.status)
   })
 });

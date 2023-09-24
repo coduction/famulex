@@ -1,13 +1,12 @@
-import { CommonModule }                        from "@angular/common";
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { RouterOutlet }                        from "@angular/router";
-import { MenuItem }                            from "@coduction/primeng/api";
-import { CardModule }                          from "@coduction/primeng/card";
-import { TabMenuModule }                       from "@coduction/primeng/tabmenu";
-import { CourseDraftEditorActions }            from "@famulex/web/authoring/data-access/course-draft-editor-state";
-import { CourseMembershipsActions }            from "@famulex/web/authoring/data-access/course-memberships-state";
-import { Store }                               from "@ngrx/store";
-import { CourseDraftHeaderComponent }          from "../course-draft-header/course-draft-header.component";
+import { CommonModule }                from "@angular/common";
+import { Component, Input, OnDestroy } from "@angular/core";
+import { RouterOutlet }                from "@angular/router";
+import { MenuItem }                    from "@coduction/primeng/api";
+import { CardModule }                  from "@coduction/primeng/card";
+import { TabMenuModule }               from "@coduction/primeng/tabmenu";
+import { CourseDraftActions }          from "@famulex/web/authoring/data-access/course-draft-editor-state";
+import { Store }                       from "@ngrx/store";
+import { CourseDraftHeaderComponent }  from "../course-draft-header/course-draft-header.component";
 
 @Component({
   selector: "authoring-course-draft-editor",
@@ -16,7 +15,7 @@ import { CourseDraftHeaderComponent }          from "../course-draft-header/cour
   templateUrl: "./editor.component.html",
   styleUrls: ["./editor.component.scss"]
 })
-export class CourseDraftEditorComponent implements OnInit, OnDestroy {
+export class CourseDraftEditorComponent implements OnDestroy {
 
   tabs: MenuItem[] = [
     {
@@ -36,12 +35,7 @@ export class CourseDraftEditorComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(CourseDraftEditorActions.loadCourseDraft({ key: this.courseDraftKey }));
-    this.store.dispatch(CourseMembershipsActions.setCourse({ key: this.courseDraftKey }));
-  }
-
   ngOnDestroy(): void {
-    this.store.dispatch(CourseDraftEditorActions.leaveEditor());
+    this.store.dispatch(CourseDraftActions.leaveEditor());
   }
 }

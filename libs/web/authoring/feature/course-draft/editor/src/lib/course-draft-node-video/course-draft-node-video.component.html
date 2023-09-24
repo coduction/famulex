@@ -1,0 +1,15 @@
+<ng-container *ngFor="let item of items$ | async; index as i">
+  <ng-container *ngIf="item.filePermissions[0] else uploadVideo">
+    Video here
+  </ng-container>
+
+  <ng-template #uploadVideo>
+    <p-fileUpload #fileUpload
+                  [auto]=true
+                  [customUpload]="true"
+                  accept="video/*"
+                  chooseLabel="Upload Video"
+                  (uploadHandler)="onUploadVideo(item, $event.files)"
+    ></p-fileUpload>
+  </ng-template>
+</ng-container>

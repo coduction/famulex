@@ -28,11 +28,11 @@
           class="text-color-secondary"
     >
     by {{ author }}
-  </span>
+    </span>
   </div>
 
 
-  <div class="col-4 md:col">
+  <div class="col-4 md:col-2">
     <authoring-course-draft-status *ngIf="status$ | async as status"
                                    [status]="status"
     />

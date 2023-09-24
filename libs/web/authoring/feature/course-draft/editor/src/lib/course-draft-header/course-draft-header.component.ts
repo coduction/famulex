@@ -7,7 +7,7 @@ import { DialogService }                 from "@coduction/primeng/dynamicdialog"
 import { MessageModule }                 from "@coduction/primeng/message";
 import { SplitButtonModule }             from "@coduction/primeng/splitbutton";
 import { CourseDraft }                   from "@famulex/shared/famulex-api-client";
-import { CourseDraftEditorState }        from "@famulex/web/authoring/data-access/course-draft-editor-state";
+import { CourseDraftState }              from "@famulex/web/authoring/data-access/course-draft-editor-state";
 import { CourseDraftEditComponent }      from "@famulex/web/authoring/feature/course-draft/edit";
 import { CourseDraftStatusComponent }    from "@famulex/web/authoring/ui/course-draft-ui";
 import { Store }                         from "@ngrx/store";
@@ -37,9 +37,9 @@ export class CourseDraftHeaderComponent implements OnInit {
 
   courseDraft?: CourseDraft;
 
-  title$ = this.store.select(CourseDraftEditorState.selectCourseDraftTitle);
-  author$ = this.store.select(CourseDraftEditorState.selectCourseDraftAuthor);
-  status$ = this.store.select(CourseDraftEditorState.selectCourseDraftStatus);
+  title$ = this.store.select(CourseDraftState.selectCourseDraftTitle);
+  author$ = this.store.select(CourseDraftState.selectCourseDraftAuthor);
+  status$ = this.store.select(CourseDraftState.selectCourseDraftStatus);
 
   constructor(private store: Store,
               private dialogService: DialogService,
@@ -47,7 +47,7 @@ export class CourseDraftHeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(CourseDraftEditorState.selectCourseDraft).pipe(
+    this.store.select(CourseDraftState.selectCourseDraft).pipe(
       takeUntilDestroyed(this.destroyRef),
       tap(courseDraft => this.courseDraft = courseDraft)
     ).subscribe();
