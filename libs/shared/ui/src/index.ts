@@ -6,3 +6,7 @@ export * from "./lib/animations/animations";
 export * from "./lib/directives/stop-click-propagation.directive";
 
 export * from "./lib/video-player/video-player.component";
+
+export * from "./lib/pdf-viewer/pdf-viewer.component";
+
+export * from "./lib/text-viewer/text-viewer.component";

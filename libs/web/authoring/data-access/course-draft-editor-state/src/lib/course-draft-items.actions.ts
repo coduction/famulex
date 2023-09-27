@@ -1,7 +1,7 @@
 import { HttpErrorResponse }                    from "@angular/common/http";
 import { CourseDraftItem, FilePermission }      from "@famulex/shared/famulex-api-client";
+import { Update }                               from "@ngrx/entity";
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-
 
 export const CourseDraftItemsActions = createActionGroup({
   source: "Authoring - Course Draft Items",
@@ -10,7 +10,12 @@ export const CourseDraftItemsActions = createActionGroup({
     "Load Success": props<{ response: CourseDraftItem[] }>(),
     "Load Failure": props<{ httpError?: HttpErrorResponse }>(),
 
-    "Select Item": props<{ key: string }>(),
+    "Update": props<{ key: string }>(),
+    "Update Success": props<{ update: Update<CourseDraftItem> }>(),
+    "Update Failure": props<{ httpError?: HttpErrorResponse }>(),
+
+    "Select": props<{ key: string }>(),
+    "Update Content": props<{ key: string, content: string }>(),
 
     "Upload File": props<{ itemKey: string, file: File }>(),
     "Upload File Success": props<{ response: FilePermission }>(),
@@ -25,3 +30,4 @@ export const CourseDraftItemsActions = createActionGroup({
     "Upload Files Feedback": props<{ successes?: FilePermission[], errors?: File[] }>()
   }
 });
+

@@ -3,8 +3,9 @@ import { Component }                                      from "@angular/core";
 import { ButtonModule }                                   from "@coduction/primeng/button";
 import { CourseDraftNode, CourseNodeType }                from "@famulex/shared/famulex-api-client";
 import { iconForCourseNodeType, translateCourseNodeType } from "@famulex/shared/util";
-import { CourseDraftNodesState }                          from "@famulex/web/authoring/data-access/course-draft-editor-state";
+import { CourseDraftNodeAction, CourseDraftNodesState }   from "@famulex/web/authoring/data-access/course-draft-editor-state";
 import { Store }                                          from "@ngrx/store";
+import { Observable }                                     from "rxjs";
 import { CourseDraftNodeChapterComponent }                from "../course-draft-node-chapter/course-draft-node-chapter.component";
 import { CourseDraftNodePdfComponent }                    from "../course-draft-node-pdf/course-draft-node-pdf.component";
 import { CourseDraftNodeQuizComponent }                   from "../course-draft-node-quiz/course-draft-node-quiz.component";
@@ -23,8 +24,7 @@ export class CourseDraftNodeContentComponent {
   CourseNodeType = CourseNodeType;
 
   currentNode$ = this.store.select(CourseDraftNodesState.selectCurrentNode);
-  nodeActions$ = this.store.select(CourseDraftNodesState.selectActions);
-
+  nodeActions$: Observable<CourseDraftNodeAction[]> = this.store.select(CourseDraftNodesState.selectActions);
 
   constructor(private store: Store) {
   }

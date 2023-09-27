@@ -1001,14 +1001,14 @@ export class CourseDraftService {
      * @param draftKey 
      * @param nodeKey 
      * @param itemKey 
-     * @param content 
+     * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateCourseDraftItem(draftKey: string, nodeKey: string, itemKey: string, content: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CourseDraftItem>;
-    public updateCourseDraftItem(draftKey: string, nodeKey: string, itemKey: string, content: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CourseDraftItem>>;
-    public updateCourseDraftItem(draftKey: string, nodeKey: string, itemKey: string, content: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CourseDraftItem>>;
-    public updateCourseDraftItem(draftKey: string, nodeKey: string, itemKey: string, content: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public updateCourseDraftItem(draftKey: string, nodeKey: string, itemKey: string, body: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CourseDraftItem>;
+    public updateCourseDraftItem(draftKey: string, nodeKey: string, itemKey: string, body: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CourseDraftItem>>;
+    public updateCourseDraftItem(draftKey: string, nodeKey: string, itemKey: string, body: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CourseDraftItem>>;
+    public updateCourseDraftItem(draftKey: string, nodeKey: string, itemKey: string, body: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (draftKey === null || draftKey === undefined) {
             throw new Error('Required parameter draftKey was null or undefined when calling updateCourseDraftItem.');
         }
@@ -1018,14 +1018,8 @@ export class CourseDraftService {
         if (itemKey === null || itemKey === undefined) {
             throw new Error('Required parameter itemKey was null or undefined when calling updateCourseDraftItem.');
         }
-        if (content === null || content === undefined) {
-            throw new Error('Required parameter content was null or undefined when calling updateCourseDraftItem.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (content !== undefined && content !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>content, 'content');
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling updateCourseDraftItem.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -1055,6 +1049,15 @@ export class CourseDraftService {
         }
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -1070,7 +1073,7 @@ export class CourseDraftService {
         return this.httpClient.request<CourseDraftItem>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
+                body: body,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

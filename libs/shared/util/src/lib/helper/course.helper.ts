@@ -76,3 +76,9 @@ export function iconForCourseNodeType(nodeType: CourseNodeType): string {
 
   return "";
 }
+
+export function prepareCourseNodeTypes() {
+  return Object.values(CourseNodeType).map(nodeType => {
+    return { label: translateCourseNodeType(nodeType), value: nodeType, icon: iconForCourseNodeType(nodeType) };
+  });
+}

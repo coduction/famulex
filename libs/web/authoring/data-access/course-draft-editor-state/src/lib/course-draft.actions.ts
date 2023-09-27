@@ -10,6 +10,10 @@ export const CourseDraftActions = createActionGroup({
 
     "Load": props<{ key: string }>(),
     "Load Success": props<{ response: CourseDraft }>(),
-    "Load Failure": props<{ routingError: boolean, httpError?: HttpErrorResponse }>()
+    "Load Failure": props<{ routingError: boolean, httpError?: HttpErrorResponse }>(),
+
+    "Publish": emptyProps(),
+    "Publish Success": props<{ response: CourseDraft }>(),
+    "Publish Failure": props<{ response?: CourseDraft, httpError?: HttpErrorResponse }>()
   }
 });

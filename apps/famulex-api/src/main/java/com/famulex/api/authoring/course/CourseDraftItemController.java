@@ -104,7 +104,7 @@ public class CourseDraftItemController {
 
   @Transactional
   @PutMapping("/{itemKey}")
-  public CourseDraftItemResponse updateCourseDraftItem(@PathVariable UUID draftKey, @PathVariable UUID nodeKey, @PathVariable UUID itemKey, @RequestParam String content) {
+  public CourseDraftItemResponse updateCourseDraftItem(@PathVariable UUID draftKey, @PathVariable UUID nodeKey, @PathVariable UUID itemKey, @RequestBody String content) {
     CourseDraftItem itemToUpdate = checkExistenceAndLoadItem(draftKey, nodeKey, itemKey);
 
     itemToUpdate.setContent(content);

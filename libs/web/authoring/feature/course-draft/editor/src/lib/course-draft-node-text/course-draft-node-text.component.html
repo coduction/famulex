@@ -1,1 +1,6 @@
-<p>course-draft-node-text works!</p>
+<ng-container *ngFor="let item of itemContents | keyvalue">
+  <p-editor pAutoFocus
+            [ngModel]="item.value"
+            (ngModelChange)="updateItemContent(item.key, $event)"
+  />
+</ng-container>

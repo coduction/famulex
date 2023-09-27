@@ -29,6 +29,7 @@ import com.famulex.api.jooq.tables.FxCourseNodeI18n;
 import com.famulex.api.jooq.tables.FxCourseProgress;
 import com.famulex.api.jooq.tables.FxCourseToLibrary;
 import com.famulex.api.jooq.tables.FxFile;
+import com.famulex.api.jooq.tables.FxFileAccess;
 import com.famulex.api.jooq.tables.FxFilePermission;
 import com.famulex.api.jooq.tables.FxGroup;
 import com.famulex.api.jooq.tables.FxGroupMembership;
@@ -41,6 +42,7 @@ import com.famulex.api.jooq.tables.FxQuestionI18n;
 import com.famulex.api.jooq.tables.FxRole;
 import com.famulex.api.jooq.tables.FxRoleAssignment;
 import com.famulex.api.jooq.tables.FxSystemInfo;
+import com.famulex.api.jooq.tables.FxSystemMigration;
 import com.famulex.api.jooq.tables.FxTest;
 import com.famulex.api.jooq.tables.FxTestConfiguration;
 import com.famulex.api.jooq.tables.FxTestDraft;
@@ -185,6 +187,11 @@ public class Tables {
     public static final FxFile FX_FILE = FxFile.FX_FILE;
 
     /**
+     * The table <code>public.fx_file_access</code>.
+     */
+    public static final FxFileAccess FX_FILE_ACCESS = FxFileAccess.FX_FILE_ACCESS;
+
+    /**
      * The table <code>public.fx_file_permission</code>.
      */
     public static final FxFilePermission FX_FILE_PERMISSION = FxFilePermission.FX_FILE_PERMISSION;
@@ -243,6 +250,11 @@ public class Tables {
      * The table <code>public.fx_system_info</code>.
      */
     public static final FxSystemInfo FX_SYSTEM_INFO = FxSystemInfo.FX_SYSTEM_INFO;
+
+    /**
+     * The table <code>public.fx_system_migration</code>.
+     */
+    public static final FxSystemMigration FX_SYSTEM_MIGRATION = FxSystemMigration.FX_SYSTEM_MIGRATION;
 
     /**
      * The table <code>public.fx_test</code>.

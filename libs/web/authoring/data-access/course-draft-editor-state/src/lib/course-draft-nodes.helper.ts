@@ -3,7 +3,7 @@ import { CourseDraftNode, CourseNodeType } from "@famulex/shared/famulex-api-cli
 import { iconForCourseNodeType }           from "@famulex/shared/util";
 import { Dictionary }                      from "@ngrx/entity";
 
-export function buildNodesTree(entities: Dictionary<CourseDraftNode>): TreeNode<CourseDraftNode>[] {
+export function buildNodesTree(entities: Dictionary<CourseDraftNode>, selectedKey: string | null): TreeNode<CourseDraftNode>[] {
   const nodes = Object.values(entities)
     .filter((node): node is CourseDraftNode => node !== undefined);
 
@@ -32,21 +32,23 @@ export function buildNodesTree(entities: Dictionary<CourseDraftNode>): TreeNode<
     }
 
     parentNode.children.push(node);
+    node.parent = parentNode;
   };
 
   // Helper function to append the special "ACTION-ADD" node
-  const appendActionAddNode = (levelNodes: TreeNode<CourseDraftNode>[]): void => {
+  const appendActionAddNode = (levelNodes: TreeNode<CourseDraftNode>[], parent?: CourseDraftNode): void => {
     levelNodes.push({
       type: "ACTION_ADD_NODE",
+      data: parent,
       label: $localize`Add Node`,
       icon: "fa fa-fw fa-plus",
       styleClass: "action-add-node",
       leaf: true,
       selectable: false,
-      draggable: false
+      draggable: false,
+      droppable: false
     });
   };
-
 
   // Convert each CourseDraftNode to TreeNode and store in map for quick access
   nodes.forEach(node => nodeMap[node.key] = convertCourseDraftNodeToTreeNode(node));
@@ -69,7 +71,7 @@ export function buildNodesTree(entities: Dictionary<CourseDraftNode>): TreeNode<
 
     // If it's a chapter or has children, append the "ACTION-ADD" node
     if (currentNode.type === CourseNodeType.Chapter) {
-      appendActionAddNode(getChildren(treeNode));
+      appendActionAddNode(getChildren(treeNode), currentNode);
     }
   };
 
@@ -79,6 +81,21 @@ export function buildNodesTree(entities: Dictionary<CourseDraftNode>): TreeNode<
   nodes.filter(node => !node.parentKey)
     .sort((a, b) => a.position - b.position)
     .forEach(rootNode => buildTree(tree, rootNode));
+
+  // Expand the selected node and all its parents
+  if (selectedKey) {
+    const selectedNode = nodeMap[selectedKey];
+
+    if (selectedNode) {
+      selectedNode.expanded = true;
+
+      let parentNode = selectedNode.parent;
+      while (parentNode) {
+        parentNode.expanded = true;
+        parentNode = parentNode.parent;
+      }
+    }
+  }
 
   // Append "ACTION-ADD" node at the root level
   appendActionAddNode(tree);
@@ -101,7 +118,6 @@ export function buildCurrentTreeNode(entities: Dictionary<CourseDraftNode>, sele
 }
 
 function convertCourseDraftNodeToTreeNode(node: CourseDraftNode): TreeNode<CourseDraftNode> {
-
   return {
     key: node.key,
     label: node.title,

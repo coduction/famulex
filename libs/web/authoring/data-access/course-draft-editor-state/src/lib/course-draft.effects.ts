@@ -1,11 +1,13 @@
-import { HttpErrorResponse }                           from "@angular/common/http";
-import { Injectable }                                  from "@angular/core";
-import { MessageService }                              from "@coduction/primeng/api";
-import { CourseDraftService, CourseMembershipService } from "@famulex/shared/famulex-api-client";
-import { Actions, createEffect, ofType }               from "@ngrx/effects";
-import { Store }                                       from "@ngrx/store";
-import { catchError, map, of, switchMap }              from "rxjs";
-import { CourseDraftActions }                          from "./course-draft.actions";
+import { HttpErrorResponse }                               from "@angular/common/http";
+import { Injectable }                                      from "@angular/core";
+import { MessageService }                                  from "@coduction/primeng/api";
+import { CourseDraftService, CourseMembershipService }     from "@famulex/shared/famulex-api-client";
+import { HttpErrorInterceptor }                            from "@famulex/shared/util";
+import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
+import { Store }                                           from "@ngrx/store";
+import { catchError, map, of, switchMap, tap }             from "rxjs";
+import { CourseDraftActions }                              from "./course-draft.actions";
+import { CourseDraftState }                                from "./course-draft.reducer";
 
 @Injectable()
 export class CourseDraftEffects {
@@ -20,9 +22,9 @@ export class CourseDraftEffects {
   }
 
   /*************************************************************************
-   * Load Course Draft
+   * Load
    ************************************************************************/
-  loadCourseDraft$ = createEffect(() => {
+  load$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CourseDraftActions.load),
       switchMap(({ key }) => {
@@ -38,10 +40,54 @@ export class CourseDraftEffects {
     );
   });
 
-  // loadFailure$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(CourseMembershipsActions.loadCourseDraftFailure)
-  //   ), { dispatch: false }
-  // );
+  /*************************************************************************
+   * Publish
+   ************************************************************************/
+  publish$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftActions.publish),
+      concatLatestFrom(() => this.store.select(CourseDraftState.selectKey)),
+      switchMap(([_, courseDraftKey]) => {
+        if (!courseDraftKey) {
+          return of(CourseDraftActions.publishFailure({}));
+        }
+
+        HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
+
+        return this.courseDraftService.publishCourseDraft(courseDraftKey).pipe(
+          map(response => CourseDraftActions.publishSuccess({ response })),
+          catchError(httpError => of(CourseDraftActions.publishFailure({ httpError, response: httpError.error })))
+        );
+      })
+    );
+  });
+
+  publishFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftActions.publishFailure),
+      tap(({ httpError }) => {
+        if (httpError) {
+          this.messageService.add({
+            severity: "error",
+            summary: $localize`Could Not Publish Course`,
+            detail: $localize`Please fix all errors and publish again.`
+          });
+        }
+      })
+    );
+  }, { dispatch: false });
+
+  publishSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftActions.publishSuccess),
+      tap(({ response }) => {
+        this.messageService.add({
+          severity: "success",
+          summary: $localize`Course Published`,
+          detail: `${response.title}`
+        });
+      })
+    );
+  }, { dispatch: false });
 
 }

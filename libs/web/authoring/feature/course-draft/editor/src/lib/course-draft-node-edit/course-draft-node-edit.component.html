@@ -1,0 +1,63 @@
+<form [formGroup]="courseDraftNodeForm" (ngSubmit)="onSubmit()">
+  <div class="flex flex-column gap-4">
+    <div class="grid p-fluid">
+      <div class="col-12">
+        <ui-form-label formControlName="type" i18n>Type</ui-form-label>
+        <p-selectButton formControlName="type" [options]="nodeTypes">
+          <ng-template let-item>
+            <div class="w-full flex flex-row gap-2 align-items-center justify-content-center">
+              <i [class]="item.icon"></i> {{ item.label }}
+            </div>
+          </ng-template>
+        </p-selectButton>
+        <ui-form-error formControlName="type"></ui-form-error>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <ui-form-label formControlName="title" i18n>Title</ui-form-label>
+        <input pInputText
+               type="text"
+               id="title"
+               formControlName="title">
+        <ui-form-error formControlName="title"></ui-form-error>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <ui-form-label formControlName="estimatedTime" i18n>Estimated Processing Time</ui-form-label>
+        <p-inputNumber formControlName="estimatedTime"
+                       suffix="min"
+                       buttonLayout="horizontal"
+                       [min]="0"
+                       [step]="10"
+                       [showButtons]="true"
+                       [showClear]="true">
+        </p-inputNumber>
+        <ui-form-error formControlName="estimatedTime"></ui-form-error>
+      </div>
+
+      <div class="col-12">
+        <ui-form-label formControlName="description" i18n>Description</ui-form-label>
+        <p-editor id="description"
+                  formControlName="description"
+        />
+        <ui-form-error formControlName="description"></ui-form-error>
+      </div>
+    </div>
+
+    <div class="flex justify-content-end gap-2 p-1">
+      <button pButton pRipple i18n-label
+              type="button"
+              label="Cancel"
+              class="p-button-outlined"
+              (click)="onCancel()"
+      ></button>
+
+      <button pButton pRipple i18n-label
+              type="submit"
+              label="Save"
+      ></button>
+    </div>
+  </div>
+</form>
+
+

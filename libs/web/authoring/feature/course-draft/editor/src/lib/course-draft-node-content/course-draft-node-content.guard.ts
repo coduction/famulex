@@ -22,7 +22,7 @@ export const courseDraftNodeRestoreGuard: CanActivateFn = async (route, state) =
   const store = inject(Store);
   const router = inject(Router);
 
-  const currentNodeKey = await firstValueFrom(store.select(CourseDraftNodesState.selectSelectedKey));
+  const currentNodeKey = await firstValueFrom(store.select(CourseDraftNodesState.selectCurrentKey));
 
   if (!currentNodeKey) {
     return true;

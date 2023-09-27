@@ -63,8 +63,6 @@ export class RoleEffects {
       concatMap(({ request }) => {
         HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = true;
 
-        console.log(request);
-
         return this.securityService.createRole(request).pipe(
           map(role => RoleActions.createSuccess({ role })),
           catchError((error: HttpErrorResponse) => of(RoleActions.createFailure({ error })))

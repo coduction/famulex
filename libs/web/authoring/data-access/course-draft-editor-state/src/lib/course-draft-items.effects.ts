@@ -6,8 +6,10 @@ import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store }                                           from "@ngrx/store";
 import { catchError, map, mergeMap, of, switchMap, tap }   from "rxjs";
 import { CourseDraftItemsActions }                         from "./course-draft-items.actions";
+import { CourseDraftItemsState }                           from "./course-draft-items.reducer";
 import { CourseDraftNodesActions }                         from "./course-draft-nodes.actions";
 import { CourseDraftNodesState }                           from "./course-draft-nodes.reducer";
+import { CourseDraftActions }                              from "./course-draft.actions";
 import { CourseDraftState }                                from "./course-draft.reducer";
 
 @Injectable()
@@ -36,8 +38,8 @@ export class CourseDraftItemsEffects {
     return this.actions$.pipe(
       ofType(CourseDraftItemsActions.load),
       concatLatestFrom(() => [
-        this.store.select(CourseDraftState.selectCourseDraftKey),
-        this.store.select(CourseDraftNodesState.selectSelectedKey)
+        this.store.select(CourseDraftState.selectKey),
+        this.store.select(CourseDraftNodesState.selectCurrentKey)
       ]),
       switchMap(([_, courseDraftKey, nodeKey]) => {
         if (!courseDraftKey || !nodeKey) {
@@ -52,6 +54,81 @@ export class CourseDraftItemsEffects {
     );
   });
 
+  publishSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftActions.publishSuccess),
+      map(() => CourseDraftItemsActions.load())
+    );
+  });
+
+  /*************************************************************************
+   * Update
+   ************************************************************************/
+  updateItemContent$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftItemsActions.updateContent),
+      concatLatestFrom(() => this.store.select(CourseDraftNodesState.selectActionsMap)),
+      tap(([{ key }, actions]) => {
+        const saveContentActionId = "save_item_content";
+
+        if (!actions[saveContentActionId]) {
+          this.store.dispatch(CourseDraftNodesActions.addAction({
+            id: saveContentActionId,
+            action: {
+              primary: true,
+              label: $localize`Save Changes`,
+              icon: "fa fa-save",
+              onClick: () => this.store.dispatch(CourseDraftItemsActions.update({ key }))
+            }
+          }));
+        }
+      })
+    );
+  }, { dispatch: false });
+
+  updateItem$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftItemsActions.update),
+      concatLatestFrom(({ key }) => [
+        this.store.select(CourseDraftState.selectKey),
+        this.store.select(CourseDraftNodesState.selectCurrentKey),
+        this.store.select(CourseDraftItemsState.selectItem(key))
+      ]),
+      mergeMap(([{ key }, courseDraftKey, nodeKey, item]) => {
+        if (!courseDraftKey || !nodeKey || !item) {
+          return of(CourseDraftItemsActions.updateFailure({}));
+        }
+
+        return this.courseDraftService.updateCourseDraftItem(courseDraftKey, nodeKey, key, item.content ?? "").pipe(
+          map(response => CourseDraftItemsActions.updateSuccess({ update: { id: key, changes: response } })),
+          catchError(httpError => of(CourseDraftItemsActions.updateFailure({ httpError })))
+        );
+      })
+    );
+  });
+
+  updateItemSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftItemsActions.updateSuccess),
+      tap(({ update }) => {
+        this.messageService.add({ severity: "success", summary: $localize`Changes Saved` });
+      }),
+      map(CourseDraftNodesActions.clearActions)
+    );
+  });
+
+  updateItemFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CourseDraftItemsActions.updateFailure),
+      tap(({ httpError }) => {
+        if (httpError) {
+          this.messageService.add({ severity: "error", summary: $localize`Error while Saving Changes`, detail: $localize`Something went wrong, please try again later.` });
+        }
+      })
+    );
+  }, { dispatch: false });
+
+
   /*************************************************************************
    * Upload
    ************************************************************************/
@@ -59,8 +136,8 @@ export class CourseDraftItemsEffects {
     return this.actions$.pipe(
       ofType(CourseDraftItemsActions.uploadFile),
       concatLatestFrom(() => [
-        this.store.select(CourseDraftState.selectCourseDraftKey),
-        this.store.select(CourseDraftNodesState.selectSelectedKey)
+        this.store.select(CourseDraftState.selectKey),
+        this.store.select(CourseDraftNodesState.selectCurrentKey)
       ]),
       mergeMap(([{ itemKey, file }, courseDraftKey, nodeKey]) => {
         if (!courseDraftKey || !nodeKey) {

@@ -6,9 +6,9 @@ import { DialogService }                                                        
 import { CourseMembership }                                                                      from "@famulex/shared/famulex-api-client";
 import { translateCourseRole }                                                                   from "@famulex/shared/util";
 import { CourseMembershipsActions, CourseMembershipsState }                                      from "@famulex/web/authoring/data-access/course-memberships-state";
-import { CourseMembershipEditComponent }                                                         from "@famulex/web/authoring/feature/course-draft/editor";
 import { EntryAction, LoadDataEvent, SelectionAction, TableAction, TableColumn, TableComponent } from "@famulex/web/shared/table";
 import { Store }                                                                                 from "@ngrx/store";
+import { CourseMembershipEditComponent }                                                         from "../course-membership-edit/course-membership-edit.component";
 
 @Component({
   selector: "authoring-course-draft-memberships",

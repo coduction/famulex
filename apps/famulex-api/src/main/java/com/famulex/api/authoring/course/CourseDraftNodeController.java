@@ -55,10 +55,10 @@ public class CourseDraftNodeController {
     courseDraftService.checkExistence(courseDraftKey);
 
     return courseDraftNodeRepository.findByCourseDraftKey(courseDraftKey)
-      .stream()
-      .map(courseDraftMapper::toResponse)
-      .sorted() // TODO Check if this is necessary
-      .toList();
+        .stream()
+        .map(courseDraftMapper::toResponse)
+        .sorted() // TODO Check if this is necessary
+        .toList();
   }
 
   @Transactional
@@ -70,7 +70,7 @@ public class CourseDraftNodeController {
     CourseDraftNode parentNode = null;
     if (nodeRequest.getParentKey() != null) {
       parentNode = courseDraftNodeRepository.findByCourseDraftKeyAndKey(courseDraftKey, nodeRequest.getParentKey())
-        .orElseThrow(() -> new EntityNotFoundException("Parent node not found", nodeRequest.getParentKey()));
+          .orElseThrow(() -> new EntityNotFoundException("Parent node not found", nodeRequest.getParentKey()));
     }
 
     // Only create child nodes for nodes of type chapter
@@ -85,6 +85,7 @@ public class CourseDraftNodeController {
     return courseDraftMapper.toResponse(node);
   }
 
+  @Transactional
   @PutMapping("/{draftNodeKey}")
   public CourseDraftNodeResponse updateCourseDraftNode(@PathVariable UUID courseDraftKey, @PathVariable UUID draftNodeKey, @Valid @RequestBody CourseDraftNodeRequestUpdate draftNodeRequest) {
     var draftNode = courseDraftService.loadCourseDraftNode(courseDraftKey, draftNodeKey);

@@ -13,7 +13,7 @@ export interface CourseDraftNodesState extends EntityState<CourseDraftNode> {
   loading: boolean;
   actionInProgress: boolean;
 
-  selectedKey: string | null;
+  currentKey: string | null;
   actions: { [id: string]: CourseDraftNodeAction };
 }
 
@@ -27,7 +27,7 @@ const initialState: CourseDraftNodesState = courseDraftNodesAdapter.getInitialSt
   loading: false,
   actionInProgress: false,
 
-  selectedKey: null,
+  currentKey: null,
   actions: {}
 });
 
@@ -41,7 +41,13 @@ const reducer = createReducer(
 
   on(CourseDraftNodesActions.selectNode, (state, { key }) => {
     return produce(state, draft => {
-      draft.selectedKey = key;
+      draft.currentKey = key;
+    });
+  }),
+
+  on(CourseDraftNodesActions.deselectNode, (state) => {
+    return produce(state, draft => {
+      draft.currentKey = null;
     });
   }),
 
@@ -65,6 +71,75 @@ const reducer = createReducer(
   on(CourseDraftNodesActions.loadFailure, (state) => {
     return produce(state, draft => {
       draft.loading = false;
+    });
+  }),
+
+  /*************************************************************************
+   * Create
+   ************************************************************************/
+  on(CourseDraftNodesActions.create, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = true;
+    });
+  }),
+
+  on(CourseDraftNodesActions.createSuccess, (state, { response }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return courseDraftNodesAdapter.addOne(response, state);
+  }),
+
+  on(CourseDraftNodesActions.createFailure, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+  }),
+
+  /*************************************************************************
+   * Update
+   ************************************************************************/
+  on(CourseDraftNodesActions.update, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = true;
+    });
+  }),
+
+  on(CourseDraftNodesActions.updateSuccess, (state, { update }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return courseDraftNodesAdapter.updateOne(update, state);
+  }),
+
+  on(CourseDraftNodesActions.updateFailure, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+  }),
+
+  /*************************************************************************
+   * Delete
+   ************************************************************************/
+  on(CourseDraftNodesActions.delete, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = true;
+    });
+  }),
+
+  on(CourseDraftNodesActions.deleteSuccess, (state, { node }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return courseDraftNodesAdapter.removeOne(node.key, state);
+  }),
+
+  on(CourseDraftNodesActions.deleteFailure, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = false;
     });
   }),
 
@@ -93,13 +168,14 @@ const reducer = createReducer(
 export const CourseDraftNodesState = createFeature({
   name: COURSE_DRAFT_NODES_FEATURE_KEY,
   reducer,
-  extraSelectors: ({ selectCourseDraftNodesState, selectEntities, selectSelectedKey }) => ({
+  extraSelectors: ({ selectCourseDraftNodesState, selectEntities, selectCurrentKey }) => ({
     ...courseDraftNodesAdapter.getSelectors(selectCourseDraftNodesState),
 
-    selectTree: createSelector(selectEntities, entities => buildNodesTree(entities)),
-    selectCurrentTreeNode: createSelector(selectEntities, selectSelectedKey, (entities, selectedKey) => buildCurrentTreeNode(entities, selectedKey)),
+    selectTree: createSelector(selectEntities, selectCurrentKey, (entities, currentKey) => buildNodesTree(entities, currentKey)),
+    selectCurrentTreeNode: createSelector(selectEntities, selectCurrentKey, (entities, currentKey) => buildCurrentTreeNode(entities, currentKey)),
 
-    selectCurrentNode: createSelector(selectEntities, selectSelectedKey, (entities, selectedKey) => selectedKey ? entities[selectedKey] : undefined),
-    selectActions: createSelector(selectCourseDraftNodesState, state => Object.values(state.actions))
+    selectCurrentNode: createSelector(selectEntities, selectCurrentKey, (entities, currentKey) => currentKey ? entities[currentKey] : undefined),
+    selectActions: createSelector(selectCourseDraftNodesState, state => Object.values(state.actions)),
+    selectActionsMap: createSelector(selectCourseDraftNodesState, state => state.actions)
   })
 });

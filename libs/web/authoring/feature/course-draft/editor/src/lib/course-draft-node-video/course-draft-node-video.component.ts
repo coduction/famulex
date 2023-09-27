@@ -1,5 +1,5 @@
 import { CommonModule }                                                                                   from "@angular/common";
-import { ChangeDetectorRef, Component, DestroyRef, OnDestroy, OnInit, ViewChild }                         from "@angular/core";
+import { ChangeDetectorRef, Component, DestroyRef, OnInit, ViewChild }                                    from "@angular/core";
 import { takeUntilDestroyed }                                                                             from "@angular/core/rxjs-interop";
 import { ConfirmationService }                                                                            from "@coduction/primeng/api";
 import { FileUpload, FileUploadModule }                                                                   from "@coduction/primeng/fileupload";
@@ -11,7 +11,6 @@ import { VgBufferingModule }                                                    
 import { VgControlsModule }                                                                               from "@videogular/ngx-videogular/controls";
 import { VgCoreModule }                                                                                   from "@videogular/ngx-videogular/core";
 import { VgOverlayPlayModule }                                                                            from "@videogular/ngx-videogular/overlay-play";
-import { tap }                                                                                            from "rxjs";
 
 @Component({
   selector: "authoring-course-draft-node-video",
@@ -20,7 +19,7 @@ import { tap }                                                                  
   templateUrl: "./course-draft-node-video.component.html",
   styleUrls: ["./course-draft-node-video.component.scss"]
 })
-export class CourseDraftNodeVideoComponent implements OnInit, OnDestroy {
+export class CourseDraftNodeVideoComponent implements OnInit {
 
   readonly REMOVE_VIDEO_ID = "remove-video";
 
@@ -45,28 +44,18 @@ export class CourseDraftNodeVideoComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.items$.pipe(
-      takeUntilDestroyed(this.destroyRef),
-      tap(items => {
-        this.store.dispatch(CourseDraftNodesActions.removeAction({ id: this.REMOVE_VIDEO_ID }));
+    this.items$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(items => {
+      if (items.length && items[0].filePermissions.length) {
+        // TODO: Hotfix - Support multiple items and files
+        const removeVideoAction: CourseDraftNodeAction = {
+          label: $localize`Remove Video`,
+          icon: "fa fa-trash-can",
+          onClick: () => this.onDeleteVideo(items[0].filePermissions[0])
+        };
 
-        if (items.length && items[0].filePermissions.length) {
-          // TODO: Hotfix - Support multiple items and files
-          const filePermission = items[0].filePermissions[0];
-          const removeVideoAction: CourseDraftNodeAction = {
-            label: $localize`Remove Video`,
-            icon: "fa fa-trash-can",
-            onClick: () => this.onDeleteVideo(filePermission)
-          };
-
-          this.store.dispatch(CourseDraftNodesActions.addAction({ id: this.REMOVE_VIDEO_ID, action: removeVideoAction }));
-        }
-      })
-    ).subscribe();
-  }
-
-  ngOnDestroy() {
-    this.store.dispatch(CourseDraftNodesActions.removeAction({ id: this.REMOVE_VIDEO_ID }));
+        this.store.dispatch(CourseDraftNodesActions.addAction({ id: this.REMOVE_VIDEO_ID, action: removeVideoAction }));
+      }
+    });
   }
 
   onUploadVideo(item: CourseDraftItem, files: File[]) {

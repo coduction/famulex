@@ -1,10 +1,10 @@
-import { CourseDraftItem }                  from "@famulex/shared/famulex-api-client";
-import { createEntityAdapter, EntityState } from "@ngrx/entity";
-import { createFeature, createReducer, on } from "@ngrx/store";
-import { produce }                          from "immer";
-import { CourseDraftItemsActions }          from "./course-draft-items.actions";
-import { CourseDraftNodesActions }          from "./course-draft-nodes.actions";
-import { CourseDraftActions }               from "./course-draft.actions";
+import { CourseDraftItem }                                  from "@famulex/shared/famulex-api-client";
+import { createEntityAdapter, EntityState }                 from "@ngrx/entity";
+import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
+import { produce }                                          from "immer";
+import { CourseDraftItemsActions }                          from "./course-draft-items.actions";
+import { CourseDraftNodesActions }                          from "./course-draft-nodes.actions";
+import { CourseDraftActions }                               from "./course-draft.actions";
 
 export const COURSE_DRAFT_ITEMS_FEATURE_KEY = "courseDraftItems";
 
@@ -36,9 +36,9 @@ const reducer = createReducer(
   /*************************************************************************
    * General Actions
    ************************************************************************/
-  on(CourseDraftActions.leaveEditor, CourseDraftNodesActions.selectNode, () => initialState),
+  on(CourseDraftActions.leaveEditor, CourseDraftNodesActions.selectNode, CourseDraftNodesActions.deselectNode, () => initialState),
 
-  on(CourseDraftItemsActions.selectItem, (state, { key }) => {
+  on(CourseDraftItemsActions.select, (state, { key }) => {
     return produce(state, draft => {
       draft.selectedKey = key;
     });
@@ -64,6 +64,33 @@ const reducer = createReducer(
   on(CourseDraftItemsActions.loadFailure, (state) => {
     return produce(state, draft => {
       draft.loading = false;
+    });
+  }),
+
+  /*************************************************************************
+   * Update
+   ************************************************************************/
+  on(CourseDraftItemsActions.updateContent, (state, { key, content }) => {
+    return courseDraftItemsAdapter.updateOne({ id: key, changes: { content } }, state);
+  }),
+
+  on(CourseDraftItemsActions.update, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = true;
+    });
+  }),
+
+  on(CourseDraftItemsActions.updateSuccess, (state, { update }) => {
+    state = produce(state, draft => {
+      draft.actionInProgress = false;
+    });
+
+    return courseDraftItemsAdapter.updateOne(update, state);
+  }),
+
+  on(CourseDraftItemsActions.updateFailure, (state) => {
+    return produce(state, draft => {
+      draft.actionInProgress = false;
     });
   }),
 
@@ -124,7 +151,8 @@ const reducer = createReducer(
 export const CourseDraftItemsState = createFeature({
   name: COURSE_DRAFT_ITEMS_FEATURE_KEY,
   reducer,
-  extraSelectors: ({ selectCourseDraftItemsState }) => ({
-    ...courseDraftItemsAdapter.getSelectors(selectCourseDraftItemsState)
+  extraSelectors: ({ selectCourseDraftItemsState, selectEntities }) => ({
+    ...courseDraftItemsAdapter.getSelectors(selectCourseDraftItemsState),
+    selectItem: (key: string) => createSelector(selectEntities, (entities) => entities[key])
   })
 });

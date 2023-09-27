@@ -7,16 +7,20 @@ import { CourseDraftActions }                               from "./course-draft
 export const COURSE_DRAFT_FEATURE_KEY = "courseDraft";
 
 export interface CourseDraftState {
+  key: string | undefined;
   courseDraft: CourseDraft | undefined;
-  courseDraftKey: string | undefined;
-  courseDraftLoading: boolean;
+
+  loading: boolean;
+  publishing: boolean;
 }
 
 
 export const initialState: CourseDraftState = {
+  key: undefined,
   courseDraft: undefined,
-  courseDraftKey: undefined,
-  courseDraftLoading: false
+
+  loading: false,
+  publishing: false
 };
 
 export const reducer = createReducer(
@@ -32,35 +36,60 @@ export const reducer = createReducer(
    ************************************************************************/
   on(CourseDraftActions.load, (state, { key }) => {
     return produce(state, draft => {
-      draft.courseDraftKey = key;
-      draft.courseDraftLoading = true;
+      draft.key = key;
+      draft.loading = true;
     });
   }),
 
   on(CourseDraftActions.loadSuccess, (state, { response }) => {
     return produce(state, draft => {
       draft.courseDraft = response;
-      draft.courseDraftLoading = false;
+      draft.loading = false;
     });
   }),
 
   on(CourseDraftActions.loadFailure, (state) => {
     return produce(state, draft => {
-      draft.courseDraftLoading = false;
+      draft.loading = false;
     });
   }),
 
   /*************************************************************************
-   * Update CourseDraft
+   * Update
    ************************************************************************/
   on(CourseDraftListActions.updateSuccess, (state, { update }) => {
     return produce(state, draft => {
       if (draft.courseDraft?.key === update.id) {
-        console.log(update);
         draft.courseDraft = {
           ...draft.courseDraft,
           ...update.changes
         };
+      }
+    });
+  }),
+
+  /*************************************************************************
+   * Publish
+   ************************************************************************/
+  on(CourseDraftActions.publish, (state) => {
+    return produce(state, draft => {
+      draft.publishing = true;
+    });
+  }),
+
+  on(CourseDraftActions.publishSuccess, (state, { response }) => {
+    return produce(state, draft => {
+      draft.publishing = false;
+      draft.courseDraft = response;
+    });
+  }),
+
+  on(CourseDraftActions.publishFailure, (state, { response }) => {
+    return produce(state, draft => {
+      draft.publishing = true;
+
+      if (response) {
+        draft.courseDraft = response;
       }
     });
   })
@@ -70,9 +99,9 @@ export const CourseDraftState = createFeature({
   name: COURSE_DRAFT_FEATURE_KEY,
   reducer,
   extraSelectors: ({ selectCourseDraftState }) => ({
-    selectCourseDraftTitle: createSelector(selectCourseDraftState, state => state.courseDraft?.title),
-    selectCourseDraftDescription: createSelector(selectCourseDraftState, state => state.courseDraft?.description),
-    selectCourseDraftAuthor: createSelector(selectCourseDraftState, state => state.courseDraft?.author),
-    selectCourseDraftStatus: createSelector(selectCourseDraftState, state => state.courseDraft?.status)
+    selectTitle: createSelector(selectCourseDraftState, state => state.courseDraft?.title),
+    selectDescription: createSelector(selectCourseDraftState, state => state.courseDraft?.description),
+    selectAuthor: createSelector(selectCourseDraftState, state => state.courseDraft?.author),
+    selectStatus: createSelector(selectCourseDraftState, state => state.courseDraft?.status)
   })
 });

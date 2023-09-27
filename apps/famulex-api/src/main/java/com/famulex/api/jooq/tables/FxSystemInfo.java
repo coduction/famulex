@@ -16,12 +16,12 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function5;
+import org.jooq.Function6;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row5;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -75,9 +75,14 @@ public class FxSystemInfo extends TableImpl<FxSystemInfoRecord> {
     public final TableField<FxSystemInfoRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "");
 
     /**
-     * The column <code>public.fx_system_info.fk_logo</code>.
+     * The column <code>public.fx_system_info.fk_logo_permission</code>.
      */
-    public final TableField<FxSystemInfoRecord, Long> FK_LOGO = createField(DSL.name("fk_logo"), SQLDataType.BIGINT, this, "");
+    public final TableField<FxSystemInfoRecord, Long> FK_LOGO_PERMISSION = createField(DSL.name("fk_logo_permission"), SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>public.fx_system_info.fk_compact_logo_permission</code>.
+     */
+    public final TableField<FxSystemInfoRecord, Long> FK_COMPACT_LOGO_PERMISSION = createField(DSL.name("fk_compact_logo_permission"), SQLDataType.BIGINT, this, "");
 
     private FxSystemInfo(Name alias, Table<FxSystemInfoRecord> aliased) {
         this(alias, aliased, null);
@@ -134,20 +139,32 @@ public class FxSystemInfo extends TableImpl<FxSystemInfoRecord> {
 
     @Override
     public List<ForeignKey<FxSystemInfoRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.FX_SYSTEM_INFO__FK_LOGO);
+        return Arrays.asList(Keys.FX_SYSTEM_INFO__FK_LOGO_PERMISSION, Keys.FX_SYSTEM_INFO__FK_COMPACT_LOGO_PERMISSION);
     }
 
-    private transient FxFilePermission _fxFilePermission;
+    private transient FxFilePermission _fkLogoPermission;
+    private transient FxFilePermission _fkCompactLogoPermission;
 
     /**
      * Get the implicit join path to the <code>public.fx_file_permission</code>
-     * table.
+     * table, via the <code>fk_logo_permission</code> key.
      */
-    public FxFilePermission fxFilePermission() {
-        if (_fxFilePermission == null)
-            _fxFilePermission = new FxFilePermission(this, Keys.FX_SYSTEM_INFO__FK_LOGO);
+    public FxFilePermission fkLogoPermission() {
+        if (_fkLogoPermission == null)
+            _fkLogoPermission = new FxFilePermission(this, Keys.FX_SYSTEM_INFO__FK_LOGO_PERMISSION);
 
-        return _fxFilePermission;
+        return _fkLogoPermission;
+    }
+
+    /**
+     * Get the implicit join path to the <code>public.fx_file_permission</code>
+     * table, via the <code>fk_compact_logo_permission</code> key.
+     */
+    public FxFilePermission fkCompactLogoPermission() {
+        if (_fkCompactLogoPermission == null)
+            _fkCompactLogoPermission = new FxFilePermission(this, Keys.FX_SYSTEM_INFO__FK_COMPACT_LOGO_PERMISSION);
+
+        return _fkCompactLogoPermission;
     }
 
     @Override
@@ -190,18 +207,18 @@ public class FxSystemInfo extends TableImpl<FxSystemInfoRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Long, UUID, OffsetDateTime, OffsetDateTime, Long> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row6<Long, UUID, OffsetDateTime, OffsetDateTime, Long, Long> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function5<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function6<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super Long, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -209,7 +226,7 @@ public class FxSystemInfo extends TableImpl<FxSystemInfoRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function5<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function6<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super Long, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

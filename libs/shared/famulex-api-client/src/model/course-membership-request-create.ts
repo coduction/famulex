@@ -20,7 +20,6 @@ export interface CourseMembershipRequestCreate {
     role: CourseRole;
     userKey?: string;
     groupKey?: string;
-    userOrGroupSet?: boolean;
 }
 export namespace CourseMembershipRequestCreate {
 }

@@ -1,1 +1,15 @@
-<p>course-draft-node-pdf works!</p>
+<ng-container *ngFor="let item of items$ | async; index as i">
+  <div *ngIf="item.filePermissions.length else uploadPdf">
+    <ui-pdf-viewer [src]="item.filePermissions[0].file.url" />
+  </div>
+
+  <ng-template #uploadPdf>
+    <p-fileUpload #fileUpload
+                  [auto]=true
+                  [customUpload]="true"
+                  accept="application/pdf"
+                  chooseLabel="Upload PDF"
+                  (uploadHandler)="onUploadPdf(item, $event.files)"
+    ></p-fileUpload>
+  </ng-template>
+</ng-container>

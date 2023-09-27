@@ -24,9 +24,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         tap({
-          complete: () => {
-            HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = false;
-          }
+          complete: () => HttpErrorInterceptor.CUSTOM_ERROR_HANDLING = false
         }),
         catchError(error => {
           if (error) {

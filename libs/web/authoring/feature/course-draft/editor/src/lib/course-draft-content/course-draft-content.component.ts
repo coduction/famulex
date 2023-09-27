@@ -1,15 +1,17 @@
-import { CommonModule }                            from "@angular/common";
-import { Component, ViewChild, ViewEncapsulation } from "@angular/core";
-import { ActivatedRoute, Router, RouterOutlet }    from "@angular/router";
-import { TreeDragDropService, TreeNode }           from "@coduction/primeng/api";
-import { ButtonModule }                            from "@coduction/primeng/button";
-import { OverlayPanel, OverlayPanelModule }        from "@coduction/primeng/overlaypanel";
-import { TreeModule, TreeNodeDropEvent }           from "@coduction/primeng/tree";
-import { CourseDraftNode, CourseNodeType }         from "@famulex/shared/famulex-api-client";
-import { StopClickPropagationDirective }           from "@famulex/shared/ui";
-import { CourseDraftNodesState }                   from "@famulex/web/authoring/data-access/course-draft-editor-state";
-import { Store }                                   from "@ngrx/store";
-import { firstValueFrom }                          from "rxjs";
+import { CommonModule }                                       from "@angular/common";
+import { Component, ViewChild, ViewEncapsulation }            from "@angular/core";
+import { ActivatedRoute, Router, RouterOutlet }               from "@angular/router";
+import { ConfirmationService, TreeDragDropService, TreeNode } from "@coduction/primeng/api";
+import { ButtonModule }                                       from "@coduction/primeng/button";
+import { DialogService }                                      from "@coduction/primeng/dynamicdialog";
+import { OverlayPanel, OverlayPanelModule }                   from "@coduction/primeng/overlaypanel";
+import { TreeModule, TreeNodeDropEvent }                      from "@coduction/primeng/tree";
+import { CourseDraftNode, CourseNodeType }                    from "@famulex/shared/famulex-api-client";
+import { StopClickPropagationDirective }                      from "@famulex/shared/ui";
+import { CourseDraftNodesActions, CourseDraftNodesState }     from "@famulex/web/authoring/data-access/course-draft-editor-state";
+import { Store }                                              from "@ngrx/store";
+import { firstValueFrom }                                     from "rxjs";
+import { CourseDraftNodeEditComponent }                       from "../course-draft-node-edit/course-draft-node-edit.component";
 
 @Component({
   selector: "authoring-course-draft-content",
@@ -32,35 +34,30 @@ export class CourseDraftContentComponent {
 
   constructor(private store: Store,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private dialogService: DialogService,
+              private confirmationService: ConfirmationService) {
   }
 
   onEditNode(node: CourseDraftNode) {
-    // this.dialogService.open(NodeEditComponent, {
-    //   data: {
-    //     courseDraftNode: node
-    //   } as CourseDraftNodeConfig,
-    //   header: $localize`Edit Node`,
-    //   width: "55rem",
-    //   maximizable: false,
-    //   closable: true,
-    // });
-    //
-    // this.onResetEntryActions();
+    this.dialogService.open(CourseDraftNodeEditComponent, {
+      data: node,
+      header: $localize`Edit Node`
+    });
+
+    void this.onResetEntryActions();
   }
 
   onDeleteNode(node: CourseDraftNode) {
-    // this.confirmationService.confirm({
-    //   key: "confirmDialog",
-    //   message: `Are you sure you want to delete <b>${node.title}</b>?`,
-    //   header: 'Deletion Confirmation',
-    //   icon: 'pi pi-exclamation-triangle',
-    //   accept: () => {
-    //     this.store.dispatch(new CourseEditor.CourseDraftNodes.Delete(node.key));
-    //   }
-    // });
-    //
-    // this.onResetEntryActions();
+    this.confirmationService.confirm({
+      key: "confirmDialog",
+      message: `Are you sure you want to delete <b>${node.title}</b>?`,
+      header: "Deletion Confirmation",
+      icon: "fa fa-trash-can",
+      accept: () => this.store.dispatch(CourseDraftNodesActions.delete({ node }))
+    });
+
+    void this.onResetEntryActions();
   }
 
   async onResetEntryActions() {
@@ -102,11 +99,13 @@ export class CourseDraftContentComponent {
   }
 
   onNodeAdd(node: TreeNode<CourseDraftNode>) {
-
+    this.dialogService.open(CourseDraftNodeEditComponent, {
+      data: node.data?.key
+    });
   }
 
   onShowEntryActions(event: MouseEvent, courseNode: CourseDraftNode) {
-// Check whether current target is the same
+    // Check whether current target is the same
     if (this.entryActions.overlayVisible) {
       setTimeout(() => this.entryActions.hide());
       if (this.actionEntry?.key == courseNode.key) return;

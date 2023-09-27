@@ -1,33 +1,38 @@
-import { Route }                      from "@angular/router";
-import { Right }                      from "@famulex/shared/famulex-api-client";
-import { AuthGuard }                  from "@famulex/shared/security/util";
+import { Route }                    from "@angular/router";
+import { Right }                    from "@famulex/shared/famulex-api-client";
+import { AuthGuard }                from "@famulex/shared/security/util";
 import {
   CourseDraftEffects, CourseDraftItemsEffects, CourseDraftItemsState, CourseDraftNodesEffects, CourseDraftNodesState, CourseDraftState
-}                                     from "@famulex/web/authoring/data-access/course-draft-editor-state";
+}                                   from "@famulex/web/authoring/data-access/course-draft-editor-state";
 import {
   CourseDraftListEffects, CourseDraftListState
-}                                     from "@famulex/web/authoring/data-access/course-draft-list-state";
+}                                   from "@famulex/web/authoring/data-access/course-draft-list-state";
 import {
   CourseMembershipsEffects, CourseMembershipsState
-}                                     from "@famulex/web/authoring/data-access/course-memberships-state";
-import { CourseDraftListComponent }   from "@famulex/web/authoring/feature/course-draft/list";
-import { MainLayoutComponent }        from "@famulex/web/shared/layout";
-import { provideEffects }             from "@ngrx/effects";
-import { provideState }               from "@ngrx/store";
+}                                   from "@famulex/web/authoring/data-access/course-memberships-state";
+import { CourseDraftListComponent } from "@famulex/web/authoring/feature/course-draft/list";
+import { MainLayoutComponent }      from "@famulex/web/shared/layout";
+import { provideEffects }           from "@ngrx/effects";
+import { provideState }             from "@ngrx/store";
 import {
   CourseDraftContentComponent
-}                                     from "./course-draft-content/course-draft-content.component";
+}                                   from "./course-draft-content/course-draft-content.component";
+import {
+  courseDraftContentGuard
+}                                   from "./course-draft-content/course-draft-content.guard";
+import {
+  CourseDraftEditorComponent
+}                                   from "./course-draft-editor/course-draft-editor.component";
+import { courseDraftStateGuard }    from "./course-draft-editor/course-draft-state.guard";
 import {
   CourseDraftMembershipsComponent
-}                                     from "./course-draft-memberships/course-draft-memberships.component";
+}                                   from "./course-draft-memberships/course-draft-memberships.component";
 import {
   CourseDraftNodeContentComponent
-}                                     from "./course-draft-node-content/course-draft-node-content.component";
+}                                   from "./course-draft-node-content/course-draft-node-content.component";
 import {
   courseDraftNodeContentGuard, courseDraftNodeRestoreGuard
-}                                     from "./course-draft-node-content/course-draft-node-content.guard";
-import { courseDraftStateGuard }      from "./editor/course-draft-state.guard";
-import { CourseDraftEditorComponent } from "./editor/editor.component";
+}                                   from "./course-draft-node-content/course-draft-node-content.guard";
 
 export const courseDraftEditorRoutes: Route[] = [
   {
@@ -64,6 +69,7 @@ export const courseDraftEditorRoutes: Route[] = [
           {
             path: "content",
             component: CourseDraftContentComponent,
+            canActivate: [courseDraftContentGuard],
 
             children: [
               {
