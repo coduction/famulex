@@ -81,9 +81,9 @@ public class FxTestExecutionQuestion extends TableImpl<FxTestExecutionQuestionRe
 
     /**
      * The column
-     * <code>public.fx_test_execution_question.fk_test_execution</code>.
+     * <code>public.fx_test_execution_question.fk_test_execution_section</code>.
      */
-    public final TableField<FxTestExecutionQuestionRecord, Long> FK_TEST_EXECUTION = createField(DSL.name("fk_test_execution"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<FxTestExecutionQuestionRecord, Long> FK_TEST_EXECUTION_SECTION = createField(DSL.name("fk_test_execution_section"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.fx_test_execution_question.position</code>.
@@ -152,11 +152,11 @@ public class FxTestExecutionQuestion extends TableImpl<FxTestExecutionQuestionRe
 
     @Override
     public List<ForeignKey<FxTestExecutionQuestionRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.FX_TEST_EXECUTION_QUESTION__FK_QUESTION, Keys.FX_TEST_EXECUTION_QUESTION__FK_TEST_EXECUTION);
+        return Arrays.asList(Keys.FX_TEST_EXECUTION_QUESTION__FK_QUESTION, Keys.FX_TEST_EXECUTION_QUESTION__FK_TEST_EXECUTION_SECTION);
     }
 
     private transient FxQuestion _fxQuestion;
-    private transient FxTestExecution _fxTestExecution;
+    private transient FxTestExecutionSection _fxTestExecutionSection;
 
     /**
      * Get the implicit join path to the <code>public.fx_question</code> table.
@@ -169,14 +169,14 @@ public class FxTestExecutionQuestion extends TableImpl<FxTestExecutionQuestionRe
     }
 
     /**
-     * Get the implicit join path to the <code>public.fx_test_execution</code>
-     * table.
+     * Get the implicit join path to the
+     * <code>public.fx_test_execution_section</code> table.
      */
-    public FxTestExecution fxTestExecution() {
-        if (_fxTestExecution == null)
-            _fxTestExecution = new FxTestExecution(this, Keys.FX_TEST_EXECUTION_QUESTION__FK_TEST_EXECUTION);
+    public FxTestExecutionSection fxTestExecutionSection() {
+        if (_fxTestExecutionSection == null)
+            _fxTestExecutionSection = new FxTestExecutionSection(this, Keys.FX_TEST_EXECUTION_QUESTION__FK_TEST_EXECUTION_SECTION);
 
-        return _fxTestExecution;
+        return _fxTestExecutionSection;
     }
 
     @Override

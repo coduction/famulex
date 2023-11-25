@@ -50,6 +50,7 @@ import com.famulex.api.jooq.tables.FxTestDraftI18n;
 import com.famulex.api.jooq.tables.FxTestExecution;
 import com.famulex.api.jooq.tables.FxTestExecutionAnswer;
 import com.famulex.api.jooq.tables.FxTestExecutionQuestion;
+import com.famulex.api.jooq.tables.FxTestExecutionSection;
 import com.famulex.api.jooq.tables.FxTestI18n;
 import com.famulex.api.jooq.tables.FxTestSection;
 import com.famulex.api.jooq.tables.FxTestSectionDraft;
@@ -310,6 +311,11 @@ public class Public extends SchemaImpl {
     public final FxTestExecutionQuestion FX_TEST_EXECUTION_QUESTION = FxTestExecutionQuestion.FX_TEST_EXECUTION_QUESTION;
 
     /**
+     * The table <code>public.fx_test_execution_section</code>.
+     */
+    public final FxTestExecutionSection FX_TEST_EXECUTION_SECTION = FxTestExecutionSection.FX_TEST_EXECUTION_SECTION;
+
+    /**
      * The table <code>public.fx_test_i18n</code>.
      */
     public final FxTestI18n FX_TEST_I18N = FxTestI18n.FX_TEST_I18N;
@@ -406,6 +412,7 @@ public class Public extends SchemaImpl {
             FxTestExecution.FX_TEST_EXECUTION,
             FxTestExecutionAnswer.FX_TEST_EXECUTION_ANSWER,
             FxTestExecutionQuestion.FX_TEST_EXECUTION_QUESTION,
+            FxTestExecutionSection.FX_TEST_EXECUTION_SECTION,
             FxTestI18n.FX_TEST_I18N,
             FxTestSection.FX_TEST_SECTION,
             FxTestSectionDraft.FX_TEST_SECTION_DRAFT,

@@ -50,6 +50,7 @@ import com.famulex.api.jooq.tables.FxTestDraftI18n;
 import com.famulex.api.jooq.tables.FxTestExecution;
 import com.famulex.api.jooq.tables.FxTestExecutionAnswer;
 import com.famulex.api.jooq.tables.FxTestExecutionQuestion;
+import com.famulex.api.jooq.tables.FxTestExecutionSection;
 import com.famulex.api.jooq.tables.FxTestI18n;
 import com.famulex.api.jooq.tables.FxTestSection;
 import com.famulex.api.jooq.tables.FxTestSectionDraft;
@@ -294,6 +295,11 @@ public class Tables {
      * The table <code>public.fx_test_execution_question</code>.
      */
     public static final FxTestExecutionQuestion FX_TEST_EXECUTION_QUESTION = FxTestExecutionQuestion.FX_TEST_EXECUTION_QUESTION;
+
+    /**
+     * The table <code>public.fx_test_execution_section</code>.
+     */
+    public static final FxTestExecutionSection FX_TEST_EXECUTION_SECTION = FxTestExecutionSection.FX_TEST_EXECUTION_SECTION;
 
     /**
      * The table <code>public.fx_test_i18n</code>.
