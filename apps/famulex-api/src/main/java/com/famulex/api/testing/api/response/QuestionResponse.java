@@ -24,9 +24,6 @@ public class QuestionResponse {
   private UUID key;
   @NotNull
   private OffsetDateTime createdAt;
-  @NotNull
-  private OffsetDateTime updatedAt;
-  private OffsetDateTime publishedAt;
 
   @NotNull
   private QuestionType type;

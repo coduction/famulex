@@ -50,6 +50,8 @@ export * from './role-assignment';
 export * from './role-assignment-request-create';
 export * from './role-assignment-request-update';
 export * from './role-request';
+export * from './section-draft';
+export * from './section-draft-request';
 export * from './sort-object';
 export * from './status';
 export * from './system-info';

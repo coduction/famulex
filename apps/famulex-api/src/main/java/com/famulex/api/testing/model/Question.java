@@ -2,7 +2,7 @@ package com.famulex.api.testing.model;
 
 import com.famulex.api.authoring.testing.model.QuestionDraft;
 import com.famulex.api.authoring.testing.model.QuestionType;
-import com.famulex.api.core.model.PublicKey;
+import com.famulex.api.core.model.PublicKeyWithoutHistory;
 import com.famulex.api.testing.execution.model.TestExecutionQuestion;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,15 +16,16 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "fx_question")
-public class Question extends PublicKey {
+public class Question extends PublicKeyWithoutHistory {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "fk_question_draft")
   private QuestionDraft questionDraft;
 
   @ManyToOne(optional = false)
-  @JoinColumn(name = "fk_test", nullable = false)
-  private Test test;
+  @JoinColumn(name = "fk_test_section", nullable = false)
+  private Section section;
+
   @Column(name = "version", nullable = false)
   private Integer version;
 
@@ -94,6 +95,12 @@ public class Question extends PublicKey {
 
     if (question.getAnswers().size() != this.getAnswers().size()) {
       return true;
+    }
+
+    for (int i = 0; i < question.getAnswers().size(); i++) {
+      if (question.getAnswers().get(i).isDifferent(this.getAnswers().get(i))) {
+        return true;
+      }
     }
 
     return false;

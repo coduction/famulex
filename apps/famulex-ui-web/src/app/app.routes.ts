@@ -45,7 +45,7 @@ export const appRoutes: Route[] = [
         data: {
           rights: [Right.CreateTests, Right.ManageTests]
         },
-        loadChildren: () => import("@famulex/web/authoring/feature/test-draft/editor").then(m => m.testDraftEditorRoutes)
+        loadChildren: () => import("@famulex/web/authoring/feature/test-editor").then(m => m.testDraftEditorRoutes)
       },
       {
         path: "",

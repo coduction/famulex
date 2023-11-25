@@ -23,9 +23,7 @@ import { CourseDraftNodeEditComponent }                       from "../course-dr
   encapsulation: ViewEncapsulation.None
 })
 export class CourseDraftContentComponent {
-
-  CourseNodeType = CourseNodeType;
-
+  
   @ViewChild("courseNodeActions") entryActions!: OverlayPanel;
   actionEntry?: CourseDraftNode;
 

@@ -16,12 +16,12 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function18;
+import org.jooq.Function17;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row18;
+import org.jooq.Row17;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -75,14 +75,9 @@ public class FxQuestionDraft extends TableImpl<FxQuestionDraftRecord> {
     public final TableField<FxQuestionDraftRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "");
 
     /**
-     * The column <code>public.fx_question_draft.published_at</code>.
+     * The column <code>public.fx_question_draft.fk_test_draft_section</code>.
      */
-    public final TableField<FxQuestionDraftRecord, OffsetDateTime> PUBLISHED_AT = createField(DSL.name("published_at"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "");
-
-    /**
-     * The column <code>public.fx_question_draft.fk_test_draft</code>.
-     */
-    public final TableField<FxQuestionDraftRecord, Long> FK_TEST_DRAFT = createField(DSL.name("fk_test_draft"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<FxQuestionDraftRecord, Long> FK_TEST_DRAFT_SECTION = createField(DSL.name("fk_test_draft_section"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.fx_question_draft.position</code>.
@@ -199,20 +194,20 @@ public class FxQuestionDraft extends TableImpl<FxQuestionDraftRecord> {
 
     @Override
     public List<ForeignKey<FxQuestionDraftRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.FX_QUESTION_DRAFT__FK_TEST_DRAFT);
+        return Arrays.asList(Keys.FX_QUESTION_DRAFT__FK_TEST_DRAFT_SECTION);
     }
 
-    private transient FxTestDraft _fxTestDraft;
+    private transient FxTestSectionDraft _fxTestSectionDraft;
 
     /**
-     * Get the implicit join path to the <code>public.fx_test_draft</code>
-     * table.
+     * Get the implicit join path to the
+     * <code>public.fx_test_section_draft</code> table.
      */
-    public FxTestDraft fxTestDraft() {
-        if (_fxTestDraft == null)
-            _fxTestDraft = new FxTestDraft(this, Keys.FX_QUESTION_DRAFT__FK_TEST_DRAFT);
+    public FxTestSectionDraft fxTestSectionDraft() {
+        if (_fxTestSectionDraft == null)
+            _fxTestSectionDraft = new FxTestSectionDraft(this, Keys.FX_QUESTION_DRAFT__FK_TEST_DRAFT_SECTION);
 
-        return _fxTestDraft;
+        return _fxTestSectionDraft;
     }
 
     @Override
@@ -255,18 +250,18 @@ public class FxQuestionDraft extends TableImpl<FxQuestionDraftRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row18 type methods
+    // Row17 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row18<Long, UUID, OffsetDateTime, OffsetDateTime, OffsetDateTime, Long, Integer, Boolean, String, Boolean, String, String, String, Double, Double, Integer, Boolean, Boolean> fieldsRow() {
-        return (Row18) super.fieldsRow();
+    public Row17<Long, UUID, OffsetDateTime, OffsetDateTime, Long, Integer, Boolean, String, Boolean, String, String, String, Double, Double, Integer, Boolean, Boolean> fieldsRow() {
+        return (Row17) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function18<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super Integer, ? super Boolean, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super Integer, ? super Boolean, ? super Boolean, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function17<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super Integer, ? super Boolean, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super Integer, ? super Boolean, ? super Boolean, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -274,7 +269,7 @@ public class FxQuestionDraft extends TableImpl<FxQuestionDraftRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function18<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super Integer, ? super Boolean, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super Integer, ? super Boolean, ? super Boolean, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function17<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super Integer, ? super Boolean, ? super String, ? super Boolean, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super Integer, ? super Boolean, ? super Boolean, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

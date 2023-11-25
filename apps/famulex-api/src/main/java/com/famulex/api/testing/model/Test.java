@@ -41,14 +41,14 @@ public class Test extends PublicKey {
   private Double percentageToPass;
   @Column(name = "duration")
   private Integer duration;
+  @Column(name = "shuffle_sections")
+  private boolean shuffleSections;
   @Column(name = "shuffle_questions")
   private boolean shuffleQuestions;
-  @Column(name = "shown_questions")
-  private Integer shownQuestions;
 
   @OrderBy("position ASC")
   @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Question> questions = new ArrayList<>();
+  private List<Section> sections = new ArrayList<>();
 
   @OneToMany(mappedBy = "test")
   private List<TestConfiguration> testConfigurations = new ArrayList<>();
@@ -72,14 +72,20 @@ public class Test extends PublicKey {
       return true;
     } else if (!Objects.equals(getDuration(), test.getDuration())) {
       return true;
-    } else if (!Objects.equals(isShuffleQuestions(), test.isShuffleQuestions())) {
+    } else if (!Objects.equals(isShuffleSections(), test.isShuffleSections())) {
       return true;
-    } else if (!Objects.equals(getShownQuestions(), test.getShownQuestions())) {
+    } else if (!Objects.equals(isShuffleQuestions(), test.isShuffleQuestions())) {
       return true;
     }
 
-    if (questions.size() != test.getQuestions().size()) {
+    if (sections.size() != test.sections.size()) {
       return true;
+    }
+
+    for (int i = 0; i < sections.size(); i++) {
+      if (sections.get(i).isDifferent(test.sections.get(i))) {
+        return true;
+      }
     }
 
     return false;
@@ -88,6 +94,6 @@ public class Test extends PublicKey {
   public void setVersion(Integer version) {
     this.version = version;
 
-    questions.forEach(question -> question.setVersion(version));
+    sections.forEach(section -> section.setVersion(version));
   }
 }

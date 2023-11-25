@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe }                                                                                        from "@angular/common";
-import { Component, Input, OnInit }                                                                                      from "@angular/core";
+import { Component, OnInit }                                                                                             from "@angular/core";
 import { Router }                                                                                                        from "@angular/router";
 import { ConfirmationService }                                                                                           from "@coduction/primeng/api";
 import { CardModule }                                                                                                    from "@coduction/primeng/card";
@@ -124,8 +124,6 @@ export class CourseDraftListComponent implements OnInit {
   courseDrafts$ = this.store.select(CourseDraftListState.selectAll);
   tableMetaData$ = this.store.select(CourseDraftListState.selectTableMetaData);
   loading$ = this.store.select(CourseDraftListState.selectLoading);
-
-  @Input() myCoursesOnly = false;
 
   constructor(private store: Store,
               private router: Router,

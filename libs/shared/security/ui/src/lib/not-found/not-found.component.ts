@@ -12,21 +12,30 @@ import { ButtonModule }         from "@coduction/primeng/button";
 })
 export class NotFoundComponent implements OnDestroy {
 
-  timeOut: number | undefined;
+  interval: number | undefined;
   countDown = 5;
 
   constructor(private router: Router) {
-    this.timeOut = setTimeout(() => {
+    this.interval = setInterval(() => {
       this.countDown--;
       if (this.countDown === 0) {
-        void this.router.navigate(["/"]);
+        this.onFinishCountdown();
       }
     }, 1000);
   }
 
   ngOnDestroy(): void {
-    if (this.timeOut != undefined) {
-      clearTimeout(this.timeOut);
+    this.cleanUp();
+  }
+
+  onFinishCountdown(): void {
+    this.cleanUp();
+    void this.router.navigate(["/"]);
+  }
+
+  cleanUp(): void {
+    if (this.interval != undefined) {
+      clearInterval(this.interval);
     }
   }
 }

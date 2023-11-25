@@ -8,9 +8,9 @@ export function buildNodesTree(entities: Dictionary<CourseDraftNode>, selectedKe
     .filter((node): node is CourseDraftNode => node !== undefined);
 
   // If there are no nodes, return an empty tree
-  if (!nodes.length) {
-    return [];
-  }
+  // if (!nodes.length) {
+  //   return [];
+  // }
 
   const nodeMap: { [key: string]: TreeNode<CourseDraftNode> } = {};
 

@@ -29,6 +29,10 @@ import { QuestionDraft } from '../model/question-draft';
 // @ts-ignore
 import { QuestionDraftRequest } from '../model/question-draft-request';
 // @ts-ignore
+import { SectionDraft } from '../model/section-draft';
+// @ts-ignore
+import { SectionDraftRequest } from '../model/section-draft-request';
+// @ts-ignore
 import { TestDraft } from '../model/test-draft';
 // @ts-ignore
 import { TestDraftRequest } from '../model/test-draft-request';
@@ -104,19 +108,15 @@ export class TestDraftService {
     }
 
     /**
-     * @param testDraftKey 
      * @param questionDraftKey 
      * @param answerDraftRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<AnswerDraft>;
-    public createAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<AnswerDraft>>;
-    public createAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<AnswerDraft>>;
-    public createAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (testDraftKey === null || testDraftKey === undefined) {
-            throw new Error('Required parameter testDraftKey was null or undefined when calling createAnswerDraft.');
-        }
+    public createAnswerDraft(questionDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<AnswerDraft>;
+    public createAnswerDraft(questionDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<AnswerDraft>>;
+    public createAnswerDraft(questionDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<AnswerDraft>>;
+    public createAnswerDraft(questionDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (questionDraftKey === null || questionDraftKey === undefined) {
             throw new Error('Required parameter questionDraftKey was null or undefined when calling createAnswerDraft.');
         }
@@ -171,7 +171,7 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/answers`;
+        let localVarPath = `/authoring/testing/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/answers`;
         return this.httpClient.request<AnswerDraft>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -186,17 +186,17 @@ export class TestDraftService {
     }
 
     /**
-     * @param testDraftKey 
+     * @param sectionDraftKey 
      * @param questionDraftRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createQuestionDraft(testDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<QuestionDraft>;
-    public createQuestionDraft(testDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<QuestionDraft>>;
-    public createQuestionDraft(testDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<QuestionDraft>>;
-    public createQuestionDraft(testDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (testDraftKey === null || testDraftKey === undefined) {
-            throw new Error('Required parameter testDraftKey was null or undefined when calling createQuestionDraft.');
+    public createQuestionDraft(sectionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<QuestionDraft>;
+    public createQuestionDraft(sectionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<QuestionDraft>>;
+    public createQuestionDraft(sectionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<QuestionDraft>>;
+    public createQuestionDraft(sectionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (sectionDraftKey === null || sectionDraftKey === undefined) {
+            throw new Error('Required parameter sectionDraftKey was null or undefined when calling createQuestionDraft.');
         }
         if (questionDraftRequest === null || questionDraftRequest === undefined) {
             throw new Error('Required parameter questionDraftRequest was null or undefined when calling createQuestionDraft.');
@@ -249,11 +249,89 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions`;
+        let localVarPath = `/authoring/testing/sections/${this.configuration.encodeParam({name: "sectionDraftKey", value: sectionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions`;
         return this.httpClient.request<QuestionDraft>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: questionDraftRequest,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param testDraftKey 
+     * @param sectionDraftRequest 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createSectionDraft(testDraftKey: string, sectionDraftRequest: SectionDraftRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SectionDraft>;
+    public createSectionDraft(testDraftKey: string, sectionDraftRequest: SectionDraftRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SectionDraft>>;
+    public createSectionDraft(testDraftKey: string, sectionDraftRequest: SectionDraftRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SectionDraft>>;
+    public createSectionDraft(testDraftKey: string, sectionDraftRequest: SectionDraftRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (testDraftKey === null || testDraftKey === undefined) {
+            throw new Error('Required parameter testDraftKey was null or undefined when calling createSectionDraft.');
+        }
+        if (sectionDraftRequest === null || sectionDraftRequest === undefined) {
+            throw new Error('Required parameter sectionDraftRequest was null or undefined when calling createSectionDraft.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Keycloak) required
+        localVarCredential = this.configuration.lookupCredential('Keycloak');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/sections`;
+        return this.httpClient.request<SectionDraft>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: sectionDraftRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -338,22 +416,14 @@ export class TestDraftService {
     }
 
     /**
-     * @param testDraftKey 
-     * @param questionDraftKey 
      * @param answerDraftKey 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public deleteAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public deleteAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public deleteAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-        if (testDraftKey === null || testDraftKey === undefined) {
-            throw new Error('Required parameter testDraftKey was null or undefined when calling deleteAnswerDraft.');
-        }
-        if (questionDraftKey === null || questionDraftKey === undefined) {
-            throw new Error('Required parameter questionDraftKey was null or undefined when calling deleteAnswerDraft.');
-        }
+    public deleteAnswerDraft(answerDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public deleteAnswerDraft(answerDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public deleteAnswerDraft(answerDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public deleteAnswerDraft(answerDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
         if (answerDraftKey === null || answerDraftKey === undefined) {
             throw new Error('Required parameter answerDraftKey was null or undefined when calling deleteAnswerDraft.');
         }
@@ -395,7 +465,7 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/answers/${this.configuration.encodeParam({name: "answerDraftKey", value: answerDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
+        let localVarPath = `/authoring/testing/answers/${this.configuration.encodeParam({name: "answerDraftKey", value: answerDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -409,20 +479,16 @@ export class TestDraftService {
     }
 
     /**
-     * @param testDraftKey 
-     * @param questionDraftKey 
+     * @param sectionDraftKey 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteQuestionDraft(testDraftKey: string, questionDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public deleteQuestionDraft(testDraftKey: string, questionDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public deleteQuestionDraft(testDraftKey: string, questionDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public deleteQuestionDraft(testDraftKey: string, questionDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-        if (testDraftKey === null || testDraftKey === undefined) {
-            throw new Error('Required parameter testDraftKey was null or undefined when calling deleteQuestionDraft.');
-        }
-        if (questionDraftKey === null || questionDraftKey === undefined) {
-            throw new Error('Required parameter questionDraftKey was null or undefined when calling deleteQuestionDraft.');
+    public deleteQuestionDraft(sectionDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public deleteQuestionDraft(sectionDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public deleteQuestionDraft(sectionDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public deleteQuestionDraft(sectionDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+        if (sectionDraftKey === null || sectionDraftKey === undefined) {
+            throw new Error('Required parameter sectionDraftKey was null or undefined when calling deleteQuestionDraft.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -462,7 +528,70 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
+        let localVarPath = `/authoring/testing/sections/${this.configuration.encodeParam({name: "sectionDraftKey", value: sectionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param questionDraftKey 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteQuestionDraft1(questionDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public deleteQuestionDraft1(questionDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public deleteQuestionDraft1(questionDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public deleteQuestionDraft1(questionDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+        if (questionDraftKey === null || questionDraftKey === undefined) {
+            throw new Error('Required parameter questionDraftKey was null or undefined when calling deleteQuestionDraft1.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Keycloak) required
+        localVarCredential = this.configuration.lookupCredential('Keycloak');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/authoring/testing/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -539,22 +668,14 @@ export class TestDraftService {
     }
 
     /**
-     * @param testDraftKey 
-     * @param questionDraftKey 
      * @param answerDraftKey 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loadAnswer(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<AnswerDraft>;
-    public loadAnswer(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<AnswerDraft>>;
-    public loadAnswer(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<AnswerDraft>>;
-    public loadAnswer(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (testDraftKey === null || testDraftKey === undefined) {
-            throw new Error('Required parameter testDraftKey was null or undefined when calling loadAnswer.');
-        }
-        if (questionDraftKey === null || questionDraftKey === undefined) {
-            throw new Error('Required parameter questionDraftKey was null or undefined when calling loadAnswer.');
-        }
+    public loadAnswer(answerDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<AnswerDraft>;
+    public loadAnswer(answerDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<AnswerDraft>>;
+    public loadAnswer(answerDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<AnswerDraft>>;
+    public loadAnswer(answerDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (answerDraftKey === null || answerDraftKey === undefined) {
             throw new Error('Required parameter answerDraftKey was null or undefined when calling loadAnswer.');
         }
@@ -597,7 +718,7 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/answers/${this.configuration.encodeParam({name: "answerDraftKey", value: answerDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
+        let localVarPath = `/authoring/testing/answers/${this.configuration.encodeParam({name: "answerDraftKey", value: answerDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         return this.httpClient.request<AnswerDraft>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -612,19 +733,15 @@ export class TestDraftService {
 
     /**
      * @param testDraftKey 
-     * @param questionDraftKey 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loadAnswers(testDraftKey: string, questionDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<AnswerDraft>>;
-    public loadAnswers(testDraftKey: string, questionDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<AnswerDraft>>>;
-    public loadAnswers(testDraftKey: string, questionDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<AnswerDraft>>>;
-    public loadAnswers(testDraftKey: string, questionDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public loadAnswers(testDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<AnswerDraft>>;
+    public loadAnswers(testDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<AnswerDraft>>>;
+    public loadAnswers(testDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<AnswerDraft>>>;
+    public loadAnswers(testDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (testDraftKey === null || testDraftKey === undefined) {
             throw new Error('Required parameter testDraftKey was null or undefined when calling loadAnswers.');
-        }
-        if (questionDraftKey === null || questionDraftKey === undefined) {
-            throw new Error('Required parameter questionDraftKey was null or undefined when calling loadAnswers.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -665,7 +782,7 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/answers`;
+        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/answers`;
         return this.httpClient.request<Array<AnswerDraft>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -679,18 +796,14 @@ export class TestDraftService {
     }
 
     /**
-     * @param testDraftKey 
      * @param questionDraftKey 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public loadQuestion(testDraftKey: string, questionDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<QuestionDraft>;
-    public loadQuestion(testDraftKey: string, questionDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<QuestionDraft>>;
-    public loadQuestion(testDraftKey: string, questionDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<QuestionDraft>>;
-    public loadQuestion(testDraftKey: string, questionDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (testDraftKey === null || testDraftKey === undefined) {
-            throw new Error('Required parameter testDraftKey was null or undefined when calling loadQuestion.');
-        }
+    public loadQuestion(questionDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<QuestionDraft>;
+    public loadQuestion(questionDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<QuestionDraft>>;
+    public loadQuestion(questionDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<QuestionDraft>>;
+    public loadQuestion(questionDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (questionDraftKey === null || questionDraftKey === undefined) {
             throw new Error('Required parameter questionDraftKey was null or undefined when calling loadQuestion.');
         }
@@ -733,7 +846,7 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
+        let localVarPath = `/authoring/testing/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         return this.httpClient.request<QuestionDraft>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -799,6 +912,70 @@ export class TestDraftService {
 
         let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions`;
         return this.httpClient.request<Array<QuestionDraft>>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param testDraftKey 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public loadSectionDrafts(testDraftKey: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<SectionDraft>>;
+    public loadSectionDrafts(testDraftKey: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<SectionDraft>>>;
+    public loadSectionDrafts(testDraftKey: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<SectionDraft>>>;
+    public loadSectionDrafts(testDraftKey: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (testDraftKey === null || testDraftKey === undefined) {
+            throw new Error('Required parameter testDraftKey was null or undefined when calling loadSectionDrafts.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Keycloak) required
+        localVarCredential = this.configuration.lookupCredential('Keycloak');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/sections`;
+        return this.httpClient.request<Array<SectionDraft>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1019,23 +1196,15 @@ export class TestDraftService {
     }
 
     /**
-     * @param testDraftKey 
-     * @param questionDraftKey 
      * @param answerDraftKey 
      * @param position 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public moveAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, position: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<AnswerDraft>>;
-    public moveAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, position: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<AnswerDraft>>>;
-    public moveAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, position: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<AnswerDraft>>>;
-    public moveAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, position: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (testDraftKey === null || testDraftKey === undefined) {
-            throw new Error('Required parameter testDraftKey was null or undefined when calling moveAnswerDraft.');
-        }
-        if (questionDraftKey === null || questionDraftKey === undefined) {
-            throw new Error('Required parameter questionDraftKey was null or undefined when calling moveAnswerDraft.');
-        }
+    public moveAnswerDraft(answerDraftKey: string, position: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<AnswerDraft>>;
+    public moveAnswerDraft(answerDraftKey: string, position: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<AnswerDraft>>>;
+    public moveAnswerDraft(answerDraftKey: string, position: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<AnswerDraft>>>;
+    public moveAnswerDraft(answerDraftKey: string, position: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (answerDraftKey === null || answerDraftKey === undefined) {
             throw new Error('Required parameter answerDraftKey was null or undefined when calling moveAnswerDraft.');
         }
@@ -1087,7 +1256,7 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/answers/${this.configuration.encodeParam({name: "answerDraftKey", value: answerDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/position`;
+        let localVarPath = `/authoring/testing/answers/${this.configuration.encodeParam({name: "answerDraftKey", value: answerDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/position`;
         return this.httpClient.request<Array<AnswerDraft>>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -1102,19 +1271,15 @@ export class TestDraftService {
     }
 
     /**
-     * @param testDraftKey 
      * @param questionDraftKey 
      * @param newPosition 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public moveQuestionDraft(testDraftKey: string, questionDraftKey: string, newPosition: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<QuestionDraft>>;
-    public moveQuestionDraft(testDraftKey: string, questionDraftKey: string, newPosition: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<QuestionDraft>>>;
-    public moveQuestionDraft(testDraftKey: string, questionDraftKey: string, newPosition: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<QuestionDraft>>>;
-    public moveQuestionDraft(testDraftKey: string, questionDraftKey: string, newPosition: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (testDraftKey === null || testDraftKey === undefined) {
-            throw new Error('Required parameter testDraftKey was null or undefined when calling moveQuestionDraft.');
-        }
+    public moveQuestionDraft(questionDraftKey: string, newPosition: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<QuestionDraft>>;
+    public moveQuestionDraft(questionDraftKey: string, newPosition: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<QuestionDraft>>>;
+    public moveQuestionDraft(questionDraftKey: string, newPosition: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<QuestionDraft>>>;
+    public moveQuestionDraft(questionDraftKey: string, newPosition: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (questionDraftKey === null || questionDraftKey === undefined) {
             throw new Error('Required parameter questionDraftKey was null or undefined when calling moveQuestionDraft.');
         }
@@ -1166,8 +1331,83 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/position`;
+        let localVarPath = `/authoring/testing/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/position`;
         return this.httpClient.request<Array<QuestionDraft>>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param sectionDraftKey 
+     * @param newPosition 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public moveSectionDraft(sectionDraftKey: string, newPosition: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<SectionDraft>>;
+    public moveSectionDraft(sectionDraftKey: string, newPosition: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<SectionDraft>>>;
+    public moveSectionDraft(sectionDraftKey: string, newPosition: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<SectionDraft>>>;
+    public moveSectionDraft(sectionDraftKey: string, newPosition: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (sectionDraftKey === null || sectionDraftKey === undefined) {
+            throw new Error('Required parameter sectionDraftKey was null or undefined when calling moveSectionDraft.');
+        }
+        if (newPosition === null || newPosition === undefined) {
+            throw new Error('Required parameter newPosition was null or undefined when calling moveSectionDraft.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (newPosition !== undefined && newPosition !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>newPosition, 'newPosition');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Keycloak) required
+        localVarCredential = this.configuration.lookupCredential('Keycloak');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/authoring/testing/sections/${this.configuration.encodeParam({name: "sectionDraftKey", value: sectionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/position`;
+        return this.httpClient.request<Array<SectionDraft>>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -1245,23 +1485,15 @@ export class TestDraftService {
     }
 
     /**
-     * @param testDraftKey 
-     * @param questionDraftKey 
      * @param answerDraftKey 
      * @param answerDraftRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<AnswerDraft>;
-    public updateAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<AnswerDraft>>;
-    public updateAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<AnswerDraft>>;
-    public updateAnswerDraft(testDraftKey: string, questionDraftKey: string, answerDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (testDraftKey === null || testDraftKey === undefined) {
-            throw new Error('Required parameter testDraftKey was null or undefined when calling updateAnswerDraft.');
-        }
-        if (questionDraftKey === null || questionDraftKey === undefined) {
-            throw new Error('Required parameter questionDraftKey was null or undefined when calling updateAnswerDraft.');
-        }
+    public updateAnswerDraft(answerDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<AnswerDraft>;
+    public updateAnswerDraft(answerDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<AnswerDraft>>;
+    public updateAnswerDraft(answerDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<AnswerDraft>>;
+    public updateAnswerDraft(answerDraftKey: string, answerDraftRequest: AnswerDraftRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (answerDraftKey === null || answerDraftKey === undefined) {
             throw new Error('Required parameter answerDraftKey was null or undefined when calling updateAnswerDraft.');
         }
@@ -1316,7 +1548,7 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/answers/${this.configuration.encodeParam({name: "answerDraftKey", value: answerDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
+        let localVarPath = `/authoring/testing/answers/${this.configuration.encodeParam({name: "answerDraftKey", value: answerDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         return this.httpClient.request<AnswerDraft>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -1331,19 +1563,15 @@ export class TestDraftService {
     }
 
     /**
-     * @param testDraftKey 
      * @param questionDraftKey 
      * @param questionDraftRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateQuestionDraft(testDraftKey: string, questionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<QuestionDraft>;
-    public updateQuestionDraft(testDraftKey: string, questionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<QuestionDraft>>;
-    public updateQuestionDraft(testDraftKey: string, questionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<QuestionDraft>>;
-    public updateQuestionDraft(testDraftKey: string, questionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (testDraftKey === null || testDraftKey === undefined) {
-            throw new Error('Required parameter testDraftKey was null or undefined when calling updateQuestionDraft.');
-        }
+    public updateQuestionDraft(questionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<QuestionDraft>;
+    public updateQuestionDraft(questionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<QuestionDraft>>;
+    public updateQuestionDraft(questionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<QuestionDraft>>;
+    public updateQuestionDraft(questionDraftKey: string, questionDraftRequest: QuestionDraftRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (questionDraftKey === null || questionDraftKey === undefined) {
             throw new Error('Required parameter questionDraftKey was null or undefined when calling updateQuestionDraft.');
         }
@@ -1398,11 +1626,89 @@ export class TestDraftService {
             }
         }
 
-        let localVarPath = `/authoring/testing/${this.configuration.encodeParam({name: "testDraftKey", value: testDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
+        let localVarPath = `/authoring/testing/questions/${this.configuration.encodeParam({name: "questionDraftKey", value: questionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         return this.httpClient.request<QuestionDraft>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: questionDraftRequest,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param sectionDraftKey 
+     * @param sectionDraftRequest 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateSectionDraft(sectionDraftKey: string, sectionDraftRequest: SectionDraftRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SectionDraft>;
+    public updateSectionDraft(sectionDraftKey: string, sectionDraftRequest: SectionDraftRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SectionDraft>>;
+    public updateSectionDraft(sectionDraftKey: string, sectionDraftRequest: SectionDraftRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SectionDraft>>;
+    public updateSectionDraft(sectionDraftKey: string, sectionDraftRequest: SectionDraftRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (sectionDraftKey === null || sectionDraftKey === undefined) {
+            throw new Error('Required parameter sectionDraftKey was null or undefined when calling updateSectionDraft.');
+        }
+        if (sectionDraftRequest === null || sectionDraftRequest === undefined) {
+            throw new Error('Required parameter sectionDraftRequest was null or undefined when calling updateSectionDraft.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (Keycloak) required
+        localVarCredential = this.configuration.lookupCredential('Keycloak');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/authoring/testing/sections/${this.configuration.encodeParam({name: "sectionDraftKey", value: sectionDraftKey, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
+        return this.httpClient.request<SectionDraft>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: sectionDraftRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

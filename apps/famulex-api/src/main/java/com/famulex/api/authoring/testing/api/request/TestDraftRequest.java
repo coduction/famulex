@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Class TestDraftResponse
+ * Class TestDraftRequest
  *
  * @author Alexander Boeckle, boeckle@coduction.com
  * @date 17.12.22

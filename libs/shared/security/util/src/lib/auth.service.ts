@@ -38,22 +38,17 @@ export class AuthService {
     });
   }
 
-  public login(redirectUrlSegment?: string): Promise<void> {
-    const redirectUrl =
-      window.location.origin +
-      this.locationStrategy.prepareExternalUrl(
-        redirectUrlSegment !== undefined ? redirectUrlSegment : ""
-      );
+  public async login(): Promise<void> {
+    const redirectUrl = window.location.origin + this.locationStrategy.path();
 
     console.log("Starting Keycloak login. Redirect Uri: " + redirectUrl);
-    return this.keycloakService
-      .login({ redirectUri: redirectUrl })
-      .then(() => this.loadUserProfile());
+    await this.keycloakService.login({ redirectUri: redirectUrl });
+
+    return this.loadUserProfile();
   }
 
   public logout() {
-    const redirectUrl =
-      window.location.origin + this.locationStrategy.prepareExternalUrl("/");
+    const redirectUrl = window.location.origin + this.locationStrategy.path();
 
     this.keycloakService
       .logout(redirectUrl)

@@ -161,9 +161,9 @@ public class FxTestConfiguration extends TableImpl<FxTestConfigurationRecord> {
     public final TableField<FxTestConfigurationRecord, Integer> DURATION = createField(DSL.name("duration"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>public.fx_test_configuration.shown_questions</code>.
+     * The column <code>public.fx_test_configuration.shuffle_sections</code>.
      */
-    public final TableField<FxTestConfigurationRecord, Integer> SHOWN_QUESTIONS = createField(DSL.name("shown_questions"), SQLDataType.INTEGER, this, "");
+    public final TableField<FxTestConfigurationRecord, Boolean> SHUFFLE_SECTIONS = createField(DSL.name("shuffle_sections"), SQLDataType.BOOLEAN.nullable(false), this, "");
 
     /**
      * The column <code>public.fx_test_configuration.shuffle_questions</code>.

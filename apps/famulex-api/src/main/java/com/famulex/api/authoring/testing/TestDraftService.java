@@ -1,21 +1,15 @@
 package com.famulex.api.authoring.testing;
 
-import com.famulex.api.authoring.course.model.CourseDraft;
-import com.famulex.api.authoring.course.model.CourseDraftNode;
 import com.famulex.api.authoring.testing.api.TestDraftMapper;
-import com.famulex.api.authoring.testing.model.AnswerDraft;
-import com.famulex.api.authoring.testing.model.QuestionDraft;
-import com.famulex.api.authoring.testing.model.TestDraft;
-import com.famulex.api.authoring.testing.model.TestStatus;
+import com.famulex.api.authoring.testing.model.*;
 import com.famulex.api.authoring.testing.repository.AnswerDraftRepository;
 import com.famulex.api.authoring.testing.repository.QuestionDraftRepository;
+import com.famulex.api.authoring.testing.repository.SectionDraftRepository;
 import com.famulex.api.authoring.testing.repository.TestDraftRepository;
 import com.famulex.api.authoring.testing.util.TestDraftPublicationMapper;
 import com.famulex.api.core.exception.EntityNotFoundException;
 import com.famulex.api.core.exception.UnexpectedErrorException;
-import com.famulex.api.course.model.Course;
 import com.famulex.api.course.model.CourseItem;
-import com.famulex.api.course.model.CourseNode;
 import com.famulex.api.testing.model.Test;
 import com.famulex.api.testing.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +34,7 @@ public class TestDraftService {
    * Repositories
    *************************************************************************/
   private final TestDraftRepository testDraftRepository;
+  private final SectionDraftRepository sectionDraftRepository;
   private final QuestionDraftRepository questionDraftRepository;
   private final AnswerDraftRepository answerDraftRepository;
 
@@ -106,20 +101,6 @@ public class TestDraftService {
       return true;
     }
 
-    // Compare questions: Since the order is also important, compare each index
-    for (int i = 0; i < existingTest.getQuestions().size(); i++) {
-      if (existingTest.getQuestions().get(i).isDifferent(newTest.getQuestions().get(i))) {
-        return true;
-      }
-
-      // Compare answers: Since the order is also important, compare each index
-      for (int j = 0; j < existingTest.getQuestions().get(i).getAnswers().size(); j++) {
-        if (existingTest.getQuestions().get(i).getAnswers().get(j).isDifferent(newTest.getQuestions().get(i).getAnswers().get(j))) {
-          return true;
-        }
-      }
-    }
-
     return false;
   }
 
@@ -166,7 +147,7 @@ public class TestDraftService {
    *************************************************************************/
   public void checkExistence(UUID testDraftKey) {
     if (!testDraftRepository.existsByKey(testDraftKey)) {
-      throw new EntityNotFoundException(CourseDraft.class, testDraftKey);
+      throw new EntityNotFoundException(TestDraft.class, testDraftKey);
     }
   }
 
@@ -174,7 +155,7 @@ public class TestDraftService {
     checkExistence(testDraftKey);
 
     if (!questionDraftRepository.existsByKey(questionDraftKey)) {
-      throw new EntityNotFoundException(CourseDraftNode.class, questionDraftKey);
+      throw new EntityNotFoundException(QuestionDraft.class, questionDraftKey);
     }
   }
 
@@ -188,20 +169,26 @@ public class TestDraftService {
 
   public TestDraft loadTestDraft(UUID testDraftKey) {
     return testDraftRepository.findByKey(testDraftKey)
-      .orElseThrow(() -> new EntityNotFoundException(Course.class, testDraftKey));
+      .orElseThrow(() -> new EntityNotFoundException(TestDraft.class, testDraftKey));
   }
 
-  public QuestionDraft loadQuestionDraft(UUID testDraftKey, UUID questionDraftKey) {
-    checkExistence(testDraftKey);
+  public SectionDraft loadSectionDraft(UUID sectionDraftKey) {
+    return sectionDraftRepository.findByKey(sectionDraftKey)
+      .orElseThrow(() -> new EntityNotFoundException(SectionDraft.class, sectionDraftKey));
+  }
 
+  public SectionDraft loadSectionDraftParent(UUID sectionDraftParentKey) {
+    return sectionDraftRepository.findByKey(sectionDraftParentKey)
+      .orElse(null);
+  }
+
+  public QuestionDraft loadQuestionDraft(UUID questionDraftKey) {
     return questionDraftRepository.findByKey(questionDraftKey)
-      .orElseThrow(() -> new EntityNotFoundException(CourseNode.class, questionDraftKey));
+      .orElseThrow(() -> new EntityNotFoundException(QuestionDraft.class, questionDraftKey));
   }
 
-  public AnswerDraft loadAnswerDraft(UUID testDraftKey, UUID questionDraftKey, UUID answerDraftKey) {
-    checkExistence(testDraftKey, questionDraftKey);
-
+  public AnswerDraft loadAnswerDraft(UUID answerDraftKey) {
     return answerDraftRepository.findByKey(answerDraftKey)
-      .orElseThrow(() -> new EntityNotFoundException(CourseItem.class, answerDraftKey));
+      .orElseThrow(() -> new EntityNotFoundException(AnswerDraft.class, answerDraftKey));
   }
 }

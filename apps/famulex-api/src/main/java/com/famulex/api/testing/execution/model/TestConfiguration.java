@@ -63,18 +63,25 @@ public class TestConfiguration extends DeletedAt {
   @Enumerated(EnumType.STRING)
   @Column(name = "execution_mode", nullable = false)
   private TestExecutionMode executionMode;
+
   @Column(name = "repeatable", nullable = false)
   private Boolean repeatable = false;
+
   @Column(name = "max_attempts")
   private Integer maxAttempts;
+
   @Column(name = "points_to_pass")
   private Double pointsToPass;
+
   @Column(name = "percentage_to_pass")
   private Double percentageToPass;
+
   @Column(name = "duration")
   private Integer duration;
+
   @Column(name = "shuffle_questions", nullable = false)
   private boolean shuffleQuestions;
+
   @Column(name = "shown_questions")
   private Integer shownQuestions;
 

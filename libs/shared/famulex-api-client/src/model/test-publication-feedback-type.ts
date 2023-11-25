@@ -11,12 +11,15 @@
  */
 
 
-export type TestPublicationFeedbackType = 'EMPTY_TEST' | 'QUESTION_FEEDBACK' | 'NO_POINTS_OR_PERCENTAGE' | 'NO_ANSWERS' | 'NOT_ENOUGH_ANSWERS' | 'NO_CORRECT_ANSWER' | 'NOT_ENOUGH_CORRECT_ANSWERS' | 'TOO_MANY_CORRECT_ANSWERS' | 'ONLY_SOME_ANSWERS_POINTS' | 'NOT_ENOUGH_ANSWERS_POINTS' | 'NOT_ENOUGH_SHOWN_ANSWERS' | 'TOO_MANY_SHOWN_ANSWERS' | 'LIMIT_ANSWERS_AND_NO_SHUFFLE' | 'ANSWER_FEEDBACK' | 'SAME_CONTENT' | 'NO_POINTS' | 'NO_POSITIVE_POINTS' | 'NO_NEGATIVE_POINTS' | 'NEGATIVE_CORRECT_POINTS' | 'POSITIVE_WRONG_POINTS';
+export type TestPublicationFeedbackType = 'EMPTY_TEST' | 'SECTION_FEEDBACK' | 'NO_POINTS_OR_PERCENTAGE' | 'EMPTY_SECTION' | 'QUESTION_FEEDBACK' | 'NO_QUESTIONS' | 'NO_ANSWERS' | 'NOT_ENOUGH_ANSWERS' | 'NO_CORRECT_ANSWER' | 'NOT_ENOUGH_CORRECT_ANSWERS' | 'TOO_MANY_CORRECT_ANSWERS' | 'ONLY_SOME_ANSWERS_POINTS' | 'NOT_ENOUGH_ANSWERS_POINTS' | 'NOT_ENOUGH_SHOWN_ANSWERS' | 'TOO_MANY_SHOWN_ANSWERS' | 'LIMIT_ANSWERS_AND_NO_SHUFFLE' | 'ANSWER_FEEDBACK' | 'SAME_CONTENT' | 'NO_POINTS' | 'NO_POSITIVE_POINTS' | 'NO_NEGATIVE_POINTS' | 'NEGATIVE_CORRECT_POINTS' | 'POSITIVE_WRONG_POINTS';
 
 export const TestPublicationFeedbackType = {
     EmptyTest: 'EMPTY_TEST' as TestPublicationFeedbackType,
-    QuestionFeedback: 'QUESTION_FEEDBACK' as TestPublicationFeedbackType,
+    SectionFeedback: 'SECTION_FEEDBACK' as TestPublicationFeedbackType,
     NoPointsOrPercentage: 'NO_POINTS_OR_PERCENTAGE' as TestPublicationFeedbackType,
+    EmptySection: 'EMPTY_SECTION' as TestPublicationFeedbackType,
+    QuestionFeedback: 'QUESTION_FEEDBACK' as TestPublicationFeedbackType,
+    NoQuestions: 'NO_QUESTIONS' as TestPublicationFeedbackType,
     NoAnswers: 'NO_ANSWERS' as TestPublicationFeedbackType,
     NotEnoughAnswers: 'NOT_ENOUGH_ANSWERS' as TestPublicationFeedbackType,
     NoCorrectAnswer: 'NO_CORRECT_ANSWER' as TestPublicationFeedbackType,

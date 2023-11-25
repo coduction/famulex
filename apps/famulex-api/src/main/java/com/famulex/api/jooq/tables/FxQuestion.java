@@ -85,9 +85,9 @@ public class FxQuestion extends TableImpl<FxQuestionRecord> {
     public final TableField<FxQuestionRecord, Integer> VERSION = createField(DSL.name("version"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>public.fx_question.fk_test</code>.
+     * The column <code>public.fx_question.fk_test_section</code>.
      */
-    public final TableField<FxQuestionRecord, Long> FK_TEST = createField(DSL.name("fk_test"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<FxQuestionRecord, Long> FK_TEST_SECTION = createField(DSL.name("fk_test_section"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.fx_question.position</code>.
@@ -204,11 +204,11 @@ public class FxQuestion extends TableImpl<FxQuestionRecord> {
 
     @Override
     public List<ForeignKey<FxQuestionRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.FX_QUESTION__FK_QUESTION_DRAFT, Keys.FX_QUESTION__FK_TEST);
+        return Arrays.asList(Keys.FX_QUESTION__FK_QUESTION_DRAFT, Keys.FX_QUESTION__FK_TEST_SECTION);
     }
 
     private transient FxQuestionDraft _fxQuestionDraft;
-    private transient FxTest _fxTest;
+    private transient FxTestSection _fxTestSection;
 
     /**
      * Get the implicit join path to the <code>public.fx_question_draft</code>
@@ -222,13 +222,14 @@ public class FxQuestion extends TableImpl<FxQuestionRecord> {
     }
 
     /**
-     * Get the implicit join path to the <code>public.fx_test</code> table.
+     * Get the implicit join path to the <code>public.fx_test_section</code>
+     * table.
      */
-    public FxTest fxTest() {
-        if (_fxTest == null)
-            _fxTest = new FxTest(this, Keys.FX_QUESTION__FK_TEST);
+    public FxTestSection fxTestSection() {
+        if (_fxTestSection == null)
+            _fxTestSection = new FxTestSection(this, Keys.FX_QUESTION__FK_TEST_SECTION);
 
-        return _fxTest;
+        return _fxTestSection;
     }
 
     @Override

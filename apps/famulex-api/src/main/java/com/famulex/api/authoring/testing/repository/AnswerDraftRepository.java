@@ -1,6 +1,7 @@
 package com.famulex.api.authoring.testing.repository;
 
 import com.famulex.api.authoring.testing.model.AnswerDraft;
+import com.famulex.api.authoring.testing.model.QuestionDraft;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,10 @@ public interface AnswerDraftRepository extends JpaRepository<AnswerDraft, Long> 
 
   Optional<AnswerDraft> findByKey(UUID key);
 
+  List<AnswerDraft> findByQuestionDraftOrderByPosition(QuestionDraft questionDraft);
+
   List<AnswerDraft> findByQuestionDraftKeyOrderByPosition(UUID questionDraftKey);
+
+  List<AnswerDraft> findByQuestionDraftSectionDraftTestDraftKey(UUID testDraftKey);
 
 }

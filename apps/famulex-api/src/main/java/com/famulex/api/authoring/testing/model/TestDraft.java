@@ -54,14 +54,14 @@ public class TestDraft extends DeletedAt {
   private Double percentageToPass;
   @Column(name = "duration")
   private Integer duration;
+  @Column(name = "shuffle_sections")
+  private boolean shuffleSections;
   @Column(name = "shuffle_questions")
   private boolean shuffleQuestions;
-  @Column(name = "shown_questions")
-  private Integer shownQuestions;
 
   @OrderBy("position ASC")
   @OneToMany(mappedBy = "testDraft", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<QuestionDraft> questions = new ArrayList<>();
+  private List<SectionDraft> sections = new ArrayList<>();
 
   @OrderBy("version DESC")
   @OneToMany(mappedBy = "testDraft")
@@ -132,33 +132,29 @@ public class TestDraft extends DeletedAt {
   }
 
   @Transactional
-  public TestDraft validate() {
+  public void validate() {
     // Clear all previous feedback
     publicationFeedback.clear();
 
-    // If there are no questions, the test is invalid
-    if (this.questions.isEmpty()) {
-      TestPublicationFeedback feedback = new TestPublicationFeedback();
-      feedback.setType(TestPublicationFeedbackType.EMPTY_TEST);
-      feedback.setSeverity(PublicationFeedbackSeverity.ERROR);
-      feedback.addKey(key);
-
-      publicationFeedback.add(feedback);
+    // If there are no sections, the test is invalid
+    if (this.sections.isEmpty()) {
+      publicationFeedback.add(TestPublicationFeedback.builder()
+        .type(TestPublicationFeedbackType.EMPTY_TEST)
+        .severity(PublicationFeedbackSeverity.ERROR)
+        .key(key)
+        .build());
     }
 
     // At least one option must be set - Points or Percentage
     if (pointsToPass == null && percentageToPass == null) {
-      TestPublicationFeedback feedback = new TestPublicationFeedback();
-      feedback.setType(TestPublicationFeedbackType.NO_POINTS_OR_PERCENTAGE);
-      feedback.setSeverity(PublicationFeedbackSeverity.ERROR);
-      feedback.addKey(key);
-
-      publicationFeedback.add(feedback);
+      publicationFeedback.add(TestPublicationFeedback.builder()
+        .type(TestPublicationFeedbackType.NO_POINTS_OR_PERCENTAGE)
+        .severity(PublicationFeedbackSeverity.ERROR)
+        .key(key)
+        .build());
     }
 
-    getQuestions().forEach(QuestionDraft::validate);
-
-    return this;
+    sections.forEach(SectionDraft::validate);
   }
 
   public boolean isValid(boolean triggerValidation) {
@@ -170,7 +166,8 @@ public class TestDraft extends DeletedAt {
       return false;
     }
 
-    return getQuestions().stream().allMatch(questionDraft -> questionDraft.isValid(false));
+    // TODO Is this necessary? Can't we just return true at this point?
+    return sections.stream().allMatch(section -> section.isValid(false));
   }
 
   public boolean isInvalid(boolean triggerValidation) {

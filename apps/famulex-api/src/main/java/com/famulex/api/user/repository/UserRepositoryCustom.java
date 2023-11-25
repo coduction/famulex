@@ -13,4 +13,5 @@ import org.springframework.data.domain.Pageable;
 public interface UserRepositoryCustom {
 
   Page<FxUserRecord> search(String search, Pageable pageable);
+
 }

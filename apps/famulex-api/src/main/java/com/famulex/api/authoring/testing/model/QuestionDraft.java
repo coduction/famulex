@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +25,9 @@ import java.util.List;
 @Table(name = "fx_question_draft")
 public class QuestionDraft extends PublicKey implements Positionable {
 
-  @Column(name = "published_at")
-  private OffsetDateTime publishedAt;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "fk_test_draft", nullable = false)
-  private TestDraft testDraft;
+  @JoinColumn(name = "fk_test_draft_section", nullable = false)
+  private SectionDraft sectionDraft;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "type", nullable = false)
@@ -77,7 +73,6 @@ public class QuestionDraft extends PublicKey implements Positionable {
     publishedQuestions.forEach(question -> question.setQuestionDraft(null));
   }
 
-  //    @PostLoad
   @PostUpdate
   @PostPersist
   @Transactional
@@ -145,8 +140,8 @@ public class QuestionDraft extends PublicKey implements Positionable {
     // Validate answers
     answers.forEach(AnswerDraft::validate);
 
-    // Add feedback to test
-    TestDraftHelper.addFeedbackToTestDraft(testDraft, this);
+    // Add feedback to section
+    TestDraftHelper.addFeedbackToSectionDraft(sectionDraft, this);
   }
 
   @Transactional
@@ -164,7 +159,7 @@ public class QuestionDraft extends PublicKey implements Positionable {
   }
 
   private void checkAnswerCount() {
-    if (answers.size() == 0) {
+    if (answers.isEmpty()) {
       publicationFeedback.add(TestPublicationFeedback.builder()
         .type(TestPublicationFeedbackType.NO_ANSWERS)
         .severity(PublicationFeedbackSeverity.ERROR)

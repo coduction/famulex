@@ -20,8 +20,8 @@ public class TestExecutionQuestion extends UpdatedAt {
   private Question question;
 
   @ManyToOne(optional = false)
-  @JoinColumn(name = "fk_test_execution", nullable = false)
-  private TestExecution testExecution;
+  @JoinColumn(name = "fk_test_execution_section", nullable = false)
+  private TestExecutionSection testExecutionSection;
 
   @Column(name = "position", nullable = false)
   private Integer position;

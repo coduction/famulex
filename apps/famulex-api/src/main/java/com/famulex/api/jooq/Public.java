@@ -51,6 +51,10 @@ import com.famulex.api.jooq.tables.FxTestExecution;
 import com.famulex.api.jooq.tables.FxTestExecutionAnswer;
 import com.famulex.api.jooq.tables.FxTestExecutionQuestion;
 import com.famulex.api.jooq.tables.FxTestI18n;
+import com.famulex.api.jooq.tables.FxTestSection;
+import com.famulex.api.jooq.tables.FxTestSectionDraft;
+import com.famulex.api.jooq.tables.FxTestSectionDraftI18n;
+import com.famulex.api.jooq.tables.FxTestSectionI18n;
 import com.famulex.api.jooq.tables.FxUpgrade;
 import com.famulex.api.jooq.tables.FxUser;
 
@@ -311,6 +315,26 @@ public class Public extends SchemaImpl {
     public final FxTestI18n FX_TEST_I18N = FxTestI18n.FX_TEST_I18N;
 
     /**
+     * The table <code>public.fx_test_section</code>.
+     */
+    public final FxTestSection FX_TEST_SECTION = FxTestSection.FX_TEST_SECTION;
+
+    /**
+     * The table <code>public.fx_test_section_draft</code>.
+     */
+    public final FxTestSectionDraft FX_TEST_SECTION_DRAFT = FxTestSectionDraft.FX_TEST_SECTION_DRAFT;
+
+    /**
+     * The table <code>public.fx_test_section_draft_i18n</code>.
+     */
+    public final FxTestSectionDraftI18n FX_TEST_SECTION_DRAFT_I18N = FxTestSectionDraftI18n.FX_TEST_SECTION_DRAFT_I18N;
+
+    /**
+     * The table <code>public.fx_test_section_i18n</code>.
+     */
+    public final FxTestSectionI18n FX_TEST_SECTION_I18N = FxTestSectionI18n.FX_TEST_SECTION_I18N;
+
+    /**
      * The table <code>public.fx_upgrade</code>.
      */
     public final FxUpgrade FX_UPGRADE = FxUpgrade.FX_UPGRADE;
@@ -383,6 +407,10 @@ public class Public extends SchemaImpl {
             FxTestExecutionAnswer.FX_TEST_EXECUTION_ANSWER,
             FxTestExecutionQuestion.FX_TEST_EXECUTION_QUESTION,
             FxTestI18n.FX_TEST_I18N,
+            FxTestSection.FX_TEST_SECTION,
+            FxTestSectionDraft.FX_TEST_SECTION_DRAFT,
+            FxTestSectionDraftI18n.FX_TEST_SECTION_DRAFT_I18N,
+            FxTestSectionI18n.FX_TEST_SECTION_I18N,
             FxUpgrade.FX_UPGRADE,
             FxUser.FX_USER
         );

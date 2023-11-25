@@ -120,9 +120,9 @@ public class FxTest extends TableImpl<FxTestRecord> {
     public final TableField<FxTestRecord, Integer> DURATION = createField(DSL.name("duration"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>public.fx_test.shown_questions</code>.
+     * The column <code>public.fx_test.shuffle_sections</code>.
      */
-    public final TableField<FxTestRecord, Integer> SHOWN_QUESTIONS = createField(DSL.name("shown_questions"), SQLDataType.INTEGER, this, "");
+    public final TableField<FxTestRecord, Boolean> SHUFFLE_SECTIONS = createField(DSL.name("shuffle_sections"), SQLDataType.BOOLEAN.nullable(false), this, "");
 
     /**
      * The column <code>public.fx_test.shuffle_questions</code>.
@@ -244,14 +244,14 @@ public class FxTest extends TableImpl<FxTestRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Long, UUID, OffsetDateTime, OffsetDateTime, Long, Integer, String, String, String, Double, Double, String, Integer, Integer, Boolean> fieldsRow() {
+    public Row15<Long, UUID, OffsetDateTime, OffsetDateTime, Long, Integer, String, String, String, Double, Double, String, Integer, Boolean, Boolean> fieldsRow() {
         return (Row15) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function15<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super Integer, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super String, ? super Integer, ? super Integer, ? super Boolean, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function15<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super Integer, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super String, ? super Integer, ? super Boolean, ? super Boolean, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -259,7 +259,7 @@ public class FxTest extends TableImpl<FxTestRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function15<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super Integer, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super String, ? super Integer, ? super Integer, ? super Boolean, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function15<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super Integer, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super String, ? super Integer, ? super Boolean, ? super Boolean, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

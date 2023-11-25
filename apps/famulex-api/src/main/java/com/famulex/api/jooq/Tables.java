@@ -51,6 +51,10 @@ import com.famulex.api.jooq.tables.FxTestExecution;
 import com.famulex.api.jooq.tables.FxTestExecutionAnswer;
 import com.famulex.api.jooq.tables.FxTestExecutionQuestion;
 import com.famulex.api.jooq.tables.FxTestI18n;
+import com.famulex.api.jooq.tables.FxTestSection;
+import com.famulex.api.jooq.tables.FxTestSectionDraft;
+import com.famulex.api.jooq.tables.FxTestSectionDraftI18n;
+import com.famulex.api.jooq.tables.FxTestSectionI18n;
 import com.famulex.api.jooq.tables.FxUpgrade;
 import com.famulex.api.jooq.tables.FxUser;
 
@@ -295,6 +299,26 @@ public class Tables {
      * The table <code>public.fx_test_i18n</code>.
      */
     public static final FxTestI18n FX_TEST_I18N = FxTestI18n.FX_TEST_I18N;
+
+    /**
+     * The table <code>public.fx_test_section</code>.
+     */
+    public static final FxTestSection FX_TEST_SECTION = FxTestSection.FX_TEST_SECTION;
+
+    /**
+     * The table <code>public.fx_test_section_draft</code>.
+     */
+    public static final FxTestSectionDraft FX_TEST_SECTION_DRAFT = FxTestSectionDraft.FX_TEST_SECTION_DRAFT;
+
+    /**
+     * The table <code>public.fx_test_section_draft_i18n</code>.
+     */
+    public static final FxTestSectionDraftI18n FX_TEST_SECTION_DRAFT_I18N = FxTestSectionDraftI18n.FX_TEST_SECTION_DRAFT_I18N;
+
+    /**
+     * The table <code>public.fx_test_section_i18n</code>.
+     */
+    public static final FxTestSectionI18n FX_TEST_SECTION_I18N = FxTestSectionI18n.FX_TEST_SECTION_I18N;
 
     /**
      * The table <code>public.fx_upgrade</code>.

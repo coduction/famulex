@@ -1,7 +1,7 @@
 package com.famulex.api.testing.model;
 
 import com.famulex.api.authoring.testing.model.AnswerDraft;
-import com.famulex.api.core.model.PublicKey;
+import com.famulex.api.core.model.PublicKeyWithoutHistory;
 import com.famulex.api.testing.execution.model.TestExecutionAnswer;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "fx_answer")
-public class Answer extends PublicKey {
+public class Answer extends PublicKeyWithoutHistory {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "fk_answer_draft")

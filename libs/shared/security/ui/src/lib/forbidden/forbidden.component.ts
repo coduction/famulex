@@ -21,7 +21,7 @@ export class ForbiddenComponent implements OnDestroy {
     this.interval = setInterval(() => {
       this.countDown--;
       if (this.countDown === 0) {
-        this.skipCountDown();
+        this.onFinishCountdown();
       }
     }, 1000);
   }
@@ -30,7 +30,7 @@ export class ForbiddenComponent implements OnDestroy {
     this.cleanUp();
   }
 
-  skipCountDown(): void {
+  onFinishCountdown(): void {
     this.cleanUp();
     void this.router.navigate(["/"]);
   }

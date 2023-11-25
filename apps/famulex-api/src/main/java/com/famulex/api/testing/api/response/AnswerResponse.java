@@ -19,21 +19,18 @@ import java.util.UUID;
 @Schema(name = "Answer")
 public class AnswerResponse {
 
-    @NotNull
-    private UUID key;
-    @NotNull
-    private OffsetDateTime createdAt;
-    @NotNull
-    private OffsetDateTime updatedAt;
-    private OffsetDateTime publishedAt;
+  @NotNull
+  private UUID key;
+  @NotNull
+  private OffsetDateTime createdAt;
 
-    @NotNull
-    private Integer position;
-    private boolean required;
-    private boolean correct;
+  @NotNull
+  private Integer position;
+  private boolean required;
+  private boolean correct;
 
-    private String title;
-    private String description;
-    @NotNull
-    private String content;
+  private String title;
+  private String description;
+  @NotNull
+  private String content;
 }

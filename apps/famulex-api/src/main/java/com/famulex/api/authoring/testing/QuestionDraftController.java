@@ -3,9 +3,8 @@ package com.famulex.api.authoring.testing;
 import com.famulex.api.authoring.testing.api.TestDraftMapper;
 import com.famulex.api.authoring.testing.api.request.QuestionDraftRequest;
 import com.famulex.api.authoring.testing.api.response.QuestionDraftResponse;
-import com.famulex.api.authoring.testing.model.QuestionDraft;
 import com.famulex.api.authoring.testing.repository.QuestionDraftRepository;
-import com.famulex.api.authoring.testing.repository.TestDraftRepository;
+import com.famulex.api.authoring.testing.repository.SectionDraftRepository;
 import com.famulex.api.core.util.PositioningHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -25,14 +24,14 @@ import java.util.UUID;
  */
 @Tag(name = "TestDraft")
 @RestController
-@RequestMapping("/authoring/testing/{testDraftKey}/questions")
+@RequestMapping("/authoring/testing")
 @RequiredArgsConstructor
 public class QuestionDraftController {
 
   /**************************************************************************
    * Repositories
    *************************************************************************/
-  private final TestDraftRepository testDraftRepository;
+  private final SectionDraftRepository sectionDraftRepository;
   private final QuestionDraftRepository questionDraftRepository;
 
   /**************************************************************************
@@ -48,21 +47,20 @@ public class QuestionDraftController {
   /**************************************************************************
    * GET - Endpoints
    *************************************************************************/
-  @GetMapping
+  @GetMapping("/{testDraftKey}/questions")
   public List<QuestionDraftResponse> loadQuestions(@PathVariable UUID testDraftKey) {
     testDraftService.checkExistence(testDraftKey);
 
-    return questionDraftRepository.findByTestDraftKeyOrderByPosition(testDraftKey)
+    return questionDraftRepository.findBySectionDraftTestDraftKey(testDraftKey)
       .stream()
       .map(testDraftMapper::toResponse)
       .toList();
   }
 
   @Transactional
-  @GetMapping("/{questionDraftKey}")
-  public QuestionDraftResponse loadQuestion(@PathVariable UUID testDraftKey,
-                                            @PathVariable UUID questionDraftKey) {
-    var questionDraft = testDraftService.loadQuestionDraft(testDraftKey, questionDraftKey);
+  @GetMapping("/questions/{questionDraftKey}")
+  public QuestionDraftResponse loadQuestion(@PathVariable UUID questionDraftKey) {
+    var questionDraft = testDraftService.loadQuestionDraft(questionDraftKey);
 
     return testDraftMapper.toResponse(questionDraft);
   }
@@ -70,24 +68,23 @@ public class QuestionDraftController {
   /**************************************************************************
    * POST - Endpoints
    *************************************************************************/
-  @PostMapping
+  @PostMapping("/sections/{sectionDraftKey}/questions")
   @ResponseStatus(HttpStatus.CREATED)
-  public QuestionDraftResponse createQuestionDraft(@PathVariable UUID testDraftKey,
+  public QuestionDraftResponse createQuestionDraft(@PathVariable UUID sectionDraftKey,
                                                    @Valid @RequestBody QuestionDraftRequest questionDraftRequest) {
-    var testDraft = testDraftService.loadTestDraft(testDraftKey);
+    var sectionDraft = testDraftService.loadSectionDraft(sectionDraftKey);
 
-    QuestionDraft questionDraft = testDraftMapper.fromRequest(questionDraftRequest);
-    questionDraft.setTestDraft(testDraft);
+    var questionDraft = testDraftMapper.fromRequest(questionDraftRequest, sectionDraft);
 
     // Shift position of all other questions
-    List<QuestionDraft> existingQuestions = questionDraftRepository.findByTestDraftKeyOrderByPosition(testDraftKey);
+    var existingQuestions = questionDraftRepository.findBySectionDraftKeyOrderByPosition(sectionDraftKey);
     PositioningHelper.shiftIndexOnInsertion(existingQuestions, questionDraft);
     questionDraftRepository.saveAll(existingQuestions);
 
     questionDraft = questionDraftRepository.save(questionDraft);
 
     // Check the status of the test draft
-    testDraftService.checkStatus(testDraft, true, true);
+    testDraftService.checkStatus(sectionDraft.getTestDraft(), true, true);
 
     return testDraftMapper.toResponse(questionDraft);
   }
@@ -95,34 +92,32 @@ public class QuestionDraftController {
   /**************************************************************************
    * PUT - Endpoints
    *************************************************************************/
-  @PutMapping("/{questionDraftKey}")
-  public QuestionDraftResponse updateQuestionDraft(@PathVariable UUID testDraftKey,
-                                                   @PathVariable UUID questionDraftKey,
+  @PutMapping("/questions/{questionDraftKey}")
+  public QuestionDraftResponse updateQuestionDraft(@PathVariable UUID questionDraftKey,
                                                    @Valid @RequestBody QuestionDraftRequest questionDraftRequest) {
-    var questionDraft = testDraftService.loadQuestionDraft(testDraftKey, questionDraftKey);
+    var questionDraft = testDraftService.loadQuestionDraft(questionDraftKey);
 
     testDraftMapper.updateFromRequest(questionDraftRequest, questionDraft);
     questionDraft = questionDraftRepository.save(questionDraft);
 
     // Check the status of the test draft
-    testDraftService.checkStatus(testDraftKey);
+    testDraftService.checkStatus(questionDraft.getSectionDraft().getTestDraft(), true, true);
 
     return testDraftMapper.toResponse(questionDraft);
   }
 
   @Transactional
-  @PutMapping("/{questionDraftKey}/position")
-  public List<QuestionDraftResponse> moveQuestionDraft(@PathVariable UUID testDraftKey,
-                                                       @PathVariable UUID questionDraftKey,
+  @PutMapping("/questions/{questionDraftKey}/position")
+  public List<QuestionDraftResponse> moveQuestionDraft(@PathVariable UUID questionDraftKey,
                                                        @RequestParam Integer newPosition) {
-    QuestionDraft questionDraft = testDraftService.loadQuestionDraft(testDraftKey, questionDraftKey);
-    List<QuestionDraft> existingQuestions = questionDraftRepository.findByTestDraftKeyOrderByPosition(testDraftKey);
+    var questionDraft = testDraftService.loadQuestionDraft(questionDraftKey);
+    var existingQuestions = questionDraftRepository.findBySectionDraftOrderByPosition(questionDraft.getSectionDraft());
 
     PositioningHelper.shiftIndex(existingQuestions, questionDraft.getPosition(), newPosition);
     questionDraftRepository.saveAll(existingQuestions);
 
     // Check the status of the test draft
-    testDraftService.checkStatus(testDraftKey);
+    testDraftService.checkStatus(questionDraft.getSectionDraft().getTestDraft(), true, true);
 
     return existingQuestions
       .stream()
@@ -134,13 +129,13 @@ public class QuestionDraftController {
    * DELETE - Endpoints
    *************************************************************************/
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @DeleteMapping("/{questionDraftKey}")
-  public void deleteQuestionDraft(@PathVariable UUID testDraftKey,
-                                  @PathVariable UUID questionDraftKey) {
-    QuestionDraft questionDraft = testDraftService.loadQuestionDraft(testDraftKey, questionDraftKey);
+  @DeleteMapping("/questions/{questionDraftKey}")
+  public void deleteQuestionDraft(@PathVariable UUID questionDraftKey) {
+    var questionDraft = testDraftService.loadQuestionDraft(questionDraftKey);
+    var testDraftKey = questionDraft.getSectionDraft().getTestDraft().getKey();
 
     // Shift position of all other questions
-    List<QuestionDraft> existingQuestions = questionDraftRepository.findByTestDraftKeyOrderByPosition(testDraftKey);
+    var existingQuestions = questionDraftRepository.findBySectionDraftOrderByPosition(questionDraft.getSectionDraft());
     PositioningHelper.shiftIndexOnDeletion(existingQuestions, questionDraft);
     questionDraftRepository.saveAll(existingQuestions);
 

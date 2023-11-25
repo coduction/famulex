@@ -332,17 +332,17 @@ public class FxTestConfigurationRecord extends UpdatableRecordImpl<FxTestConfigu
     }
 
     /**
-     * Setter for <code>public.fx_test_configuration.shown_questions</code>.
+     * Setter for <code>public.fx_test_configuration.shuffle_sections</code>.
      */
-    public void setShownQuestions(Integer value) {
+    public void setShuffleSections(Boolean value) {
         set(22, value);
     }
 
     /**
-     * Getter for <code>public.fx_test_configuration.shown_questions</code>.
+     * Getter for <code>public.fx_test_configuration.shuffle_sections</code>.
      */
-    public Integer getShownQuestions() {
-        return (Integer) get(22);
+    public Boolean getShuffleSections() {
+        return (Boolean) get(22);
     }
 
     /**
@@ -382,7 +382,7 @@ public class FxTestConfigurationRecord extends UpdatableRecordImpl<FxTestConfigu
     /**
      * Create a detached, initialised FxTestConfigurationRecord
      */
-    public FxTestConfigurationRecord(Long id, UUID key, OffsetDateTime createdAt, OffsetDateTime updatedAt, OffsetDateTime deletedAt, OffsetDateTime archivedAt, String type, Long fkCourseDraft, Long fkCourseDraftItem, Long fkCourse, Long fkCourseItem, Long fkTest, OffsetDateTime validFrom, OffsetDateTime validUntil, OffsetDateTime resultFrom, OffsetDateTime resultUntil, Boolean repeatable, Integer maxAttempts, Double pointsToPass, Double percentageToPass, String executionMode, Integer duration, Integer shownQuestions, Boolean shuffleQuestions) {
+    public FxTestConfigurationRecord(Long id, UUID key, OffsetDateTime createdAt, OffsetDateTime updatedAt, OffsetDateTime deletedAt, OffsetDateTime archivedAt, String type, Long fkCourseDraft, Long fkCourseDraftItem, Long fkCourse, Long fkCourseItem, Long fkTest, OffsetDateTime validFrom, OffsetDateTime validUntil, OffsetDateTime resultFrom, OffsetDateTime resultUntil, Boolean repeatable, Integer maxAttempts, Double pointsToPass, Double percentageToPass, String executionMode, Integer duration, Boolean shuffleSections, Boolean shuffleQuestions) {
         super(FxTestConfiguration.FX_TEST_CONFIGURATION);
 
         setId(id);
@@ -407,7 +407,7 @@ public class FxTestConfigurationRecord extends UpdatableRecordImpl<FxTestConfigu
         setPercentageToPass(percentageToPass);
         setExecutionMode(executionMode);
         setDuration(duration);
-        setShownQuestions(shownQuestions);
+        setShuffleSections(shuffleSections);
         setShuffleQuestions(shuffleQuestions);
         resetChangedOnNotNull();
     }

@@ -74,6 +74,8 @@ model/role-assignment-request-update.ts
 model/role-assignment.ts
 model/role-request.ts
 model/role.ts
+model/section-draft-request.ts
+model/section-draft.ts
 model/sort-object.ts
 model/status.ts
 model/system-info.ts

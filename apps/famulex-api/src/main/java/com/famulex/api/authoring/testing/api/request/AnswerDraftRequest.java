@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Class TestDraftResponse
+ * Class QuestionDraftRequest
  *
  * @author Alexander Boeckle, boeckle@coduction.com
  * @date 17.12.22
@@ -14,12 +14,12 @@ import lombok.Setter;
 @Setter
 public class AnswerDraftRequest {
 
-    private Integer position;
-    private boolean required;
-    private boolean correct;
+  private Integer position;
+  private boolean required;
+  private boolean correct;
 
-    private String title;
-    private String description;
-    @NotNull
-    private String content;
+  private String title;
+  private String description;
+  @NotNull
+  private String content;
 }

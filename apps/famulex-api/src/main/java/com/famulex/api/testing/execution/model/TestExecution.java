@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
@@ -30,6 +29,6 @@ public class TestExecution extends UpdatedAt {
   private Double score;
 
   @OneToMany(mappedBy = "testExecution")
-  private Set<TestExecutionQuestion> testExecutionQuestions = new LinkedHashSet<>();
+  private Set<TestExecutionSection> testExecutionSections;
 
 }

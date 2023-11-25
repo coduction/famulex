@@ -19,7 +19,7 @@ export class AuthGuard extends KeycloakAuthGuard implements CanMatch {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean> {
-    return this.checkAccess(route.url.toString(), route.data["rights"] as Right[]);
+    return this.checkAccess(route.data["rights"] as Right[]);
   }
 
   canMatch(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -30,14 +30,14 @@ export class AuthGuard extends KeycloakAuthGuard implements CanMatch {
         this.authenticated = await this.keycloakService.isLoggedIn();
         this.roles = this.keycloakService.getUserRoles(true);
 
-        const url = segments.join("/");
+        // const url = segments.join("/");
         let requiredRights: Right[] = [];
 
         if (route.data && route.data["rights"]) {
           requiredRights = route.data["rights"] as Right[];
         }
 
-        this.checkAccess(url, requiredRights).then(result => {
+        this.checkAccess(requiredRights).then(result => {
           resolve(result);
         });
       } catch (error) {
@@ -46,17 +46,13 @@ export class AuthGuard extends KeycloakAuthGuard implements CanMatch {
     });
   }
 
-  checkAccess(url: string, requiredRights: Right[]): Promise<boolean> {
+  checkAccess(requiredRights: Right[]): Promise<boolean> {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async resolve => {
-      //if (!this.authenticated) {
       if (!await this.keycloakService.isLoggedIn()) {
         console.warn("User not authenticated!");
-        return this.authService.login(url).then(() => resolve(false));
+        return this.authService.login().then(() => resolve(false));
       }
-
-      // console.debug("Expected rights: ", requiredRights);
-      // console.debug("User rights :", this.roles);
 
       let granted = false;
 

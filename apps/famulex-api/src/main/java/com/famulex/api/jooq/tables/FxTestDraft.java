@@ -135,9 +135,9 @@ public class FxTestDraft extends TableImpl<FxTestDraftRecord> {
     public final TableField<FxTestDraftRecord, Integer> DURATION = createField(DSL.name("duration"), SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>public.fx_test_draft.shown_questions</code>.
+     * The column <code>public.fx_test_draft.shuffle_sections</code>.
      */
-    public final TableField<FxTestDraftRecord, Integer> SHOWN_QUESTIONS = createField(DSL.name("shown_questions"), SQLDataType.INTEGER, this, "");
+    public final TableField<FxTestDraftRecord, Boolean> SHUFFLE_SECTIONS = createField(DSL.name("shuffle_sections"), SQLDataType.BOOLEAN.nullable(false), this, "");
 
     /**
      * The column <code>public.fx_test_draft.shuffle_questions</code>.
@@ -241,14 +241,14 @@ public class FxTestDraft extends TableImpl<FxTestDraftRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row18<Long, UUID, OffsetDateTime, OffsetDateTime, OffsetDateTime, OffsetDateTime, OffsetDateTime, Long, String, String, String, String, String, Double, Double, Integer, Integer, Boolean> fieldsRow() {
+    public Row18<Long, UUID, OffsetDateTime, OffsetDateTime, OffsetDateTime, OffsetDateTime, OffsetDateTime, Long, String, String, String, String, String, Double, Double, Integer, Boolean, Boolean> fieldsRow() {
         return (Row18) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function18<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super Integer, ? super Integer, ? super Boolean, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function18<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super Integer, ? super Boolean, ? super Boolean, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -256,7 +256,7 @@ public class FxTestDraft extends TableImpl<FxTestDraftRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function18<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super Integer, ? super Integer, ? super Boolean, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function18<? super Long, ? super UUID, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super OffsetDateTime, ? super Long, ? super String, ? super String, ? super String, ? super String, ? super String, ? super Double, ? super Double, ? super Integer, ? super Boolean, ? super Boolean, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

@@ -7,3 +7,4 @@ export * from "./lib/helper/security.helper";
 export * from "./lib/helper/dialog.helper";
 export * from "./lib/helper/store.helper";
 export * from "./lib/helper/course.helper";
+export * from "./lib/helper/test.helper";

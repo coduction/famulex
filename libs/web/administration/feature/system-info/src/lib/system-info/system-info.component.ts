@@ -1,5 +1,6 @@
 import { CommonModule }                             from "@angular/common";
 import { Component, ViewEncapsulation }             from "@angular/core";
+import { RouterLink }                               from "@angular/router";
 import { CardModule }                               from "@coduction/primeng/card";
 import { FileUploadHandlerEvent, FileUploadModule } from "@coduction/primeng/fileupload";
 import { ImageModule }                              from "@coduction/primeng/image";
@@ -9,7 +10,7 @@ import { Store }                                    from "@ngrx/store";
 @Component({
   selector: "administration-system-info",
   standalone: true,
-  imports: [CommonModule, CardModule, FileUploadModule, ImageModule],
+  imports: [CommonModule, CardModule, FileUploadModule, ImageModule, RouterLink],
   templateUrl: "./system-info.component.html",
   styleUrls: ["./system-info.component.scss"],
   encapsulation: ViewEncapsulation.None

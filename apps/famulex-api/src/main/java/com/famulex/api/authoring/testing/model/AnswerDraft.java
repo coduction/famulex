@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +24,6 @@ import java.util.List;
 @Entity
 @Table(name = "fx_answer_draft")
 public class AnswerDraft extends PublicKey implements Positionable {
-
-  @Column(name = "published_at")
-  private OffsetDateTime publishedAt;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "fk_question_draft", nullable = false)

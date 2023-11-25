@@ -109,16 +109,16 @@ public class FxQuestionRecord extends UpdatableRecordImpl<FxQuestionRecord> impl
     }
 
     /**
-     * Setter for <code>public.fx_question.fk_test</code>.
+     * Setter for <code>public.fx_question.fk_test_section</code>.
      */
-    public void setFkTest(Long value) {
+    public void setFkTestSection(Long value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>public.fx_question.fk_test</code>.
+     * Getter for <code>public.fx_question.fk_test_section</code>.
      */
-    public Long getFkTest() {
+    public Long getFkTestSection() {
         return (Long) get(6);
     }
 
@@ -345,7 +345,7 @@ public class FxQuestionRecord extends UpdatableRecordImpl<FxQuestionRecord> impl
 
     @Override
     public Field<Long> field7() {
-        return FxQuestion.FX_QUESTION.FK_TEST;
+        return FxQuestion.FX_QUESTION.FK_TEST_SECTION;
     }
 
     @Override
@@ -440,7 +440,7 @@ public class FxQuestionRecord extends UpdatableRecordImpl<FxQuestionRecord> impl
 
     @Override
     public Long component7() {
-        return getFkTest();
+        return getFkTestSection();
     }
 
     @Override
@@ -535,7 +535,7 @@ public class FxQuestionRecord extends UpdatableRecordImpl<FxQuestionRecord> impl
 
     @Override
     public Long value7() {
-        return getFkTest();
+        return getFkTestSection();
     }
 
     @Override
@@ -636,7 +636,7 @@ public class FxQuestionRecord extends UpdatableRecordImpl<FxQuestionRecord> impl
 
     @Override
     public FxQuestionRecord value7(Long value) {
-        setFkTest(value);
+        setFkTestSection(value);
         return this;
     }
 
@@ -750,7 +750,7 @@ public class FxQuestionRecord extends UpdatableRecordImpl<FxQuestionRecord> impl
     /**
      * Create a detached, initialised FxQuestionRecord
      */
-    public FxQuestionRecord(Long id, UUID key, OffsetDateTime createdAt, OffsetDateTime updatedAt, Long fkQuestionDraft, Integer version, Long fkTest, Integer position, Boolean required, String type, Boolean allowEmpty, String title, String description, String question, Integer shownAnswers, Boolean reviewManually, Double points, Double deductionWrongAnswer, Boolean shuffleAnswers) {
+    public FxQuestionRecord(Long id, UUID key, OffsetDateTime createdAt, OffsetDateTime updatedAt, Long fkQuestionDraft, Integer version, Long fkTestSection, Integer position, Boolean required, String type, Boolean allowEmpty, String title, String description, String question, Integer shownAnswers, Boolean reviewManually, Double points, Double deductionWrongAnswer, Boolean shuffleAnswers) {
         super(FxQuestion.FX_QUESTION);
 
         setId(id);
@@ -759,7 +759,7 @@ public class FxQuestionRecord extends UpdatableRecordImpl<FxQuestionRecord> impl
         setUpdatedAt(updatedAt);
         setFkQuestionDraft(fkQuestionDraft);
         setVersion(version);
-        setFkTest(fkTest);
+        setFkTestSection(fkTestSection);
         setPosition(position);
         setRequired(required);
         setType(type);

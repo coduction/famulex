@@ -50,7 +50,8 @@
         "tsConfig": "apps/famulex-ui-web/tsconfig.app.json",
         "allowedCommonJsDependencies": [
           "base64-js",
-          "js-sha256"
+          "js-sha256",
+          "quill"
         ],
         "assets": [
           "apps/famulex-ui-web/src/favicon.ico",

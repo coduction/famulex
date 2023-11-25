@@ -25,14 +25,39 @@ public class TestDraftHelper {
     addFeedbackToParent(question.getPublicationFeedback(), answer.getPublicationFeedback(), TestPublicationFeedbackType.ANSWER_FEEDBACK, answer.getKey());
   }
 
-  public static void addFeedbackToTestDraft(TestDraft test, QuestionDraft question) {
+  public static void addFeedbackToSectionDraft(SectionDraft section, QuestionDraft question) {
     // Guards to prevent null pointer exceptions
-    if (test == null || question == null) {
+    if (section == null || question == null) {
+      return;
+    }
+
+    // Add feedback to the section
+    addFeedbackToParent(section.getPublicationFeedback(), question.getPublicationFeedback(), TestPublicationFeedbackType.QUESTION_FEEDBACK, question.getKey());
+  }
+
+  public static void addFeedbackToSectionDraft(SectionDraft parent, SectionDraft section) {
+    // Guards to prevent null pointer exceptions
+    if (parent == null || section == null) {
+      return;
+    }
+
+    // Add feedback to the section
+    addFeedbackToParent(parent.getPublicationFeedback(), section.getPublicationFeedback(), TestPublicationFeedbackType.SECTION_FEEDBACK, section.getKey());
+  }
+
+  public static void addFeedbackToTestDraft(TestDraft test, SectionDraft section) {
+    // Guards to prevent null pointer exceptions
+    if (test == null || section == null) {
+      return;
+    }
+
+    // If section is not a root section, we don't need to add feedback to the test
+    if (section.getParent() != null) {
       return;
     }
 
     // Add feedback to the test
-    addFeedbackToParent(test.getPublicationFeedback(), question.getPublicationFeedback(), TestPublicationFeedbackType.QUESTION_FEEDBACK, question.getKey());
+    addFeedbackToParent(test.getPublicationFeedback(), section.getPublicationFeedback(), TestPublicationFeedbackType.SECTION_FEEDBACK, section.getKey());
   }
 
   private static void addFeedbackToParent(List<TestPublicationFeedback> parentFeedback,
@@ -50,7 +75,7 @@ public class TestDraftHelper {
     }
 
     // Only add the most severe feedback
-    final TestPublicationFeedback feedback = GetMostSevereFeedback(childFeedback, type, key);
+    final TestPublicationFeedback feedback = filterMostSevereFeedback(childFeedback, type, key);
 
     // If no feedback exists, we don't need to add it. This should never happen, but we check it anyway
     if (feedback == null) {
@@ -72,9 +97,9 @@ public class TestDraftHelper {
     parentFeedback.add(feedback);
   }
 
-  private static TestPublicationFeedback GetMostSevereFeedback(List<TestPublicationFeedback> feedback,
-                                                               TestPublicationFeedbackType type,
-                                                               UUID key) {
+  private static TestPublicationFeedback filterMostSevereFeedback(List<TestPublicationFeedback> feedback,
+                                                                  TestPublicationFeedbackType type,
+                                                                  UUID key) {
     // Guards to prevent null pointer exceptions
     if (feedback == null || feedback.isEmpty()) {
       return null;

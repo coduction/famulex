@@ -3,96 +3,126 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-    <changeSet id="00101 - Test execution" author="Alexander Boeckle">
-        <createTable tableName="fx_test_execution">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="key" type="uuid">
-                <constraints nullable="false" unique="true"/>
-            </column>
+  <changeSet id="00101 - Test execution" author="Alexander Boeckle">
+    <createTable tableName="fx_test_execution">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="key" type="uuid">
+        <constraints nullable="false" unique="true"/>
+      </column>
 
-            <column name="created_at" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_at" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
+      <column name="created_at" type="timestamp with time zone">
+        <constraints nullable="false"/>
+      </column>
+      <column name="updated_at" type="timestamp with time zone">
+        <constraints nullable="false"/>
+      </column>
 
-            <column name="fk_test_configuration" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_test_configuration" references="fx_test_configuration(id)"/>
-            </column>
-            <column name="fk_user" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_user" references="fx_user(id)"/>
-            </column>
+      <column name="fk_test_configuration" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_test_configuration" references="fx_test_configuration(id)"/>
+      </column>
+      <column name="fk_user" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_user" references="fx_user(id)"/>
+      </column>
 
-            <column name="passed" type="boolean"/>
-            <column name="score" type="double"/>
-        </createTable>
-    </changeSet>
+      <column name="passed" type="boolean"/>
+      <column name="score" type="double"/>
+    </createTable>
+  </changeSet>
 
-    <changeSet id="00101 - Test execution question" author="Alexander Boeckle">
-        <createTable tableName="fx_test_execution_question">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="key" type="uuid">
-                <constraints nullable="false" unique="true"/>
-            </column>
+  <changeSet id="00101 - Test execution section" author="Alexander Boeckle">
+    <createTable tableName="fx_test_execution_section">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="key" type="uuid">
+        <constraints nullable="false" unique="true"/>
+      </column>
 
-            <column name="created_at" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_at" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
+      <column name="created_at" type="timestamp with time zone">
+        <constraints nullable="false"/>
+      </column>
+      <column name="updated_at" type="timestamp with time zone">
+        <constraints nullable="false"/>
+      </column>
 
-            <column name="fk_question" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_question" references="fx_question(id)"/>
-            </column>
-            <column name="fk_test_execution" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_test_execution" references="fx_test_execution(id)"/>
-            </column>
+      <column name="fk_test_section" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_test_section" references="fx_test_section(id)"/>
+      </column>
+      <column name="fk_test_execution" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_test_execution" references="fx_test_execution(id)"/>
+      </column>
 
-            <column name="position" type="int">
-                <constraints nullable="false"/>
-            </column>
-            <column name="points" type="double"/>
-        </createTable>
-    </changeSet>
+      <column name="position" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="points" type="double"/>
+    </createTable>
+  </changeSet>
 
-    <changeSet id="00101 - Test execution answer" author="Alexander Boeckle">
-        <createTable tableName="fx_test_execution_answer">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="key" type="uuid">
-                <constraints nullable="false" unique="true"/>
-            </column>
+  <changeSet id="00101 - Test execution question" author="Alexander Boeckle">
+    <createTable tableName="fx_test_execution_question">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="key" type="uuid">
+        <constraints nullable="false" unique="true"/>
+      </column>
 
-            <column name="created_at" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_at" type="timestamp with time zone">
-                <constraints nullable="false"/>
-            </column>
+      <column name="created_at" type="timestamp with time zone">
+        <constraints nullable="false"/>
+      </column>
+      <column name="updated_at" type="timestamp with time zone">
+        <constraints nullable="false"/>
+      </column>
 
-            <column name="fk_answer" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_answer" references="fx_answer(id)"/>
-            </column>
-            <column name="fk_test_execution_question" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_test_execution_question" references="fx_test_execution_question(id)"/>
-            </column>
+      <column name="fk_question" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_question" references="fx_question(id)"/>
+      </column>
+      <column name="fk_test_execution_section" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_test_execution_section" references="fx_test_execution_section(id)"/>
+      </column>
 
-            <column name="position" type="int">
-                <constraints nullable="false"/>
-            </column>
-            <column name="selected" type="boolean"/>
-            <column name="content" type="text"/>
-        </createTable>
-    </changeSet>
+      <column name="position" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="points" type="double"/>
+    </createTable>
+  </changeSet>
 
-    <changeSet id="00101 - Tag DB" author="Alexander Boeckle">
-        <tagDatabase tag="00101"/>
-    </changeSet>
+  <changeSet id="00101 - Test execution answer" author="Alexander Boeckle">
+    <createTable tableName="fx_test_execution_answer">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="key" type="uuid">
+        <constraints nullable="false" unique="true"/>
+      </column>
+
+      <column name="created_at" type="timestamp with time zone">
+        <constraints nullable="false"/>
+      </column>
+      <column name="updated_at" type="timestamp with time zone">
+        <constraints nullable="false"/>
+      </column>
+
+      <column name="fk_answer" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_answer" references="fx_answer(id)"/>
+      </column>
+      <column name="fk_test_execution_question" type="bigint">
+        <constraints nullable="false" foreignKeyName="fk_test_execution_question" references="fx_test_execution_question(id)"/>
+      </column>
+
+      <column name="position" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="selected" type="boolean"/>
+      <column name="content" type="text"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="00101 - Tag DB" author="Alexander Boeckle">
+    <tagDatabase tag="00101"/>
+  </changeSet>
 </databaseChangeLog>
