@@ -1,8 +1,8 @@
 import { CommonModule }                                  from "@angular/common";
 import { Component }                                     from "@angular/core";
-import { ConfirmationService, MenuItem, MessageService } from "@coduction/primeng/api";
-import { DialogService }                                 from "@coduction/primeng/dynamicdialog";
-import { SplitButtonModule }                             from "@coduction/primeng/splitbutton";
+import { ConfirmationService, MenuItem, MessageService } from "primeng/api";
+import { DialogService }                                 from "primeng/dynamicdialog";
+import { SplitButtonModule }                             from "primeng/splitbutton";
 import { TestDraft }                                     from "@famulex/shared/famulex-api-client";
 import { TestDraftActions, TestDraftsState }             from "@famulex/web/authoring/data-access/test-draft-editor-state";
 import { CONFIRM_DIALOG }                                from "@famulex/web/shared/layout";

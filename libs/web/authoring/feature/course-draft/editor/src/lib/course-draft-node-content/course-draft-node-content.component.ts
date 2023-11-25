@@ -1,6 +1,6 @@
 import { CommonModule }                                   from "@angular/common";
 import { Component }                                      from "@angular/core";
-import { ButtonModule }                                   from "@coduction/primeng/button";
+import { ButtonModule }                                   from "primeng/button";
 import { CourseDraftNode, CourseNodeType }                from "@famulex/shared/famulex-api-client";
 import { iconForCourseNodeType, translateCourseNodeType } from "@famulex/shared/util";
 import { CourseDraftNodeAction, CourseDraftNodesState }   from "@famulex/web/authoring/data-access/course-draft-editor-state";

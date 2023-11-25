@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable }                                                              from "@angular/core";
-import { MessageService }                                                          from "@coduction/primeng/api";
-import { DialogService }                                                           from "@coduction/primeng/dynamicdialog";
+import { MessageService }                                                          from "primeng/api";
+import { DialogService }                                                           from "primeng/dynamicdialog";
 import { ForbiddenComponent, UnauthorizedComponent }                               from "@famulex/shared/security/ui";
 import { catchError, EMPTY, Observable, tap, throwError }                          from "rxjs";
 

@@ -1,6 +1,6 @@
 import { HttpErrorResponse }                    from "@angular/common/http";
 import { ActivatedRoute }                       from "@angular/router";
-import { DynamicDialogRef }                     from "@coduction/primeng/dynamicdialog";
+import { DynamicDialogRef }                     from "primeng/dynamicdialog";
 import { QuestionDraft, QuestionDraftRequest }  from "@famulex/shared/famulex-api-client";
 import { Update }                               from "@ngrx/entity";
 import { createActionGroup, emptyProps, props } from "@ngrx/store";

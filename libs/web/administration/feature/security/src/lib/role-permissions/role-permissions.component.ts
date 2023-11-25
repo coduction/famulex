@@ -1,7 +1,7 @@
 import { CommonModule }                                             from "@angular/common";
 import { Component, Input, OnInit }                                 from "@angular/core";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { CheckboxModule }                                           from "@coduction/primeng/checkbox";
+import { CheckboxModule }                                           from "primeng/checkbox";
 import { Right }                                                    from "@famulex/shared/famulex-api-client";
 import { FormErrorComponent }                                       from "@famulex/shared/ui";
 import { translateRight }                                           from "@famulex/shared/util";

@@ -1,6 +1,6 @@
 import { HttpErrorResponse }                                                  from "@angular/common/http";
 import { Injectable }                                                         from "@angular/core";
-import { MessageService }                                                     from "@coduction/primeng/api";
+import { MessageService }                                                     from "primeng/api";
 import { UserService }                                                        from "@famulex/shared/famulex-api-client";
 import { AuthService }                                                        from "@famulex/shared/security/util";
 import { HttpErrorInterceptor }                                               from "@famulex/shared/util";

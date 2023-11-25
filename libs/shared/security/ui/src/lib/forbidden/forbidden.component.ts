@@ -1,8 +1,8 @@
 import { CommonModule }                   from "@angular/common";
 import { Component, OnDestroy, Optional } from "@angular/core";
 import { Router, RouterLink }             from "@angular/router";
-import { ButtonModule }                   from "@coduction/primeng/button";
-import { DynamicDialogRef }               from "@coduction/primeng/dynamicdialog";
+import { ButtonModule }                   from "primeng/button";
+import { DynamicDialogRef }               from "primeng/dynamicdialog";
 
 @Component({
   selector: "security-forbidden",

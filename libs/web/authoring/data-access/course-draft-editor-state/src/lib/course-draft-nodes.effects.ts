@@ -1,7 +1,7 @@
 import { Injectable, NgZone }                              from "@angular/core";
 import { Router }                                          from "@angular/router";
-import { MessageService }                                  from "@coduction/primeng/api";
-import { DialogService }                                   from "@coduction/primeng/dynamicdialog";
+import { MessageService }                                  from "primeng/api";
+import { DialogService }                                   from "primeng/dynamicdialog";
 import { CourseDraftService, CourseMembershipService }     from "@famulex/shared/famulex-api-client";
 import { HttpErrorInterceptor }                            from "@famulex/shared/util";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";

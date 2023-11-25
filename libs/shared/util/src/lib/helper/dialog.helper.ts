@@ -1,4 +1,4 @@
-import { DynamicDialogRef } from "@coduction/primeng/dynamicdialog";
+import { DynamicDialogRef } from "primeng/dynamicdialog";
 
 export interface DialogButton {
   label: string;

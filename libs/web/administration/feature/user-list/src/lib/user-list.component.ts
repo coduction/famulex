@@ -1,8 +1,8 @@
 import { CommonModule, DatePipe }                                                                               from "@angular/common";
 import { Component }                                                                                            from "@angular/core";
-import { ConfirmationService }                                                                                  from "@coduction/primeng/api";
-import { CardModule }                                                                                           from "@coduction/primeng/card";
-import { DialogService }                                                                                        from "@coduction/primeng/dynamicdialog";
+import { ConfirmationService }                                                                                  from "primeng/api";
+import { CardModule }                                                                                           from "primeng/card";
+import { DialogService }                                                                                        from "primeng/dynamicdialog";
 import { User }                                                                                                 from "@famulex/shared/famulex-api-client";
 import { USER_EDIT_WIZARD_ID, UserActions, UserState }                                                          from "@famulex/web/administration/data-access/user-state";
 import { UserEditComponent }                                                                                    from "@famulex/web/administration/feature/user-edit";

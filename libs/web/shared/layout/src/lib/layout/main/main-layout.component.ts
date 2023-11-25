@@ -1,10 +1,10 @@
 import { CommonModule }                                       from "@angular/common";
 import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from "@angular/core";
 import { NavigationEnd, Router, RouterOutlet }                from "@angular/router";
-import { ConfirmationService }                                from "@coduction/primeng/api";
-import { ConfirmDialogModule }                                from "@coduction/primeng/confirmdialog";
-import { ConfirmPopupModule }                                 from "@coduction/primeng/confirmpopup";
-import { ToastModule }                                        from "@coduction/primeng/toast";
+import { ConfirmationService }                                from "primeng/api";
+import { ConfirmDialogModule }                                from "primeng/confirmdialog";
+import { ConfirmPopupModule }                                 from "primeng/confirmpopup";
+import { ToastModule }                                        from "primeng/toast";
 import { SystemInfoActions }                                  from "@famulex/shared/system-info";
 import { Store }                                              from "@ngrx/store";
 import { BehaviorSubject, filter, Subscription }              from "rxjs";

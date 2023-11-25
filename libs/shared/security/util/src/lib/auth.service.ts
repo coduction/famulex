@@ -62,9 +62,11 @@ export class AuthService {
   }
 
   private loadUserProfile() {
-    this.keycloakService
-      .isLoggedIn()
-      .then(() => this.keycloakService.loadUserProfile())
+    if (!this.keycloakService.isLoggedIn()) {
+      return;
+    }
+
+    this.keycloakService.loadUserProfile()
       .then((profile) => {
         this._authenticated = true;
         this._profile = profile;

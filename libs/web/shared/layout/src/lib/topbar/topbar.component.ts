@@ -1,6 +1,6 @@
 import { LocationStrategy }                        from "@angular/common";
 import { Component, ElementRef, Input, ViewChild } from "@angular/core";
-import { ConfirmationService }                     from "@coduction/primeng/api";
+import { ConfirmationService }                     from "primeng/api";
 import { AuthService }                             from "@famulex/shared/security/util";
 import { LayoutService }                           from "../layout/layout.service";
 

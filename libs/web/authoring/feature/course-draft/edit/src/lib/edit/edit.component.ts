@@ -1,11 +1,11 @@
 import { CommonModule }                                            from "@angular/common";
 import { Component, OnInit, Optional }                             from "@angular/core";
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ButtonModule }                                            from "@coduction/primeng/button";
-import { DynamicDialogConfig, DynamicDialogRef }                   from "@coduction/primeng/dynamicdialog";
-import { InputTextModule }                                         from "@coduction/primeng/inputtext";
-import { InputTextareaModule }                                     from "@coduction/primeng/inputtextarea";
-import { RippleModule }                                            from "@coduction/primeng/ripple";
+import { ButtonModule }                                            from "primeng/button";
+import { DynamicDialogConfig, DynamicDialogRef }                   from "primeng/dynamicdialog";
+import { InputTextModule }                                         from "primeng/inputtext";
+import { InputTextareaModule }                                     from "primeng/inputtextarea";
+import { RippleModule }                                            from "primeng/ripple";
 import { CourseDraft, CourseDraftRequest }                         from "@famulex/shared/famulex-api-client";
 import { FormErrorComponent, FormLabelComponent }                  from "@famulex/shared/ui";
 import { DialogButton, DialogOptions, validateForm }               from "@famulex/shared/util";

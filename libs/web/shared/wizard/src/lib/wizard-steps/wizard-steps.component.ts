@@ -1,7 +1,7 @@
 import { CommonModule }     from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { MenuItem }         from "@coduction/primeng/api";
-import { StepsModule }      from "@coduction/primeng/steps";
+import { MenuItem }         from "primeng/api";
+import { StepsModule }      from "primeng/steps";
 
 @Component({
   selector: "wizard-steps",

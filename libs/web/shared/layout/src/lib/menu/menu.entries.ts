@@ -1,4 +1,4 @@
-import { MenuItem } from "@coduction/primeng/api";
+import { MenuItem } from "primeng/api";
 
 /******************************************************
  * Root entries

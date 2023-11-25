@@ -1,9 +1,9 @@
 import { CommonModule, DatePipe }                                                                                        from "@angular/common";
 import { Component, OnInit }                                                                                             from "@angular/core";
 import { Router }                                                                                                        from "@angular/router";
-import { ConfirmationService }                                                                                           from "@coduction/primeng/api";
-import { CardModule }                                                                                                    from "@coduction/primeng/card";
-import { DialogService }                                                                                                 from "@coduction/primeng/dynamicdialog";
+import { ConfirmationService }                                                                                           from "primeng/api";
+import { CardModule }                                                                                                    from "primeng/card";
+import { DialogService }                                                                                                 from "primeng/dynamicdialog";
 import { CourseDraft, Right }                                                                                            from "@famulex/shared/famulex-api-client";
 import { CourseDraftListActions, CourseDraftListState, CourseDraftTab }                                                  from "@famulex/web/authoring/data-access/course-draft-list-state";
 import { CourseDraftEditComponent }                                                                                      from "@famulex/web/authoring/feature/course-draft/edit";

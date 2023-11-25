@@ -1,4 +1,4 @@
-import { TreeNode }                        from "@coduction/primeng/api";
+import { TreeNode }                        from "primeng/api";
 import { CourseDraftNode, CourseNodeType } from "@famulex/shared/famulex-api-client";
 import { iconForCourseNodeType }           from "@famulex/shared/util";
 import { Dictionary }                      from "@ngrx/entity";

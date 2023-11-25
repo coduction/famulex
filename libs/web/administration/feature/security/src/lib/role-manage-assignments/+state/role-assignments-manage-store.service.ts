@@ -1,5 +1,5 @@
 import { Injectable }                                                                                                           from "@angular/core";
-import { MessageService }                                                                                                       from "@coduction/primeng/api";
+import { MessageService }                                                                                                       from "primeng/api";
 import { MembershipType, PageRoleAssignment, Role, RoleAssignment, RoleAssignmentRequestCreate, SecurityService, Status, User } from "@famulex/shared/famulex-api-client";
 import { LoadDataEvent, TableMetaData }                                                                                         from "@famulex/web/shared/table";
 import { ComponentStore }                                                                                                       from "@ngrx/component-store";

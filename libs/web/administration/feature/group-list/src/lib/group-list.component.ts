@@ -1,8 +1,8 @@
 import { CommonModule, DatePipe }                                                                               from "@angular/common";
 import { Component }                                                                                            from "@angular/core";
-import { ConfirmationService }                                                                                  from "@coduction/primeng/api";
-import { CardModule }                                                                                           from "@coduction/primeng/card";
-import { DialogService }                                                                                        from "@coduction/primeng/dynamicdialog";
+import { ConfirmationService }                                                                                  from "primeng/api";
+import { CardModule }                                                                                           from "primeng/card";
+import { DialogService }                                                                                        from "primeng/dynamicdialog";
 import { Group }                                                                                                from "@famulex/shared/famulex-api-client";
 import { GroupActions, GroupState }                                                                             from "@famulex/web/administration/data-access/group-state";
 import { CONFIRM_DIALOG_NON_CLOSEABLE }                                                                         from "@famulex/web/shared/layout";

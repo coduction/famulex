@@ -1,9 +1,9 @@
 import { CommonModule }                             from "@angular/common";
 import { Component, ViewEncapsulation }             from "@angular/core";
 import { RouterLink }                               from "@angular/router";
-import { CardModule }                               from "@coduction/primeng/card";
-import { FileUploadHandlerEvent, FileUploadModule } from "@coduction/primeng/fileupload";
-import { ImageModule }                              from "@coduction/primeng/image";
+import { CardModule }                               from "primeng/card";
+import { FileUploadHandlerEvent, FileUploadModule } from "primeng/fileupload";
+import { ImageModule }                              from "primeng/image";
 import { SystemInfoActions, SystemInfoState }       from "@famulex/shared/system-info";
 import { Store }                                    from "@ngrx/store";
 

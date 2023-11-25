@@ -1,6 +1,6 @@
 import { CommonModule }     from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { MessageModule }    from "@coduction/primeng/message";
+import { MessageModule }    from "primeng/message";
 import { CourseStatus }     from "@famulex/shared/famulex-api-client";
 
 @Component({

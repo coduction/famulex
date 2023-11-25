@@ -1,4 +1,4 @@
-import { TreeNode }            from "@coduction/primeng/api";
+import { TreeNode }            from "primeng/api";
 import { QuestionDraft }       from "@famulex/shared/famulex-api-client";
 import { iconForQuestionType } from "@famulex/shared/util";
 import { Dictionary }          from "@ngrx/entity";

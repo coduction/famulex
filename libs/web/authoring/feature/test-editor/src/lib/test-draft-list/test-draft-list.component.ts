@@ -1,9 +1,9 @@
 import { CommonModule, DatePipe }                                                                                        from "@angular/common";
 import { Component, OnInit }                                                                                             from "@angular/core";
 import { Router }                                                                                                        from "@angular/router";
-import { ConfirmationService }                                                                                           from "@coduction/primeng/api";
-import { CardModule }                                                                                                    from "@coduction/primeng/card";
-import { DialogService }                                                                                                 from "@coduction/primeng/dynamicdialog";
+import { ConfirmationService }                                                                                           from "primeng/api";
+import { CardModule }                                                                                                    from "primeng/card";
+import { DialogService }                                                                                                 from "primeng/dynamicdialog";
 import { Right, TestDraft }                                                                                              from "@famulex/shared/famulex-api-client";
 import { TestDraftActions, TestDraftsState, TestDraftTab }                                                               from "@famulex/web/authoring/data-access/test-draft-editor-state";
 import { CONFIRM_DIALOG_NON_CLOSEABLE }                                                                                  from "@famulex/web/shared/layout";

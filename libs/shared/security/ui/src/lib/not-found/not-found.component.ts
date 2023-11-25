@@ -1,7 +1,7 @@
 import { CommonModule }         from "@angular/common";
 import { Component, OnDestroy } from "@angular/core";
 import { Router, RouterLink }   from "@angular/router";
-import { ButtonModule }         from "@coduction/primeng/button";
+import { ButtonModule }         from "primeng/button";
 
 @Component({
   selector: "security-not-found",

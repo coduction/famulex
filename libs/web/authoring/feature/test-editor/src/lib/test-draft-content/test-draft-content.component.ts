@@ -1,11 +1,11 @@
 import { CommonModule }                                from "@angular/common";
 import { Component, ViewChild, ViewEncapsulation }     from "@angular/core";
 import { ActivatedRoute, Router, RouterOutlet }        from "@angular/router";
-import { ConfirmationService, SharedModule, TreeNode } from "@coduction/primeng/api";
-import { ButtonModule }                                from "@coduction/primeng/button";
-import { DialogService }                               from "@coduction/primeng/dynamicdialog";
-import { OverlayPanel, OverlayPanelModule }            from "@coduction/primeng/overlaypanel";
-import { TreeModule, TreeNodeDropEvent }               from "@coduction/primeng/tree";
+import { ConfirmationService, SharedModule, TreeNode } from "primeng/api";
+import { ButtonModule }                                from "primeng/button";
+import { DialogService }                               from "primeng/dynamicdialog";
+import { OverlayPanel, OverlayPanelModule }            from "primeng/overlaypanel";
+import { TreeModule, TreeNodeDropEvent }               from "primeng/tree";
 import { QuestionDraft }                               from "@famulex/shared/famulex-api-client";
 import { StopClickPropagationDirective }               from "@famulex/shared/ui";
 import { QuestionDraftActions, QuestionDraftsState }   from "@famulex/web/authoring/data-access/test-draft-editor-state";

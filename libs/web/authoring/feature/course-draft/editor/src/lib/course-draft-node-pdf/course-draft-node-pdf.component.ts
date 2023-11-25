@@ -1,8 +1,8 @@
 import { CommonModule }                                                                                   from "@angular/common";
 import { Component, DestroyRef, OnInit, ViewChild }                                                       from "@angular/core";
 import { takeUntilDestroyed }                                                                             from "@angular/core/rxjs-interop";
-import { ConfirmationService }                                                                            from "@coduction/primeng/api";
-import { FileUpload, FileUploadModule }                                                                   from "@coduction/primeng/fileupload";
+import { ConfirmationService }                                                                            from "primeng/api";
+import { FileUpload, FileUploadModule }                                                                   from "primeng/fileupload";
 import { CourseDraftItem, FilePermission }                                                                from "@famulex/shared/famulex-api-client";
 import { PdfViewerComponent, VideoPlayerComponent }                                                       from "@famulex/shared/ui";
 import { CourseDraftItemsActions, CourseDraftItemsState, CourseDraftNodeAction, CourseDraftNodesActions } from "@famulex/web/authoring/data-access/course-draft-editor-state";
@@ -42,7 +42,7 @@ export class CourseDraftNodePdfComponent implements OnInit {
       }
     });
   }
-  
+
   onUploadPdf(item: CourseDraftItem, files: File[]) {
     // TODO: Upload progress
     this.store.dispatch(CourseDraftItemsActions.uploadFile({ itemKey: item.key, file: files[0] }));

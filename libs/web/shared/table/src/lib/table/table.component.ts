@@ -2,17 +2,17 @@ import { CommonModule }                                                         
 import { Component, DestroyRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, ViewEncapsulation }                              from "@angular/core";
 import { takeUntilDestroyed }                                                                                                               from "@angular/core/rxjs-interop";
 import { FormsModule }                                                                                                                      from "@angular/forms";
-import { MessageService, SortMeta }                                                                                                         from "@coduction/primeng/api";
-import { ButtonModule }                                                                                                                     from "@coduction/primeng/button";
-import { CheckboxModule }                                                                                                                   from "@coduction/primeng/checkbox";
-import { InputTextModule }                                                                                                                  from "@coduction/primeng/inputtext";
-import { ListboxModule }                                                                                                                    from "@coduction/primeng/listbox";
-import { OverlayPanel, OverlayPanelModule }                                                                                                 from "@coduction/primeng/overlaypanel";
-import { RippleModule }                                                                                                                     from "@coduction/primeng/ripple";
-import { SelectButtonModule }                                                                                                               from "@coduction/primeng/selectbutton";
-import { Table, TableLazyLoadEvent, TableModule }                                                                                           from "@coduction/primeng/table";
-import { TabMenuModule }                                                                                                                    from "@coduction/primeng/tabmenu";
-import { TriStateCheckboxModule }                                                                                                           from "@coduction/primeng/tristatecheckbox";
+import { MessageService, SortMeta }                                                                                                         from "primeng/api";
+import { ButtonModule }                                                                                                                     from "primeng/button";
+import { CheckboxModule }                                                                                                                   from "primeng/checkbox";
+import { InputTextModule }                                                                                                                  from "primeng/inputtext";
+import { ListboxModule }                                                                                                                    from "primeng/listbox";
+import { OverlayPanel, OverlayPanelModule }                                                                                                 from "primeng/overlaypanel";
+import { RippleModule }                                                                                                                     from "primeng/ripple";
+import { SelectButtonModule }                                                                                                               from "primeng/selectbutton";
+import { Table, TableLazyLoadEvent, TableModule }                                                                                           from "primeng/table";
+import { TabMenuModule }                                                                                                                    from "primeng/tabmenu";
+import { TriStateCheckboxModule }                                                                                                           from "primeng/tristatecheckbox";
 import { FADE_AND_SCALE_X, FADE_IN_OUT, FormLabelComponent }                                                                                from "@famulex/shared/ui";
 import { debounce, delay, Observable, of, switchMap }                                                                                       from "rxjs";
 import {

@@ -1,7 +1,7 @@
 import { CommonModule }                                from "@angular/common";
 import { Component, OnInit }                           from "@angular/core";
 import { FormBuilder, Validators }                     from "@angular/forms";
-import { DynamicDialogConfig }                         from "@coduction/primeng/dynamicdialog";
+import { DynamicDialogConfig }                         from "primeng/dynamicdialog";
 import { Right, Role, RoleRequest, SecurityService }   from "@famulex/shared/famulex-api-client";
 import { validateForm }                                from "@famulex/shared/util";
 import { ROLE_EDIT_WIZARD_ID, RoleActions }            from "@famulex/web/administration/data-access/role-state";

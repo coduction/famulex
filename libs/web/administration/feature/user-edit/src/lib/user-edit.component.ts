@@ -2,10 +2,10 @@ import { CommonModule }                                                         
 import { Component, OnInit }                                                                                 from "@angular/core";
 import { takeUntilDestroyed }                                                                                from "@angular/core/rxjs-interop";
 import { AbstractControl, AsyncValidatorFn, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from "@angular/forms";
-import { DynamicDialogConfig }                                                                               from "@coduction/primeng/dynamicdialog";
-import { InputSwitchModule }                                                                                 from "@coduction/primeng/inputswitch";
-import { InputTextModule }                                                                                   from "@coduction/primeng/inputtext";
-import { PasswordModule }                                                                                    from "@coduction/primeng/password";
+import { DynamicDialogConfig }                                                                               from "primeng/dynamicdialog";
+import { InputSwitchModule }                                                                                 from "primeng/inputswitch";
+import { InputTextModule }                                                                                   from "primeng/inputtext";
+import { PasswordModule }                                                                                    from "primeng/password";
 import { User, UserRequest, UserService }                                                                    from "@famulex/shared/famulex-api-client";
 import { FormErrorComponent, FormLabelComponent }                                                            from "@famulex/shared/ui";
 import { InputPendingFeedbackDirective, validateForm }                                                       from "@famulex/shared/util";

@@ -1,7 +1,7 @@
 import { CommonModule }                                               from "@angular/common";
 import { Component, EventEmitter, Input, OnInit, Optional, Output }   from "@angular/core";
-import { CardModule }                                                 from "@coduction/primeng/card";
-import { DynamicDialogConfig, DynamicDialogRef }                      from "@coduction/primeng/dynamicdialog";
+import { CardModule }                                                 from "primeng/card";
+import { DynamicDialogConfig, DynamicDialogRef }                      from "primeng/dynamicdialog";
 import { User }                                                       from "@famulex/shared/famulex-api-client";
 import { ColumnAction, SelectionAction, TableColumn, TableComponent } from "@famulex/web/shared/table";
 import { UserSearchStore }                                            from "../+state/user-search.store";

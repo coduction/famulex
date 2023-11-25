@@ -1,7 +1,7 @@
 import { CommonModule }                                                            from "@angular/common";
 import { Component, OnInit }                                                       from "@angular/core";
-import { ConfirmationService }                                                     from "@coduction/primeng/api";
-import { DialogService, DynamicDialogConfig }                                      from "@coduction/primeng/dynamicdialog";
+import { ConfirmationService }                                                     from "primeng/api";
+import { DialogService, DynamicDialogConfig }                                      from "primeng/dynamicdialog";
 import { MembershipType, Role, RoleAssignment, User }                              from "@famulex/shared/famulex-api-client";
 import { CONFIRM_DIALOG_NON_CLOSEABLE }                                            from "@famulex/web/shared/layout";
 import { ColumnAction, SelectionAction, TableAction, TableColumn, TableComponent } from "@famulex/web/shared/table";

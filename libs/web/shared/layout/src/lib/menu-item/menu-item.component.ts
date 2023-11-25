@@ -7,7 +7,7 @@ import {
 }                                                                     from "@angular/router";
 import {
   DomHandler
-}                                                                     from "@coduction/primeng/dom";
+}                                                                     from "primeng/dom";
 import { Subscription }                                               from "rxjs";
 import {
   filter

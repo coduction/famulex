@@ -1,7 +1,7 @@
 import { Injectable, NgZone }                              from "@angular/core";
 import { Router }                                          from "@angular/router";
-import { MessageService }                                  from "@coduction/primeng/api";
-import { DialogService }                                   from "@coduction/primeng/dynamicdialog";
+import { MessageService }                                  from "primeng/api";
+import { DialogService }                                   from "primeng/dynamicdialog";
 import { TestDraftService }                                from "@famulex/shared/famulex-api-client";
 import { TestDraftActions, TestDraftsState }               from "@famulex/web/authoring/data-access/test-draft-editor-state";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";

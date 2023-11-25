@@ -1,5 +1,5 @@
 import { Type }                     from "@angular/core";
-import { DynamicDialogConfig }      from "@coduction/primeng/dynamicdialog";
+import { DynamicDialogConfig }      from "primeng/dynamicdialog";
 import { createActionGroup, props } from "@ngrx/store";
 import { Wizard }                   from "./wizard.models";
 

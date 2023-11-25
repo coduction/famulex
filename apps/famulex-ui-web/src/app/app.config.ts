@@ -3,8 +3,8 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi }         
 import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, isDevMode }           from "@angular/core";
 import { provideAnimations }                                                            from "@angular/platform-browser/animations";
 import { provideRouter, withComponentInputBinding }                                     from "@angular/router";
-import { ConfirmationService, MessageService }                                          from "@coduction/primeng/api";
-import { DialogService }                                                                from "@coduction/primeng/dynamicdialog";
+import { ConfirmationService, MessageService }                                          from "primeng/api";
+import { DialogService }                                                                from "primeng/dynamicdialog";
 import { FamulexApiConfiguration, FamulexApiConfigurationParameters, FamulexApiModule } from "@famulex/shared/famulex-api-client";
 import { HttpErrorInterceptor, JsonDateInterceptor }                                    from "@famulex/shared/util";
 import { WizardEffects, WizardState }                                                   from "@famulex/web/shared/wizard";

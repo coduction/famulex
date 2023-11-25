@@ -1,10 +1,10 @@
 import { CommonModule }                                  from "@angular/common";
 import { Component }                                     from "@angular/core";
-import { ConfirmationService, MenuItem, MessageService } from "@coduction/primeng/api";
-import { CardModule }                                    from "@coduction/primeng/card";
-import { DialogService }                                 from "@coduction/primeng/dynamicdialog";
-import { MessageModule }                                 from "@coduction/primeng/message";
-import { SplitButtonModule }                             from "@coduction/primeng/splitbutton";
+import { ConfirmationService, MenuItem, MessageService } from "primeng/api";
+import { CardModule }                                    from "primeng/card";
+import { DialogService }                                 from "primeng/dynamicdialog";
+import { MessageModule }                                 from "primeng/message";
+import { SplitButtonModule }                             from "primeng/splitbutton";
 import { CourseDraft }                                   from "@famulex/shared/famulex-api-client";
 import { CourseDraftActions, CourseDraftState }          from "@famulex/web/authoring/data-access/course-draft-editor-state";
 import { CourseDraftEditComponent }                      from "@famulex/web/authoring/feature/course-draft/edit";

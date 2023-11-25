@@ -1,8 +1,8 @@
 import { CommonModule, DatePipe }                                                                from "@angular/common";
 import { Component }                                                                             from "@angular/core";
-import { ConfirmationService }                                                                   from "@coduction/primeng/api";
-import { CardModule }                                                                            from "@coduction/primeng/card";
-import { DialogService }                                                                         from "@coduction/primeng/dynamicdialog";
+import { ConfirmationService }                                                                   from "primeng/api";
+import { CardModule }                                                                            from "primeng/card";
+import { DialogService }                                                                         from "primeng/dynamicdialog";
 import { CourseMembership }                                                                      from "@famulex/shared/famulex-api-client";
 import { translateCourseRole }                                                                   from "@famulex/shared/util";
 import { CourseMembershipsActions, CourseMembershipsState }                                      from "@famulex/web/authoring/data-access/course-memberships-state";

@@ -2,8 +2,8 @@ import { CommonModule }                                   from "@angular/common"
 import { Component, DestroyRef, OnInit }                  from "@angular/core";
 import { takeUntilDestroyed }                             from "@angular/core/rxjs-interop";
 import { FormsModule }                                    from "@angular/forms";
-import { AutoFocusModule }                                from "@coduction/primeng/autofocus";
-import { EditorModule }                                   from "@coduction/primeng/editor";
+import { AutoFocusModule }                                from "primeng/autofocus";
+import { EditorModule }                                   from "primeng/editor";
 import { TextViewerComponent }                            from "@famulex/shared/ui";
 import { CourseDraftItemsActions, CourseDraftItemsState } from "@famulex/web/authoring/data-access/course-draft-editor-state";
 import { Store }                                          from "@ngrx/store";

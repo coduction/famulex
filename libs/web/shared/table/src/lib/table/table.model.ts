@@ -1,5 +1,5 @@
 import { Type }         from "@angular/core";
-import { MenuItem }     from "@coduction/primeng/api";
+import { MenuItem }     from "primeng/api";
 import { CellRenderer } from "../renderer/cell-renderer/cell-renderer.component";
 
 export interface TableAction {

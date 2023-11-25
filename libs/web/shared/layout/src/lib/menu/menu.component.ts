@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { MenuItem }          from "@coduction/primeng/api";
+import { MenuItem }          from "primeng/api";
 import { MenuService }       from "./menu.service";
 
 @Component({

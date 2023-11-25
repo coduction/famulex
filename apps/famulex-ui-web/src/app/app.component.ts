@@ -1,6 +1,6 @@
 import { Component }          from "@angular/core";
 import { RouterModule }       from "@angular/router";
-import { PrimeNGConfig }      from "@coduction/primeng/api";
+import { PrimeNGConfig }      from "primeng/api";
 import { NxWelcomeComponent } from "./nx-welcome.component";
 
 @Component({

@@ -1,6 +1,6 @@
 import { HttpErrorResponse }                               from "@angular/common/http";
 import { Injectable }                                      from "@angular/core";
-import { MessageService }                                  from "@coduction/primeng/api";
+import { MessageService }                                  from "primeng/api";
 import { CourseDraftService, CourseMembershipService }     from "@famulex/shared/famulex-api-client";
 import { translateCourseRole }                             from "@famulex/shared/util";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";

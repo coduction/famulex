@@ -1,5 +1,5 @@
 import { Injectable }  from "@angular/core";
-import { MenuItem }    from "@coduction/primeng/api";
+import { MenuItem }    from "primeng/api";
 import { Right }       from "@famulex/shared/famulex-api-client";
 import { AuthService } from "@famulex/shared/security/util";
 import { Subject }     from "rxjs";

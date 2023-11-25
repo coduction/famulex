@@ -1,7 +1,7 @@
 import { CommonModule }                                                               from "@angular/common";
 import { AfterContentInit, Component, ContentChildren, DestroyRef, Input, QueryList } from "@angular/core";
 import { takeUntilDestroyed }                                                         from "@angular/core/rxjs-interop";
-import { MenuItem }                                                                   from "@coduction/primeng/api";
+import { MenuItem }                                                                   from "primeng/api";
 import { ofType }                                                                     from "@ngrx/effects";
 import { ActionsSubject, Store }                                                      from "@ngrx/store";
 import { filter, tap }                                                                from "rxjs";

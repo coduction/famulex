@@ -1,5 +1,5 @@
 import { Injectable }                      from "@angular/core";
-import { MessageService }                  from "@coduction/primeng/api";
+import { MessageService }                  from "primeng/api";
 import { CourseDraftService, FileService } from "@famulex/shared/famulex-api-client";
 import { Actions }                         from "@ngrx/effects";
 import { Store }                           from "@ngrx/store";

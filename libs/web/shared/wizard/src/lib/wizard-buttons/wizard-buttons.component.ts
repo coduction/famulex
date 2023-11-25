@@ -1,6 +1,6 @@
 import { CommonModule }          from "@angular/common";
 import { Component, Input }      from "@angular/core";
-import { ButtonModule }          from "@coduction/primeng/button";
+import { ButtonModule }          from "primeng/button";
 import { FADE_AND_SCALE_X }      from "@famulex/shared/ui";
 import { Wizard, WizardActions } from "@famulex/web/shared/wizard";
 import { Store }                 from "@ngrx/store";

@@ -1,8 +1,8 @@
 import { CommonModule, DatePipe }                                                                                             from "@angular/common";
 import { Component }                                                                                                          from "@angular/core";
-import { ConfirmationService, MessageService }                                                                                from "@coduction/primeng/api";
-import { CardModule }                                                                                                         from "@coduction/primeng/card";
-import { DialogService }                                                                                                      from "@coduction/primeng/dynamicdialog";
+import { ConfirmationService, MessageService }                                                                                from "primeng/api";
+import { CardModule }                                                                                                         from "primeng/card";
+import { DialogService }                                                                                                      from "primeng/dynamicdialog";
 import { MembershipType, Role }                                                                                               from "@famulex/shared/famulex-api-client";
 import { ROLE_CREATE_WIZARD_ID, ROLE_EDIT_WIZARD_ID, RoleActions, RoleState }                                                 from "@famulex/web/administration/data-access/role-state";
 import { CONFIRM_DIALOG_NON_CLOSEABLE }                                                                                       from "@famulex/web/shared/layout";

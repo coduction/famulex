@@ -1,11 +1,11 @@
 import { CommonModule }                                from "@angular/common";
 import { Component, Input }                            from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { CheckboxModule }                              from "@coduction/primeng/checkbox";
-import { InputSwitchModule }                           from "@coduction/primeng/inputswitch";
-import { InputTextModule }                             from "@coduction/primeng/inputtext";
-import { InputTextareaModule }                         from "@coduction/primeng/inputtextarea";
-import { SelectButtonModule }                          from "@coduction/primeng/selectbutton";
+import { CheckboxModule }                              from "primeng/checkbox";
+import { InputSwitchModule }                           from "primeng/inputswitch";
+import { InputTextModule }                             from "primeng/inputtext";
+import { InputTextareaModule }                         from "primeng/inputtextarea";
+import { SelectButtonModule }                          from "primeng/selectbutton";
 import { FormErrorComponent, FormLabelComponent }      from "@famulex/shared/ui";
 import { InputPendingFeedbackDirective }               from "@famulex/shared/util";
 
