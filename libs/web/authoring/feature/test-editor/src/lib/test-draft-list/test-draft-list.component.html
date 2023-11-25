@@ -1,0 +1,21 @@
+<p-card>
+  <web-table
+    heading="Tests" i18n-heading
+
+    [metaData]="tableMetaData$ | async"
+    [data]="testDrafts$ | async"
+    [loading$]="loading$"
+
+    [tabs]="tabs"
+
+    [columns]="columns"
+    [showSearch]="true"
+
+    [tableActions]="tableActions"
+    [columnActions]="columnActions"
+    [entryActions]="entryActions"
+    [selectionActions]="selectionActions"
+
+    (loadData)="onLoadData($event)"
+  ></web-table>
+</p-card>

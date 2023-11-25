@@ -1,0 +1,26 @@
+<ng-container *ngIf="testDraft$ | async as testDraft">
+  <div class="grid">
+    <div class="col-12 md:col-5">
+      <h2 class="mb-0 mr-1 inline">{{ testDraft.title }}</h2>
+      <span *ngIf="testDraft.author"
+            class="text-color-secondary"
+      >
+        by {{ testDraft.author }}
+      </span>
+    </div>
+
+
+    <div class="col-4 md:col-2">
+      <authoring-test-draft-status [status]="testDraft.status" [feedback]="testDraft.publicationFeedback" />
+    </div>
+
+    <div class="col-8 md:col-5 flex justify-content-end">
+      <p-splitButton label="Publish" i18n-label
+                     icon="fa fa-upload"
+                     appendTo="body"
+                     [model]="generateActions(testDraft)"
+                     (onClick)="onPublish(testDraft)"
+      />
+    </div>
+  </div>
+</ng-container>
