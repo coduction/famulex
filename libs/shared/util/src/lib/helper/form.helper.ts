@@ -32,7 +32,7 @@ export async function validateForm(form: FormGroup) {
   return form.valid;
 }
 
-export function getFormError(control: AbstractControl, errorKey?: string): boolean | null | any {
+export function getFormError(control: AbstractControl, errorKey?: string): boolean | null | unknown {
   if (!errorKey) {
     return control.invalid && control.dirty;
   }
@@ -44,7 +44,7 @@ export function getFormError(control: AbstractControl, errorKey?: string): boole
   return null;
 }
 
-export function getFormWarning(control: AbstractControl, warningKey?: string): boolean | null | any {
+export function getFormWarning(control: AbstractControl, warningKey?: string): boolean | null | unknown {
   if (control.invalid || !control.touched) {
     return null;
   }
@@ -58,7 +58,7 @@ export function getFormWarning(control: AbstractControl, warningKey?: string): b
   return null;
 }
 
-export function getFormInfos(control: AbstractControl, warningKey?: string): boolean | null | any {
+export function getFormInfos(control: AbstractControl, warningKey?: string): boolean | null | unknown {
   if (control.invalid || !control.touched) {
     return null;
   }

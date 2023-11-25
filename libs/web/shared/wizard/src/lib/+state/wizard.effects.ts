@@ -1,7 +1,7 @@
 import { Injectable, Type }                                     from "@angular/core";
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { Actions, concatLatestFrom, createEffect, ofType }      from "@ngrx/effects";
 import { Store }                                                from "@ngrx/store";
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { concatMap, of, tap }                                   from "rxjs";
 import { WizardActions }                                        from "./wizard.actions";
 import { provideDefaultButtons, Wizard }                        from "./wizard.models";
@@ -12,7 +12,7 @@ export class WizardEffects {
 
   // Keep this separate from state to avoid problems with immutability
   dialogRefMap = new Map<string, DynamicDialogRef>();
-  componentMap = new Map<string, Type<any>>();
+  componentMap = new Map<string, Type<unknown>>();
   configMap = new Map<string, DynamicDialogConfig>();
 
   constructor(

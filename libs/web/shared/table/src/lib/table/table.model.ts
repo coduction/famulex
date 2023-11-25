@@ -14,7 +14,7 @@ export interface SelectionAction<K, D> {
   label: string | ((amount: number) => string);
   primary?: boolean;
   resetSelection?: boolean;
-  onClick: (entries: Map<K, D>) => Promise<boolean | void> | boolean | void | any;
+  onClick: (entries: Map<K, D>) => Promise<boolean | void> | boolean | void | unknown;
 }
 
 export interface EntryAction<D> {
@@ -29,7 +29,7 @@ export interface ColumnAction<D> {
   onClick: (entry: D) => void;
 }
 
-export class TableColumn<T, V = any> {
+export class TableColumn<T, V = unknown> {
   key: string;
   name: string;
   sortable: boolean;

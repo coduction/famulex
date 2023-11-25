@@ -1,9 +1,9 @@
 import { HttpEventType }                                   from "@angular/common/http";
 import { Injectable }                                      from "@angular/core";
-import { MessageService }                                  from "primeng/api";
 import { CourseDraftService, FileService }                 from "@famulex/shared/famulex-api-client";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store }                                           from "@ngrx/store";
+import { MessageService }                                  from "primeng/api";
 import { catchError, map, mergeMap, of, switchMap, tap }   from "rxjs";
 import { CourseDraftItemsActions }                         from "./course-draft-items.actions";
 import { CourseDraftItemsState }                           from "./course-draft-items.reducer";
@@ -152,8 +152,6 @@ export class CourseDraftItemsEffects {
               const progress = Math.round(100 * event.loaded / event.total);
 
               return CourseDraftItemsActions.uploadFileProgress({ progress });
-            } else if (event.type === HttpEventType.Response && event.body) {
-              return CourseDraftItemsActions.uploadFileSuccess({ response: event.body });
             }
 
             return CourseDraftItemsActions.uploadFileProgress({});

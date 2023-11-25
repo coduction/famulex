@@ -15,7 +15,7 @@ export class WizardStepComponent {
   @Input() onPrevious?: () => Promise<boolean | void | null | undefined> | boolean | void | null | undefined;
   @Input() onNext?: () => Promise<boolean | void | null | undefined> | boolean | void | null | undefined;
 
-  @ViewChild(TemplateRef) content!: TemplateRef<any>;
+  @ViewChild(TemplateRef) content!: TemplateRef<unknown>;
 }
 
 

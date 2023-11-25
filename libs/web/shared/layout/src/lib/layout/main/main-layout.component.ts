@@ -1,12 +1,12 @@
 import { CommonModule }                                       from "@angular/common";
 import { Component, OnDestroy, OnInit, Renderer2, ViewChild } from "@angular/core";
 import { NavigationEnd, Router, RouterOutlet }                from "@angular/router";
+import { SystemInfoActions }                                  from "@famulex/shared/system-info";
+import { Store }                                              from "@ngrx/store";
 import { ConfirmationService }                                from "primeng/api";
 import { ConfirmDialogModule }                                from "primeng/confirmdialog";
 import { ConfirmPopupModule }                                 from "primeng/confirmpopup";
 import { ToastModule }                                        from "primeng/toast";
-import { SystemInfoActions }                                  from "@famulex/shared/system-info";
-import { Store }                                              from "@ngrx/store";
 import { BehaviorSubject, filter, Subscription }              from "rxjs";
 import { MenuService }                                        from "../../menu/menu.service";
 import { SharedThemeModule }                                  from "../../shared-theme.module";
@@ -36,8 +36,8 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   @ViewChild(TopbarComponent) topbar!: TopbarComponent;
 
   overlayMenuOpenSubscription: Subscription;
-  menuOutsideClickListener: any;
-  menuScrollListener: any;
+  menuOutsideClickListener?: () => void;
+  menuScrollListener?: () => void;
 
   prevScrollPosition = window.scrollY;
   prevScrollDirection?: ScrollDirection;
@@ -154,12 +154,12 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
 
     if (this.menuOutsideClickListener) {
       this.menuOutsideClickListener();
-      this.menuOutsideClickListener = null;
+      this.menuOutsideClickListener = undefined;
     }
 
     if (this.menuScrollListener) {
       this.menuScrollListener();
-      this.menuScrollListener = null;
+      this.menuScrollListener = undefined;
     }
 
     this.unblockBodyScroll();

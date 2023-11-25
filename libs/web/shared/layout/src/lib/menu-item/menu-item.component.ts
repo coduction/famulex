@@ -1,23 +1,11 @@
-import { animate, AnimationEvent, state, style, transition, trigger } from "@angular/animations";
-import {
-  ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewChild
-}                                                                     from "@angular/core";
-import {
-  NavigationEnd, Router
-}                                                                     from "@angular/router";
-import {
-  DomHandler
-}                                                                     from "primeng/dom";
-import { Subscription }                                               from "rxjs";
-import {
-  filter
-}                                                                     from "rxjs/operators";
-import {
-  LayoutService
-}                                                                     from "../layout/layout.service";
-import {
-  MenuService
-}                                                                     from "../menu/menu.service";
+import { animate, AnimationEvent, state, style, transition, trigger }                                                   from "@angular/animations";
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { NavigationEnd, Router }                                                                                        from "@angular/router";
+import { DomHandler }                                                                                                   from "primeng/dom";
+import { Subscription }                                                                                                 from "rxjs";
+import { filter }                                                                                                       from "rxjs/operators";
+import { LayoutService }                                                                                                from "../layout/layout.service";
+import { MenuService }                                                                                                  from "../menu/menu.service";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -43,7 +31,7 @@ import {
     ])
   ]
 })
-export class MenuItemComponent implements OnInit, OnDestroy {
+export class MenuItemComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @Input() item: any;
 

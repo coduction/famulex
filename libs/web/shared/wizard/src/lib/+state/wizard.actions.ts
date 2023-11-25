@@ -1,12 +1,12 @@
 import { Type }                     from "@angular/core";
-import { DynamicDialogConfig }      from "primeng/dynamicdialog";
 import { createActionGroup, props } from "@ngrx/store";
+import { DynamicDialogConfig }      from "primeng/dynamicdialog";
 import { Wizard }                   from "./wizard.models";
 
 export const WizardActions = createActionGroup({
   source: "Wizard",
   events: {
-    "Open": props<{ component: Type<any>, id: string, config?: DynamicDialogConfig }>(),
+    "Open": props<{ component: Type<unknown>, id: string, config?: DynamicDialogConfig }>(),
     "Open Success": props<{ id: string, wizard: Wizard }>(),
     "Open Failure": props<{ id: string, error: Error }>(),
 

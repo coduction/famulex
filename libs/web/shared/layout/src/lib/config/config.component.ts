@@ -10,7 +10,7 @@ export class ConfigComponent implements OnInit {
 
   @Input() minimal = false;
 
-  componentThemes: any[] = [];
+  componentThemes: { name: string, color: string }[] = [];
 
   scales: number[] = [12, 13, 14, 15, 16];
 

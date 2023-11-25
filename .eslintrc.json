@@ -94,6 +94,27 @@
         "jest": true
       },
       "rules": {}
+    },
+    {
+      "files": [
+        "*.component.ts",
+        "*.directive.ts",
+        "*.service.ts",
+        "*.guard.ts",
+        "*.interceptor.ts",
+        "*.actions.ts",
+        "*.effects.ts",
+        "*.reducer.ts",
+        "*.state.ts",
+        "*.store.ts",
+        "*.model.ts",
+        "*.helper.ts"
+      ],
+      "rules": {
+        "no-unused-vars": "warn",
+        "@typescript-eslint/no-unused-vars": "warn",
+        "@typescript-eslint/no-explicit-any": "warn"
+      }
     }
   ]
 }
